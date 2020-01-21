@@ -1,0 +1,241 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>解决pip安装PyQt5之后Spyder无法正常打开的问题 | Gridea</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1579616313288">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="解决pip安装PyQt5之后Spyder无法正常打开的问题 | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="开发环境
+
+Anaconda3 + Pycharm
+Python3.7
+
+报错描述
+我是用的Pycharm+conda的环境进行开发的，有的时候会用到Spyder。
+在我安装PyQt5后，使用Pycharm进行GUI的开发后发现，Anaco..." />
+    <meta name="keywords" content="pip,错误处理,Python" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1579616313288" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              解决pip安装PyQt5之后Spyder无法正常打开的问题
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-09-24
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/uEb-WGxIN" class="post-tag">
+                  # pip
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/CYu5WhvU90" class="post-tag">
+                  # 错误处理
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/ywt-yiKCrM" class="post-tag">
+                  # Python
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h2 id="开发环境">开发环境</h2>
+<ul>
+<li>Anaconda3 + Pycharm</li>
+<li>Python3.7</li>
+</ul>
+<h2 id="报错描述">报错描述</h2>
+<p>我是用的Pycharm+conda的环境进行开发的，有的时候会用到Spyder。</p>
+<p>在我安装PyQt5后，使用Pycharm进行GUI的开发后发现，Anaconda中的Spyder打不开了：</p>
+<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2019/09/24/EJqYLocpkRuAFD3.png" alt="" loading="lazy"></figure>
+<p>并有了以下报错：</p>
+<pre><code class="language-shell">Traceback (most recent call last):
+File &quot;D:\Anaconda\installanaconda\Scripts\spyder-script.py&quot;, line 10, in 
+sys.exit(main())
+File &quot;D:\Anaconda\installanaconda\lib\site-packages\spyder\app\start.py&quot;, line 186, in main
+from spyder.app import mainwindow
+File &quot;D:\Anaconda\installanaconda\lib\site-packages\spyder\app\mainwindow.py&quot;, line 90, in 
+from qtpy import QtWebEngineWidgets # analysis:ignore
+File &quot;D:\Anaconda\installanaconda\lib\site-packages\qtpy\QtWebEngineWidgets.py&quot;, line 22, in 
+from PyQt5.QtWebEngineWidgets import QWebEnginePage
+ValueError: PyCapsule_GetPointer called with incorrect name
+</code></pre>
+<p>这个问题原来遇到过，由于没有使用Spyder的需求就一直没有想去解决。这是用于安装的PyQt5与spyder中带有的pyqt版本发生了冲突。于是我最终在stackoverflow上找到了<a href="https://stackoverflow.com/questions/55794101/valueerrorpycapsule-getpointer-called-with-incorrect-name-with-from-pyqt5-qtwe">解决方案</a></p>
+<h2 id="解决方案">解决方案</h2>
+<p>原文是这样说的：</p>
+<p>The solution is to downgrade <code>PyQt5</code>.</p>
+<pre><code class="language-py">pip install PyQt5==5.10.1
+Collecting PyQt5==5.10.1
+  Downloading https://files.pythonhosted.org/packages/a7/22/67cc2bac6ae2cd3a7eabb2a2e91638b94bdc6e0503747e49670ce44bb5b0/PyQt5-5.10.1-5.10.1-cp35.cp36.cp37.cp38-none-win_amd64.whl (81.0MB)
+    100% |████████████████████████████████| 81.0MB 187kB/s
+Requirement already satisfied: sip&lt;4.20,&gt;=4.19.4 in c:\anaconda3\lib\site-packages (from PyQt5==5.10.1) (4.19.8)
+spyder 3.3.4 requires pyqtwebengine&lt;5.13, which is not installed.
+Installing collected packages: PyQt5
+  Found existing installation: PyQt5 5.12.1
+    Uninstalling PyQt5-5.12.1:
+      Successfully uninstalled PyQt5-5.12.1
+Successfully installed PyQt5-5.10.1
+</code></pre>
+<p>This problem occurs because the <code>PyQt5</code> I installed is beyond version as the version of <code>spyder</code>.</p>
+<p>所以，我将原先的PyQt5进行卸载后，安装了5.10.1版本的PyQt5。</p>
+<p>之后对结果进行测试。</p>
+<h2 id="结果">结果</h2>
+<p>先是看一下Spyder是否正常打开以及运行：</p>
+<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2019/09/24/EqGTIaXZt7zcoiA.png" alt="" loading="lazy"></figure>
+<p>Spyder可以正常打开并且使用了。</p>
+<p>然后检查PyQt模块是否能正常使用：</p>
+<figure data-type="image" tabindex="3"><img src="https://i.loli.net/2019/09/24/fLHzla6yTh8ZqjW.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://i.loli.net/2019/09/24/At3sGvlrMm82F5I.png" alt="" loading="lazy"></figure>
+<p>完事！</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83">开发环境</a></li>
+<li><a href="#%E6%8A%A5%E9%94%99%E6%8F%8F%E8%BF%B0">报错描述</a></li>
+<li><a href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">解决方案</a></li>
+<li><a href="#%E7%BB%93%E6%9E%9C">结果</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part7：网络">
+              <h3 class="post-title">
+                使用Golang构建区块链Part7：网络
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

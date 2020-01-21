@@ -1,0 +1,273 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>用20行代码爬取单个图片或者视频 | Gridea</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1579616313288">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="用20行代码爬取单个图片或者视频 | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+最近有跟进学习爬虫的知识，教材是《Python网络数据采集》（Ryan Mitchell）,之后配合《利用Python进行数据分析》（Wes McKinney）进一步学习，我想学习路线也不会很长或者说很陡峭。昨天在B站找了北理工的爬虫慕课..." />
+    <meta name="keywords" content="爬虫入门" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1579616313288" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              用20行代码爬取单个图片或者视频
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-03-04
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/Ep2MIuv-4" class="post-tag">
+                  # 爬虫入门
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
+<p>最近有跟进学习爬虫的知识，教材是《Python网络数据采集》（Ryan Mitchell）,之后配合《利用Python进行数据分析》（Wes McKinney）进一步学习，我想学习路线也不会很长或者说很陡峭。昨天在B站找了北理工的爬虫慕课，我觉得这个课程对于初学者非常友好，今天就copy一个小玩意纯当入门。</p>
+</blockquote>
+<h2 id="先上代码">先上代码</h2>
+<pre><code class="language-python"># 这是一个未封装的示例，需要的话可以封装成函数接口，或者做一下用户界面用Pyinstaller做个小工具。
+# 我觉得可以，但是没必要哈
+import requests
+import os
+url = &quot;https://jdvodrvfb210d.vod.126.net/mooc-video/nos/mp4/2016/06/19/1004550079_f7311774e53d4771b7069623b4728b97_hd.mp4&quot;
+root = &quot;D://pics//&quot;
+path = root + url.split('/')[-1]
+try:
+    if not os.path.exists(root):
+        os.mkdir(root)
+    if not os.path.exists(path):
+        r = requests.get(url)
+        with open(path, 'wb') as f:
+            f.write(r.content)
+            f.close() 
+            print(&quot;文件保存成功&quot;)
+    else:
+        print(&quot;文件已存在&quot;)
+except:
+    print(&quot;爬取失败&quot;)
+</code></pre>
+<h2 id="详解">详解</h2>
+<blockquote>
+<p>B站上有好多up主有搬运的mooc的视频，我想很多油猴插件也是用类似的方法将网站上的视频搬运到更方便的地方的。</p>
+<p>今天爬取中国大学mooc上的一个视频，外加LonelyPlanet（孤独星球是我高中时非常喜欢的杂志）一张图片作为示例。</p>
+</blockquote>
+<pre><code class="language-python"># 引入的包
+import requests
+import os
+</code></pre>
+<p>requests 是一个python自带的库，适用于小型（mini可以）爬虫</p>
+<p>我们用os库的方法创建文件夹和存放下载的文件</p>
+<hr>
+<pre><code class="language-python">url = &quot;https://jdvodrvfb210d.vod.126.net/mooc-video/nos/mp4/2016/06/19/1004550079_f7311774e53d4771b7069623b4728b97_hd.mp4&quot;
+root = &quot;D://pics//&quot;
+path = root + url.split('/')[-1]
+</code></pre>
+<p>url 存放我们所爬取信息的url链接，一般来说，图片文件是以“ .jpg ” 结尾的，而视频文件是以 “ .mp4 ”结尾的。（当然不止这两种，一般是图片或者视频常用的后缀比如：png mkv等等等）</p>
+<p>root 存放的是下载后文件的存放路径，代码是以 D 盘的 pics 文件夹作为根目录。</p>
+<p>path 是具体文件的存放路径，split 这个方法是将字符串以 &quot;/&quot; 为分隔，生成列表，取最后一项，举个栗子：</p>
+<pre><code class="language-python">url = &quot;https://123/456/goodnight.jpg&quot;
+root = &quot;D://pics//&quot;
+path = root + url.split('/')[-1]
+# 这样的话， path = D:/pics/goodnight.jpg
+# 打开D盘的pics文件夹就能看到goodnight.jpg这个文件了
+</code></pre>
+<hr>
+<pre><code class="language-python">try:
+    if not os.path.exists(root):	# 如果没有这个根目录
+        os.mkdir(root)
+    if not os.path.exists(path):	# 如果没有这个文件，我们就可以下载，不会产生异常
+        r = requests.get(url)
+        with open(path, 'wb') as f:		# 基本的文件操作
+            f.write(r.content)
+            f.close() 
+            print(&quot;文件保存成功&quot;)
+    else:
+        print(&quot;文件已存在&quot;)
+except:
+    print(&quot;爬取失败&quot;)
+</code></pre>
+<p>try _ except 块是最基础的框架，可套用。</p>
+<h2 id="开动">开动</h2>
+<p>首先是mooc的小视频</p>
+<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2019/03/04/5c7d3e369ab7a.png" alt="" loading="lazy"></figure>
+<p>我就用这个吧（袁春风老师讲的计组确实不错~），那么怎么找到视频的url链接呢，我们右键视频</p>
+<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2019/03/04/5c7d3d0bebb2a.png" alt="" loading="lazy"></figure>
+<p>在显示统计信息里，我们看到了url 相关的字样，这是有效信息，将它搞下来（Chrome浏览器提供开发者工具应该也可以的）</p>
+<p>尽可能多的将全部url信息复制下来，ctrl C V好像没用，直接拖出来吧</p>
+<figure data-type="image" tabindex="3"><img src="https://i.loli.net/2019/03/04/5c7d3dcb57d7d.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://i.loli.net/2019/03/04/5c7d3e35232d8.png" alt="" loading="lazy"></figure>
+<p>然后提取有用信息</p>
+<figure data-type="image" tabindex="5"><img src="https://i.loli.net/2019/03/04/5c7d3e7d5e817.png" alt="" loading="lazy"></figure>
+<p>我们只需要 http ~ mp4 之间的，也就是</p>
+<figure data-type="image" tabindex="6"><img src="https://i.loli.net/2019/03/04/5c7d3eeb94cb2.png" alt="" loading="lazy"></figure>
+<p>好了，放到 url 里面</p>
+<pre><code class="language-python">url = &quot;https://jdvodrvfb210d.vod.126.net/mooc-video/nos/mp4/2016/06/19/1004550079_f7311774e53d4771b7069623b4728b97_hd.mp4&quot;
+</code></pre>
+<p>运行，如果没出现异常，下载文件是需要等一会的o</p>
+<figure data-type="image" tabindex="7"><img src="https://i.loli.net/2019/03/04/5c7d403e3fc7f.jpg" alt="" loading="lazy"></figure>
+<p>感人网速下了一分多钟，差点以为挂掉了</p>
+<figure data-type="image" tabindex="8"><img src="https://i.loli.net/2019/03/04/5c7d40e3c090d.jpg" alt="" loading="lazy"></figure>
+<p>然后打开D盘发现生成pics文件夹并且下载好辽</p>
+<figure data-type="image" tabindex="9"><img src="https://i.loli.net/2019/03/04/5c7d41a942b0b.jpg" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="10"><img src="https://i.loli.net/2019/03/04/5c7d41db84888.jpg" alt="" loading="lazy"></figure>
+<blockquote>
+<p>win10截屏快捷键是 win + shift + s，自动保存在剪切板，直接ctrl v用就行了</p>
+</blockquote>
+<blockquote>
+<p>图片的也是一样，理论上只要能得到url链接就可以。</p>
+</blockquote>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%85%88%E4%B8%8A%E4%BB%A3%E7%A0%81">先上代码</a></li>
+<li><a href="#%E8%AF%A6%E8%A7%A3">详解</a></li>
+<li><a href="#%E5%BC%80%E5%8A%A8">开动</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/Python模拟操作系统处理机调度">
+              <h3 class="post-title">
+                Python模拟操作系统处理机调度
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

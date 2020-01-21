@@ -1,0 +1,401 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>使用Golang构建区块链Part1：基本原型 | Gridea</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1579616313288">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="使用Golang构建区块链Part1：基本原型 | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="最前面
+这个系列的博客是受了AnnatarHe的启发，他将JeiWan的__《Building Blockchain in Go》__系列文章进行了翻译。于是我要半翻译半转载的尽量完成这系列博客。
+References
+为了不在以后忘记，我..." />
+    <meta name="keywords" content="Golang,笔记" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1579616313288" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              使用Golang构建区块链Part1：基本原型
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-09-04
+              </span>
+              <span>
+                9 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/Kf9p2vgKYl" class="post-tag">
+                  # Golang
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="post-tag">
+                  # 笔记
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h2 id="最前面">最前面</h2>
+<p>这个系列的博客是受了<a href="https://github.com/AnnatarHe">AnnatarHe</a>的启发，他将<a href="https://jeiwan.cc/">JeiWan</a>的__《Building Blockchain in Go》__系列文章进行了翻译。于是我要半翻译半转载的尽量完成这系列博客。</p>
+<h2 id="references">References</h2>
+<p>为了不在以后忘记，我将__《使用Golang构建区块链》__系列博客的参考、引用、转载等信息写在最前面：</p>
+<ul>
+<li><a href="https://github.com/AnnatarHe">AnnatarHe</a> 这是翻译者的博客地址，具体文章在他的主页里。我很喜欢他的一些文章，包括非技术文，有一种像是“读了很多很多书、学了很多很多知识的另一个我”，或许我们在性格上有很多相似之处。</li>
+<li><a href="https://jeiwan.cc/">JeiWan</a> 本系列文章的原创作者，我很喜欢他的博客名字__Going the distance__。</li>
+<li><a href="https://github.com/liuchengxu/blockchain-tutorial">Github上另一个中文翻译版本，补充了很多要点</a></li>
+</ul>
+<p>以上，致谢！</p>
+<h2 id="介绍">介绍</h2>
+<p>区块链是21世纪最具有革命性的技术，它技术足够成熟而且潜力尚未完全发掘。在本质上，区块链是一个可以记录数据的分布式数据库。但独特的是它并不是一个隐私的数据库而是一个公开的，每一个使用它的人可以对它完全或者部分拷贝。并且，一条新的记录想要加入，必须经过所有维持它的人（所有节点）的同意。区块链使得加密货币以及智能合约成为可能。</p>
+<p>在接下来的一系列文章中，我们将使用区块链技术来构建一个简单的加密货币系统。</p>
+<h2 id="区块">区块</h2>
+<p>让我们从“区块链”的组成“区块”开始。区块链中，区块来存储有价值的信息。比如，比特币区块存储交易信息，这就是加密货币的精髓所在。除此之外，一个区块还包含一些技术信息，就像当前的版本，区块所存储的信息就包含当前的时间戳和上一个区块的hash（哈希）。</p>
+<p>本文中我们并不会按照描述区块链以及比特币那样构建一个十分完备的区块，而是实现一个较为简单的版本，仅仅包含关键的技术信息要点，它看起来就像下面：</p>
+<pre><code class="language-go">type Block struct {
+	Timestamp     int64			// 时间戳，由当前区块创建的时间转化而来
+	Data          []byte		// 区块存储的实际的有价值的信息，也就是交易
+	PrevBlockHash []byte		// 前一个区块的哈希，也叫父哈希
+	Hash          []byte		// 当前区块的哈希
+}
+</code></pre>
+<p>在比特币规格说明中，Timestamp、PrevBlockHash、Hash属于区块头（headers），这些形成一个独立数据结构，完整的比特币区块头的结构如下：</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Purpose</th>
+<th>Updated when...</th>
+<th>Size (Bytes)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Version</td>
+<td>Block version number</td>
+<td>You upgrade the software and it specifies a new version</td>
+<td>4</td>
+</tr>
+<tr>
+<td>hashPrevBlock</td>
+<td>256-bit hash of the previous block header</td>
+<td>A new block comes in</td>
+<td>32</td>
+</tr>
+<tr>
+<td>hashMerkleRoot</td>
+<td>256-bit hash based on all of the transactions in the block</td>
+<td>A transaction is accepted</td>
+<td>32</td>
+</tr>
+<tr>
+<td>Time</td>
+<td>Current timestamp as seconds since 1970-01-01T00:00 UTC</td>
+<td>Every few seconds</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Bits</td>
+<td>Current target in compact format</td>
+<td>The difficulty is adjusted</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Nonce</td>
+<td>32-bit number (starts at 0)</td>
+<td>A hash is tried (increments)</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<p>下面是比特币中使用Golang语言实现的btcd的BlockHeader的实现：</p>
+<pre><code class="language-go">// BlockHeader defines information about a block and is used in the bitcoin
+// block (MsgBlock) and headers (MsgHeaders) messages.
+type BlockHeader struct {
+    // Version of the block.  This is not the same as the protocol version.
+    Version int32
+
+    // Hash of the previous block in the block chain.
+    PrevBlock chainhash.Hash
+
+    // Merkle tree reference to hash of all transactions for the block.
+    MerkleRoot chainhash.Hash
+
+    // Time the block was created.  This is, unfortunately, encoded as a
+    // uint32 on the wire and therefore is limited to 2106.
+    Timestamp time.Time
+
+    // Difficulty target for the block.
+    Bits uint32
+
+    // Nonce used to generate the block.
+    Nonce uint32
+}
+</code></pre>
+<p>而交易（在我们这里是Data）则是另一个独立的数据结构。所以在这里我们为了简单这样来处理。在真正的比特币中，区块的数据结构如下：</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Magic no</td>
+<td>value always 0xD9B4BEF9</td>
+<td>4 bytes</td>
+</tr>
+<tr>
+<td>Blocksize</td>
+<td>number of bytes following up to end of block</td>
+<td>4 bytes</td>
+</tr>
+<tr>
+<td>Blockheader</td>
+<td>consists of 6 items</td>
+<td>80 bytes</td>
+</tr>
+<tr>
+<td>Transaction counter</td>
+<td>positive integer VI = VarInt</td>
+<td>1 - 9 bytes</td>
+</tr>
+<tr>
+<td>transactions</td>
+<td>the (non empty) list of transactions</td>
+<td>-many transactions</td>
+</tr>
+</tbody>
+</table>
+<p>所以，我们该如何计算哈希呢？哈希的计算是区块链的一个非常重要的特点，这个特点使得区块链是安全的。计算哈希在计算方面上是一件非常困难的操作，即使在一些性能非常好的计算机上也要花些时间（这就是为什么人们使用性能更加强劲的GPU来挖比特币）。这是一种刻意的结构设计，使得向区块链中添加区块是一件非常困难的事情，由此防止添加区块后又进行修改。我们将在后续的文章讨论并实现这个机制。</p>
+<p>至此，我们拿到了区块字段，然后连接起来，使用SHA-256哈希去计算连接起来的组合，我们在__SetHash__函数中做这些内容：</p>
+<pre><code class="language-go">func (b *Block) SetHash() {
+	timestamp := []byte(strconv.FormatInt(b.Timestamp, 10))
+	headers := bytes.Join([][]byte{b.PrevBlockHash, b.Data, timestamp}, []byte{})
+	hash := sha256.Sum256(headers)
+
+	b.Hash = hash[:]
+}
+</code></pre>
+<p>接着，按照Golang的惯例，我们将实现一个简单的创建区块的函数__NewBlock​__：</p>
+<pre><code class="language-go">func NewBlock(data string, prevBlockHash []byte) *Block {
+	block := &amp;Block{time.Now().Unix(), []byte(data), prevBlockHash, []byte{}}
+	block.SetHash()
+	return block
+}
+</code></pre>
+<p>这就是区块。</p>
+<h2 id="区块链">区块链</h2>
+<p>现在，让我们实现区块链。区块链的本质是一个具有确定结构的数据库：一个有序的，向后连接（新区块由前一个区块生成，也就是可以向后迭代）的列表。也就意味着，每个新区块的插入是连接着前一个区块的。这种结构使得可以快速的得到前面的区块并且（有效的）通过哈希值找到某个区块。</p>
+<p>在Golang中，我们可以使用 <strong>array</strong> 和 <strong>map</strong> 结构来实现：数组可以保证哈希的有序性（Golang中数组是有序的），而 <strong>map</strong> （__map__是无序的）可以保证__哈希__到__区块__的映射。但是在我们的区块链原型中，我们仅使用一个数组，因为我们现在不需要通过哈希去寻找区块。</p>
+<pre><code class="language-go">type Blockchain struct {
+	blocks []*Block
+}
+</code></pre>
+<p>这是我们第一个区块链，我从没想过会这么简单 😉</p>
+<p>现在，让添加区块成为可能：</p>
+<pre><code class="language-go">func (bc *Blockchain) AddBlock(data string) {
+	prevBlock := bc.blocks[len(bc.blocks)-1]
+	newBlock := NewBlock(data, prevBlock.Hash)
+	bc.blocks = append(bc.blocks, newBlock)
+}
+</code></pre>
+<p>就是这样，哦不...</p>
+<p>要加入一个新的块，我们必须要有一个已经存在的区块，但是现在区块链中没有区块。所以，在任何区块链中，必须有至少一个区块，这种区块，是链的第一个，叫做__genesis__ <strong>block</strong>（创世纪块），让我们实现一个方法来创造这样一个块：</p>
+<pre><code class="language-go">func NewGenesisBlock() *Block {
+	return NewBlock(&quot;Genesis Block&quot;, []byte{})
+}
+</code></pre>
+<p>现在，我们可以实现一个函数，使用__genesis__ __block__来创建一个区块链：</p>
+<pre><code class="language-go">func NewBlockchain() *Blockchain {
+	return &amp;Blockchain{[]*Block{NewGenesisBlock()}}
+}
+</code></pre>
+<p>然我们来检查这个区块链的工作是否正确：</p>
+<pre><code class="language-go">func main() {
+	bc := NewBlockchain()
+
+	bc.AddBlock(&quot;Send 1 BTC to Ivan&quot;)
+	bc.AddBlock(&quot;Send 2 more BTC to Ivan&quot;)
+
+	for _, block := range bc.blocks {
+		fmt.Printf(&quot;Prev. hash: %x\n&quot;, block.PrevBlockHash)
+		fmt.Printf(&quot;Data: %s\n&quot;, block.Data)
+		fmt.Printf(&quot;Hash: %x\n&quot;, block.Hash)
+		fmt.Println()
+	}
+}
+</code></pre>
+<p>输出：</p>
+<pre><code class="language-go">Prev. hash:
+Data: Genesis Block
+Hash: aff955a50dc6cd2abfe81b8849eab15f99ed1dc333d38487024223b5fe0f1168
+
+Prev. hash: aff955a50dc6cd2abfe81b8849eab15f99ed1dc333d38487024223b5fe0f1168
+Data: Send 1 BTC to Ivan
+Hash: d75ce22a840abb9b4e8fc3b60767c4ba3f46a0432d3ea15b71aef9fde6a314e1
+
+Prev. hash: d75ce22a840abb9b4e8fc3b60767c4ba3f46a0432d3ea15b71aef9fde6a314e1
+Data: Send 2 more BTC to Ivan
+Hash: 561237522bb7fcfbccbc6fe0e98bbbde7427ffe01c6fb223f7562288ca2295d1
+</code></pre>
+<p>就是这样了！</p>
+<h2 id="总结">总结</h2>
+<p>我们构建了一个非常简单的区块链原型：仅仅是区块数组，每一个区块连接到它前一个区块。真实的区块更加的复杂。在我们的区块链中添加新的区块是非常简单并且迅速的，但是在真正的区块链中添加区块需要这样的工作：一是在添加区块之前需要进行十分繁重的计算（这个机制叫做Proof-of-Word工作量证明）。同时，区块链是一个分布式数据库，没有单独的决策者。因此，一个新的区块必须被这个网络（区块链网络）的参与者们确认和承认（这个机制叫共识机制）。别忘了我们现在区块中还没有交易！</p>
+<p>后面的文章中我们将覆盖到所有的这些要点。</p>
+<p>Links:</p>
+<ol>
+<li>Full source codes: <a href="https://github.com/Jeiwan/blockchain_go/tree/part_1">https://github.com/Jeiwan/blockchain_go/tree/part_1</a></li>
+<li>Block hashing algorithm: <a href="https://en.bitcoin.it/wiki/Block_hashing_algorithm">https://en.bitcoin.it/wiki/Block_hashing_algorithm</a></li>
+</ol>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E6%9C%80%E5%89%8D%E9%9D%A2">最前面</a></li>
+<li><a href="#references">References</a></li>
+<li><a href="#%E4%BB%8B%E7%BB%8D">介绍</a></li>
+<li><a href="#%E5%8C%BA%E5%9D%97">区块</a></li>
+<li><a href="#%E5%8C%BA%E5%9D%97%E9%93%BE">区块链</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/书单">
+              <h3 class="post-title">
+                书单
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

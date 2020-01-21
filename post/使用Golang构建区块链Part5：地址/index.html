@@ -1,0 +1,679 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>使用Golang构建区块链Part5：地址 | Gridea</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1579616313288">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="使用Golang构建区块链Part5：地址 | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+这一篇断断续续做了几天才得以实现，由于文章篇幅限制，作者只将新版本代码中最重要的最有代表性的改变在博客中进行分析。但是仍然有较多的代码需要大家根据compare进行自己细读。我们今天来进行“地址”的实现。
+
+引言
+在前面的文章中，我们实现..." />
+    <meta name="keywords" content="Golang,笔记" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1579616313288" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              使用Golang构建区块链Part5：地址
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-09-10
+              </span>
+              <span>
+                23 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/Kf9p2vgKYl" class="post-tag">
+                  # Golang
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="post-tag">
+                  # 笔记
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
+<p>这一篇断断续续做了几天才得以实现，由于文章篇幅限制，作者只将新版本代码中最重要的最有代表性的改变在博客中进行分析。但是仍然有较多的代码需要大家根据compare进行自己细读。我们今天来进行“地址”的实现。</p>
+</blockquote>
+<h2 id="引言">引言</h2>
+<p>在前面的文章中，我们实现了交易。你也了解到了交易的客观性：这里没有账户，你的个人数据（例如姓名、护照号码、社保号）在比特币中是不需要的，同时也是不会存储的。但是这里仍然必须有点什么东西可以标识你是交易输出的所有者（这些币的所有者锁住这些输出）。同时，这也是需要比特币地址的原因。不久之前我们使用用户定义字符串作为地址，这一次我们要实现真正的地址，就像比特币中实现的那样。</p>
+<blockquote>
+<p>这部分有重大的代码变化，所要没有必要全部解释。可以参考<a href="https://github.com/Jeiwan/blockchain_go/compare/part_4...part_5#files_bucket">这里</a> 去看代码最新版本中的所有变动。</p>
+</blockquote>
+<h2 id="比特币地址">比特币地址</h2>
+<p>这里是比特币地址的一个示例：<a href="https://blockchain.info/address/1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</a>。这是比特币中的第一个地址，传言这个地址属于中本聪。比特币地址是公开的。如果你想给某个人发送币，你需要知道他的地址。但是地址（尽管是独一无二的）不是标识你是某个钱包的所有者。事实上，地址是人类可读公钥。在比特币中，你的身份就是一组（或几组）存储在你的计算机上（或者你可以访问的其他地方的）的公-私钥对的组合。比特币依赖一个密码学算法去创建这些钥匙，并且保证没有人可以不通过得到你的物理密钥而去获取你的币。下面让我们讨论一下这些算法。</p>
+<h2 id="公钥加密">公钥加密</h2>
+<p>公钥加密使用了一组钥匙：公钥和私钥。公钥是非敏感的并且可以透露给所有人。与此相反，私钥不能被透露：除了所有者没有人可以访问它们，因为私钥就像所有者的身份标识。你是就你的私钥（在加密货币的范畴里）。</p>
+<p>事实上，比特币钱包就是一对钥匙。当你安装钱包应用或者使用比特币客户端去产生新的地址，一对钥匙就为你产生。在比特币中，谁控制了私钥谁就控制了进入这个钱包的所有币。</p>
+<p>私钥和公钥仅仅是随机序列，因此它们不能被打印到屏幕上也不能被人类所读。这就是为什么比特币使用算法去把公钥转换为一个人类可读字符串。</p>
+<blockquote>
+<p>如果你曾用过比特币钱包应用，它也可能给你生成提示词来助记为你产生的私钥。这个机制在<a href="https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki">BIP-039</a>实现。</p>
+<p>PS：我翻的太烂了...</p>
+<p>If you’ve ever used a Bitcoin wallet application, it’s likely that a mnemonic pass phrase was generated for you. Such phrases are used instead of private keys and can be used to generate them. This mechanism is implemented in <a href="https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki">BIP-039</a>.</p>
+</blockquote>
+<p>好了，我们现在知道比特币中怎么去辨别用户身份了。但是比特币中怎样检查交易输出的所有者呢（币是存在里面的吗）？</p>
+<h2 id="数字签名">数字签名</h2>
+<p>在数学和加密学中，这里有一个数字签名的概念-这个算法保证了：</p>
+<ol>
+<li>发送者发给接收者的数据不会被篡改；</li>
+<li>数据由确定的发送者创建；</li>
+<li>发送者不可以否定发送过数据。</li>
+</ol>
+<p>通过对数据应用签名算法（或者是，对数据签名），一个人得到一个签名，很快就可以得到验证。数字签名使用私钥才可以进行，验证环节则需要公钥。</p>
+<p>为了对数据进行签名，我们需要以下条件：</p>
+<ol>
+<li>需要被签名的数据；</li>
+<li>私钥。</li>
+</ol>
+<p>签名的操作产生一个签名，存储在交易输入中。为了去验证签名，下面是我们需要的：</p>
+<ol>
+<li>被签名的数据；</li>
+<li>签名；</li>
+<li>公钥。</li>
+</ol>
+<p>简单说，验证流程可以被描述为：检查签名是由被签名数据加上私钥得来，并且公钥恰好是由该私钥生成（这个公钥和私钥是配对的）。</p>
+<blockquote>
+<p>数字签名不是加密，你不能根据签名恢复（反推）出数据。这有些像哈希运算：你通过哈希算法运算数据，得到数据的一个独一无二的标识。签名和哈希运算的不同之处在于钥匙对：它们使得签名验证得以实现。但是钥匙对也可以用来加密数据：一个私钥用于加密数据，一个公钥用来解密数据。比特币并不使用加密算法</p>
+</blockquote>
+<p>比特币中每一笔交易输入被创建这个交易的人签名。比特币中每一笔交易在上链存储之前必须被验证。验证意味着（不包含其他流程）：</p>
+<ol>
+<li>确认上笔交易中的出账有权被使用；</li>
+<li>检查交易签名是否合法。</li>
+</ol>
+<p>图示，签名数据以及验证的流程如下：</p>
+<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2019/09/10/QYq5nyw7lH4EDKa.png" alt="" loading="lazy"></figure>
+<p>现在让我们回顾一下交易的整个生命周期：</p>
+<ol>
+<li>在一开始，这儿有个创世纪块包含了<code>coinbase</code>交易。这个<code>coinbase</code>交易没有真正的输入，所以对它进行签名是没有必要的。这个<code>coinbase</code>交易的输出包含一个进行哈希的公钥（这里使用了RIPEMD16(SHA256(PubKey))算法）。</li>
+<li>当某个人发送币时，交易被创建。交易的输入依赖于前一个（几个）交易的输出。每个输入将存储一个公钥（没有被哈希过的）同时也存储整个交易的签名。</li>
+<li>比特币网络的其他节点接受交易并进行验证。除此之外，他们将会检查：入账的公钥哈希是否和被引用的出账哈希一样(这就保证了提币的人只能提他自己的币); 签名是不是正确地(这就保证了这笔交易确实是被币的所有者所创建的)。</li>
+<li>当矿工节点（挖矿节点）准备好挖一个新区块时，它将会把交易放进区块然后开始挖矿。</li>
+<li>当区块被挖出，网络中其他每个节点接受一条区块已经挖出来并且加入区块链的信息。</li>
+<li>在区块加入区块链后，交易完成，它的交易输出可以被新的交易所引用。</li>
+</ol>
+<h2 id="椭圆曲线加密">椭圆曲线加密</h2>
+<p>如前文所述，公钥和私钥是随机的字节序列。因为私钥是用来证明币的所有者身份的，这里有一个必须的条件：随机算法必须产生真正的随机字节。我们不想产生一个被别人所拥有的私钥（意思就是没有两个私钥是一样的）。</p>
+<p>比特币使用椭圆曲线去产生私钥。椭圆曲线是复杂的数学概念，在这里我们并不会去解释它的细节（如果你好奇，<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/">点击这里</a>，⚠⚠⚠：很多数学公式！！！）。我们所需要知道的是这个曲线算法可以被用来产生真正庞大的和随机的数字。比特币所使用的曲线算法可以随意的产生一个范围在0到2²⁵⁶（大约是10⁷⁷，可见宇宙中的原子数在10⁷⁸到10⁸²）之间的数。如此巨大的上限意味着要产生两个相同的私钥几乎是不可能的。</p>
+<p>同时，比特币（我们也）使用了ECDSA（Elliptic Curve Digital Signature Algorithm（椭圆曲线数字签名算法））去对交易进行签名。</p>
+<h2 id="base58">Base58</h2>
+<p>现在我们回到上面所谈及的比特币地址：1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa。我们知道这是一个人类可读的公钥的一个标识。如果我们对其进行解码，这个公钥就看起来是这种（十六进制表示的一个字节序列）：</p>
+<pre><code class="language-shell">0062E907B15CBF27D5425399EBF6F0FB50EBB88F18C29B7D93
+</code></pre>
+<p>比特币使用Base58算法对公钥进行人类可读的格式转化。这个算法与著名的Base64非常的相似，但是使用了更简短的字母表：一些字母被移出，这是为了避免一些使用相似字母的攻击。因此，这里没有这些符号：0（数字0）、O（大写字母o）、I（大写字母i）、l（小写字母L），因为这些看起来很相似。同时，这里也没有“+”和“/”符号。</p>
+<p>让我们根据图形象的看一下从公钥中获取地址的步骤：</p>
+<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2019/09/10/23TRpxniXPLhYOf.png" alt="" loading="lazy"></figure>
+<p>上面所说的解码公钥由下面三个部分组成：</p>
+<pre><code class="language-go">Version  		Public key hash                           		Checksum
+00       		62E907B15CBF27D5425399EBF6F0FB50EBB88F18  		C29B7D93
+</code></pre>
+<p>因为哈希函数是单向的（即不能反向解码出元数据），它不可能从哈希中提取出公钥。但是我们可以检查这个公钥是否用来生成哈希，即通过执行哈希函数进行比较。</p>
+<p>好啦，这是我们所有部分，让我们写一些代码。一些概念当coding时会更加的清晰。</p>
+<h2 id="实现地址">实现地址</h2>
+<p>我们从<code>Wallet</code>钱包结构体开始：</p>
+<pre><code class="language-go">type Wallet struct {
+	PrivateKey ecdsa.PrivateKey
+	PublicKey  []byte
+}
+
+type Wallets struct {
+	Wallets map[string]*Wallet
+}
+
+func NewWallet() *Wallet {
+	private, public := newKeyPair()
+	wallet := Wallet{private, public}
+
+	return &amp;wallet
+}
+
+func newKeyPair() (ecdsa.PrivateKey, []byte) {
+	curve := elliptic.P256()
+	private, err := ecdsa.GenerateKey(curve, rand.Reader)
+	pubKey := append(private.PublicKey.X.Bytes(), private.PublicKey.Y.Bytes()...)
+
+	return *private, pubKey
+}
+</code></pre>
+<p>一个钱包除了了一个钥匙对之外什么都没有。我们也需要<code>Wallets</code>结构体去存储钱包的集合，把它们保存在一个文件中，并可以从文件中加载。在<code>Wallet</code>的构造方法中会产生一个新的钥匙对。这个<code>newKeyPair</code>函数是非常明确的：ECDSA是基于椭圆曲线，所以我们需要一个。接下来，通过曲线算法产生一个私钥，然后公钥由私钥产生。需要注意的一件事情是：在椭圆曲线基础算法中，公钥是指向一条曲线的。因此，一个公钥是由X、Y坐标组合而成的。在比特币中，这些坐标相连接然后组成一个公钥。</p>
+<p>现在，让我们产生一个地址：</p>
+<pre><code class="language-go">func (w Wallet) GetAddress() []byte {
+	pubKeyHash := HashPubKey(w.PublicKey)
+
+	versionedPayload := append([]byte{version}, pubKeyHash...)
+	checksum := checksum(versionedPayload)
+
+	fullPayload := append(versionedPayload, checksum...)
+	address := Base58Encode(fullPayload)
+
+	return address
+}
+
+func HashPubKey(pubKey []byte) []byte {
+	publicSHA256 := sha256.Sum256(pubKey)
+
+	RIPEMD160Hasher := ripemd160.New()
+	_, err := RIPEMD160Hasher.Write(publicSHA256[:])
+	publicRIPEMD160 := RIPEMD160Hasher.Sum(nil)
+
+	return publicRIPEMD160
+}
+
+func checksum(payload []byte) []byte {
+	firstSHA := sha256.Sum256(payload)
+	secondSHA := sha256.Sum256(firstSHA[:])
+
+	return secondSHA[:addressChecksumLen]
+}
+
+</code></pre>
+<p>这里是将一个公钥转化成一个Base58地址的步骤：</p>
+<ol>
+<li>获得公钥并使用__RIPEMD160(SHA256(PubKey))__哈希算法将其哈希两次。</li>
+<li>为哈希运算准备地址生成算法的版本。</li>
+<li>通过对第二步中的结果使用__SHA256(SHA256(payload))__计算校验和。校验和是结果哈希最开始四个字节。</li>
+<li>添加校验和到__version+PubKeyHash__组合。</li>
+<li>用__Base58__为__version + PubKeyHash + checksum__的组合进行编码。</li>
+</ol>
+<p>作为结果，你将会得到真正的比特币地址，你甚至可以在<a href="https://blockchain.info/">blockchain.info</a>中查看它的余额。但是我敢保证你的余额是零，不管你创建多少个新地址检查多少次余额。这就是为什么适当的选择公钥加密算法重要的原因：考虑到私钥是随机数据，产生相同数字必须是可能性极低的。理想情况下，必须低到“不可能”的程度。</p>
+<p>同时，要注意你不需要连接比特币节点去获得一个地址。地址生成算法利用开源算法的组合，它在很多程序设计语言和库中都有实现。</p>
+<p>现在我们需要使用地址对出账和入账进行一些修改：</p>
+<pre><code class="language-go">type TXInput struct {
+	Txid      []byte
+	Vout      int
+	Signature []byte
+	PubKey    []byte
+}
+
+func (in *TXInput) UsesKey(pubKeyHash []byte) bool {
+	lockingHash := HashPubKey(in.PubKey)
+
+	return bytes.Compare(lockingHash, pubKeyHash) == 0
+}
+
+type TXOutput struct {
+	Value      int
+	PubKeyHash []byte
+}
+
+func (out *TXOutput) Lock(address []byte) {
+	pubKeyHash := Base58Decode(address)
+	pubKeyHash = pubKeyHash[1 : len(pubKeyHash)-4]
+	out.PubKeyHash = pubKeyHash
+}
+
+func (out *TXOutput) IsLockedWithKey(pubKeyHash []byte) bool {
+	return bytes.Compare(out.PubKeyHash, pubKeyHash) == 0
+}
+</code></pre>
+<p>注意，现在我们不再使用__ScriptPubKey__和__ScriptSig__字段，因为我们不会去实现一个脚本语言。代替的，__ScriptSig__被分成__Signature__和__PubKey__字段，<strong>ScriptPubKey__被重命名为__PubKeyHash</strong>。我们将会像比特币一样实现相同的出账的加锁和解锁以及入账签名逻辑，但我们会使用函数方法代替。</p>
+<p>这个<code>UsesKey</code>方法使用特殊的钥匙去解锁出账来检查入账。注意这个入账存储一个未经加工的公钥（或者说是没有经过哈希运算的），但是需要一个哈希函数。<code>IsLockedWithKey</code>检查是否提供了一个公钥哈希来对出账加锁。这是一个和<code>UsesKey</code>函数的一个互补函数，而且它们同时使用<code>FindUnspentTransactions</code>去在交易间建立连接。</p>
+<p><code>Lock</code>简单地锁住了一个输出。当我们给某人发送一些币时，我们知道他的地址，因此这个函数需要地址作为唯一的参数。这个地址接着被解码，从中提取出公钥哈希然后保存在__PubKeyHash__字段中。</p>
+<p>现在，让我们检查一下程序是否可以正常工作：</p>
+<pre><code class="language-shell">$ blockchain_go createwallet
+Your new address: 13Uu7B1vDP4ViXqHFsWtbraM3EfQ3UkWXt
+
+$ blockchain_go createwallet
+Your new address: 15pUhCbtrGh3JUx5iHnXjfpyHyTgawvG5h
+
+$ blockchain_go createwallet
+Your new address: 1Lhqun1E9zZZhodiTqxfPQBcwr1CVDV2sy
+
+$ blockchain_go createblockchain -address 13Uu7B1vDP4ViXqHFsWtbraM3EfQ3UkWXt
+0000005420fbfdafa00c093f56e033903ba43599fa7cd9df40458e373eee724d
+
+Done!
+
+$ blockchain_go getbalance -address 13Uu7B1vDP4ViXqHFsWtbraM3EfQ3UkWXt
+Balance of '13Uu7B1vDP4ViXqHFsWtbraM3EfQ3UkWXt': 10
+
+$ blockchain_go send -from 15pUhCbtrGh3JUx5iHnXjfpyHyTgawvG5h -to 13Uu7B1vDP4ViXqHFsWtbraM3EfQ3UkWXt -amount 5
+2017/09/12 13:08:56 ERROR: Not enough funds
+
+$ blockchain_go send -from 13Uu7B1vDP4ViXqHFsWtbraM3EfQ3UkWXt -to 15pUhCbtrGh3JUx5iHnXjfpyHyTgawvG5h -amount 6
+00000019afa909094193f64ca06e9039849709f5948fbac56cae7b1b8f0ff162
+
+Success!
+
+$ blockchain_go getbalance -address 13Uu7B1vDP4ViXqHFsWtbraM3EfQ3UkWXt
+Balance of '13Uu7B1vDP4ViXqHFsWtbraM3EfQ3UkWXt': 4
+
+$ blockchain_go getbalance -address 15pUhCbtrGh3JUx5iHnXjfpyHyTgawvG5h
+Balance of '15pUhCbtrGh3JUx5iHnXjfpyHyTgawvG5h': 6
+
+$ blockchain_go getbalance -address 1Lhqun1E9zZZhodiTqxfPQBcwr1CVDV2sy
+Balance of '1Lhqun1E9zZZhodiTqxfPQBcwr1CVDV2sy': 0
+</code></pre>
+<blockquote>
+<p>虽然完成这些还需要修改更多的代码，仅仅修改上述部分是运行不出来的。具体参照源码。</p>
+</blockquote>
+<p>好的！现在让我们实现交易签名。</p>
+<h2 id="实现签名">实现签名</h2>
+<p>交易必须被签名，因为这是比特币中唯一一个途径来保证一个人不能花费不属于他的币。如果一个签名不合法，那么这个交易也被认为是不合法的，因此不能够添加到区块链上。</p>
+<p>我们有实现签名的所有部分了，只差一件事：对数据进行签名。交易的哪一部分是真正被签名的呢？或者一个交易是作为一个整体被签名的吗？选择数据去进行签名是非常重要的。这个事情就是被签名的数据必须是用一种独一无二的方式去标识数据的信息（也就是这个数据必须体现出这个交易的独一无二）。例如，仅仅对出账的币额进行签名是完全没有意义的因为这样的签名不会考虑到交易的发送者和接收者。</p>
+<p>考虑到交易解锁以前的出账，重新分配余额，并锁定新的交易，这下面是必须被签名的数据：</p>
+<ol>
+<li>存储在解锁的出账中的公钥哈希。这是交易发送者的身份标识。</li>
+<li>新的、加锁的出账的公钥哈希。这是交易接收者的身份标识。</li>
+<li>新的出账的额度。</li>
+</ol>
+<blockquote>
+<p>在比特币中，加锁和解锁的逻辑是存储在脚本当中的，也就是分别存储在入账和出账的<code>ScriptSig</code>和<code>ScriptPubKey</code>字段。因为比特币允许这个脚本有不同的类型，它签名整个<code>ScriptPubKey</code>的内容。</p>
+</blockquote>
+<p>正如你所看到的，我们不需要对存储在入账中的公钥进行签名。正是这个原因，在比特币中，不是交易被签名，而是选择性的利用入账中存储的<code>ScriptPubKey</code>从相关的出账中复制。(PS:应该是没翻好...原文：Because of this, in Bitcoin, it’s not a transaction that’s signed, but its trimmed copy with inputs storing <code>ScriptPubKey</code> from referenced outputs.)</p>
+<blockquote>
+<p>一个得到修建事务副本的细节程序在<a href="https://en.bitcoin.it/wiki/File:Bitcoin_OpCheckSig_InDetail.png">这里</a>有描述。它很可能过时了，但是我找不到更可靠的数据来源了。</p>
+</blockquote>
+<p>好的，它看起来很复杂，所以让我们开始coding。我们将会从<code>Sign</code>方法开始：</p>
+<pre><code class="language-go">func (tx *Transaction) Sign(privKey ecdsa.PrivateKey, prevTXs map[string]Transaction) {
+	if tx.IsCoinbase() {
+		return
+	}
+
+	txCopy := tx.TrimmedCopy()
+
+	for inID, vin := range txCopy.Vin {
+		prevTx := prevTXs[hex.EncodeToString(vin.Txid)]
+		txCopy.Vin[inID].Signature = nil
+		txCopy.Vin[inID].PubKey = prevTx.Vout[vin.Vout].PubKeyHash
+		txCopy.ID = txCopy.Hash()
+		txCopy.Vin[inID].PubKey = nil
+
+		r, s, err := ecdsa.Sign(rand.Reader, &amp;privKey, txCopy.ID)
+		signature := append(r.Bytes(), s.Bytes()...)
+
+		tx.Vin[inID].Signature = signature
+	}
+}
+</code></pre>
+<p>这个方法接受一个私钥和一个先前交易的map结构。正如前面提及的，为了去签名一个交易，我们需要根据交易的入账去获得引用的出账，因此我们需要交易存储这些出账。</p>
+<p>让我们重新一步步看：</p>
+<pre><code class="language-go">if tx.IsCoinbase() {
+	return
+}
+</code></pre>
+<p>铸币交易不被签名因为这里没有真正的入账。</p>
+<pre><code class="language-go">txCopy := tx.TrimmedCopy()
+</code></pre>
+<p>一个交易的裁剪副本会被签名，而不是整个交易被签名。</p>
+<pre><code class="language-go">func (tx *Transaction) TrimmedCopy() Transaction {
+	var inputs []TXInput
+	var outputs []TXOutput
+
+	for _, vin := range tx.Vin {
+		inputs = append(inputs, TXInput{vin.Txid, vin.Vout, nil, nil})
+	}
+
+	for _, vout := range tx.Vout {
+		outputs = append(outputs, TXOutput{vout.Value, vout.PubKeyHash})
+	}
+
+	txCopy := Transaction{tx.ID, inputs, outputs}
+
+	return txCopy
+}
+</code></pre>
+<p>这个副本会包含所有的输入和输出，但是<code>TXInput.Signature</code>以及<code>TXInput.PubKey</code>会被设置为空。</p>
+<p>接下来，我们对副本里每一个入账进行迭代：</p>
+<pre><code class="language-go">for inID, vin := range txCopy.Vin {
+	prevTx := prevTXs[hex.EncodeToString(vin.Txid)]
+	txCopy.Vin[inID].Signature = nil
+	txCopy.Vin[inID].PubKey = prevTx.Vout[vin.Vout].PubKeyHash
+</code></pre>
+<p>在每一个入账中，<code>Signature</code>被设置成空，同时<code>PubKey</code>被设置成所引用出账的<code>PubKeyHash</code>。在这种情况下，除了当前的交易其他交易都为“空”。因此__入账是单独签名的__，虽然这在我们的应用中没有必要，但是比特币中允许交易去包含入账所引用的不同的地址。</p>
+<pre><code class="language-go">	txCopy.ID = txCopy.Hash()
+	txCopy.Vin[inID].PubKey = nil
+</code></pre>
+<p>这个<code>Hash</code>方法将交易进行序列化的同时使用SHA-256算法计算哈希。这个哈希的结果就是我们将要进行签名的数据。在得到哈希之后，我们应该重置<code>PubKey</code>字段，所以它不会影响进一步的迭代。</p>
+<p>现在，核心的部分：</p>
+<pre><code class="language-go">	r, s, err := ecdsa.Sign(rand.Reader, &amp;privKey, txCopy.ID)
+	signature := append(r.Bytes(), s.Bytes()...)
+	tx.Vin[inID].Signature = signature
+</code></pre>
+<p>我们使用<code>privKey</code>对<code>txCopy.ID</code>进行签名。一个椭圆曲线签名算法签名的是一对数字，就是我们连接并存储的入账的<code>Signature</code>字段。</p>
+<p>现在，是验证函数：</p>
+<pre><code class="language-go">func (tx *Transaction) Verify(prevTXs map[string]Transaction) bool {
+	txCopy := tx.TrimmedCopy()
+	curve := elliptic.P256()
+
+	for inID, vin := range tx.Vin {
+		prevTx := prevTXs[hex.EncodeToString(vin.Txid)]
+		txCopy.Vin[inID].Signature = nil
+		txCopy.Vin[inID].PubKey = prevTx.Vout[vin.Vout].PubKeyHash
+		txCopy.ID = txCopy.Hash()
+		txCopy.Vin[inID].PubKey = nil
+
+		r := big.Int{}
+		s := big.Int{}
+		sigLen := len(vin.Signature)
+		r.SetBytes(vin.Signature[:(sigLen / 2)])
+		s.SetBytes(vin.Signature[(sigLen / 2):])
+
+		x := big.Int{}
+		y := big.Int{}
+		keyLen := len(vin.PubKey)
+		x.SetBytes(vin.PubKey[:(keyLen / 2)])
+		y.SetBytes(vin.PubKey[(keyLen / 2):])
+
+		rawPubKey := ecdsa.PublicKey{curve, &amp;x, &amp;y}
+		if ecdsa.Verify(&amp;rawPubKey, txCopy.ID, &amp;r, &amp;s) == false {
+			return false
+		}
+	}
+
+	return true
+}
+</code></pre>
+<p>这个函数非常的直接了当。首先，我们需要相同的交易副本：</p>
+<pre><code class="language-go">	txCopy := tx.TrimmedCopy()
+</code></pre>
+<p>接下来，我们需要同样的曲线用来生成钥匙对：</p>
+<pre><code class="language-go">	curve := elliptic.P256()
+</code></pre>
+<p>然后，我们检查每个入账的签名：</p>
+<pre><code class="language-go">    for inID, vin := range tx.Vin {
+        prevTx := prevTXs[hex.EncodeToString(vin.Txid)]
+        txCopy.Vin[inID].Signature = nil
+        txCopy.Vin[inID].PubKey = prevTx.Vout[vin.Vout].PubKeyHash
+        txCopy.ID = txCopy.Hash()
+        txCopy.Vin[inID].PubKey = nil
+</code></pre>
+<p>这部分对唯一的签名方法是相同的，因为在验证过程中，我们需要签名的数据是相同的。</p>
+<pre><code class="language-go">        r := big.Int{}
+            s := big.Int{}
+            sigLen := len(vin.Signature)
+            r.SetBytes(vin.Signature[:(sigLen / 2)])
+            s.SetBytes(vin.Signature[(sigLen / 2):])
+
+            x := big.Int{}
+            y := big.Int{}
+            keyLen := len(vin.PubKey)
+            x.SetBytes(vin.PubKey[:(keyLen / 2)])
+            y.SetBytes(vin.PubKey[(keyLen / 2):])
+</code></pre>
+<p>这里是我们分析存储在<code>TXInput.Signature</code>和<code>TXInput.PubKey</code>中的数据，因为一个签名是一对数字并且公钥是一对坐标。我们为了存储它们而将它们过早的连接，而且现在我们需要解析它们用于``crypto/ecdsa` 函数。</p>
+<pre><code class="language-go">            rawPubKey := ecdsa.PublicKey{curve, &amp;x, &amp;y}
+                if ecdsa.Verify(&amp;rawPubKey, txCopy.ID, &amp;r, &amp;s) == false{
+                    return false
+                }
+            }
+
+            return true
+</code></pre>
+<p>这里，我们使用了从入账中提取出了公钥创建了<code>ecdsa.PublicKey</code>并执行了<code>ecdsa.Verify</code>，参数是从入账提取出的签名。如果所有的入账都验证过了，就返回 true, 如果在输入的验证中有一个出错了，就返回false。</p>
+<p>现在，我们需要一个函数去获取先前的交易。因为这里需要与区块链进行交互，我们将构建<code>Bolckchain</code>的函数：</p>
+<pre><code class="language-go">func (bc *Blockchain) FindTransaction(ID []byte) (Transaction, error) {
+	bci := bc.Iterator()
+
+	for {
+		block := bci.Next()
+
+		for _, tx := range block.Transactions {
+			if bytes.Compare(tx.ID, ID) == 0 {
+				return *tx, nil
+			}
+		}
+
+		if len(block.PrevBlockHash) == 0 {
+			break
+		}
+	}
+
+	return Transaction{}, errors.New(&quot;Transaction is not found&quot;)
+}
+
+func (bc *Blockchain) SignTransaction(tx *Transaction, privKey ecdsa.PrivateKey) {
+	prevTXs := make(map[string]Transaction)
+
+	for _, vin := range tx.Vin {
+		prevTX, err := bc.FindTransaction(vin.Txid)
+		prevTXs[hex.EncodeToString(prevTX.ID)] = prevTX
+	}
+
+	tx.Sign(privKey, prevTXs)
+}
+
+func (bc *Blockchain) VerifyTransaction(tx *Transaction) bool {
+	prevTXs := make(map[string]Transaction)
+
+	for _, vin := range tx.Vin {
+		prevTX, err := bc.FindTransaction(vin.Txid)
+		prevTXs[hex.EncodeToString(prevTX.ID)] = prevTX
+	}
+
+	return tx.Verify(prevTXs)
+}
+</code></pre>
+<p>这些函数很直接：<code>FindTransaction</code>通过ID寻找交易（它需要迭代区块链上的所有区块）；<code>SignTransaction</code>接受交易，寻找交易的引用，并且对它进行签名；``VerifyTransaction`也差不多做相同的事情，但是会验证交易。</p>
+<p>现在，我们需要真正的签名并且验证交易。签名发生在<code>NewUTXOTransaction</code>中：</p>
+<pre><code class="language-go">func NewUTXOTransaction(from, to string, amount int, bc *Blockchain) *Transaction {
+	...
+
+	tx := Transaction{nil, inputs, outputs}
+	tx.ID = tx.Hash()
+	bc.SignTransaction(&amp;tx, wallet.PrivateKey)
+
+	return &amp;tx
+}
+</code></pre>
+<p>验证发生在交易被放入区块之前：</p>
+<pre><code class="language-go">func (bc *Blockchain) MineBlock(transactions []*Transaction) {
+	var lastHash []byte
+
+	for _, tx := range transactions {
+		if bc.VerifyTransaction(tx) != true {
+			log.Panic(&quot;ERROR: Invalid transaction&quot;)
+		}
+	}
+	...
+}
+</code></pre>
+<p>完成！让我们多检查几次：</p>
+<pre><code class="language-shell">$ blockchain_go createwallet
+Your new address: 1AmVdDvvQ977oVCpUqz7zAPUEiXKrX5avR
+
+$ blockchain_go createwallet
+Your new address: 1NE86r4Esjf53EL7fR86CsfTZpNN42Sfab
+
+$ blockchain_go createblockchain -address 1AmVdDvvQ977oVCpUqz7zAPUEiXKrX5avR
+000000122348da06c19e5c513710340f4c307d884385da948a205655c6a9d008
+
+Done!
+
+$ blockchain_go send -from 1AmVdDvvQ977oVCpUqz7zAPUEiXKrX5avR -to 1NE86r4Esjf53EL7fR86CsfTZpNN42Sfab -amount 6
+0000000f3dbb0ab6d56c4e4b9f7479afe8d5a5dad4d2a8823345a1a16cf3347b
+
+Success!
+
+$ blockchain_go getbalance -address 1AmVdDvvQ977oVCpUqz7zAPUEiXKrX5avR
+Balance of '1AmVdDvvQ977oVCpUqz7zAPUEiXKrX5avR': 4
+
+$ blockchain_go getbalance -address 1NE86r4Esjf53EL7fR86CsfTZpNN42Sfab
+Balance of '1NE86r4Esjf53EL7fR86CsfTZpNN42Sfab': 6
+</code></pre>
+<p>没问题。极好的！</p>
+<p>让我们同时把<code>NewUTXOTransaction</code>里的<code>bc.SignTransaction(&amp;tx, wallet.PrivateKey)</code>注释掉，让没有被签名的交易不能被挖矿：</p>
+<pre><code class="language-go">func NewUTXOTransaction(from, to string, amount int, bc *Blockchain) *Transaction {
+   ...
+	tx := Transaction{nil, inputs, outputs}
+	tx.ID = tx.Hash()
+	// bc.SignTransaction(&amp;tx, wallet.PrivateKey)
+
+	return &amp;tx
+}
+</code></pre>
+<pre><code class="language-shell">$ go install
+$ blockchain_go send -from 1AmVdDvvQ977oVCpUqz7zAPUEiXKrX5avR -to 1NE86r4Esjf53EL7fR86CsfTZpNN42Sfab -amount 1
+2017/09/12 16:28:15 ERROR: Invalid transaction
+</code></pre>
+<h2 id="总结">总结</h2>
+<p>我们迅速的进行并且实现了比特币中很多关键的特点，这是极好的！我们差不多实现了除了网络之外的一切，在下一部分，我们将完成交易。</p>
+<p>Links:</p>
+<ol>
+<li><a href="https://github.com/Jeiwan/blockchain_go/tree/part_5">Full source codes</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Public-key_cryptography">Public-key cryptography</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Digital_signature">Digital signatures</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Elliptic_curve">Elliptic curve</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Elliptic_curve_cryptography">Elliptic curve cryptography</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm">ECDSA</a></li>
+<li><a href="https://en.bitcoin.it/wiki/Technical_background_of_version_1_Bitcoin_addresses">Technical background of Bitcoin addresses</a></li>
+<li><a href="https://en.bitcoin.it/wiki/Address">Address</a></li>
+<li><a href="https://en.bitcoin.it/wiki/Base58Check_encoding">Base58</a></li>
+<li><a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/">A gentle introduction to elliptic curve cryptography</a></li>
+</ol>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%BC%95%E8%A8%80">引言</a></li>
+<li><a href="#%E6%AF%94%E7%89%B9%E5%B8%81%E5%9C%B0%E5%9D%80">比特币地址</a></li>
+<li><a href="#%E5%85%AC%E9%92%A5%E5%8A%A0%E5%AF%86">公钥加密</a></li>
+<li><a href="#%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D">数字签名</a></li>
+<li><a href="#%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%8A%A0%E5%AF%86">椭圆曲线加密</a></li>
+<li><a href="#base58">Base58</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E5%9C%B0%E5%9D%80">实现地址</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E7%AD%BE%E5%90%8D">实现签名</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part4：交易-1">
+              <h3 class="post-title">
+                使用Golang构建区块链Part4：交易-1
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

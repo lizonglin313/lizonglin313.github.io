@@ -1,0 +1,710 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>使用Golang构建区块链Part7：网络 | Gridea</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1579616313288">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="使用Golang构建区块链Part7：网络 | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+终于到最后一篇了~
+
+引言
+不久之前，我们已经构建了拥有所有关键特性的区块链：匿名的、安全的并且随机产生的地址；区块链数据存储；工作量证明系统；可靠的交易存储。虽然这些特性是至关重要的，但是这还不够。真正让这些特性闪闪发光的，让加密货币成..." />
+    <meta name="keywords" content="Golang,笔记" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1579616313288" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              使用Golang构建区块链Part7：网络
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-09-22
+              </span>
+              <span>
+                22 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/Kf9p2vgKYl" class="post-tag">
+                  # Golang
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="post-tag">
+                  # 笔记
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
+<p>终于到最后一篇了~</p>
+</blockquote>
+<h2 id="引言">引言</h2>
+<p>不久之前，我们已经构建了拥有所有关键特性的区块链：匿名的、安全的并且随机产生的地址；区块链数据存储；工作量证明系统；可靠的交易存储。虽然这些特性是至关重要的，但是这还不够。真正让这些特性闪闪发光的，让加密货币成为可能的，是网络。如果一个区块链只在一台机器上运行有什么用呢？当只有一个用户时，加密货币的特性又有什么用处呢？是网络让这些所有的机制工作起来并且变的有用。</p>
+<p>你可以把区块链的这些特性想成规则，类似于当人们想生存并繁荣那样所建立的规则制度。一种社会准则。区块链网络是一个遵循这种规则的程序社区，它遵循的这些规则使得网络得以存活。同样的，当人们分享相同的点子，他们会变得更强大，并且能够一起建设更好的生活。如果有人遵循了不同的规则，他们将生活在分离的社会（或者说处境、团体等）。相同的，如果有区块链节点遵守了不同的规则，他将会组成一个分离的网络。</p>
+<p>最重要的：没有网络、没有主节点分享相同的规则，这些制度就变得无效。</p>
+<blockquote>
+<p>免责声明：不幸的是，我没有足够的时间去实现一个真正的P2P网络。在文章中我会展示一个大体上相同的情景，涉及到不同类型的节点。改进这种方案实现一个P2P网络会是一个很好的挑战和锻炼对你来说。同时我也不能保证除此之外的情景在本篇文章中可以实现，将来可能会做，抱歉！</p>
+<p>这部分涉及到重大的代码改动，没有必要对其进行全部解释在这里。<a href="https://github.com/Jeiwan/blockchain_go/compare/part_6...part_7#files_bucket">请到这个页面</a>去查看和上一个版本相比的代码改动。</p>
+</blockquote>
+<h2 id="区块链网络">区块链网络</h2>
+<p>区块链网络是去中心化的，这就意味着没有服务器去做获得或者加工数据那样的全职和客户端的那种工作。在区块链网络中它们是节点，区块链网络中每一个节点都是全量的。一个节点就是一切：它既是客户端也是服务器。记住这个是非常重要的，因为这和常见的Web应用是非常不一样的。</p>
+<p>区块链网络是P2P（Peer-to-Peer）网络，这意味着节点彼此之间直接相连。它是拓扑学平面，因为这些节点中没有所谓的等级。这是它的原理图表示：</p>
+<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2019/09/22/RAvCb9GTwKZ84Et.png" alt="" loading="lazy"></figure>
+<p>(<a href="http://www.freepik.com/dooder">Business vector created by Dooder - Freepik.com</a>)</p>
+<p>这种网络中的节点是很难实现的，因为它们必须执行很多操作。每个节点必须和其他很多节点互相交流，它必须请求其他节点的状态，与自己的状态相比，同时更新自己的状态。</p>
+<h2 id="节点角色">节点角色</h2>
+<p>尽管每个节点都是全量的，区块链节点可以扮演很多不同的角色在区块链网络中。它们是：</p>
+<ol>
+<li>
+<p>矿工（Miner）</p>
+<p>一些节点运行在强大的专业的计算机硬件上（例如ASIC矿机），同时它们唯一的目标是尽可能的用最快的速度挖出新块。矿工是区块链中唯一可能使用工作量证明的，因为挖矿实际上意味着解决PoW难题。在PoS（Proof-of-Stake）区块链中，它们不需要挖矿。</p>
+</li>
+<li>
+<p>全节点（Full node）</p>
+<p>这些节点验证那些被矿工挖出来的区块也验证交易。为了做这些，它们必须有区块链的全部副本。同时，这些节点也做着类似于路由的操作，比如帮其他节点去发现别的节点。</p>
+<p>区块链中有多个全节点是至关重要的，因为这些节点是决策者：它们决定一个区块或者交易是否合法。</p>
+</li>
+<li>
+<p>SPV（Simplified Payment Verification简单支付验证，我们可以叫它轻节点）</p>
+<p>SPV是简单支付验证。这些节点不会存储一个区块链的全部副本，但是它们仍然会验证交易（不是所有的，只是一个子集，例如那些发送给特殊地址的交易）。一个SPV节点依赖一个全节点去获得信息，而且很多SPV可以连接一个全节点。SPV使得钱包应用得以实现：一个不需要下载全部的区块链，但仍然可以验证它们的交易。</p>
+</li>
+</ol>
+<h2 id="网络简化">网络简化</h2>
+<p>为了实现在我们的区块链中实现网络，我们需要简化一些事情。问题在于我们没有很多计算机来模仿一个有很多节点的网络。我们不会使用虚拟机或者Docker去解决这个问题，因为这肯造成一些困难：你会需要解决一些虚拟机或者Docker问题，虽然我们的目标仅仅是集中精力于区块链的实现。所有，我们想运行多个区块链节点在一台机器上并且同一时间有多个地址。为了实现这个我们将会使用端口作为节点的标识，取代IP地址。例如，我们有以下地址的节点：<code>127.0.0.1:3000</code>、<code>127.0.0.1:3001</code>、<code>127.0.0.1:3002</code>等等。我们把这些端口叫做节点ID同时使用<code>NODE_ID</code>环境变量来设置它们。因此，你可以在多个命令行窗口中打开它们，设置不同的节点并让不同的节点运行起来。</p>
+<p>这个途径也需要不同的区块链和钱包文件。它们现在取决于节点ID同时被命名类似<code>blockchain_3000.db</code>、<code>blockchain_30001.db</code>和<code>wallet_3000.db</code>、<code>wallet_30001.db</code>等等这种类型。</p>
+<h2 id="实现">实现</h2>
+<p>那么，当你下载时发生什么，就是，下载比特币内核并且首次运行它们的时候发生了什么？它必须连接一些节点去下载区块链最新的状态。考虑到你的计算机不知道所有的这些，或者一些比特币节点，这些节点是什么？</p>
+<p>在比特币中写死一个节点是会出错的：这个节点会被攻击或者杀死，这可能导致新的节点不能加入区块链中。取而代之，比特币中，这里的DNS种子（<a href="https://bitcoin.org/en/glossary/dns-seed">DNS seeds</a>）是被写死的。虽然没有节点，但是DNS服务知道一些节点的地址。当你开始启动一个干净的比特币内核时，它将会连接一个种子节点同时获取一个全节点列表，也就是下载区块链的地方。</p>
+<p>在我们的实现中，这里将会有一个中心化的困难。我们将有三个节点：</p>
+<ol>
+<li>中心节点。所有的其他的节点都会连接到这个节点，并且这个节点会在其他节点之间传送数据。</li>
+<li>一个矿工节点。这个节点将在内存池中存储新的交易同时当交易达到一定数量时，它将开始新的区块。</li>
+<li>一个钱包节点。这个节点将用来在钱包之间发送币。不同于SPV，它将存储一个区块链的全部副本。</li>
+</ol>
+<h2 id="情景">情景</h2>
+<p>本篇文章的目标是实现以下几个场景：</p>
+<ol>
+<li>中心节点创建区块链。</li>
+<li>其他（钱包）节点连接全节点并且下载区块链。</li>
+<li>多个（矿工）节点连接中心节点并且下载区块链。</li>
+<li>钱包节点创建一个交易。</li>
+<li>矿工节点接收一个交易并且在内存池中维护它们。</li>
+<li>当内存池中有足够多的交易时，矿工开始挖新的区块。</li>
+<li>当新区块被挖出来时，它会被发送到中心节点。</li>
+<li>钱包节点跟中心节点相同步。</li>
+<li>使用钱包节点检查交易是否成功。</li>
+</ol>
+<p>这是它类似于比特币的地方。尽管我们不回去构建一个真正的P2P网络，我们要实现一个真正的也是重要的用于比特币的网络。</p>
+<h2 id="版本">版本</h2>
+<p>节点通过相互通讯的方式进行交流。当新的节点开始运行时，它从一个DNS种子节点中获得几个节点，同时发送它们的版本消息，我们的实现就像下面”</p>
+<pre><code class="language-go">type version struct {
+    Version    int
+    BestHeight int
+    AddrFrom   string
+}
+</code></pre>
+<p>我们只有一个区块链版本，所以<code>Version</code>字段不会持有任何重要的信息。<code>BestHeight</code>存储了节点的区块链长度。<code>AddFrom</code>存储发送者的地址。</p>
+<p>接受一个<code>version</code>消息有什么用呢？它会用它自己的<code>version</code>消息响应。这类似于握手：在对方预先打招呼之前，没有任何交互的可能。这并非只是礼貌：<code>version</code>被用来找到区块链中更长的部分。当一个节点接收到一条 <code>version</code>消息，它会确认这个节点区块链是否比<code>BastHeight</code>的值更长。如果不是，节点会请求并下载遗失的区块。</p>
+<p>为了接受消息，我们需要一个服务：</p>
+<pre><code class="language-go">var nodeAddress string
+var knownNodes = []string{&quot;localhost:3000&quot;}
+
+func StartServer(nodeID, minerAddress string) {
+    nodeAddress = fmt.Sprintf(&quot;localhost:%s&quot;, nodeID)
+    miningAddress = minerAddress
+    ln, err := net.Listen(protocol, nodeAddress)
+    defer ln.Close()
+
+    bc := NewBlockchain(nodeID)
+
+    if nodeAddress != knownNodes[0] {
+        sendVersion(knownNodes[0], bc)
+    }
+
+    for {
+        conn, err := ln.Accept()
+        go handleConnection(conn, bc)
+    }
+}
+</code></pre>
+<p>首先，我们写死中心节点的地址：每个节点必须知道去哪里连接它进行初始化。<code>minerAddress</code>参数指定了接受挖矿奖励的地址。这个部分：</p>
+<pre><code class="language-go">if nodeAddress != knownNodes[0] {
+    sendVersion(knownNodes[0], bc)
+}
+</code></pre>
+<p>表明如果当前的节点不是中心节点，它必须发送<code>version</code>消息给中心节点去查看是否它的区块链过时了。</p>
+<pre><code class="language-go">func sendVersion(addr string, bc *Blockchain) {
+    bestHeight := bc.GetBestHeight()
+    payload := gobEncode(version{nodeVersion, bestHeight, nodeAddress})
+
+    request := append(commandToBytes(&quot;version&quot;), payload...)
+
+    sendData(addr, request)
+}
+</code></pre>
+<p>我们的通讯，在低层次来说是字节序列。首先12字节指明命令的名字（这个例子中是<code>version</code>），同时后面的字节将包含<code>gob-encoded</code>消息结构。<code>commandToBytes</code>看起来是这样：</p>
+<pre><code class="language-go">func commandToBytes(command string) []byte {
+    var bytes [commandLength]byte
+
+    for i, c := range command {
+        bytes[i] = byte(c)
+    }
+
+    return bytes[:]
+}
+</code></pre>
+<p>它创建了12字节的缓冲区并且用命令名字填满，剩下的字节空闲。这是一个对立的函数：</p>
+<pre><code class="language-go">func bytesToCommand(bytes []byte) string {
+    var command []byte
+
+    for _, b := range bytes {
+        if b != 0x0 {
+            command = append(command, b)
+        }
+    }
+
+    return fmt.Sprintf(&quot;%s&quot;, command)
+}
+</code></pre>
+<p>当一个节点接收命令，它运行<code>bytesToCommand</code>去摘取命令名字同时使用正确的方法处理命令体：</p>
+<pre><code class="language-go">func handleConnection(conn net.Conn, bc *Blockchain) {
+    request, err := ioutil.ReadAll(conn)
+    command := bytesToCommand(request[:commandLength])
+    fmt.Printf(&quot;Received %s command\n&quot;, command)
+
+    switch command {
+    ...
+    case &quot;version&quot;:
+        handleVersion(request, bc)
+    default:
+        fmt.Println(&quot;Unknown command!&quot;)
+    }
+
+    conn.Close()
+}
+</code></pre>
+<p>好的，这是<code>version</code>命令处理看起来的样子：</p>
+<pre><code class="language-go">func handleVersion(request []byte, bc *Blockchain) {
+    var buff bytes.Buffer
+    var payload verzion
+
+    buff.Write(request[commandLength:])
+    dec := gob.NewDecoder(&amp;buff)
+    err := dec.Decode(&amp;payload)
+
+    myBestHeight := bc.GetBestHeight()
+    foreignerBestHeight := payload.BestHeight
+
+    if myBestHeight &lt; foreignerBestHeight {
+        sendGetBlocks(payload.AddrFrom)
+    } else if myBestHeight &gt; foreignerBestHeight {
+        sendVersion(payload.AddrFrom, bc)
+    }
+
+    if !nodeIsKnown(payload.AddrFrom) {
+        knownNodes = append(knownNodes, payload.AddrFrom)
+    }
+}
+</code></pre>
+<p>首先，我们需要进行解码并且摘取有效部分。这像其他的所有处理方法（或许我们可以叫处理器）一样，所有我将会在未来省略这些代码片段。</p>
+<p>然后一个节点根据通讯消息中的那个比较<code>BestHeight</code>。如果节点的区块链更长，它会回复<code>version</code>消息；否则，它会发送<code>getblocks</code>消息。</p>
+<h2 id="getblocks">getblocks</h2>
+<pre><code class="language-go">type getblocks struct {
+    AddrFrom string
+}
+</code></pre>
+<p><code>getblocks</code>意味着“给我看看你有的区块”（在比特币中，这非常复杂）。主要，它不会说“把你的所有区块给我”，而是请求一个区块哈希列表。这会降低网络负载，因为区块可以被从其他节点下载，同时我们也不想从单一节点下载几十Gb的数据。</p>
+<p>处理命令很简单，像下面：</p>
+<pre><code class="language-go">func handleGetBlocks(request []byte, bc *Blockchain) {
+    ...
+    blocks := bc.GetBlockHashes()
+    sendInv(payload.AddrFrom, &quot;block&quot;, blocks)
+}
+</code></pre>
+<p>在我们的简单实现中，它会返回所有的区块哈希。</p>
+<h2 id="inv">inv</h2>
+<pre><code class="language-go">type inv struct {
+    AddrFrom string
+    Type     string
+    Items    [][]byte
+}
+</code></pre>
+<p>比特币使用<code>inv</code>来像其他节点展示当前节点有哪些区块和交易。重申，它不会包含全部的区块和交易，仅仅是它们的哈希。这个<code>Type</code>字段代表这是个区块还是个交易。</p>
+<p>处理<code>inv</code>是比较困难的：</p>
+<pre><code class="language-go">func handleInv(request []byte, bc *Blockchain) {
+    ...
+    fmt.Printf(&quot;Recevied inventory with %d %s\n&quot;, len(payload.Items), payload.Type)
+
+    if payload.Type == &quot;block&quot; {
+        blocksInTransit = payload.Items
+
+        blockHash := payload.Items[0]
+        sendGetData(payload.AddrFrom, &quot;block&quot;, blockHash)
+
+        newInTransit := [][]byte{}
+        for _, b := range blocksInTransit {
+            if bytes.Compare(b, blockHash) != 0 {
+                newInTransit = append(newInTransit, b)
+            }
+        }
+        blocksInTransit = newInTransit
+    }
+
+    if payload.Type == &quot;tx&quot; {
+        txID := payload.Items[0]
+
+        if mempool[hex.EncodeToString(txID)].ID == nil {
+            sendGetData(payload.AddrFrom, &quot;tx&quot;, txID)
+        }
+    }
+}
+</code></pre>
+<p>如果区块哈希被转移了，我们要在<code>blocksInTransit</code>变量中存储它们来溯源下载区块。这允许我们在不同的节点中下载区块。刚好在把区块放进迁移状态中，我们发送<code>getdata</code>命令去发送<code>inv</code>命令同时更新<code>blocksInTransit</code>。在真正的P2P网络中，我们将会在不同的节点传送区块。</p>
+<p>在我们的实现中，我们将不会发送带有很多哈希的<code>inv</code>。这就是为什么<code>payload.Type == &quot;tx&quot;</code>只获取了第一个哈希。接下来我们检查在我们的内存池中是否有哈希，如果没有<code>getdata</code>消息就会被发送。</p>
+<h2 id="getdata">getdata</h2>
+<pre><code class="language-go">type getdata struct {
+    AddrFrom string
+    Type     string
+    ID       []byte
+}
+</code></pre>
+<p><code>getdata</code>是一个对特定区块或者交易请求，同时它可以只包含一个区块/交易ID。</p>
+<pre><code class="language-go">func handleGetData(request []byte, bc *Blockchain) {
+    ...
+    if payload.Type == &quot;block&quot; {
+        block, err := bc.GetBlock([]byte(payload.ID))
+
+        sendBlock(payload.AddrFrom, &amp;block)
+    }
+
+    if payload.Type == &quot;tx&quot; {
+        txID := hex.EncodeToString(payload.ID)
+        tx := mempool[txID]
+
+        sendTx(payload.AddrFrom, &amp;tx)
+    }
+}
+</code></pre>
+<p>这个处理器很直接：如果它们请求一个区块，返回这个区块；如果它们请求一个交易，返回这个交易。注意，我们不会检查我们是否拥有这个区块或者交易。这是一个瑕疵：）</p>
+<h2 id="block-和-tx">block 和 tx</h2>
+<pre><code class="language-go">type block struct {
+    AddrFrom string
+    Block    []byte
+}
+
+type tx struct {
+    AddFrom     string
+    Transaction []byte
+}
+</code></pre>
+<p>这些消息是真正的传输数据的。</p>
+<p>处理<code>block</code>消息是简单：</p>
+<pre><code class="language-go">func handleBlock(request []byte, bc *Blockchain) {
+    ...
+
+    blockData := payload.Block
+    block := DeserializeBlock(blockData)
+
+    fmt.Println(&quot;Recevied a new block!&quot;)
+    bc.AddBlock(block)
+
+    fmt.Printf(&quot;Added block %x\n&quot;, block.Hash)
+
+    if len(blocksInTransit) &gt; 0 {
+        blockHash := blocksInTransit[0]
+        sendGetData(payload.AddrFrom, &quot;block&quot;, blockHash)
+
+        blocksInTransit = blocksInTransit[1:]
+    } else {
+        UTXOSet := UTXOSet{bc}
+        UTXOSet.Reindex()
+    }
+}
+</code></pre>
+<p>当我们接受一个区块，我们把它放进我们的区块。如果这里有更多的区块被下载，我们在相同的节点请求下载先前的区块。我们最终下载全部的区块，这个UTXO集合被重新索引。</p>
+<blockquote>
+<p>TODO: 替换掉无条件的信任，我们应该在把它们添加到区块链中之前验证每个区块。</p>
+<p>TODO: 替换掉执行<code>UTXOSet.Reindex()</code>的部分, 应该用<code>UTXOSet.Update(block)</code>，因为区块链太大了。重新索引整个 UTXO 集合会占用大量的时间。</p>
+</blockquote>
+<p>处理<code>tx</code>消息是非常困难的部分：</p>
+<pre><code class="language-go">func handleTx(request []byte, bc *Blockchain) {
+    ...
+    txData := payload.Transaction
+    tx := DeserializeTransaction(txData)
+    mempool[hex.EncodeToString(tx.ID)] = tx
+
+    if nodeAddress == knownNodes[0] {
+        for _, node := range knownNodes {
+            if node != nodeAddress &amp;&amp; node != payload.AddFrom {
+                sendInv(node, &quot;tx&quot;, [][]byte{tx.ID})
+            }
+        }
+    } else {
+        if len(mempool) &gt;= 2 &amp;&amp; len(miningAddress) &gt; 0 {
+        MineTransactions:
+            var txs []*Transaction
+
+            for id := range mempool {
+                tx := mempool[id]
+                if bc.VerifyTransaction(&amp;tx) {
+                    txs = append(txs, &amp;tx)
+                }
+            }
+
+            if len(txs) == 0 {
+                fmt.Println(&quot;All transactions are invalid! Waiting for new ones...&quot;)
+                return
+            }
+
+            cbTx := NewCoinbaseTX(miningAddress, &quot;&quot;)
+            txs = append(txs, cbTx)
+
+            newBlock := bc.MineBlock(txs)
+            UTXOSet := UTXOSet{bc}
+            UTXOSet.Reindex()
+
+            fmt.Println(&quot;New block is mined!&quot;)
+
+            for _, tx := range txs {
+                txID := hex.EncodeToString(tx.ID)
+                delete(mempool, txID)
+            }
+
+            for _, node := range knownNodes {
+                if node != nodeAddress {
+                    sendInv(node, &quot;block&quot;, [][]byte{newBlock.Hash})
+                }
+            }
+
+            if len(mempool) &gt; 0 {
+                goto MineTransactions
+            }
+        }
+    }
+}
+</code></pre>
+<p>第一件事是把新的交易放到内存池中（重申，交易必须在放入交易池之前经过验证）。下一个部分：</p>
+<pre><code class="language-go">if nodeAddress == knownNodes[0] {
+    for _, node := range knownNodes {
+        if node != nodeAddress &amp;&amp; node != payload.AddFrom {
+            sendInv(node, &quot;tx&quot;, [][]byte{tx.ID})
+        }
+    }
+}
+</code></pre>
+<p>检查当前的节点是不是中心节点。在我们的实现中中心节点不会挖矿。取而代之的，它会发送新的交易给网络中的其他节点。</p>
+<p>下一个较大的部分仅仅是挖矿节点。让我们分成小部分来看：</p>
+<pre><code class="language-go">if len(mempool) &gt;= 2 &amp;&amp; len(miningAddress) &gt; 0 {
+</code></pre>
+<p><code>miningAddress</code>只设置挖矿节点。当目前的矿工节点内存池中存在两条或者更多的交易时，挖矿开始。</p>
+<pre><code class="language-go">for id := range mempool {
+    tx := mempool[id]
+    if bc.VerifyTransaction(&amp;tx) {
+        txs = append(txs, &amp;tx)
+    }
+}
+
+if len(txs) == 0 {
+    fmt.Println(&quot;All transactions are invalid! Waiting for new ones...&quot;)
+    return
+}
+</code></pre>
+<p>首先，内存池中的所有交易被验证。不合法的交易会被忽略，同时如果这里没有合法的交易，挖矿会被中断。</p>
+<pre><code class="language-go">cbTx := NewCoinbaseTX(miningAddress, &quot;&quot;)
+txs = append(txs, cbTx)
+
+newBlock := bc.MineBlock(txs)
+UTXOSet := UTXOSet{bc}
+UTXOSet.Reindex()
+
+fmt.Println(&quot;New block is mined!&quot;)
+</code></pre>
+<p>验证过的交易被放入区块中，就像铸币交易那样获得奖励。在挖出新块之后，UTXO集合被重新索引。</p>
+<blockquote>
+<p>TODO：重申，<code>UTXOSet.Update</code>应该替换<code>UTXOSet.Reindex</code>。</p>
+</blockquote>
+<pre><code class="language-go">for _, tx := range txs {
+    txID := hex.EncodeToString(tx.ID)
+    delete(mempool, txID)
+}
+
+for _, node := range knownNodes {
+    if node != nodeAddress {
+        sendInv(node, &quot;block&quot;, [][]byte{newBlock.Hash})
+    }
+}
+
+if len(mempool) &gt; 0 {
+    goto MineTransactions
+}
+</code></pre>
+<p>在交易被挖出后，它被从内存池中移除。当前节点知道的其他节点，收到带有新区块哈希的<code>inv</code>消息。在处理了这条消息后，它们可以请求这个区块。</p>
+<h2 id="结果">结果</h2>
+<p>让我们演示一下此前定义的场景。</p>
+<p>首先，在第一个终端窗口设置<code>NODE_ID</code>为3000（<code>export NODE_ID=3000</code>）。我将会使用类似于<code>NODE 3000</code>或者<code>NODE 3001</code>在接下来的部分，你得知道哪个节点做什么。</p>
+<h3 id="noed-3000">NOED 3000</h3>
+<p>创建一个钱包和一个新链：</p>
+<pre><code class="language-shell">$ blockchain_go createblockchain -address CENTREAL_NODE
+</code></pre>
+<p>(我将使用假地址因为表述方便清晰)</p>
+<p>之后，区块链包含了一个创世纪块。我们需要存储这个区块并且在其他节点中使用。创世纪块作为区块链的标识（在比特币内核中，创世纪块是被写死的）。</p>
+<pre><code class="language-shell">$ cp blockchain_3000.db blockchain_genesis.db 
+</code></pre>
+<h3 id="node-3001">NODE 3001</h3>
+<p>接下来，打开一个新的终端窗口设置节点ID为3001。这会是一个钱包节点。使用<code>blockchain_go createwallet</code>产生一些地址，我们叫这些地址<code>WALLET_1</code>，<code>WALLET_2</code>，<code>WALLET_3</code>。</p>
+<h3 id="node-3000">NODE 3000</h3>
+<p>发送一些币给这些钱包地址：</p>
+<pre><code class="language-shell">$ blockchain_go send -from CENTREAL_NODE -to WALLET_1 -amount 10 -mine
+$ blockchain_go send -from CENTREAL_NODE -to WALLET_2 -amount 10 -mine
+</code></pre>
+<p><code>-mine</code>标识意味区块被当前节点及时挖矿。我们需要这个参数因为最初网络中没有挖矿节点。</p>
+<p>运行节点：</p>
+<pre><code class="language-shell">$ blockchain_go startnode
+</code></pre>
+<p>这个节点必须一直运行直到使用场景结束。</p>
+<h3 id="node-3001-2">NODE 3001</h3>
+<p>使用上面保存的创世纪块初始区块链：</p>
+<pre><code class="language-shell">$ cp blockchain_genesis.db blockchain_3001.db
+</code></pre>
+<p>运行节点：</p>
+<pre><code class="language-shell">$ blockchain_go startnode
+</code></pre>
+<p>它将会从中心节点中下载所有区块。去检查每件事情是否ok，停下节点检查一下余额：</p>
+<pre><code class="language-shell">$ blockchain_go getbalance -address WALLET_1
+Balance of 'WALLET_1': 10
+
+$ blockchain_go getbalance -address WALLET_2
+Balance of 'WALLET_2': 10
+</code></pre>
+<p>同时，我们可以在<code>CENTRAL_NODE</code>地址中检查余额，因为3001节点中有它的区块链了：</p>
+<pre><code class="language-shell">$ blockchain_go getbalance -address CENTRAL_NODE
+Balance of 'CENTRAL_NODE': 10
+</code></pre>
+<h3 id="node-3002">NODE 3002</h3>
+<p>打开一个新的终端窗口设置节点ID为3002，产生一个钱包。这将会是一个挖矿节点。初始化这个区块链：</p>
+<pre><code class="language-shell">$ cp blockchain_genesis.db blockchain_3002.db
+</code></pre>
+<p>运行节点：</p>
+<pre><code class="language-shell">$ blockchain_go startnode -miner MINER_WALLET
+</code></pre>
+<h3 id="node-3001-3">NODE 3001</h3>
+<p>发送一个币：</p>
+<pre><code class="language-shell">$ blockchain_go send -from WALLET_1 -to WALLET_3 -amount 1
+$ blockchain_go send -from WALLET_2 -to WALLET_4 -amount 1
+</code></pre>
+<h3 id="node-3002-2">NODE 3002</h3>
+<p>速速！转到矿工节点能看到它正在挖一个区块！同时，检查中心节点的输出。</p>
+<h3 id="noed-3001">NOED 3001</h3>
+<p>切换的钱包节点并运行它：</p>
+<pre><code class="language-shell">$ blockchain_go startnode
+</code></pre>
+<p>它将会下载新的区块！</p>
+<p>停下来检查余额：</p>
+<pre><code class="language-shell">$ blockchain_go getbalance -address WALLET_1
+Balance of 'WALLET_1': 9
+
+$ blockchain_go getbalance -address WALLET_2
+Balance of 'WALLET_2': 9
+
+$ blockchain_go getbalance -address WALLET_3
+Balance of 'WALLET_3': 1
+
+$ blockchain_go getbalance -address WALLET_4
+Balance of 'WALLET_4': 1
+
+$ blockchain_go getbalance -address MINER_WALLET
+Balance of 'MINER_WALLET': 10
+</code></pre>
+<p>这就是了！</p>
+<h2 id="总结">总结</h2>
+<p>这是本系列的最后一部分了。我可以出更多的文章来实现一个真正的P2P网络原型，但是我没有时间去做这些了。我希望这些文章回答了你一些关于比特币的技术问题并产生了新的问题，你可以自己去寻找答案。在比特币技术中还有更多有趣的事情隐藏在其中！祝你好运！</p>
+<p>P.S. 你可以通过实现<code>addr</code>消息来开始改进这个网络，就像是比特币网络协议中所描述的那样(链接在下面)。这是非常重要的消息，因为这使得节点可以发现彼此。我已经开始着手实现它了，但是还没完成！</p>
+<p>Links:</p>
+<ol>
+<li><a href="https://github.com/Jeiwan/blockchain_go/tree/part_7">Source codes</a></li>
+<li><a href="https://en.bitcoin.it/wiki/Protocol_documentation">Bitcoin protocol documentation</a></li>
+<li><a href="https://en.bitcoin.it/wiki/Network">Bitcoin network</a></li>
+</ol>
+<h2 id="最后">最后</h2>
+<p>用了18天的时间，断断续续实现了这个简化的加密货币系统，翻完了这系列的微博。其中存在的一些错误和不足希望大家与我交流，谢谢包容！</p>
+<p>最重要的，感谢本系列博客原作和我发现的首位将其翻译成中文的博主，下面是他们的连接：</p>
+<ul>
+<li><a href="https://jeiwan.cc/">Ivan Kuznetsov</a></li>
+<li><a href="https://annatarhe.github.io/">AnnatarHe</a></li>
+</ul>
+<p>以及Github上的中文翻译版本：</p>
+<ul>
+<li><a href="https://github.com/liuchengxu/blockchain-tutorial">liuchengxu/blockchain-tutorial</a></li>
+</ul>
+<p>感谢以上，让我初步真正的探索到区块链及比特币技术的底层世界。在未来，我会对我从接触区块链到现在写出并理解一个简单底层系统原型的路程做一个小总结，为有需要朋友提供入门指南。</p>
+<p>路还很长，不过已经上路了！加油！</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%BC%95%E8%A8%80">引言</a></li>
+<li><a href="#%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BD%91%E7%BB%9C">区块链网络</a></li>
+<li><a href="#%E8%8A%82%E7%82%B9%E8%A7%92%E8%89%B2">节点角色</a></li>
+<li><a href="#%E7%BD%91%E7%BB%9C%E7%AE%80%E5%8C%96">网络简化</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0">实现</a></li>
+<li><a href="#%E6%83%85%E6%99%AF">情景</a></li>
+<li><a href="#%E7%89%88%E6%9C%AC">版本</a></li>
+<li><a href="#getblocks">getblocks</a></li>
+<li><a href="#inv">inv</a></li>
+<li><a href="#getdata">getdata</a></li>
+<li><a href="#block-%E5%92%8C-tx">block 和 tx</a></li>
+<li><a href="#%E7%BB%93%E6%9E%9C">结果</a>
+<ul>
+<li><a href="#noed-3000">NOED 3000</a></li>
+<li><a href="#node-3001">NODE 3001</a></li>
+<li><a href="#node-3000">NODE 3000</a></li>
+<li><a href="#node-3001-2">NODE 3001</a></li>
+<li><a href="#node-3002">NODE 3002</a></li>
+<li><a href="#node-3001-3">NODE 3001</a></li>
+<li><a href="#node-3002-2">NODE 3002</a></li>
+<li><a href="#noed-3001">NOED 3001</a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+<li><a href="#%E6%9C%80%E5%90%8E">最后</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part6：交易-2">
+              <h3 class="post-title">
+                使用Golang构建区块链Part6：交易-2
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

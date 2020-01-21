@@ -1,0 +1,637 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Python模拟操作系统处理机调度 | Gridea</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1579616313288">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Python模拟操作系统处理机调度 | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+拖拖拉拉，昨天终于写完核心算法，UI界面几乎没写，估计开学会被导师mao一顿。说一下python GUI大家最好不要去动TK，前些日子找官方文档查方法体验非常差，而且网上的教程写的乱七八糟。有兴趣的话大家可以学习PyQt，这是一个跨平台的..." />
+    <meta name="keywords" content="模拟实验,操作系统" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1579616313288" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Python模拟操作系统处理机调度
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-02-19
+              </span>
+              <span>
+                18 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/N8OvYKkqKk" class="post-tag">
+                  # 模拟实验
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/JEQiAp6BGJ" class="post-tag">
+                  # 操作系统
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
+<p>拖拖拉拉，昨天终于写完核心算法，UI界面几乎没写，估计开学会被导师mao一顿。说一下python GUI大家最好不要去动TK，前些日子找官方文档查方法体验非常差，而且网上的教程写的乱七八糟。有兴趣的话大家可以学习PyQt，这是一个跨平台的GUI，除了python，好多语言都有自己的版本，可以移植性比较高。重要的是有前辈翻译的官方文档，也会一直更新，后期会如果有时间会放上链接及相关教程。</p>
+<p>这一篇是关于如何用python语言模拟常见的处理机调度，我这么菜是当然不会有UI界面的···</p>
+</blockquote>
+<h1 id="python模拟操作系统处理机调度">Python模拟操作系统处理机调度</h1>
+<h2 id="算法概览">算法概览</h2>
+<ul>
+<li>FCFS 现来先服务调度算法</li>
+<li>SCF 这个是我起的英文名··· 其实就是 static class first 静态优先权优先调度算法</li>
+<li>SJF 短作业优先</li>
+<li>SRTF 最短剩余时间优先</li>
+<li>HRRN 最高响应比优先</li>
+<li>RR 轮转法</li>
+<li>MFQ 多级反馈队列调度算法</li>
+</ul>
+<p>一共以上七种常见调度算法，其中既包括作业调度，也包括进程调度。</p>
+<ul>
+<li>作业调度：FCFS SJF SCF SRTF HRRN</li>
+<li>进程调度：RR MFQ</li>
+</ul>
+<p>其中又分为抢占式和非抢占式，这里就不详细说了。</p>
+<h2 id="核心算法">核心算法</h2>
+<h3 id="定义进程数据结构">定义进程数据结构</h3>
+<blockquote>
+<p>为了统一所有算法使用的数据类型，我们有必要统一进程的属性，结构</p>
+</blockquote>
+<pre><code class="language-python">class Process:
+    def __init__(self, name, arrive_time, serve_time, static_class=0, ready = False, over=False):
+        self.name = name  # 进程名
+        self.arrive_time = arrive_time  # 到达时间
+        self.serve_time = serve_time  # 需要服务的时间
+        self.left_serve_time = serve_time  # 剩余需要服务的时间
+        self.finish_time = 0  # 完成时间
+        self.cycling_time = 0  # 周转时间
+        self.w_cycling_time = 0  # 带权周转时间
+        self.static_class = static_class # 静态优先级
+        self.response_ratio = 0 # 响应比
+        self.pre_queue = 0  # 定义现在所在的队列
+        self.pre_queue_tb = 0 # 目前所在的队列（多级反馈队列使用）
+        self.used_time = 0 # 进程已经进行了多少时间
+        self.ready = ready # 进程是否就绪
+        self.over = over # 进程是否进行完成
+</code></pre>
+<h3 id="fcfs-先来先服务">FCFS 先来先服务</h3>
+<blockquote>
+<p>顾名思义，先到达的作业先处理</p>
+</blockquote>
+<pre><code class="language-python">class FCFS:
+    def __init__(self, processes_):
+        self.processes = processes_
+        
+    def fcfs(self): # 到达时间小的优先
+        processes = self.processes
+        # 新建输出队列
+        over_list = []
+        min_key = 0
+        while processes:
+            for i in range(len(processes)):
+                min = processes[0].arrive_time
+                if processes[i].arrive_time &lt;= min:
+                    min = processes[i].arrive_time
+                    min_key = i
+
+            over_list.append(processes.pop(min_key))
+        for i in range(len(over_list)):
+            print(over_list[i].name)
+</code></pre>
+<p>当初始队列不为空时，进行循环，比较所有作业的到达时间，每次循环把到达时间最小的作业出队列，并入输出队列over_list，最后输出队列的顺序就是处理作业的顺序。</p>
+<h3 id="scf-静态优先权优先调度算法">SCF 静态优先权优先调度算法</h3>
+<blockquote>
+<p>这里我们假设静态优先级是人为赋予的，在生成的作业说明书里就有，所以算法思想和现来先服务是一样的，在已经到达的作业队列中选取优先级最高的作业进行调度。</p>
+<p>天哪改完了，因为刚才我在写的时候突然想到我写错了，我犯的错误是在进行优先级比较时，没有分哪些是已经到达的作业哪些是还未到达的作业。</p>
+</blockquote>
+<pre><code class="language-python">class SJF:
+    def __init__(self, processes_):
+        self.processes = processes_
+
+    def sjf(self): # 静态优先级高的优先，人为赋予
+        processes = self.processes
+        pre_processes = [] # 就绪队列
+        over_processes = [] # 输出队列
+        pre_processes.append(processes[0])
+        number = len(processes)
+        flag = 0 # 记录作业完成数量
+        max_key = 0
+        running_time = 0
+        while flag != number: # 所有作业都完成时结束循环
+            max_key = 0 # 优先级最高进程的下标
+            max = pre_processes[0].static_class # 最高优先级
+            for k in range(len(pre_processes)): # 在当前就绪队列中选出优先级最高的作业
+                if pre_processes[k].static_class &gt; max:
+                    max = pre_processes[k].static_class
+                    max_key = k
+            for j in range(pre_processes[max_key].serve_time): # 在当前所要处理的作业的服务时间里
+                pre_processes[max_key].left_serve_time -= 1
+                running_time += 1
+                if pre_processes[max_key].left_serve_time == 0: # 剩余服务时间为零，弹出进入完成队列
+                    flag += 1
+                    over_processes.append(pre_processes.pop(max_key))
+                for i in range(number): # 每一时刻是否有到达作业将其入队
+                    if processes[i].arrive_time == running_time:
+                        pre_processes.append(processes[i])
+        for i in range(len(over_processes)): # 按照作业完成顺序输出
+            print(over_processes[i].name)
+</code></pre>
+<h3 id="sjf-短作业优先">SJF 短作业优先</h3>
+<blockquote>
+<p>短作业优先调度算法思想和静态优先权优先的思想一样，只是选取就绪进程中，所需要的服务时间最小的作业优先调度。</p>
+</blockquote>
+<pre><code class="language-python">class SJF:
+    def __init__(self, processes_):
+        self.processes = processes_
+
+    def sjf(self):
+        processes = self.processes
+        flag = 0 # 记录已完成的进程数量
+        time = 0 # 模拟时钟技术
+        current_process = -1 # 记录当前正在执行的进程下标
+
+        while(flag!=5):
+            if current_process != -1:  # 此时有进程在执行
+                processes[current_process].used_time += 1
+                if processes[current_process].used_time == processes[current_process].handle_time:
+                    print('进程' + processes[current_process].name + '处理完毕！')
+                    flag += 1
+                    processes[current_process].over = True
+                    # current_process = -1
+            for i in range(len(processes)):
+                if time == processes[i].arrive_time:
+                    processes[i].ready = True
+            min_handle = 100
+            for i in range(len(processes)):
+                if processes[i].ready == True and processes[i].over == False: 
+                    # 表示进程到达且未被处理完，用了ready和over两属性，而没有使用就绪队列和完成队列来标识
+                    if current_process == -1:
+                        min_handle = processes[0].handle_time
+                        current_process = 0
+                    else:
+                        if processes[current_process].over == True:
+                            for i in range(len(processes)):
+                                if processes[i].ready == True and processes[i].over == False:
+                                    if  processes[i].handle_time &lt;= min_handle:
+                                        current_process = i
+                                        min_handle = processes[i].handle_time
+            time += 1
+</code></pre>
+<h3 id="srtf-最短剩余时间优先">SRTF 最短剩余时间优先</h3>
+<blockquote>
+<p>其实前面大家可能注意到了，每个算法都有一个模拟时钟计数，每次time+=1就是过了一秒钟，即在第几秒那一时刻发生的动作。在这个算法中，我们不仅要注意每一秒执行哪一个作业，还要注意每一秒哪一个作业到达，更要计算每一秒，到达的作业中哪一个需要的服务时间剩的最短。所以每一秒钟执行的作业都可能不一样。</p>
+</blockquote>
+<pre><code class="language-python">import copy # 使用了copy，体验一下···
+class SRTF:
+    def __init__(self, processes_):
+        self.processes = processes_
+
+    def srtf(self):
+        processes = self.processes
+        flag = 0 # 记录已经处理完成的作业
+        time = 0 # 模拟时间计数器
+        current_process = -1 # 记录当前作业的下标，如果为-1表示当前没有作业在执行
+        # 主循环，已经操作完成的作业数等于所有作业时结束循环
+        while(flag != len(processes)):
+            if current_process != -1:
+                # 表示有作业正在执行
+                processes[current_process].left_serve_time -= 1
+                if processes[current_process].left_serve_time == 0:
+                    print('进程' + processes[current_process].name + '处理完毕！')
+                    flag += 1
+                    processes[current_process].over = True
+                    current_process = -1    # 需要重置为-1
+            # 判断此时刻是否有新的作业进入就绪队列等待处理
+            for i in range(len(processes)):
+                if time == processes[i].arrive_time:
+                    processes[i].ready = True
+            # 寻找剩余时间最少的作业并进行调度
+            min_time_remain = 100 # 假设所有作业的剩余时间都不会超过100
+            for i in range(len(processes)):
+                if processes[i].ready == True and processes[i].over == False:
+                    if (processes[i].left_serve_time) &lt; min_time_remain:
+                        min_time_remain = processes[i].left_serve_time
+                        current_process = i   # 将剩余时间最短的作业置为当前作业
+            time += 1 # 每次循环完time加一
+</code></pre>
+<p>这样总结下来，我们发现，每秒操作就是那几个：确定当前执行作业；执行作业，判断是否完成；判断此时是否有新作业到达；时钟加一。而循环结束的条件一般都是计数 == 所有进程数。</p>
+<h3 id="hrrn-最高响应比优先">HRRN 最高响应比优先</h3>
+<blockquote>
+<p>这个就是每当一个作业处理完或者发生阻塞时，计算各个就绪作业的响应比，选取最高的作为当前处理作业。也就是说，作业一旦开始执行，就不会因为响应比的改变而停止，只有一个作业完成时才重新计算就绪作业的响应比。</p>
+</blockquote>
+<pre><code class="language-python">class HRRN:
+    def __init__(self, processes):
+        self.sum_processes = processes
+
+    def hrrn(self):
+        pre_processes = []
+        over_processes = []
+        running_time = 0
+        flag = 0
+        pre_processes.append(self.sum_processes[0])
+        while(flag!=len(self.sum_processes)):
+            # 计算响应比
+            for j in range(len(pre_processes)):
+                pre_processes[j].response_ratio = (running_time - pre_processes[j].arrive_time + \
+                                        pre_processes[j].serve_time) / pre_processes[j].serve_time
+            # 找到响应比最大的进程
+            max_rr = 0
+            for i in range(len(pre_processes)):
+                if pre_processes[i].response_ratio &gt;= pre_processes[max_rr].response_ratio:
+                    max_rr = i
+            for i in range(pre_processes[max_rr].serve_time):
+                running_time += 1 # 时钟加一
+                for k in range(len(self.sum_processes)):  # 就绪队列入队
+                    if self.sum_processes[k].arrive_time == running_time:
+                        pre_processes.append(self.sum_processes[k])
+            over_processes.append(pre_processes.pop(max_rr))
+            flag += 1
+        for i in range(len(over_processes)):
+            print(over_processes[i].name)
+</code></pre>
+<h3 id="rr-轮转法调度">RR 轮转法调度</h3>
+<blockquote>
+<p>在轮转法和接下来的多级反馈队列调度中，都会有时间片。也就是说，时间以时间片为大单位执行，每个时间片内，如果当前进程执行完毕输出即可，反之则放到队列最后，等待下一次执行。注意时间小单位依然是1，因为在每一秒内，我们还要知道有哪些进行到达就绪。</p>
+</blockquote>
+<pre><code class="language-python">class RR:
+    def __init__(self, processes, time_block, running_time = 0):
+        self.processes = processes
+        self.time_block = time_block
+        self.running_time = running_time
+        
+    def rr(self):
+        pre_processes = []    # running_time等于进程到达时间时会将其入队
+        over_processes = []  # 完成队列
+        flag = 0 # 记录完成的进程数
+        running_time = self.running_time
+        time_block = self.time_block
+        pre_processes.append(self.processes[0]) # 先将第一个进程入队
+        while(flag != len(self.processes)):
+                # 是否进程入队的优先级高于进程从队首切换到队尾的优先级？
+                # 执行当前队首进程，如果一个时间片内不能执行完，则放入队列尾部
+                # 判断时间片是否大于剩余服务时间
+                if time_block &gt;= pre_processes[0].left_serve_time:
+                    for i in range(pre_processes[0].left_serve_time):
+                        pre_processes[0].left_serve_time -= 1
+                        running_time += 1
+                        for i in range(len(self.processes)):
+                            if running_time == self.processes[i].arrive_time:
+                                pre_processes.append(self.processes[i])  # 就绪队列进入队尾
+                        if pre_processes[0].left_serve_time == 0:
+                            # 计算完成时间
+                            pre_processes[0].finish_time = running_time
+                            # 计算周转时间
+                            pre_processes[0].cycling_time = pre_processes[0].finish_time \
+                                                                    - pre_processes[0].arrive_time
+                            # 计算带权周转时间
+                            pre_processes[0].w_cycling_time = float(pre_processes[0].cycling_time) 													/  pre_processes[0].serve_time
+                            # 打印
+                            print('%s 进程已完成的进程，详细信息如下：' % pre_processes[0].name)
+                            print('进程名称：%s  ，完成时间： %d    ，周转时间：%d  ，带权周转时间： 									%.2f' % ( pre_processes[0].name, pre_processes[0].finish_time,
+                                    pre_processes[0].cycling_time,pre_processes[0].w_cycling_time))
+                    flag += 1
+                    over_processes.append(pre_processes.pop(0))  # 进程结束从就绪队列出队进完成队列
+                    continue   # 直接结束此次循环，下面内容不执行
+                else: # 剩余服务时间大于一个时间片
+                    for i in range(time_block):
+                        pre_processes[0].left_serve_time -= 1
+                        running_time += 1
+                        for i in range(len(self.processes)):  # 判断此时有没有就绪队列加入队尾
+                            if running_time == self.processes[i].arrive_time:
+                                 pre_processes.append(self.processes[i])
+                    # 一个时间片结束进程从队头切换至队尾
+                    pre_processes.append(pre_processes.pop(0))
+</code></pre>
+<h3 id="mfq-多级反馈队列调度算法">MFQ 多级反馈队列调度算法</h3>
+<blockquote>
+<p>这里我们假设的是有三级队列，时间片分别为1，2，4 。当然，可以不是这样，只需要在代码里做出一些修改，这样只是为了测试方便。</p>
+<p>在多级反馈队列中，对最后一个队列要使用轮转法进行调度，因此我们重写轮转法使之更符合MFQ的需求。注意的是，有bug：如果此时只有第三级队列有进程，某时刻突然有新进程加入队列，那么将不会处理。简单说就是开始处理最后一个队列的时候，不再受理新进入的进程，也就是在处理完一级二级队列的过程中，必须将保证所有进程都已就绪。后序如果有时间会进行改进。</p>
+</blockquote>
+<pre><code class="language-python">class MFQ:
+    def __init__(self, processes, class_time_block):
+        self.processes = processes # 这是就绪以及未就绪的所有队列
+        self.class_time_block = class_time_block  # 时间递增量级
+
+    def mfq(self):
+        sum_processes = self.processes
+        # 我们这里使用三队列，将到达的队列放入
+        f_processes = []
+        s_processes = []
+        t_processes = []
+        # 规定每个队列的时间片，这里我们直接计算
+        f_time_block = 1
+        s_time_block = 2
+        t_time_block = 4
+        flag = 0 # 完成进程计数
+        running_time = 0 # 时钟模拟
+        processes_number = len(sum_processes)
+        current_process = -1 # 当前进行进程，如果没有置为-1
+        f_processes.append(sum_processes[0])
+        while(flag != processes_number):
+                # 判断在哪一个队列进行操作,选择当前要处理的进程
+                if f_processes:
+                    current_process = f_processes[0]
+                    current_process.pre_queue_tb = 1
+                    current_process.pre_queue = 1
+                elif s_processes:
+                    current_process = s_processes[0]
+                    current_process.pre_queue = 2
+                    current_process.pre_queue_tb = 2
+                elif t_processes:
+                    # 轮转法，重写
+                    pre_processes = t_processes
+                    sum = len(t_processes)
+                    over_processes = []  # 完成队列
+                    t_flag = 0  # 记录完成的进程数
+                    # running_time = running_time
+                    time_block = 4
+                    while (t_flag != sum):
+                        # 判断时间片是否大于剩余服务时间
+                        if time_block &gt;= pre_processes[0].left_serve_time:
+                            for i in range(pre_processes[0].left_serve_time):
+                                pre_processes[0].left_serve_time -= 1
+                                running_time += 1
+                                if pre_processes[0].left_serve_time == 0:
+                                    # 计算完成时间
+                                    pre_processes[0].finish_time = running_time
+                                    # 计算周转时间
+                                    pre_processes[0].cycling_time = pre_processes[0].finish_time \
+                                                                    - pre_processes[0].arrive_time
+                                    # 计算带权周转时间
+                                    pre_processes[0].w_cycling_time = 	
+                                    float(pre_processes[0].cycling_time) /     
+                                    pre_processes[0].serve_time
+                                    # 打印
+                                    print('%s 进程已完成的进程，详细信息如下：' % 			 
+                                          pre_processes[0].name)
+                                    print('进程名称：%s  ，完成时间： %d    ，周转时间：%d  ，带权周转								时间： %.2f' ( pre_processes[0].name, pre_processes[0].finish_time,
+                                   pre_processes[0].cycling_time, pre_processes[0].w_cycling_time))
+                            t_flag += 1
+                            over_processes.append(pre_processes.pop(0))  
+                            # 进程结束从就绪队列出队进完成队列
+                            continue  # 直接结束此次循环，下面内容不执行
+                        else:  # 剩余服务时间大于一个时间片
+                            for i in range(time_block):
+                                pre_processes[0].left_serve_time -= 1
+                                running_time += 1
+                            # 一个时间片结束进程从队头切换至队尾
+                            pre_processes.append(pre_processes.pop(0))
+                    break
+                # 在一个时间片内操作
+                for i in range(current_process.pre_queue_tb):
+                    current_process.left_serve_time -= 1
+                    running_time += 1
+                    out_ = 0
+                    # 判断此时是否完成
+                    if current_process.left_serve_time == 0:
+                        # 如果完成，弹出
+                        # 计算完成时间
+                        current_process.finish_time = running_time
+                        # 计算周转时间
+                        current_process.cycling_time = current_process.finish_time \
+                                                        - current_process.arrive_time
+                        # 计算带权周转时间
+                        current_process.w_cycling_time = float(current_process.cycling_time) / \
+                                                          current_process.serve_time
+                        # 打印
+                        print('%s 进程已完成的进程，详细信息如下：' % current_process.name)
+                        print('进程名称：%s  ，完成时间： %d    ，周转时间：%d  ，带权周转时间： %.2f' 							% (current_process.name, current_process.finish_time,
+                            current_process.cycling_time, current_process.w_cycling_time))
+                        flag += 1
+                        if current_process.pre_queue == 1:
+                            f_processes.pop(0)
+                        elif current_process.pre_queue == 2:
+                            s_processes.pop(0)
+                        else:
+                            t_processes.pop(0)
+                        current_process = -1
+                        out_ = 1
+                    elif i == current_process.pre_queue_tb-1 
+                    		and current_process.left_serve_time != 0:
+                        # 一个时间片内未完成，进入下一队列
+                        if current_process.pre_queue == 1:
+                            current_process.pre_queue = 2
+                            current_process.pre_queue_tb = 2
+                            s_processes.append(f_processes.pop(0))
+                        elif current_process.pre_queue == 2:
+                            current_process.pre_queue = 3
+                            current_process.pre_queue_tb = 4
+                            t_processes.append(s_processes.pop(0))
+                    # 判断此时有没有新进程入队，如果有，入队退出循环
+                    for j in range(len(sum_processes)):
+                        if running_time == sum_processes[j].arrive_time:
+                            # 如果有新就绪队列
+                            out = 1
+                            # 判断当前是否有正在进行的进程
+                            if current_process != -1:
+                                # 如果1队不空，加入一队
+                                if f_processes:
+                                    sum_processes[j].pre_queue = 1
+                                    sum_processes[j].pre_queue_tb = 1
+                                    f_processes.append(sum_processes[j])
+                                    break
+                                else: # 如果一队空
+                                    if current_process.pre_queue == 2:
+                                        s_processes.append(s_processes.pop(0))
+                                    elif current_process.pre_queue == 3:
+                                        t_processes.append(t_processes.pop(0))
+                                    current_process = sum_processes[j]
+                                    current_process.pre_queue = 1
+                                    current_process.pre_queue_tb = 1
+                                    f_processes.append(current_process)
+                                    break
+                                    # 将此时进入进程置为当前处理的进程
+                            else:
+                                # 如果没有，直接将新入队进程置为当前进程
+                                sum_processes[j].pre_queue = 1
+                                sum_processes[j].pre_queue_tb = 1
+                                current_process = sum_processes[j]
+                                f_processes.append(current_process)
+                                break
+                        else:
+                            out = 0
+                    if out == 1 or out_ == 1:
+                        break
+</code></pre>
+<h3 id="测试样例">测试样例</h3>
+<pre><code class="language-python">if __name__ == '__main__':
+    p1 = Process('A', 0, 3) # or p1 = Process('A', 0, 3, 2) 2为静态优先级
+    p2 = Process('B', 2, 6)
+    p3 = Process('C', 4, 4)
+    p4 = Process('D', 6, 5)
+    p5 = Process('E', 8, 2)
+
+    processes = [p1, p2, p3, p4, p5]
+
+    working = xxxx(processes, 2)
+    working.xxx()
+</code></pre>
+<h2 id="小结">小结</h2>
+<p>寒假快结束了，也没有学多少东西，导师的任务也只做了半吊子，GUI还是没做出来。写的算法里肯定还有错误，所有算法在测试样例中跑都是正确的。作业/进程结构中定义的一些譬如周转时间，带权周转时间如果需要使用，在一个作业/进程结束后计算就好，很多算法里没有加。</p>
+<p>当初写的时候，有上网查过想找参考，然而大部分是由C/C++写的。讲实话写了一段时间的python后一点都不想碰C/C++；能搜到的寥寥几篇python写的算法运行起来错误百出，我就想自己写吧还是，憋一点是一点。代码里的循环循环使得质量不佳，说白了写的跟shi一样。虽然我写的代码是s山，但是好歹是自己写的。在写RR和MFQ的时候，接近崩溃，调试一下午才勉勉强强弄完，学习之路还很长，我也希望有天我写的代码可以成为别人的祖传shi山。</p>
+<p>如果导师放过我，下面计划就是学习网络数据采集和数据分析，或许也会做一些前端的内容；反之就学习PyQt做界面，都很好。然后就是使劲学Java，学到暑假可以拿实习的程度。</p>
+<p>这篇文章如果可以给你提供帮助，我将很感谢你，如果有问题可以联系我，过段时间会添加评论系统（如果有好的插件的话）。今天是元宵节，祝大家节日快乐~</p>
+<blockquote>
+<p><a href="https://github.com/lizonglin313/-python-">Github源码戳这里</a></p>
+</blockquote>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#python%E6%A8%A1%E6%8B%9F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6">Python模拟操作系统处理机调度</a>
+<ul>
+<li><a href="#%E7%AE%97%E6%B3%95%E6%A6%82%E8%A7%88">算法概览</a></li>
+<li><a href="#%E6%A0%B8%E5%BF%83%E7%AE%97%E6%B3%95">核心算法</a>
+<ul>
+<li><a href="#%E5%AE%9A%E4%B9%89%E8%BF%9B%E7%A8%8B%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">定义进程数据结构</a></li>
+<li><a href="#fcfs-%E5%85%88%E6%9D%A5%E5%85%88%E6%9C%8D%E5%8A%A1">FCFS 先来先服务</a></li>
+<li><a href="#scf-%E9%9D%99%E6%80%81%E4%BC%98%E5%85%88%E6%9D%83%E4%BC%98%E5%85%88%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95">SCF 静态优先权优先调度算法</a></li>
+<li><a href="#sjf-%E7%9F%AD%E4%BD%9C%E4%B8%9A%E4%BC%98%E5%85%88">SJF 短作业优先</a></li>
+<li><a href="#srtf-%E6%9C%80%E7%9F%AD%E5%89%A9%E4%BD%99%E6%97%B6%E9%97%B4%E4%BC%98%E5%85%88">SRTF 最短剩余时间优先</a></li>
+<li><a href="#hrrn-%E6%9C%80%E9%AB%98%E5%93%8D%E5%BA%94%E6%AF%94%E4%BC%98%E5%85%88">HRRN 最高响应比优先</a></li>
+<li><a href="#rr-%E8%BD%AE%E8%BD%AC%E6%B3%95%E8%B0%83%E5%BA%A6">RR 轮转法调度</a></li>
+<li><a href="#mfq-%E5%A4%9A%E7%BA%A7%E5%8F%8D%E9%A6%88%E9%98%9F%E5%88%97%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95">MFQ 多级反馈队列调度算法</a></li>
+<li><a href="#%E6%B5%8B%E8%AF%95%E6%A0%B7%E4%BE%8B">测试样例</a></li>
+</ul>
+</li>
+<li><a href="#%E5%B0%8F%E7%BB%93">小结</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/解决使用pip安装第三方包出现‘拒绝访问’的错误">
+              <h3 class="post-title">
+                解决使用pip安装第三方包出现‘拒绝访问’的错误
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,962 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>处理机调度与死锁(一) | Gridea</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1579616313288">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="处理机调度与死锁(一) | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+今天考完科目三之后接到导师的任务，关于处理机和死锁的算法问题，要求图形界面及动画演示(基于Python)。真的哭辽，完全没有头绪···在这里记录学习和解决的过程。
+目录：
+
+处理机调度的层次和调度算法的目标
+作业与作业调度
+进程调度
+实时..." />
+    <meta name="keywords" content="模拟实验,操作系统" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1579616313288" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              处理机调度与死锁(一)
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-01-22
+              </span>
+              <span>
+                22 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/N8OvYKkqKk" class="post-tag">
+                  # 模拟实验
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/JEQiAp6BGJ" class="post-tag">
+                  # 操作系统
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
+<p>今天考完科目三之后接到导师的任务，关于处理机和死锁的算法问题，要求图形界面及动画演示(基于Python)。真的哭辽，完全没有头绪···在这里记录学习和解决的过程。</p>
+<p>目录：</p>
+<ol>
+<li>处理机调度的层次和调度算法的目标</li>
+<li>作业与作业调度</li>
+<li>进程调度</li>
+<li>实时调度</li>
+<li>死锁概述</li>
+<li>预防死锁</li>
+<li>避免死锁</li>
+<li>死锁的检测与接触</li>
+</ol>
+</blockquote>
+<h2 id="一处理机调度的层次和调度算法的目标">一.处理机调度的层次和调度算法的目标</h2>
+<blockquote>
+<p>处理机是计算机系统中的重要资源。处理机调度算法对整个计算机系统的综合性能指标有重要影响。</p>
+<p>从处理机调度的分类：</p>
+<ul>
+<li>高级调度（作业调度）：作业调度的周期较长，几分钟一次。</li>
+<li>中级调度（内外存交换）：介于高级与低级之间。</li>
+<li>低级调度（进程调度）：运行频率最高，10~100ms一次。</li>
+</ul>
+</blockquote>
+<h3 id="1处理机调度层次">1.处理机调度层次</h3>
+<ul>
+<li>高级调度</li>
+<li>低级调度</li>
+<li>中级调度</li>
+</ul>
+<p>（1）高级调度</p>
+<p>高级调度又称为“作业调度”“长程调度”“接纳调度”。</p>
+<p>主要功能：根据某种算法，把外存上处于后备队列中的那些作业调入内存。</p>
+<p>主要任务：&lt; 选择作业 &gt; &lt; 为作业创建进程 &gt; &lt; 分配资源 &gt; &lt; 插入就绪队列 &gt;</p>
+<p>应用范围：&lt; 批处理系统中配有作业调度 &gt; &lt; 分配和实时系统中通常没有作业调度 &gt;</p>
+<p>（2）低级调度</p>
+<p>低级调度又称为“进程调度”或“短程调度”。</p>
+<p>主要功能：根据某种算法，决定就绪队列中哪个进程先获得处理机，然后再由分派程序执行将处理机分配给进程的操作。</p>
+<p>主要任务：&lt; 保存处理机的现场信息 &gt; &lt; 按某种算法选取进程 &gt; &lt; 分配处理器 &gt;</p>
+<p>（3）中级调度</p>
+<p>中级调度又称“内存调度”或“中程调度”。</p>
+<p>主要目的：缓解内存紧张情况，提高内存利用率和系统吞吐量。</p>
+<p>主要功能：按一定算法在内存和外存之间进行进程对换。</p>
+<p>主要任务：是将内存中处于阻塞状态的某些进程换至外存，腾出内存空间以便将外存上已具备执行条件的进程换入内存。</p>
+<p>应用范围：分时系统和具有虚拟存储器的系统中。</p>
+<h3 id="2处理机调度算法的目标">2.处理机调度算法的目标</h3>
+<h4 id="1处理机调度算法的共同目标">（1）处理机调度算法的共同目标</h4>
+<ul>
+<li>资源利用率</li>
+</ul>
+<blockquote>
+<p>$ CPU资源利用率 = \frac{CPU有效工作时间} {CPU有效工作时间 + CPU空闲等待时间} $</p>
+</blockquote>
+<ul>
+<li>公平性</li>
+</ul>
+<blockquote>
+<p>&lt; 不出现进程<a href="https://bkso.baidu.com/item/%E8%BF%9B%E7%A8%8B%E9%A5%A5%E9%A5%BF">饥饿现象</a> &gt; &lt; 公平性是相对的 &gt;</p>
+</blockquote>
+<ul>
+<li>平衡性</li>
+</ul>
+<blockquote>
+<p>合理安排不同类型的作业，CPU繁忙型、I/O繁忙型。</p>
+</blockquote>
+<ul>
+<li>策略强制执行</li>
+</ul>
+<blockquote>
+<p>根据需要准确执行所定制的策略。</p>
+</blockquote>
+<h4 id="2批处理系统的目标">（2）批处理系统的目标</h4>
+<ul>
+<li>平均周转时间短</li>
+</ul>
+<blockquote>
+<p>周转时间（<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>）：指从作业（进程）被提交给系统开始，到作业完成为止的这段时间间隔。</p>
+<figure data-type="image" tabindex="1"><a href="https://imgchr.com/i/kEK1II"><img src="https://s2.ax1x.com/2019/01/23/kEK1II.png" alt="kEK1II.png" loading="lazy"></a></figure>
+<p>$ T=\frac{1}{n}\sum_{i=1}^n T_i $</p>
+<p>带权周转时间（W）：用于反应调度性能的指标，$ W=\frac{T}{T_s} $ （<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">T_s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">s</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>为实际处理时间)</p>
+<p>平均带权周转时间：$ W=\frac{1}{n}\sum_{i=1}^n\frac{T_i}{T_s} $</p>
+</blockquote>
+<ul>
+<li>系统吞吐量高</li>
+</ul>
+<blockquote>
+<p>吞吐量：单位时间内系统所完成的作业数。</p>
+<p>策略：选择短服务业运行。</p>
+</blockquote>
+<ul>
+<li>处理机利用率高</li>
+</ul>
+<blockquote>
+<p>策略：选择计算量大的作业运行。</p>
+</blockquote>
+<h4 id="3分时系统的目标">（3）分时系统的目标</h4>
+<ul>
+<li>响应时间快</li>
+</ul>
+<blockquote>
+<p>响应时间：从用户通过键盘提交一个请求开始，到首次产生响应为止（显示出结果）的一段时间间隔。</p>
+<p>包括这三部分：</p>
+<ul>
+<li>把请求信息从键盘传送到处理机的时间。</li>
+<li>处理机对请求信息进行处理的时间。</li>
+<li>将响应信息回送到终端显示器的时间。</li>
+</ul>
+</blockquote>
+<ul>
+<li>均衡性</li>
+</ul>
+<blockquote>
+<p>均衡性：指系统响应时间的快慢应与用户所请求服务的复杂性相适应。</p>
+</blockquote>
+<h4 id="4实时系统的目标">（4）实时系统的目标</h4>
+<ul>
+<li>截至时间的保证</li>
+</ul>
+<blockquote>
+<p>截至时间：某任务必须开始或完成的最迟时间。</p>
+<p>（这是实时系统调度算法的一个主要目标；HRT任务与SRT任务对截止时间的要求有所差异。）</p>
+</blockquote>
+<ul>
+<li>可预测性</li>
+</ul>
+<blockquote>
+<p>如多媒体系统中的视频播放就提供了请求的可预测性。</p>
+</blockquote>
+<h2 id="二作业与作业调度">二.作业与作业调度</h2>
+<h3 id="1批处理系统中的作业">1.批处理系统中的作业</h3>
+<h4 id="1作业和作业步">（1）作业和作业步</h4>
+<ul>
+<li>作业：由程序、数据及作业说明书三部分组成。</li>
+<li>作业步（Job Step）：作业运行期间，每个作业都必须经过若干个相对独立，又相互关联的顺序加工步骤才能得到结果，其中每一个加工步骤又称为一个作业步：</li>
+</ul>
+<blockquote>
+<p>&lt; “编译”作业步 &gt; &lt; “链接装配”作业步 &gt; &lt; “运行”作业步 &gt;</p>
+</blockquote>
+<h4 id="2作业控制块">（2）作业控制块</h4>
+<ul>
+<li>作业控制块</li>
+</ul>
+<blockquote>
+<p>是作业在系统中存在的标志，保存了系统对作业进行管理和调度的全部信息。通常包括：作业标识、用户名称、用户帐户、作业类型、作业状态、调度信息、资源需求、进入系统时间、开始处理时间、作业完成时间、作业退出时间、资源使用情况等。</p>
+</blockquote>
+<ul>
+<li>作业的生命周期</li>
+</ul>
+<blockquote>
+<ol>
+<li>
+<p>作业进入系统时，由“作业注册”程序为作业建立JCB，然后根据作业类型将其放到相应的作业后备队列等待调度；</p>
+</li>
+<li>
+<p>调度程序按一定的调度算法将调度到的作业装入内存；</p>
+</li>
+<li>
+<p>作业运行期间，系统按照JCB中的信息对作业进行控制；</p>
+</li>
+<li>
+<p>作业执行结束，系统负责回收它的资源，撤消它的JCB。</p>
+</li>
+</ol>
+</blockquote>
+<h4 id="3作业运行的三个阶段和三种状态">（3）作业运行的三个阶段和三种状态</h4>
+<ul>
+<li>作业运行的三个阶段</li>
+</ul>
+<blockquote>
+<p>收容阶段</p>
+<p>运行阶段</p>
+<p>完成阶段</p>
+</blockquote>
+<ul>
+<li>作业的三种状态</li>
+</ul>
+<blockquote>
+<p>后备状态</p>
+<p>运行状态</p>
+<p>完成状态</p>
+</blockquote>
+<h3 id="2作业调度的主要任务">2.作业调度的主要任务</h3>
+<ul>
+<li>执行调度时的要解决的问题</li>
+</ul>
+<blockquote>
+<p>接纳多少个作业。</p>
+<p>接纳哪些作业（由调度算法决定，如FCFS、SJF、优先级调度算法等）。</p>
+</blockquote>
+<ul>
+<li>作业调度的应用范围</li>
+</ul>
+<blockquote>
+<p>批处理系统中配有作业调度。</p>
+<p>分时和实时系统中通常没有作业调度，但有接纳控制措施。</p>
+</blockquote>
+<h3 id="3先来先服务调度算法fcfs和短作业优先调度算法sjf">3.先来先服务调度算法（FCFS）和短作业优先调度算法（SJF）</h3>
+<h4 id="1fcfs">（1）FCFS</h4>
+<ul>
+<li>作业调度</li>
+</ul>
+<blockquote>
+<p>按照作业提交的先后次序，从后备队列中选择几个最先进入该队列的作业，将它们调入内存，为它们分配资源和创建进程，然后放入就绪队列。</p>
+</blockquote>
+<ul>
+<li>进程调度</li>
+</ul>
+<blockquote>
+<p>从就绪队列中选择一个最先进入该队列的进程，为它分配CPU，使之运行；该进程一直运行到完成或发生阻塞。</p>
+<p>在进程被唤醒后（如I/O完成），并不立即恢复执行，通常等到当前进程出让CPU。</p>
+</blockquote>
+<ul>
+<li>特点：</li>
+</ul>
+<blockquote>
+<p>简单、易于实现、服务质量不佳。</p>
+<p>取决于作业（进程）提交顺序。</p>
+<p>较有利于长作业（进程）或CPU繁忙型的作业。</p>
+<p>不利于短作业（进程）或I/O繁忙型作业。</p>
+</blockquote>
+<ul>
+<li>用途：</li>
+</ul>
+<blockquote>
+<p>既可用于作业调度，也可用于进程调度。</p>
+<p>很少作为进程调度的主要算法，但常作为辅助调度算法。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">进程名</th>
+<th style="text-align:center">到达时间</th>
+<th style="text-align:center">服务时间</th>
+<th style="text-align:center">开始执行时间</th>
+<th style="text-align:center">完成时间</th>
+<th style="text-align:center">周转时间</th>
+<th style="text-align:center">带权周转时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">B</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">101</td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">C</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">101</td>
+<td style="text-align:center">102</td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">100</td>
+</tr>
+<tr>
+<td style="text-align:center">D</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">102</td>
+<td style="text-align:center">202</td>
+<td style="text-align:center">199</td>
+<td style="text-align:center">1.99</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>周转时间：周转时间 = 完成时间 - 到达时间</p>
+<p>平均周转时间：$ T=\frac{1}{n}\sum_{i=1}^n T_i $</p>
+<p>带权周转时间：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">带</mi><mi mathvariant="normal">权</mi><mi mathvariant="normal">周</mi><mi mathvariant="normal">转</mi><mi mathvariant="normal">时</mi><mi mathvariant="normal">间</mi><mo>=</mo><mfrac><mrow><mi mathvariant="normal">周</mi><mi mathvariant="normal">转</mi><mi mathvariant="normal">时</mi><mi mathvariant="normal">间</mi></mrow><mrow><mi mathvariant="normal">服</mi><mi mathvariant="normal">务</mi><mi mathvariant="normal">时</mi><mi mathvariant="normal">间</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">带权周转时间 = \frac{周转时间}{服务时间}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mord cjk_fallback">带</span><span class="mord cjk_fallback">权</span><span class="mord cjk_fallback">周</span><span class="mord cjk_fallback">转</span><span class="mord cjk_fallback">时</span><span class="mord cjk_fallback">间</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.739em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.394em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord cjk_fallback mtight">服</span><span class="mord cjk_fallback mtight">务</span><span class="mord cjk_fallback mtight">时</span><span class="mord cjk_fallback mtight">间</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord cjk_fallback mtight">周</span><span class="mord cjk_fallback mtight">转</span><span class="mord cjk_fallback mtight">时</span><span class="mord cjk_fallback mtight">间</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+<p>平均带权周转时间：求和取平均</p>
+</blockquote>
+<h4 id="2sjf">（2）SJF</h4>
+<ul>
+<li>作业调度</li>
+</ul>
+<blockquote>
+<p>从外存的作业后备队列中选择若干个估计运行时间最短的作业，优先将它们调入内存运行。</p>
+</blockquote>
+<ul>
+<li>进程调度</li>
+</ul>
+<blockquote>
+<p>对预计执行时间短的进程优先分配处理机。</p>
+</blockquote>
+<ul>
+<li>特点</li>
+</ul>
+<blockquote>
+<p>能显著改善作业的平均周转时间。</p>
+<p>在降低作业的平均等待时间同时，提高系统吞吐量。</p>
+<p>必须预知作业的运行时间。</p>
+<p>对长作业非常不利（饥饿）。</p>
+<p>人机无法实现交互。</p>
+<p>未考虑作业的紧迫程度。</p>
+</blockquote>
+<ul>
+<li>用途</li>
+</ul>
+<blockquote>
+<p>可分别用于作业调度和进程调度。</p>
+</blockquote>
+<h3 id="4优先级调度算法psa和高响应比优先调度算法hrrn">4.优先级调度算法（PSA）和高响应比优先调度算法（HRRN）</h3>
+<h4 id="1psapriority-scheduling-algorithm">（1）PSA（Priority-Scheduling Algorithm）</h4>
+<ul>
+<li>基本思想：基于作业的紧迫程度，由外部赋予作业相应的优先级，调度时按优先级的高低进行调度。</li>
+<li>应用范围：用于批处理系统中的作业调度算法、多种操作系统及实时系统中的进程调度算法。</li>
+<li>作业调度：从后备队列中选择若干个优先权最高的作业调入内存。</li>
+<li>进程调度：是把处理机分配给就绪队列中具有最高优先权的进程。</li>
+</ul>
+<h4 id="2hrrnhighest-response-ratio-next">（2）HRRN（Highest Response Ratio Next）</h4>
+<blockquote>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">优</mi><mi mathvariant="normal">先</mi><mi mathvariant="normal">权</mi><mo>=</mo><mfrac><mrow><mi mathvariant="normal">等</mi><mi mathvariant="normal">待</mi><mi mathvariant="normal">时</mi><mi mathvariant="normal">间</mi><mo>+</mo><mi mathvariant="normal">要</mi><mi mathvariant="normal">求</mi><mi mathvariant="normal">服</mi><mi mathvariant="normal">务</mi><mi mathvariant="normal">时</mi><mi mathvariant="normal">间</mi></mrow><mrow><mi mathvariant="normal">要</mi><mi mathvariant="normal">求</mi><mi mathvariant="normal">服</mi><mi mathvariant="normal">务</mi><mi mathvariant="normal">时</mi><mi mathvariant="normal">间</mi></mrow></mfrac><mo>=</mo><mfrac><mrow><mi mathvariant="normal">响</mi><mi mathvariant="normal">应</mi><mi mathvariant="normal">时</mi><mi mathvariant="normal">间</mi></mrow><mrow><mi mathvariant="normal">要</mi><mi mathvariant="normal">求</mi><mi mathvariant="normal">服</mi><mi mathvariant="normal">务</mi><mi mathvariant="normal">时</mi><mi mathvariant="normal">间</mi></mrow></mfrac><mo>=</mo><msub><mi>R</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">优先权 = \frac{等待时间+要求服务时间}{要求服务时间} = \frac{响应时间}{要求服务时间} = R_p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mord cjk_fallback">优</span><span class="mord cjk_fallback">先</span><span class="mord cjk_fallback">权</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.1473309999999999em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.802331em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord cjk_fallback mtight">要</span><span class="mord cjk_fallback mtight">求</span><span class="mord cjk_fallback mtight">服</span><span class="mord cjk_fallback mtight">务</span><span class="mord cjk_fallback mtight">时</span><span class="mord cjk_fallback mtight">间</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord cjk_fallback mtight">等</span><span class="mord cjk_fallback mtight">待</span><span class="mord cjk_fallback mtight">时</span><span class="mord cjk_fallback mtight">间</span><span class="mbin mtight">+</span><span class="mord cjk_fallback mtight">要</span><span class="mord cjk_fallback mtight">求</span><span class="mord cjk_fallback mtight">服</span><span class="mord cjk_fallback mtight">务</span><span class="mord cjk_fallback mtight">时</span><span class="mord cjk_fallback mtight">间</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.739em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.394em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord cjk_fallback mtight">要</span><span class="mord cjk_fallback mtight">求</span><span class="mord cjk_fallback mtight">服</span><span class="mord cjk_fallback mtight">务</span><span class="mord cjk_fallback mtight">时</span><span class="mord cjk_fallback mtight">间</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord cjk_fallback mtight">响</span><span class="mord cjk_fallback mtight">应</span><span class="mord cjk_fallback mtight">时</span><span class="mord cjk_fallback mtight">间</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span></p>
+<p>是一种__动态优先权调度算法__。</p>
+</blockquote>
+<ul>
+<li>调度规则：在当前作业完成或被阻塞时，选择<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>R</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">R_p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>值最大的作业。</li>
+<li>特点</li>
+</ul>
+<blockquote>
+<p>照顾了短作业。</p>
+<p>先来先服务，等待时间越短，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>R</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">R_p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>越小。</p>
+<p>不会使长作业长时间得不到服务，因为随着等待时间的增的，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>R</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">R_p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>也在增大，从而获得处理机。</p>
+</blockquote>
+<ul>
+<li>缺点：增加系统开销。因为每次调度时，都要进行响应比<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>R</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">R_p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>的计算。</li>
+</ul>
+<blockquote>
+<p>更新于 2019/01/23  ---  21:51</p>
+</blockquote>
+<h2 id="三进程调度">三.进程调度</h2>
+<h3 id="1进程调度的任务-机制和方式">1.进程调度的任务、机制和方式</h3>
+<h4 id="1进程调度的任务">（1）进程调度的任务</h4>
+<ul>
+<li>保存处理机的现场信息（当前进程的）</li>
+<li>按某种算法选取进程</li>
+<li>把处理机分配给进程（装入现场信息）</li>
+</ul>
+<h4 id="2进程调度中的三个基本机制">（2）进程调度中的三个基本机制</h4>
+<figure data-type="image" tabindex="2"><a href="https://imgchr.com/i/kZFtEV"><img src="https://s2.ax1x.com/2019/01/24/kZFtEV.png" alt="kZFtEV.png" loading="lazy"></a></figure>
+<ul>
+<li>排队器：将系统中所有就绪进程按一定的方式排成一个或多个队列。</li>
+<li>分派器：把由进程调度程序所选定的程序，从就绪队列中取出，进行从分派队列进程到新选出进程间的上下文切换，将处理机分配给它。</li>
+<li>上下文切换机制</li>
+</ul>
+<blockquote>
+<p>对处理机进行切换时，会发生两对上下文切换操作：</p>
+<p>第一对上下文切换时，OS将保存当前进程的上下文，装入分派程序的上下文；第二对上下文切换时，移出分派程序，把新选进程的CPU现场信息装入到处理机的各个相应寄存器中。</p>
+</blockquote>
+<h4 id="3进程调度方式">（3）进程调度方式</h4>
+<ul>
+<li>非抢占方式（Nonpreemptive Mode）</li>
+</ul>
+<blockquote>
+<p>引起调度的原因：</p>
+<p>1）正在执行的进程执行完毕，或因发生某事件而不能再继续执行。</p>
+<p>2）执行中的进程因提出I/O请求而暂停执行。</p>
+<p>3）在进程通信或同步过程中执行了某种<a href="https://baike.baidu.com/item/%E5%8E%9F%E8%AF%AD">原语</a>操作。</p>
+<p>优点：实现简单，系统开销小，适用于大多数的批处理系统。</p>
+<p>缺点：难以满足紧急任务的要求，不宜用于分时系统和大多数实时系统。</p>
+</blockquote>
+<ul>
+<li>抢占方式（Preemptive Mode）</li>
+</ul>
+<blockquote>
+<p>抢占调度的原则：</p>
+<p>1）优先权调度原则</p>
+<p>2）短进程优先原则</p>
+<p>3）时间片原则</p>
+<p>优点：可以防止一个长进程长时间占用处理机，能为大多数进程提供更公平的服务。</p>
+<p>缺点：系统开销大。</p>
+</blockquote>
+<h3 id="2转轮调度算法rr">2.转轮调度算法（RR）</h3>
+<h4 id="1rr调度算法的基本原理">（1）RR调度算法的基本原理</h4>
+<blockquote>
+<p>1）将系统中所有就绪进程按照FCFS原则，排成一个队列。</p>
+<p>2）每次调度时将CPU分派给队首进程，让其执行一个时间片。时间片长度从几个ms到几百ms。</p>
+<p>3）在一个时间片结束时，发生时钟中断。</p>
+<p>4）调度程序据此时暂停当前进程的执行，将其送到就绪队列的末尾，并通过上下文切换执行当前的队列队首进程</p>
+<p>5）进程可以未使用完一个时间片，就让出CPU。</p>
+</blockquote>
+<h4 id="2进程切换时机">（2）进程切换时机</h4>
+<ul>
+<li>一个时间片尚未用完</li>
+</ul>
+<blockquote>
+<p>原因：</p>
+<p>1）进程运行结束</p>
+<p>2）进程阻塞</p>
+<p>操作：</p>
+<p>1）立即激活调度程序</p>
+<p>2）调度就绪队列队首的进程运行</p>
+<p>3）启动一个新的时间片</p>
+</blockquote>
+<ul>
+<li>一个时间片用完时</li>
+</ul>
+<blockquote>
+<p>原因：进程尚未运行结束</p>
+<p>操作：</p>
+<p>1）计时器中断处理程序激活</p>
+<p>2）调度程序将进程送至就绪队列末尾</p>
+</blockquote>
+<h4 id="3时间片大小的确定">（3）时间片大小的确定</h4>
+<ul>
+<li>太大：响应时间受影响</li>
+<li>无穷大：退化为FCFS算法</li>
+<li>太小：增加系统开销</li>
+<li>选取：时间片大小一般选取略大于一次典型的交互所需要的时间</li>
+</ul>
+<h3 id="3高优先级调度算法">3.高优先级调度算法</h3>
+<h4 id="1优先级调度算法的类型">（1）优先级调度算法的类型</h4>
+<ul>
+<li>
+<p>非抢占式优先权算法：</p>
+<p>处理机分配给就绪队列优先权最高的进程后，该进程就一直执行下去，直至完成；或因发生某事件使该进程放弃处理机时，才进行CPU的重新分配。</p>
+<p>应用范围：批处理系统、实时性要求不严的实时系统。</p>
+</li>
+<li>
+<p>抢占式优先权调度算法：</p>
+<p>处理机分配给就绪队列优先权最高的进程后，只要出现另一个优先权更高的进程时，便停止原来执行进程，把处理机分配给新出现的优先权最高的进程。</p>
+<p>应用范围：实时性要求比较严格的实时系统。</p>
+</li>
+</ul>
+<h4 id="2优先级的类型">（2）优先级的类型</h4>
+<ul>
+<li>静态优先级</li>
+</ul>
+<blockquote>
+<p>进程优先级在创建进程时确定，整个运行期间保持不变。</p>
+<p>确定优先权的依据：</p>
+<p>1）进程类型：系统进程的优先级高于一般用户进程。</p>
+<p>2）进程对资源的需求：资源要求少的进程赋予较高的优先级。</p>
+<p>3）用户要求：根据进程的紧迫程序及用户的付费确定优先级。</p>
+<p>特点：</p>
+<p>1）简单易行，系统开销小，不够精确</p>
+<p>2）可能会出现低优先权作业长期不被调度</p>
+</blockquote>
+<ul>
+<li>动态优先级</li>
+</ul>
+<blockquote>
+<p>进程创建时赋予的优先权可以随进程的推进或等待时间的增加而改变，以便获得更好的调度性能。</p>
+<p>如：优先权随执行时间而下降，随等待时间而升高。</p>
+<p>优点：长短兼顾，可以防止某类作业长时间垄断CPU。</p>
+<p>缺点：增加了系统开销。</p>
+</blockquote>
+<h3 id="4多队列调度算法">4.多队列调度算法</h3>
+<ul>
+<li>描述</li>
+</ul>
+<blockquote>
+<p>1）将不同类型或性质的就绪进程固定分配在不同的就绪队列；</p>
+<p>2）不同的就绪队列采用不同的的调度算法；</p>
+<p>3）一个就绪队列中的进程可以设置不同优先级；</p>
+<p>4）不同的就绪队列本身也可以设置不同的优先级。</p>
+<p>比如：多处理机系统。</p>
+</blockquote>
+<h3 id="5多级反馈队列调度算法mfq">5.多级反馈队列调度算法（MFQ）</h3>
+<h4 id="1调度机制">（1）调度机制</h4>
+<figure data-type="image" tabindex="3"><img src="https://i.loli.net/2019/01/24/5c49619559c29.png" alt="" loading="lazy"></figure>
+<ul>
+<li>设置多个就绪队列，并为各个队列赋予不同的优先权，第一个队列的优先级最高，优先级依次降低。</li>
+<li>赋予各个队列中进程执行时间片的大小也各不相同。优先权愈高，时间片愈小。</li>
+<li>新进程进入内存后，放在第一队列未尾，先来先服务；一个时间片内运行不完，则转下一队列。</li>
+<li>按队列顺序运行，最后一个队列按时间片轮转，其余按FCFS运行。</li>
+<li>仅当第一队列空闲时，调度程序才调度第二队列中的进程运行；仅当第1~（i - 1）<br>
+队列均空时，才会调度第i队列中的进程运行。</li>
+<li>如果处理机正在第i队列中为某进程服务时，又有新进程进入优先权较高的队列(第1~（i - 1）中的任何一个队列)，则此时须立即把正在运行的进程放回到第 i队列的末尾，把处理机分配给新到的高优先级进程。</li>
+</ul>
+<h4 id="2调度算法性能">（2）调度算法性能</h4>
+<ul>
+<li>多级反馈队列调度算法：属于抢占式调度方式。</li>
+<li>调度算法的性能：具有较好的性能，能照顾到各种用户的利益</li>
+</ul>
+<blockquote>
+<p>终端型作业用户</p>
+<p>短批处理作业用户</p>
+<p>长批处理作业用户</p>
+</blockquote>
+<h3 id="6基于公平原则的调度算法">6.基于公平原则的调度算法</h3>
+<h4 id="1保证调度算法">（1）保证调度算法</h4>
+<ul>
+<li>保证调度算法向用户保证的是明确的性能，可以做到调度的公平性。</li>
+<li>保证处理机分配的公平性：如果系统中有n个相同类型的进程同时运行，须保证每个进程都获得相同的处理机时间 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mfrac><mn>1</mn><mi>n</mi></mfrac></mrow><annotation encoding="application/x-tex">\frac{1}{n}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.190108em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>。</li>
+<li><strong>保证的是每个进程获得相同的处理机时间</strong>。</li>
+<li>实施公平调度算时，系统必须具备的功能：</li>
+</ul>
+<blockquote>
+<p>1）跟踪计算每个进程自创建以来已经执行的处理时间；</p>
+<p>2）计算每个进程应获得的处理机时间：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>t</mi></msub><mi>a</mi><mi>r</mi><mi>g</mi><mi>e</mi><mi>t</mi><mo>=</mo><mfrac><mrow><msub><mi>T</mi><mi>c</mi></msub><mi>u</mi><mi>r</mi><mi>r</mi><mi>e</mi><mi>n</mi><mi>t</mi><mo>−</mo><msub><mi>T</mi><mi>c</mi></msub><mi>r</mi><mi>e</mi><mi>a</mi><mi>t</mi><mi>e</mi></mrow><mi>n</mi></mfrac></mrow><annotation encoding="application/x-tex">T_target = \frac{T_current - T_create}{n}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">e</span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.233431em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8884309999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.4101em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16454285714285719em;"><span style="top:-2.357em;margin-left:-0.13889em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">c</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mord mathdefault mtight">u</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">t</span><span class="mbin mtight">−</span><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16454285714285719em;"><span style="top:-2.357em;margin-left:-0.13889em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">c</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">t</span><span class="mord mathdefault mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>.</p>
+<p>3）进程获得处理机时间的比率：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mfrac><mrow><msub><mi>T</mi><mi>r</mi></msub><mi>e</mi><mi>a</mi><mi>l</mi></mrow><mrow><msub><mi>T</mi><mi>t</mi></msub><mi>a</mi><mi>r</mi><mi>g</mi><mi>e</mi><mi>t</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{T_real}{T_target}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.377316em;vertical-align:-0.481108em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8962079999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.29634285714285713em;"><span style="top:-2.357em;margin-left:-0.13889em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight">t</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.4101em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16454285714285719em;"><span style="top:-2.357em;margin-left:-0.13889em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.481108em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>。</p>
+<p>4）比较各进程获得处理机的时间比率。</p>
+<p>5）调度程序选择比率最小的进程，将处理机分配给它，并让该进程一直运行到超过最接近它的进程比率为止。</p>
+</blockquote>
+<h4 id="2公平分享调度算法">（2）公平分享调度算法</h4>
+<ul>
+<li>调度的公平性是针对用户，所有用户能获得相同的处理机时间，或所要求的时间比例。</li>
+</ul>
+<blockquote>
+<p>例：系统中有2个用户，用户1有4个进程A、B、C、D，用户2只有1个进程E。</p>
+<p>保证两个用户获得相同的处理机时间，则强制调度序列为：A E B E C E D E A E B E C E D E......</p>
+<p>希望用户1获得的处理机时间是用户2的2倍，则强制调度序列为：A B E C D E A B E C D E A B E C D E ……</p>
+</blockquote>
+<h2 id="四实时调度">四.实时调度</h2>
+<h3 id="1实现实时调度的基本条件">1.实现实时调度的基本条件</h3>
+<h4 id="1提供必要信息">（1）提供必要信息</h4>
+<ul>
+<li>就绪时间</li>
+<li>开始或者完成截止时间</li>
+<li>处理时间</li>
+<li>资源需求</li>
+<li>绝对或相对优先级（硬实时或软实时）</li>
+</ul>
+<h4 id="2系统处理能力强">（2）系统处理能力强</h4>
+<ul>
+<li>单处理机情况下，要求满足下面限制条件：$ \sum_{i = 1}^m \frac{C_i}{P_i} &lt;= 1<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">（</mi><mi mathvariant="normal">其</mi><mi mathvariant="normal">中</mi></mrow><annotation encoding="application/x-tex">（其中</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord cjk_fallback">（</span><span class="mord cjk_fallback">其</span><span class="mord cjk_fallback">中</span></span></span></span>C_i<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">表</mi><mi mathvariant="normal">示</mi><mi mathvariant="normal">处</mi><mi mathvariant="normal">理</mi><mi mathvariant="normal">时</mi><mi mathvariant="normal">间</mi></mrow><annotation encoding="application/x-tex">表示处理时间</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord cjk_fallback">表</span><span class="mord cjk_fallback">示</span><span class="mord cjk_fallback">处</span><span class="mord cjk_fallback">理</span><span class="mord cjk_fallback">时</span><span class="mord cjk_fallback">间</span></span></span></span>P_i$表示周期时间)。</li>
+</ul>
+<h4 id="3采用抢占式调度机制">（3）采用抢占式调度机制</h4>
+<ul>
+<li>以满足HRT任务对截止时间的要求。</li>
+</ul>
+<h4 id="4具有快速切换机制">（4）具有快速切换机制</h4>
+<ul>
+<li>对外部中断的快速响应能力</li>
+</ul>
+<blockquote>
+<p>1）系统具有快速硬件终端机构。</p>
+<p>2）在中断处理时（硬件），禁止中断的时间间隔尽量短。</p>
+</blockquote>
+<ul>
+<li>相应地采用较小的调度单位（如线程），以减少任务切换的时间开销。</li>
+</ul>
+<h3 id="2实时调度算法分类">2.实时调度算法分类</h3>
+<ul>
+<li>按实时任务性质分类</li>
+</ul>
+<blockquote>
+<p>硬实时调度算法</p>
+<p>软实时调度算法</p>
+</blockquote>
+<ul>
+<li>按调度方式分类</li>
+</ul>
+<blockquote>
+<p>非抢占调度算法</p>
+<p>抢占调度算法</p>
+</blockquote>
+<h4 id="1非抢占式调度算法">（1）非抢占式调度算法</h4>
+<figure data-type="image" tabindex="4"><img src="https://i.loli.net/2019/01/24/5c4957b313a52.png" alt="" loading="lazy"></figure>
+<ul>
+<li>特点：算法比较简单，易于实现</li>
+<li>分类</li>
+</ul>
+<blockquote>
+<p>非抢占式轮转调度算法：秒级的响应时间，适用于一般实时信息处理系统或要求不太严格的实时控制系统</p>
+<p>非抢占式优先级调度算法：秒级至数百毫秒级的响应时间，适用于有一定要求的实时控制系统。</p>
+</blockquote>
+<h4 id="2抢占式调度算法">（2）抢占式调度算法</h4>
+<figure data-type="image" tabindex="5"><img src="https://i.loli.net/2019/01/24/5c4958488a615.png" alt="" loading="lazy"></figure>
+<ul>
+<li>应用：要求较严格（响应时间为数十毫秒以下）的实时系统。</li>
+<li>分类</li>
+</ul>
+<blockquote>
+<p>基于时钟中断的抢占式优先级调度算法：几十毫秒级至几毫秒级的响应时间，用于大多数的实时控制系统。</p>
+<p>立即抢占（Immediate Preemption）的优先级调度算法：一旦出现外部中断，只要当前任务未处于临界资源，便立即剥夺当前任务的执行。调度延迟可低到几毫秒至100微妙。</p>
+</blockquote>
+<h3 id="3最早截止时间优先edf算法">3.最早截止时间优先（EDF）算法</h3>
+<ul>
+<li>该算法是根据任务的开始截止时间来确定任务的优先级，任务的开始截止时间愈早，其优先级愈高。</li>
+<li>要求系统中保持一个实时任务就绪队列，该队列按各任务的截止时间的早晚排序。</li>
+<li>可采用非抢占调度方式，也可采用抢占调度方式。</li>
+</ul>
+<h4 id="1非抢占式调度方式用于非周期实时任务">（1）非抢占式调度方式用于非周期实时任务</h4>
+<figure data-type="image" tabindex="6"><img src="https://i.loli.net/2019/01/24/5c495937a7cd2.jpg" alt="" loading="lazy"></figure>
+<blockquote>
+<p>例：对下面5个非周期性实时任务，按最早开始截止时间优先调度算法应如何进行CPU调度？</p>
+<table>
+<thead>
+<tr>
+<th>进程</th>
+<th>到达时间</th>
+<th>执行时间</th>
+<th>开始截止时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>10</td>
+<td>20</td>
+<td>110</td>
+</tr>
+<tr>
+<td>B</td>
+<td>20</td>
+<td>20</td>
+<td>20</td>
+</tr>
+<tr>
+<td>C</td>
+<td>40</td>
+<td>20</td>
+<td>50</td>
+</tr>
+<tr>
+<td>D</td>
+<td>50</td>
+<td>20</td>
+<td>90</td>
+</tr>
+<tr>
+<td>E</td>
+<td>60</td>
+<td>20</td>
+<td>70</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<figure data-type="image" tabindex="7"><img src="https://i.loli.net/2019/01/24/5c495a6a9726a.png" alt="" loading="lazy"></figure>
+<h4 id="2抢占式调度方式用于周期实时任务">（2）抢占式调度方式用于周期实时任务</h4>
+<figure data-type="image" tabindex="8"><img src="https://i.loli.net/2019/01/24/5c495adad41ed.png" alt="" loading="lazy"></figure>
+<h3 id="4最低松弛度优先llf算法">4.最低松弛度优先（LLF）算法</h3>
+<ul>
+<li>该算法根据实时任务的松弛度来确定任务的优先级，任务的松弛度愈低，其优先级愈高。</li>
+<li>松弛度 = 必须完成时间 - 其本身的运行时间 - 当前时间</li>
+<li>要求系统中有一个按松弛度排序的实时任务就绪队列。</li>
+<li>主要用于可抢占调度方式中，当一任务的最低松弛度减为0时，它便立即抢占CPU，以保证按截止时间的要求完成任务。</li>
+</ul>
+<blockquote>
+<p>例：若A进程需在200ms时完成，其本身运行需要100ms，当前时刻是10ms，则A的松弛度是多少？</p>
+<p>A的松弛度 = 200－100－10 ＝ 90ms</p>
+<p>例：假如在一个实时系统中，有两个周期性实时任务A和B，任务A要求每 20 ms执行一次，执行时间为 10 ms；任务B只要求每50 ms执行一次，执行时间为 25 ms。</p>
+<figure data-type="image" tabindex="9"><img src="https://i.loli.net/2019/01/24/5c495be2f0adb.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="10"><img src="https://i.loli.net/2019/01/24/5c495c0922952.png" alt="" loading="lazy"></figure>
+</blockquote>
+<h3 id="5优先级倒置">5.优先级倒置</h3>
+<h4 id="1优先级倒置的形成">（1）优先级倒置的形成</h4>
+<ul>
+<li>形成：OS广泛采用优先级调度算法和抢占调度方式，而系统中存在着影响进程运行的资源，可能产生“优先级倒置”的现象，即一个低优先级的任务持有一个被高优先级任务所需要的共享资源，高优先任务由于因资源缺乏而处于阻塞状态，一直等到低优先级任务释放资源为止。</li>
+</ul>
+<blockquote>
+<p>优先级倒置的例子：有三个独立的并发进程P1、P2、P3，它们的优先级为： P1&gt;P2&gt;P3，P1与P3均会使用到一个临界资源。</p>
+<p>P1:  …P(mutex); CS-1; V(mutex); …</p>
+<p>P2: … program2; …</p>
+<p>P3: … P(mutex); CS-3; V(mutex); …</p>
+<figure data-type="image" tabindex="11"><img src="https://i.loli.net/2019/01/24/5c495dc0a0989.png" alt="" loading="lazy"></figure>
+</blockquote>
+<h4 id="2优先级倒置的解决方法">（2）优先级倒置的解决方法</h4>
+<ul>
+<li>设置优先级上限：给临界区一个高优先级，进入临界区的进程都将获得这个高优先级，如果其他试图进入临界区的进程的优先级都低于这个高优先级，那么优先级反转就不会发生。</li>
+<li>优先级继承：当一个高优先级进程等待一个低优先级进程持有的资源时，低优先级进程将暂时获得高优先级进程的优先级别，在释放共享资源后，低优先级进程回到原来的优先级别。</li>
+<li>使用中断禁止：通过禁止中断来保护临界区，采用此种策略的系统只有两种优先级：可抢占优先级和中断禁止优先级。前者为一般进程运行时的优先级，后者为运行于临界区的优先级。</li>
+</ul>
+<blockquote>
+<p>更新于  2019/01/24   ---   14:46</p>
+<p>至此前四部分完成，接下来第二篇会写死锁。</p>
+</blockquote>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E4%B8%80%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6%E7%9A%84%E5%B1%82%E6%AC%A1%E5%92%8C%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95%E7%9A%84%E7%9B%AE%E6%A0%87">一.处理机调度的层次和调度算法的目标</a>
+<ul>
+<li><a href="#1%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6%E5%B1%82%E6%AC%A1">1.处理机调度层次</a></li>
+<li><a href="#2%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95%E7%9A%84%E7%9B%AE%E6%A0%87">2.处理机调度算法的目标</a>
+<ul>
+<li><a href="#1%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95%E7%9A%84%E5%85%B1%E5%90%8C%E7%9B%AE%E6%A0%87">（1）处理机调度算法的共同目标</a></li>
+<li><a href="#2%E6%89%B9%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%9B%AE%E6%A0%87">（2）批处理系统的目标</a></li>
+<li><a href="#3%E5%88%86%E6%97%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%9B%AE%E6%A0%87">（3）分时系统的目标</a></li>
+<li><a href="#4%E5%AE%9E%E6%97%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%9B%AE%E6%A0%87">（4）实时系统的目标</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E4%BA%8C%E4%BD%9C%E4%B8%9A%E4%B8%8E%E4%BD%9C%E4%B8%9A%E8%B0%83%E5%BA%A6">二.作业与作业调度</a>
+<ul>
+<li><a href="#1%E6%89%B9%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E4%BD%9C%E4%B8%9A">1.批处理系统中的作业</a>
+<ul>
+<li><a href="#1%E4%BD%9C%E4%B8%9A%E5%92%8C%E4%BD%9C%E4%B8%9A%E6%AD%A5">（1）作业和作业步</a></li>
+<li><a href="#2%E4%BD%9C%E4%B8%9A%E6%8E%A7%E5%88%B6%E5%9D%97">（2）作业控制块</a></li>
+<li><a href="#3%E4%BD%9C%E4%B8%9A%E8%BF%90%E8%A1%8C%E7%9A%84%E4%B8%89%E4%B8%AA%E9%98%B6%E6%AE%B5%E5%92%8C%E4%B8%89%E7%A7%8D%E7%8A%B6%E6%80%81">（3）作业运行的三个阶段和三种状态</a></li>
+</ul>
+</li>
+<li><a href="#2%E4%BD%9C%E4%B8%9A%E8%B0%83%E5%BA%A6%E7%9A%84%E4%B8%BB%E8%A6%81%E4%BB%BB%E5%8A%A1">2.作业调度的主要任务</a></li>
+<li><a href="#3%E5%85%88%E6%9D%A5%E5%85%88%E6%9C%8D%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95fcfs%E5%92%8C%E7%9F%AD%E4%BD%9C%E4%B8%9A%E4%BC%98%E5%85%88%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95sjf">3.先来先服务调度算法（FCFS）和短作业优先调度算法（SJF）</a>
+<ul>
+<li><a href="#1fcfs">（1）FCFS</a></li>
+<li><a href="#2sjf">（2）SJF</a></li>
+</ul>
+</li>
+<li><a href="#4%E4%BC%98%E5%85%88%E7%BA%A7%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95psa%E5%92%8C%E9%AB%98%E5%93%8D%E5%BA%94%E6%AF%94%E4%BC%98%E5%85%88%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95hrrn">4.优先级调度算法（PSA）和高响应比优先调度算法（HRRN）</a>
+<ul>
+<li><a href="#1psapriority-scheduling-algorithm">（1）PSA（Priority-Scheduling Algorithm）</a></li>
+<li><a href="#2hrrnhighest-response-ratio-next">（2）HRRN（Highest Response Ratio Next）</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E4%B8%89%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6">三.进程调度</a>
+<ul>
+<li><a href="#1%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%9A%84%E4%BB%BB%E5%8A%A1-%E6%9C%BA%E5%88%B6%E5%92%8C%E6%96%B9%E5%BC%8F">1.进程调度的任务、机制和方式</a>
+<ul>
+<li><a href="#1%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%9A%84%E4%BB%BB%E5%8A%A1">（1）进程调度的任务</a></li>
+<li><a href="#2%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E4%B8%AD%E7%9A%84%E4%B8%89%E4%B8%AA%E5%9F%BA%E6%9C%AC%E6%9C%BA%E5%88%B6">（2）进程调度中的三个基本机制</a></li>
+<li><a href="#3%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E6%96%B9%E5%BC%8F">（3）进程调度方式</a></li>
+</ul>
+</li>
+<li><a href="#2%E8%BD%AC%E8%BD%AE%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95rr">2.转轮调度算法（RR）</a>
+<ul>
+<li><a href="#1rr%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86">（1）RR调度算法的基本原理</a></li>
+<li><a href="#2%E8%BF%9B%E7%A8%8B%E5%88%87%E6%8D%A2%E6%97%B6%E6%9C%BA">（2）进程切换时机</a></li>
+<li><a href="#3%E6%97%B6%E9%97%B4%E7%89%87%E5%A4%A7%E5%B0%8F%E7%9A%84%E7%A1%AE%E5%AE%9A">（3）时间片大小的确定</a></li>
+</ul>
+</li>
+<li><a href="#3%E9%AB%98%E4%BC%98%E5%85%88%E7%BA%A7%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95">3.高优先级调度算法</a>
+<ul>
+<li><a href="#1%E4%BC%98%E5%85%88%E7%BA%A7%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95%E7%9A%84%E7%B1%BB%E5%9E%8B">（1）优先级调度算法的类型</a></li>
+<li><a href="#2%E4%BC%98%E5%85%88%E7%BA%A7%E7%9A%84%E7%B1%BB%E5%9E%8B">（2）优先级的类型</a></li>
+</ul>
+</li>
+<li><a href="#4%E5%A4%9A%E9%98%9F%E5%88%97%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95">4.多队列调度算法</a></li>
+<li><a href="#5%E5%A4%9A%E7%BA%A7%E5%8F%8D%E9%A6%88%E9%98%9F%E5%88%97%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95mfq">5.多级反馈队列调度算法（MFQ）</a>
+<ul>
+<li><a href="#1%E8%B0%83%E5%BA%A6%E6%9C%BA%E5%88%B6">（1）调度机制</a></li>
+<li><a href="#2%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95%E6%80%A7%E8%83%BD">（2）调度算法性能</a></li>
+</ul>
+</li>
+<li><a href="#6%E5%9F%BA%E4%BA%8E%E5%85%AC%E5%B9%B3%E5%8E%9F%E5%88%99%E7%9A%84%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95">6.基于公平原则的调度算法</a>
+<ul>
+<li><a href="#1%E4%BF%9D%E8%AF%81%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95">（1）保证调度算法</a></li>
+<li><a href="#2%E5%85%AC%E5%B9%B3%E5%88%86%E4%BA%AB%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95">（2）公平分享调度算法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%9B%9B%E5%AE%9E%E6%97%B6%E8%B0%83%E5%BA%A6">四.实时调度</a>
+<ul>
+<li><a href="#1%E5%AE%9E%E7%8E%B0%E5%AE%9E%E6%97%B6%E8%B0%83%E5%BA%A6%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9D%A1%E4%BB%B6">1.实现实时调度的基本条件</a>
+<ul>
+<li><a href="#1%E6%8F%90%E4%BE%9B%E5%BF%85%E8%A6%81%E4%BF%A1%E6%81%AF">（1）提供必要信息</a></li>
+<li><a href="#2%E7%B3%BB%E7%BB%9F%E5%A4%84%E7%90%86%E8%83%BD%E5%8A%9B%E5%BC%BA">（2）系统处理能力强</a></li>
+<li><a href="#3%E9%87%87%E7%94%A8%E6%8A%A2%E5%8D%A0%E5%BC%8F%E8%B0%83%E5%BA%A6%E6%9C%BA%E5%88%B6">（3）采用抢占式调度机制</a></li>
+<li><a href="#4%E5%85%B7%E6%9C%89%E5%BF%AB%E9%80%9F%E5%88%87%E6%8D%A2%E6%9C%BA%E5%88%B6">（4）具有快速切换机制</a></li>
+</ul>
+</li>
+<li><a href="#2%E5%AE%9E%E6%97%B6%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95%E5%88%86%E7%B1%BB">2.实时调度算法分类</a>
+<ul>
+<li><a href="#1%E9%9D%9E%E6%8A%A2%E5%8D%A0%E5%BC%8F%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95">（1）非抢占式调度算法</a></li>
+<li><a href="#2%E6%8A%A2%E5%8D%A0%E5%BC%8F%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95">（2）抢占式调度算法</a></li>
+</ul>
+</li>
+<li><a href="#3%E6%9C%80%E6%97%A9%E6%88%AA%E6%AD%A2%E6%97%B6%E9%97%B4%E4%BC%98%E5%85%88edf%E7%AE%97%E6%B3%95">3.最早截止时间优先（EDF）算法</a>
+<ul>
+<li><a href="#1%E9%9D%9E%E6%8A%A2%E5%8D%A0%E5%BC%8F%E8%B0%83%E5%BA%A6%E6%96%B9%E5%BC%8F%E7%94%A8%E4%BA%8E%E9%9D%9E%E5%91%A8%E6%9C%9F%E5%AE%9E%E6%97%B6%E4%BB%BB%E5%8A%A1">（1）非抢占式调度方式用于非周期实时任务</a></li>
+<li><a href="#2%E6%8A%A2%E5%8D%A0%E5%BC%8F%E8%B0%83%E5%BA%A6%E6%96%B9%E5%BC%8F%E7%94%A8%E4%BA%8E%E5%91%A8%E6%9C%9F%E5%AE%9E%E6%97%B6%E4%BB%BB%E5%8A%A1">（2）抢占式调度方式用于周期实时任务</a></li>
+</ul>
+</li>
+<li><a href="#4%E6%9C%80%E4%BD%8E%E6%9D%BE%E5%BC%9B%E5%BA%A6%E4%BC%98%E5%85%88llf%E7%AE%97%E6%B3%95">4.最低松弛度优先（LLF）算法</a></li>
+<li><a href="#5%E4%BC%98%E5%85%88%E7%BA%A7%E5%80%92%E7%BD%AE">5.优先级倒置</a>
+<ul>
+<li><a href="#1%E4%BC%98%E5%85%88%E7%BA%A7%E5%80%92%E7%BD%AE%E7%9A%84%E5%BD%A2%E6%88%90">（1）优先级倒置的形成</a></li>
+<li><a href="#2%E4%BC%98%E5%85%88%E7%BA%A7%E5%80%92%E7%BD%AE%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95">（2）优先级倒置的解决方法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/暂时解决Pycharm出现Runtime-Error-R6034的报错">
+              <h3 class="post-title">
+                暂时解决Pycharm出现Runtime Error R6034的报错
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

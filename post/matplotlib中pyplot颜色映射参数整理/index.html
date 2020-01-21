@@ -1,0 +1,249 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>matplotlib中pyplot颜色映射参数整理 | Gridea</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1579616313288">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="matplotlib中pyplot颜色映射参数整理 | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+今天用到颜色映射，就顺便整理一下使用matplotlib中的pyplot经常用到的颜色映射的一些参数，转自前辈的博文
+
+import numpy as np  
+import matplotlib.pyplot as plt  
+
+# H..." />
+    <meta name="keywords" content="Python,数据分析,数据可视化" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1579616313288" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              matplotlib中pyplot颜色映射参数整理
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-02-09
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/ywt-yiKCrM" class="post-tag">
+                  # Python
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/BTYsGEfIl3" class="post-tag">
+                  # 数据分析
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/QvekrRMYbv" class="post-tag">
+                  # 数据可视化
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
+<p>今天用到颜色映射，就顺便整理一下使用matplotlib中的pyplot经常用到的颜色映射的一些参数，转自<a href="https://blog.csdn.net/Mr_Cat123/article/details/78638491">前辈的博文</a></p>
+</blockquote>
+<pre><code class="language-python">import numpy as np  
+import matplotlib.pyplot as plt  
+
+# Have colormaps separated into categories:  
+# http://matplotlib.org/examples/color/colormaps_reference.html  
+
+cmaps = [('Perceptually Uniform Sequential',  
+                            ['viridis', 'inferno', 'plasma', 'magma']),  
+         ('Sequential',     ['Blues', 'BuGn', 'BuPu',  
+                             'GnBu', 'Greens', 'Greys', 'Oranges', 'OrRd',  
+                             'PuBu', 'PuBuGn', 'PuRd', 'Purples', 'RdPu',  
+                             'Reds', 'YlGn', 'YlGnBu', 'YlOrBr', 'YlOrRd']),  
+         ('Sequential (2)', ['afmhot', 'autumn', 'bone', 'cool',  
+                             'copper', 'gist_heat', 'gray', 'hot',  
+                             'pink', 'spring', 'summer', 'winter']),  
+         ('Diverging',      ['BrBG', 'bwr', 'coolwarm', 'PiYG', 'PRGn', 'PuOr',  
+                             'RdBu', 'RdGy', 'RdYlBu', 'RdYlGn', 'Spectral',  
+                             'seismic']),  
+         ('Qualitative',    ['Accent', 'Dark2', 'Paired', 'Pastel1',  
+                             'Pastel2', 'Set1', 'Set2', 'Set3']),  
+         ('Miscellaneous',  ['gist_earth', 'terrain', 'ocean', 'gist_stern',  
+                             'brg', 'CMRmap', 'cubehelix',  
+                             'gnuplot', 'gnuplot2', 'gist_ncar',  
+                             'nipy_spectral', 'jet', 'rainbow',  
+                             'gist_rainbow', 'hsv', 'flag', 'prism'])]  
+
+
+nrows = max(len(cmap_list) for cmap_category, cmap_list in cmaps)  
+gradient = np.linspace(0, 1, 256)  
+gradient = np.vstack((gradient, gradient))  
+
+
+def plot_color_gradients(cmap_category, cmap_list):  
+    fig, axes = plt.subplots(nrows=nrows)  
+    fig.subplots_adjust(top=0.95, bottom=0.01, left=0.2, right=0.99)  
+    axes[0].set_title(cmap_category + ' colormaps', fontsize=14)  
+
+    for ax, name in zip(axes, cmap_list):  
+        ax.imshow(gradient, aspect='auto', cmap=plt.get_cmap(name))  
+        pos = list(ax.get_position().bounds)  
+        x_text = pos[0] - 0.01  
+        y_text = pos[1] + pos[3]/2.  
+        fig.text(x_text, y_text, name, va='center', ha='right', fontsize=10)  
+
+    # Turn off *all* ticks &amp; spines, not just the ones with colormaps.  
+    for ax in axes:  
+        ax.set_axis_off()  
+
+for cmap_category, cmap_list in cmaps:  
+    plot_color_gradients(cmap_category, cmap_list)  
+
+plt.show() 
+</code></pre>
+<p>这样，我们得到matplotlib中内嵌的colormaps：</p>
+<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2019/02/09/5c5e494361671.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2019/02/09/5c5e49659d6f3.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://i.loli.net/2019/02/09/5c5e497343d9d.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://i.loli.net/2019/02/09/5c5e4983a1c9b.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="5"><img src="https://i.loli.net/2019/02/09/5c5e4998033d1.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="6"><img src="https://i.loli.net/2019/02/09/5c5e49b3ee6f0.png" alt="" loading="lazy"></figure>
+<blockquote>
+<p>或者访问 http://matplotlib.org/    -&gt; Examples  -&gt; Color Examples  -&gt;  colormaps_reference</p>
+<p>顺便安利一下《流浪地球》！</p>
+</blockquote>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/处理机调度与死锁（二）">
+              <h3 class="post-title">
+                处理机调度与死锁（二）
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

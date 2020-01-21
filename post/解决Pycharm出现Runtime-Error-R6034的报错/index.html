@@ -2,24 +2,24 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Hello Gridea | Gridea</title>
+<title>解决Pycharm出现Runtime Error R6034的报错 | Gridea</title>
 <link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1579616313288">
 <link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="Hello Gridea | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="alternate" type="application/atom+xml" title="解决Pycharm出现Runtime Error R6034的报错 | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="👏  欢迎使用 Gridea ！
-✍️  Gridea 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...
+    <meta name="description" content="
+时隔半年之后（这半年很少用Pycharm...），我终于在 stackoverflow 上找到了解决方案。
 
-Github
-Gridea 主页
-示例网站
-特性👇
-📝  你可以使用最酷的 Markdo..." />
-    <meta name="keywords" content="Gridea" />
+原文：
+原文链接
+回答者：Michael Cooper
+···
+I found the solution to the prob..." />
+    <meta name="keywords" content="PyCharm,杂项" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   </head>
@@ -81,54 +81,68 @@ Gridea 主页
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              Hello Gridea
+              解决Pycharm出现Runtime Error R6034的报错
             </h2>
             <div class="post-info">
               <span>
-                2018-12-12
+                2019-06-21
               </span>
               <span>
-                2 min read
+                3 min read
               </span>
               
-                <a href="https://lizonglin313.github.io/tag/_rP4hRYfa" class="post-tag">
-                  # Gridea
+                <a href="https://lizonglin313.github.io/tag/wRmH2M9ht" class="post-tag">
+                  # PyCharm
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/er-p6UONLN" class="post-tag">
+                  # 杂项
                 </a>
               
             </div>
             
-              <img class="post-feature-image" src="https://lizonglin313.github.io//post-images/hello-gridea.png" alt="">
-            
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="https://gridea.dev/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
+                <blockquote>
+<p>时隔半年之后（这半年很少用Pycharm...），我终于在 stackoverflow 上找到了解决方案。</p>
+</blockquote>
+<h3 id="原文">原文：</h3>
+<p><a href="https://stackoverflow.com/questions/14552348/runtime-error-r6034-in-embedded-python-application">原文链接</a></p>
+<p><a href="https://stackoverflow.com/users/443822/michael-cooper">回答者：<strong>Michael Cooper</strong></a></p>
+<p>···</p>
+<p>I found the solution to the problem. Hopefully this will help someone else--these problems can be <em>so</em>frustrating to debug.</p>
+<p>The problem was caused by third-party software that had added itself to the path and installed msvcr90.dll in its program folder. In this case, the problem was caused by Intel's iCLS Client.</p>
+<p>So... How to find the problem in similar situations?</p>
+<ol>
+<li>Download Process Explorer <a href="http://technet.microsoft.com/en-ca/sysinternals/bb896653.aspx">here</a>.</li>
+<li>Start your application and reproduce runtime error R6034.</li>
+<li>Start Process Explorer. In the &quot;View&quot; menu go to &quot;Lower Pane View&quot; and choose &quot;DLLs&quot;.</li>
+<li>In the top pane, locate your application and click on it. The bottom pane should show a list of DLLS loaded for your application.</li>
+<li>Locate &quot;msvcr??.dll&quot; in the list. There should be several. Look for the one that is not in the &quot;winsxs&quot; folder, and make a note of it.</li>
+<li>Now, check the path just before your application runs. If it includes the folder you noted in step 5, you've probably found the culprit.</li>
+</ol>
+<p>How to fix the problem? You'll have to remove the offending entry from the path before running your program. In my case, I don't need anything else in the path, so I wrote a simple batch file that looks like this:</p>
+<pre><code>path=
+myprogram.exe
+</code></pre>
+<p>That's it. The batch file simply clears the path before my program runs, so that the conflicting runtime DLL is not found.</p>
+<p>Hope this helps!</p>
+<p>···</p>
+<p>我使用Process Explorer找到报错的.dll文件的位置并且将其删除后，就没有再弹出错误警告。如果担心此做法会产生潜在的问题，那么可以将.dll文件移出当前文件夹先保存起来即可。</p>
+<blockquote>
+<p>关于本文有任何问题可以留言或者通过邮件等方式联系我。</p>
+</blockquote>
 
               </div>
               <div class="toc-container">
                 <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E7%89%B9%E6%80%A7">特性👇</a></li>
+<li>
+<ul>
+<li><a href="#%E5%8E%9F%E6%96%87">原文：</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -141,9 +155,9 @@ Gridea 主页
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://lizonglin313.github.io/post/C++基础复习—— 继承">
+            <a href="https://lizonglin313.github.io/post/Java期末复习提纲">
               <h3 class="post-title">
-                C++基础复习—— 继承
+                Java期末复习提纲
               </h3>
             </a>
           </div>

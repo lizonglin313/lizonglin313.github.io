@@ -1,0 +1,1099 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>用不同算法解决0/1背包问题 | Gridea</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1579616313288">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="用不同算法解决0/1背包问题 | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+0/1背包问题是算法中很经典的问题，具体内容题目内容不再赘述，需要请自行搜索..
+
+蛮力法
+
+
+思想
+蛮力法的基本思想就是遍历
+
+
+时间复杂度
+Ω(2^n)
+
+
+代码
+// 伪代码如下
+输入：重量{w1,w2,w3,...,wn} 价值{..." />
+    <meta name="keywords" content="笔记,算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1579616313288" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              用不同算法解决0/1背包问题
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-11-21
+              </span>
+              <span>
+                21 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="post-tag">
+                  # 笔记
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/WykunZOOE" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
+<p>0/1背包问题是算法中很经典的问题，具体内容题目内容不再赘述，需要请自行搜索..</p>
+</blockquote>
+<h2 id="蛮力法">蛮力法</h2>
+<ul>
+<li>
+<p>思想</p>
+<p>蛮力法的基本思想就是<strong>遍历</strong></p>
+</li>
+<li>
+<p>时间复杂度</p>
+<p>Ω(2^n)</p>
+</li>
+<li>
+<p>代码</p>
+<pre><code class="language-c++">// 伪代码如下
+输入：重量{w1,w2,w3,...,wn} 价值{v1,v2,v3,...,vn} 容量C
+输出：装入背包物品的编号和最大价值
+
+1. maxValue=0；结果子集S={}
+
+2. 对集合{1,2,3,...,n}每一个子集T，都有：
+
+	2.1 初始化背包价值value=0，背包重量weight=0
+    
+    2.2 对每个子集里的每个元素j
+    	2.2.1 if weight+wj &lt;= C then weight+=wj value+=vj
+    	2.2.2 else 子集元素还没选完就超重，转2进行下一个子集
+    
+    2.3 进行到此处某个子集中的元素全部放入背包
+    	2.3.1 if value &gt; maxValue then maxValue&lt;-value S&lt;-T
+
+3. 输出S中的元素和maxValue，结束
+</code></pre>
+</li>
+</ul>
+<h2 id="回溯法">回溯法</h2>
+<ul>
+<li>
+<p>思想</p>
+<p><strong>解空间树</strong> + 使用<strong>限定条件</strong>进行<strong>剪枝</strong></p>
+<p>在状态空间树的任意一个部分解结点处应该有以下两个判定函数：</p>
+<p>1）当前部分解的总重量小于背包容量</p>
+<p>2）当前问题状态下继续向前搜索搜索可以找到比目前已知解的总价值更大的解</p>
+</li>
+<li>
+<p>时间复杂度</p>
+<p>本质是蛮力法，时间通常也为<strong>指数阶</strong></p>
+</li>
+<li>
+<p>代码</p>
+<pre><code class="language-c++">// 伪代码如下
+输入：重量W={w0,w1,w2,...,wn} 价值V={v0,v1,v2,...,vn} 容量C
+输出：装入背包物品的编号和最大价值
+
+1. maxValue=0；结果子集S={}
+
+2. 将背包的物品按照单位价值降序排序，相应的改变集合W和V
+
+3. 解空间树的层数layer=0，当前重量cw=0，当前价值cv=0，当前所选物品集合cs={}，进行如下的递归
+    3.1 if layer==n 到达叶子结点
+    	3.1.1 if cv &gt; maxValue then maxValue=cv S=cs
+    3.2 没有到达叶子结点，for j=1 to 0
+    	3.2.1 判断在此节点处是否满足这两个条件：
+    		1）装入第layer个物品后不超重 
+    		2）此节点处期望最大值大于maxValue
+    		如果两个不同时满足，剪枝	
+    		如果同时满足：根据j=1或j=0更新cv,cw,cs
+    	3.2.2 进行下一层 layer+1，cv，cw，cs递归
+    	3.2.3 回滚cv,cw,cs到递归前的值
+
+4. 输出S中的元素和maxValue，结束
+
+
+// 核心代码
+
+// 计算剩余物品都装下时的最大价值
+int Bound_sv(int layer, int cv) {
+
+    int i = layer;
+    int sv = cv;
+
+    for (i; i &lt; set_number; i++) {
+        sv += goods[i].value;		// 剩余物品都装下时的最大价值
+    }
+
+    return sv;
+
+}
+
+// 计算期望最大价值
+double Bound(int layer,int cv,int cw){
+    int i = layer;
+
+    double sv = double(cv);
+    int cr = capacity - cw;
+
+    while (i&lt;set_number &amp;&amp; goods[i].weight &lt;= cr)
+    {
+        cr -= goods[i].weight;
+        sv = sv + goods[i].value;
+        i++;
+    }
+
+    if (i &lt; set_number)
+        sv = sv + goods[i].ave_value * cr;
+
+    return sv;
+}
+
+
+// Using back track method to get max value
+void BackTrack(int layer, int current_value, int current_weight) {
+    // layer代表回溯层数，其余参数分别代表当前价值以及当前重量
+    //double expect_sumValue = 0;		// 记录期望价值总和
+
+    if (layer == set_number) {		// if layer bigger than number, over
+        // 注意这个地方，不用大于 ！！！
+
+        if (current_value &gt; maxValue) {
+
+            maxValue = current_value;
+
+            for (int i = 0; i &lt; set_number; i++) {
+                max_set[i] = current_set[i];
+
+            }
+        }
+    }
+    else
+    {
+        for (int j = 0; j &lt;= 1; j++) {
+
+            current_set[layer] = j;
+
+            /************************剪枝**************************/
+
+
+            if (
+                current_weight + current_set[layer] * goods[layer].weight &lt;= capacity
+                &amp;&amp; Bound_sv(layer,current_value) &gt;= maxValue &amp;&amp; Bound(layer,current_value,current_weight) &gt; maxValue
+            )
+            {
+                // 更新当前背包物品的总重量，目前背包物品的总价值
+                current_weight += (goods[layer].weight * current_set[layer]);
+                current_value += (goods[layer].value * current_set[layer]);
+
+                // 继续进行子树的递归
+                BackTrack(layer + 1, current_value, current_weight);
+
+                // 递归出来后回滚数据
+                current_weight -= (goods[layer].weight * current_set[layer]);
+                current_value -= (goods[layer].value * current_set[layer]);
+
+            }
+        }
+    }
+
+}
+
+
+</code></pre>
+</li>
+</ul>
+<h2 id="分支限界法">分支限界法</h2>
+<ul>
+<li>
+<p>思想</p>
+<p><strong>广度优先策略</strong>搜索解空间树，对待处理的根节点根据<strong>限界函数</strong>估算目标函数的可能取值，选择目标函数<strong>极大或者极小</strong>的结点<strong>优先进行广度搜索</strong>，不断<strong>调整搜索方向</strong>，尽可能早的找到最优解。</p>
+</li>
+<li>
+<p>时间复杂度</p>
+<p>本质还是<strong>蛮力法</strong>，最坏情况下时间复杂度还是指数阶</p>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<pre><code class="language-c++">// 伪代码如下
+输入：n个物品的重量w[n]，价值v[n]，背包容量W
+输出：背包获得的最大价值和装入背包的物品
+1. 根据界限函数计算目标函数的上界up，使用贪心法计算目标函数的下界down
+2. 计算根节点的目标函数值并且加入PT表
+3. 循环直到某个叶子节点的目标函数值在表PT中去取极大值
+	3.1 i=PT表中具有最大值的结点
+	3.2 对结点i的每个孩子结点x执行下述操作：
+		3.2.1 如果孩子x结点不满足约束条件，则丢弃该节点
+		3.2.2 否则，估算结点x的目标函数的取值lb，将其加入表PT中
+4. 将叶子节点对应的最优解输出，回溯得到最优解的各个分量
+
+int tree_node_id = 1;		// 解空间树结点id 1开始
+
+int lower_bound = 0;		// 目标函数的下界
+
+// 贪心法求背包容量的下界
+int greed() {
+
+    int temp[MAX] = { 0 };		// 定义临时数组，用来表示货物向量，并初始化为0
+    int cap = capacity;			// 暂存背包容量
+    int w = 0;					// 当前背包容量
+    int updown = 0;				// 下界
+
+    // 对背包物品按照单位价值进行排序
+    sort_set();
+
+    // 求解
+    for (int i = 0; i &lt; set_number; i++) {
+
+        // 如果超重，跳出
+        if ((w+goods[i].weight) &gt; cap) {
+            continue;
+        }
+
+        temp[i] = 1;
+        w += goods[i].weight;
+        updown += (temp[i] * goods[i].value);
+    }
+
+    cout &lt;&lt; &quot;解的下界是：&quot; &lt;&lt; updown &lt;&lt; endl;
+
+    return updown;
+
+}
+
+
+// 限界函数求上界
+void limit(ND &amp;n)				        //计算分枝结点的上界
+{
+    // 下一个要选的物品就是第layer层物品
+    int w = n.current_weight;
+    double v = n.current_value;
+    int i = n.layer;
+
+    while (i &lt; set_number &amp;&amp; w + goods[i].weight &lt;= capacity) {
+        w += goods[i].weight;
+        v += goods[i].value;
+        i++;
+    }
+
+    if (i &lt; set_number) {  // 装部分物品
+        n.ub = v + (capacity - w)*goods[i].ave_value;
+    }
+    else
+    {
+        n.ub = v;
+    }
+}
+
+// 优先队列进队操作
+void EnQueue(ND n, priority_queue&lt;ND&gt; &amp;q) {
+    if (n.layer == set_number) {		// 已经到达叶子结点
+
+        if (n.current_value &gt; maxValue) {		// 更新maxValue
+            maxValue = n.current_value;
+            for (int i = 0; i &lt; set_number; i++) {
+                max_set[i] = n.cset[i];
+            }
+        }
+    }
+    else {
+        q.push(n);			// 非叶子结点进队
+    }
+}
+
+// 分支限界法
+void branchAndbound() {
+
+    // 首先使用贪心法求解此goods集合的目标值下界
+    lower_bound = greed();
+
+    priority_queue&lt;ND&gt; q;		// 优先队列
+    ND n0, n1, n2;				// 先定义根结点，左孩子结点，右孩子结点
+
+    /*初始化根节点*/
+    n0.id = tree_node_id++;		
+    n0.layer = 0;
+    n0.current_value = 0;
+    n0.current_weight = 0;
+    for (int i = 0; i &lt; set_number; i++) {
+        n0.cset[i] = 0;
+    }
+    limit(n0);					// 求根结点上界
+    q.push(n0);					// 根结点进队
+
+    while (!q.empty())			// 队不空循环
+    {
+        n0 = q.top();				// 取队头
+        q.pop();				// 出队
+        if (n0.current_weight + goods[n0.layer].weight &lt;= capacity &amp;&amp; n0.ub &gt;= lower_bound) {	// 超重剪枝 小于最小期望重量剪枝
+
+            // 设置左孩子结点
+            n1.id = tree_node_id++;
+            n1.layer = n0.layer + 1;
+            n1.current_weight = n0.current_weight + goods[n0.layer].weight;
+            n1.current_value = n0.current_value + goods[n0.layer].value;
+            /*复制解向量*/
+            for (int i = 0; i &lt; set_number; i++) {
+                n1.cset[i] = n0.cset[i];
+            }
+            n1.cset[n1.layer-1] = 1;			// 更新解向量
+            limit(n1);						// 求限界函数上界
+            EnQueue(n1, q);					// 左孩子进队
+        }
+
+        // 设置右孩子结点
+        n2.id = tree_node_id++;
+        n2.layer = n0.layer + 1;
+        n2.current_value = n0.current_value;
+        n2.current_weight = n0.current_weight;
+
+        // 复制解向量
+        for (int i = 0; i &lt; set_number; i++) {
+            n2.cset[i] = n0.cset[i];
+        }
+
+
+        n2.cset[n2.layer-1] = 0;		 // 更新解向量
+        limit(n2);					// 求界限函数上界
+
+        if (n2.ub &gt; maxValue &amp;&amp; n2.ub &gt;= lower_bound) {		// 剪枝，期望最大值小于已有最大值就剪枝  小于最小期望重量剪枝
+            EnQueue(n2, q);
+        }
+
+    }
+}
+
+</code></pre>
+<h2 id="动态规划">动态规划</h2>
+<ul>
+<li>
+<p>思想</p>
+<p>处理<strong>多阶段决策最优化问题</strong>，多阶段决策过程满足<strong>最优性原理</strong></p>
+<p>1）划分子问题</p>
+<p>2）确定动态规划函数</p>
+<p>3）填表</p>
+</li>
+</ul>
+<h2 id="贪心法">贪心法</h2>
+<p><strong>对于0/1背包来说，贪心法在一些时候是无法求得最优解的，所以不要万不得已还是不要选择贪心法了</strong></p>
+<pre><code class="language-c++">/*
+分别用、蛮力法、回溯法和分支限界法 实现0/1背包问题的求解
+*/
+// 蛮力法求解0/1背包
+
+#include &lt;iostream&gt;
+#include &lt;time.h&gt;
+#include &lt;algorithm&gt;
+#include &lt;queue&gt;
+#include &lt;sys/timeb.h&gt;
+#include &lt;math.h&gt;
+using namespace std;
+
+#define MAX 100000
+
+// Good is the struct of good which has three elememt
+typedef struct Good
+{
+	int value = 0;
+	int weight = 0;
+	double ave_value = 0;
+}GD;
+
+
+// 定义按照单位重量降序排序的规则
+struct sort_rule {
+	bool operator()(const GD &amp;good1, const GD &amp;good2) {
+		return good1.ave_value &gt; good2.ave_value;
+	}
+};
+
+// 定义用于分支限界法的树结点结构体
+/*
+typedef struct Node {
+
+	int current_weight = 0;				// 到达此结点时背包所有物品的总重量
+	int current_value = 0;				// 到达此结点时背包所有物品的总价值
+	
+	double result_of_Obj_func = 0;		// 此结点的目标函数的值
+
+	// bool biggest = true;				// 是否是此时的最大结点
+
+}ND;
+*/
+typedef struct Node { // 分支限界法树结点
+	int id;								// 结点编号
+	int layer;							// 当前结点所在树的层数
+	int current_weight = 0;				// 当前结点的总重量
+	int current_value = 0;				// 当前结点的总价值
+	double ub = 0;						// 当前结点的限界函数值
+
+	int cset[MAX] = { 0 };				// 当前背包的解向量
+
+	bool operator&lt;(const Node&amp; nd) const {		// 定义优先队列出队规则，限界函数值越大越先出队
+		return ub &lt; nd.ub;
+	}
+}ND;
+
+// 公用 -&gt; 获取时间函数
+long long getSystemTime() {
+	timeb t;
+	ftime(&amp;t);
+	return t.time * 1000 + t.millitm;
+}
+
+
+class Bag {		// 基类，用作蛮力法
+
+	protected:
+		int set_number;					// 集合元素个数
+		int capacity;					// 背包容量
+		int maxValue = -1;					// 最大重量
+
+		// 定义时间变量
+		long long t1;
+		long long t2;
+		long long sum_time = 0;
+
+		GD goods[MAX];
+		int max_set[MAX] = { 0 };		// max_set为标志数组
+		int current_set[MAX] = { 0 };	// define current_set to save current set
+
+
+		// 初始化重量集合
+		void set_weights(int N) {
+			
+			int sum_w = 0;
+			for (int i = 0; i &lt; N; i++) {
+				goods[i].weight = (rand() % 10) + 1;
+				sum_w += goods[i].weight;
+			}
+			capacity = sum_w / 2;
+		
+		}
+
+		// 初始化价值集合
+		void set_values(int N) {
+			
+			for (int i = 0; i &lt; N; i++) {
+				//values[i] = (rand() % 5 + 1) * 10 + ((rand() % 10) + 1);		// 产生10-60之间的数值
+				goods[i].value = (rand() % 5 + 1) * 10 + ((rand() % 11));
+			}
+			
+		}
+
+		// 初始化集合
+		void initialize_set(int N) {
+			set_weights(N);
+			set_values(N);
+		}
+
+		// 打印重量和价值
+		void print_wv(int N) {
+			cout &lt;&lt; &quot;物品重量集合为：{ &quot;;
+			for (int i = 0; i &lt; N; i++) {
+				//cout &lt;&lt; weights[i] &lt;&lt; &quot; &quot;;
+				cout &lt;&lt; goods[i].weight &lt;&lt; &quot; &quot;;
+			}
+			cout &lt;&lt; &quot;}&quot; &lt;&lt; endl &lt;&lt; &quot;物品价值集合为：{ &quot;;
+			for (int i = 0; i &lt; N; i++) {
+				//cout &lt;&lt; values[i] &lt;&lt; &quot; &quot;;
+				cout &lt;&lt; goods[i].value &lt;&lt; &quot; &quot;;
+			}
+			cout &lt;&lt; &quot;}&quot; &lt;&lt; endl;
+			cout &lt;&lt; &quot;背包容量为：&quot; &lt;&lt; capacity &lt;&lt; endl;
+		}
+
+
+		void print_set() {		// 打印集合
+	// 输出最大重量以及对应的元素序号
+	// 如果输出 0 / 1 表示的子集情况例如 {0 1 0 1 1 0 0} 就修改本函数
+			cout &lt;&lt; &quot;背包能装的最大价值为：&quot; &lt;&lt; maxValue &lt;&lt; endl;
+			cout &lt;&lt; &quot;包含的物品有：{ &quot;;
+			for (int i = 0; i &lt; set_number; i++) {
+				// 输出序号 or 向量
+				if (max_set[i])
+				{
+					cout &lt;&lt; i + 1 &lt;&lt; &quot; &quot;;
+				}
+			}
+			cout &lt;&lt; &quot;}&quot; &lt;&lt; endl;
+		}
+
+		void brute_force(int layer, int current_value, int current_weight) {
+			// layer代表回溯层数，其余参数分别代表当前价值以及当前重量
+
+			if (layer == set_number) {		// if layer bigger than number, over
+				// 注意这个地方，不用大于 ！！！
+
+				if (current_value &gt; maxValue &amp;&amp; current_weight &lt;= capacity) {
+
+					maxValue = current_value;
+
+					for (int i = 0; i &lt; set_number; i++) {
+						max_set[i] = current_set[i];
+
+					}
+				}
+			}
+			else
+			{
+				for (int j = 1; j &gt;= 0; j--) {
+
+					current_set[layer] = j;
+
+					current_weight += (goods[layer].weight * current_set[layer]);
+					current_value += (goods[layer].value * current_set[layer]);
+
+					// 继续进行子树的递归
+					brute_force(layer + 1, current_value, current_weight);
+
+					// 递归出来后回滚数据
+					current_weight -= (goods[layer].weight * current_set[layer]);
+					current_value -= (goods[layer].value * current_set[layer]);
+
+				}
+			}
+
+		}
+
+
+
+	public:
+
+		Bag(int N) {
+			maxValue = 0;			// 最大价值初始化为0
+			set_number = N;			// 初始化元素个数
+			initialize_set(N);		// 初始化集合
+			print_wv(N);			// 打印信息
+		}
+
+		
+
+		// 求解最大价值
+		void get_maxValue(int layer, int cv, int cw) {
+
+			// 蛮力法求解
+			t1 = getSystemTime();		// 开始计时
+			brute_force(layer, cv, cw);
+			t2 = getSystemTime();		// 结束计时
+
+			//打印时间
+			sum_time = t2 - t1;
+			cout &lt;&lt; &quot;蛮力法求解规模为 &quot; &lt;&lt; set_number &lt;&lt; &quot; 的0/1背包所需要的时间为：&quot; &lt;&lt; sum_time &lt;&lt; &quot;ms.&quot; &lt;&lt; endl;
+
+			// 打印结果
+			print_set();
+
+		}
+
+		// 根据货物单位价值进行排序
+		void sort_set() {		// 计算权值
+
+			for (int i = 0; i &lt; set_number; i++) {
+				goods[i].ave_value = double(goods[i].value) / double(goods[i].weight);
+			}
+
+			// 根据权值排序
+			sort(goods, goods + sizeof(goods) / sizeof(GD), sort_rule());
+
+			// 打印根据权值排序后的内容
+			cout &lt;&lt; &quot;根据单位价值排序后的物品重量以及对应的价值为：&quot; &lt;&lt; endl &lt;&lt; &quot;weight -&gt; { &quot;;
+
+			for (int i = 0; i &lt; set_number; i++) {
+				cout &lt;&lt; goods[i].weight &lt;&lt; &quot; &quot;;
+			}
+
+			cout &lt;&lt; &quot;}&quot; &lt;&lt; endl &lt;&lt; &quot;value -&gt; { &quot;;
+
+			for (int i = 0; i &lt; set_number; i++)
+			{
+				cout &lt;&lt; goods[i].value &lt;&lt; &quot; &quot;;
+			}
+
+			cout &lt;&lt; &quot;}&quot; &lt;&lt; endl;
+		}
+};				// 蛮力法，作为基类
+
+class Bag_with_backtrack : public Bag {		// 继承 Bag 的保护以及公用成员
+	
+	protected:
+		int current_set[MAX] = { 0 };		// define current_set to save current set
+
+
+		int Bound_sv(int layer, int cv) {
+
+			int i = layer;
+			int sv = cv;
+
+			for (i; i &lt; set_number; i++) {
+				sv += goods[i].value;		// 剩余物品都装下时的最大价值
+			}
+
+			return sv;
+
+		}
+		
+		double Bound(int layer,int cv,int cw){
+			int i = layer;
+			
+			double sv = double(cv);
+			int cr = capacity - cw;
+
+			while (i&lt;set_number &amp;&amp; goods[i].weight &lt;= cr)
+			{
+				cr -= goods[i].weight;
+				sv = sv + goods[i].value;
+				i++;
+			}
+
+			if (i &lt; set_number)
+				sv = sv + goods[i].ave_value * cr;
+
+			return sv;
+		}
+		
+
+		// Using back track method to get max value
+		void BackTrack(int layer, int current_value, int current_weight) {
+			// layer代表回溯层数，其余参数分别代表当前价值以及当前重量
+			//double expect_sumValue = 0;		// 记录期望价值总和
+
+			if (layer == set_number) {		// if layer bigger than number, over
+				// 注意这个地方，不用大于 ！！！
+
+				if (current_value &gt; maxValue) {
+
+					maxValue = current_value;
+
+					for (int i = 0; i &lt; set_number; i++) {
+						max_set[i] = current_set[i];
+
+					}
+				}
+			}
+			else
+			{
+				for (int j = 0; j &lt;= 1; j++) {
+
+					current_set[layer] = j;
+
+					/************************剪枝**************************/
+					
+
+					if (
+						current_weight + current_set[layer] * goods[layer].weight &lt;= capacity
+						&amp;&amp; Bound_sv(layer,current_value) &gt;= maxValue &amp;&amp; Bound(layer,current_value,current_weight) &gt; maxValue
+						)
+					{
+						// 更新当前背包物品的总重量，目前背包物品的总价值
+						current_weight += (goods[layer].weight * current_set[layer]);
+						current_value += (goods[layer].value * current_set[layer]);
+
+						// 继续进行子树的递归
+						BackTrack(layer + 1, current_value, current_weight);
+
+						// 递归出来后回滚数据
+						current_weight -= (goods[layer].weight * current_set[layer]);
+						current_value -= (goods[layer].value * current_set[layer]);
+
+					}
+				}
+			}
+
+		}
+
+
+	public:
+
+		Bag_with_backtrack(int N) :Bag(N) {
+			cout &lt;&lt; &quot;回溯法对象实例化...&quot; &lt;&lt; endl;
+		}
+
+
+		void get_maxValue_by_backTrack(int layer, int current_value, int current_weight) {
+
+			// 按照单位价值进行排序
+			t1 = getSystemTime(); // 开始计时
+			sort_set();
+
+			// 使用回溯法进行求解
+			BackTrack(layer, current_value, current_weight);
+			t2 = getSystemTime();	// 结束计时
+			
+			// 打印时间
+			sum_time = t2 - t1;
+			cout &lt;&lt; &quot;回溯法求解规模为 &quot; &lt;&lt; set_number &lt;&lt; &quot; 的0/1背包问题所需要的时间为：&quot; &lt;&lt; sum_time &lt;&lt; &quot;ms.&quot; &lt;&lt; endl;
+
+			// 打印集合
+			print_set();
+		}
+
+		
+};		// 回溯法，继承基类Bag
+
+
+class Bag_with_branchAndbound :public Bag {		// 从 Bag 类中派生
+
+	protected:
+		
+		int tree_node_id = 1;		// 解空间树结点id 1开始
+		
+		int lower_bound = 0;		// 目标函数的下界
+
+		// 贪心法求背包容量的下界
+		int greed() {
+
+			int temp[MAX] = { 0 };		// 定义临时数组，用来表示货物向量，并初始化为0
+			int cap = capacity;			// 暂存背包容量
+			int w = 0;					// 当前背包容量
+			int updown = 0;				// 下界
+			
+			// 对背包物品按照单位价值进行排序
+			sort_set();
+
+			// 求解
+			for (int i = 0; i &lt; set_number; i++) {
+
+				// 如果超重，跳出
+				if ((w+goods[i].weight) &gt; cap) {
+					continue;
+				}
+
+				temp[i] = 1;
+				w += goods[i].weight;
+				updown += (temp[i] * goods[i].value);
+			}
+
+			cout &lt;&lt; &quot;解的下界是：&quot; &lt;&lt; updown &lt;&lt; endl;
+
+			return updown;
+
+		}
+
+
+		// 限界函数求上界
+		void limit(ND &amp;n)				        //计算分枝结点的上界
+		{
+			// 下一个要选的物品就是第layer层物品
+			int w = n.current_weight;
+			double v = n.current_value;
+			int i = n.layer;
+
+			while (i &lt; set_number &amp;&amp; w + goods[i].weight &lt;= capacity) {
+				w += goods[i].weight;
+				v += goods[i].value;
+				i++;
+			}
+
+			if (i &lt; set_number) {  // 装部分物品
+				n.ub = v + (capacity - w)*goods[i].ave_value;
+			}
+			else
+			{
+				n.ub = v;
+			}
+		}
+
+		// 优先队列进队操作
+		void EnQueue(ND n, priority_queue&lt;ND&gt; &amp;q) {
+			if (n.layer == set_number) {		// 已经到达叶子结点
+
+				if (n.current_value &gt; maxValue) {		// 更新maxValue
+					maxValue = n.current_value;
+					for (int i = 0; i &lt; set_number; i++) {
+						max_set[i] = n.cset[i];
+					}
+				}
+			}
+			else {
+				q.push(n);			// 非叶子结点进队
+			}
+		}
+
+		// 分支限界法
+		void branchAndbound() {
+
+			// 首先使用贪心法求解此goods集合的目标值下界
+			lower_bound = greed();
+
+			priority_queue&lt;ND&gt; q;		// 优先队列
+			ND n0, n1, n2;				// 先定义根结点，左孩子结点，右孩子结点
+
+			/*初始化根节点*/
+			n0.id = tree_node_id++;		
+			n0.layer = 0;
+			n0.current_value = 0;
+			n0.current_weight = 0;
+			for (int i = 0; i &lt; set_number; i++) {
+				n0.cset[i] = 0;
+			}
+			limit(n0);					// 求根结点上界
+			q.push(n0);					// 根结点进队
+
+			while (!q.empty())			// 队不空循环
+			{
+				n0 = q.top();				// 取队头
+				q.pop();				// 出队
+				if (n0.current_weight + goods[n0.layer].weight &lt;= capacity &amp;&amp; n0.ub &gt;= lower_bound) {	// 超重剪枝 小于最小期望重量剪枝
+
+					// 设置左孩子结点
+					n1.id = tree_node_id++;
+					n1.layer = n0.layer + 1;
+					n1.current_weight = n0.current_weight + goods[n0.layer].weight;
+					n1.current_value = n0.current_value + goods[n0.layer].value;
+					/*复制解向量*/
+					for (int i = 0; i &lt; set_number; i++) {
+						n1.cset[i] = n0.cset[i];
+					}
+					n1.cset[n1.layer-1] = 1;			// 更新解向量
+					limit(n1);						// 求限界函数上界
+					EnQueue(n1, q);					// 左孩子进队
+				}
+
+				// 设置右孩子结点
+				n2.id = tree_node_id++;
+				n2.layer = n0.layer + 1;
+				n2.current_value = n0.current_value;
+				n2.current_weight = n0.current_weight;
+
+				// 复制解向量
+				for (int i = 0; i &lt; set_number; i++) {
+					n2.cset[i] = n0.cset[i];
+				}
+
+				
+				n2.cset[n2.layer-1] = 0;		 // 更新解向量
+				limit(n2);					// 求界限函数上界
+				
+				if (n2.ub &gt; maxValue &amp;&amp; n2.ub &gt;= lower_bound) {		// 剪枝，期望最大值小于已有最大值就剪枝  小于最小期望重量剪枝
+					EnQueue(n2, q);
+				}
+
+			}
+		}
+
+
+	public:
+
+		Bag_with_branchAndbound(int N) :Bag(N) {
+
+			cout &lt;&lt; &quot;分支限界法对象实例化...&quot; &lt;&lt; endl;
+		
+		}
+
+		void get_maxValue_by_branchAndbound() {
+			
+			// 分支限界法
+			t1 = getSystemTime();		// 开始计时
+			branchAndbound();
+			t2 = getSystemTime();		// 结束计时
+
+			// 计算并打印时间
+			sum_time = t2 - t1;
+			cout &lt;&lt; &quot;使用分支限界法求解问题规模为&quot; &lt;&lt; set_number &lt;&lt; &quot; 的0/1背包问题所需要的时间为：&quot; &lt;&lt; sum_time &lt;&lt; &quot;ms.&quot; &lt;&lt; endl;
+			
+			// 打印集合
+			print_set();
+		}
+		
+
+};		// 
+
+
+int main() {
+
+	srand((unsigned)time(NULL));
+	
+	/*************蛮力法************/
+	//for (int i = 0; i &lt; 40; i++) {
+	//	Bag bag = Bag(i);
+	//	bag.get_maxValue(0, 0, 0);
+	//}
+	
+	
+	/************回溯法*************/
+	//int n = 1;
+	//for (int i = 512; i &lt; 2000; i+=100) {
+	//	n *= 2;
+	//Bag_with_backtrack bag = Bag_with_backtrack(4);
+	//bag.get_maxValue_by_backTrack(0, 0, 0);
+	//}
+	
+	
+
+	/************分支限界法*************/
+	//Bag_with_branchAndbound bag = Bag_with_branchAndbound(5);
+	//bag.get_maxValue_by_branchAndbound();
+
+	//for (int n = 1; n &lt;= 5000; n*=2) {
+		Bag_with_branchAndbound bag = Bag_with_branchAndbound(4);
+		bag.get_maxValue_by_branchAndbound();
+	//}
+	
+
+	return 0;
+}
+
+
+
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E8%9B%AE%E5%8A%9B%E6%B3%95">蛮力法</a></li>
+<li><a href="#%E5%9B%9E%E6%BA%AF%E6%B3%95">回溯法</a></li>
+<li><a href="#%E5%88%86%E6%94%AF%E9%99%90%E7%95%8C%E6%B3%95">分支限界法</a></li>
+<li><a href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a></li>
+<li><a href="#%E8%B4%AA%E5%BF%83%E6%B3%95">贪心法</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/《热风》节选">
+              <h3 class="post-title">
+                《热风》节选
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

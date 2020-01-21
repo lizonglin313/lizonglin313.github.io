@@ -2,18 +2,25 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>晚上来更新！ | Gridea</title>
-<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1579574461784">
+<title>解决使用pip安装第三方包出现‘拒绝访问’的错误 | Gridea</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1579616313288">
 <link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="晚上来更新！ | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="alternate" type="application/atom+xml" title="解决使用pip安装第三方包出现‘拒绝访问’的错误 | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="终于可以部署了！
-" />
-    <meta name="keywords" content="" />
+    <meta name="description" content="
+今天准备学习使用PyQt5，但是在安装的时候出现了问题，已解决。
+
+报错
+使用pip安装PyQt5时，出现如下错误：
+
+操作文件夹拒绝访问，也就是没有修改文件内容的权限。
+解决
+我们先到Anaconda文件夹下，右键installanac..." />
+    <meta name="keywords" content="杂项,pip" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   </head>
@@ -22,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://lizonglin313.github.io/">
-  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1579574461784" alt="">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1579616313288" alt="">
   </a>
   <h1 class="site-title">
     Gridea
@@ -75,25 +82,61 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              晚上来更新！
+              解决使用pip安装第三方包出现‘拒绝访问’的错误
             </h2>
             <div class="post-info">
               <span>
-                2020-01-21
+                2019-02-11
               </span>
               <span>
                 1 min read
               </span>
               
+                <a href="https://lizonglin313.github.io/tag/er-p6UONLN" class="post-tag">
+                  # 杂项
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/uEb-WGxIN" class="post-tag">
+                  # pip
+                </a>
+              
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>终于可以部署了！</p>
+                <blockquote>
+<p>今天准备学习使用PyQt5，但是在安装的时候出现了问题，已解决。</p>
+</blockquote>
+<h3 id="报错">报错</h3>
+<p>使用pip安装PyQt5时，出现如下错误：</p>
+<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2019/02/11/5c61025689f2c.png" alt="" loading="lazy"></figure>
+<p>操作文件夹拒绝访问，也就是没有修改文件内容的权限。</p>
+<h3 id="解决">解决</h3>
+<p>我们先到Anaconda文件夹下，右键installanaconda，点击属性进入：</p>
+<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2019/02/11/5c6102db98e78.png" alt="" loading="lazy"></figure>
+<p>进入“安全”属性，选当前用户（一般为Users），单击编辑：</p>
+<figure data-type="image" tabindex="3"><img src="https://i.loli.net/2019/02/11/5c6102f037e27.png" alt="" loading="lazy"></figure>
+<p>然后我们把“完全控制”这个选项给点上，然后点击“应用”，注意是“应用”不是确定，我圈错了，是“应用”</p>
+<figure data-type="image" tabindex="4"><img src="https://i.loli.net/2019/02/11/5c61034ac529e.png" alt="" loading="lazy"></figure>
+<p>然后最好用管理员模式：</p>
+<p>win + Q 输入命令提示符，右键，管理员模式运行，再次安装，就ok了，然后pip list看到已经安好了~</p>
+<figure data-type="image" tabindex="5"><img src="https://i.loli.net/2019/02/11/5c610627476ed.png" alt="" loading="lazy"></figure>
 
               </div>
               <div class="toc-container">
-                
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E6%8A%A5%E9%94%99">报错</a></li>
+<li><a href="#%E8%A7%A3%E5%86%B3">解决</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
               </div>
             </div>
           </article>
@@ -102,9 +145,9 @@
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://lizonglin313.github.io/post/hello-gridea">
+            <a href="https://lizonglin313.github.io/post/matplotlib中pyplot颜色映射参数整理">
               <h3 class="post-title">
-                Hello Gridea
+                matplotlib中pyplot颜色映射参数整理
               </h3>
             </a>
           </div>

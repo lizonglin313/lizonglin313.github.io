@@ -1,0 +1,464 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>常见的排序算法总结 | Gridea</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1579616313288">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="常见的排序算法总结 | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+整理常用的排序算法，主要包括：
+
+选择排序
+冒泡排序
+归并排序
+快速排序
+插入排序
+堆排序
+
+
+策略以及时间开销
+
+
+
+排序算法
+基于的思想
+时间开销
+
+
+
+
+选择排序
+蛮力法
+O(n^2)
+
+
+冒泡排序
+蛮力法
+O(n^2)
+
+
+归并排..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1579616313288" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              常见的排序算法总结
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-11-21
+              </span>
+              <span>
+                6 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/WykunZOOE" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
+<p>整理常用的排序算法，主要包括：</p>
+<ul>
+<li>选择排序</li>
+<li>冒泡排序</li>
+<li>归并排序</li>
+<li>快速排序</li>
+<li>插入排序</li>
+<li>堆排序</li>
+</ul>
+</blockquote>
+<h2 id="策略以及时间开销">策略以及时间开销</h2>
+<table>
+<thead>
+<tr>
+<th>排序算法</th>
+<th>基于的思想</th>
+<th>时间开销</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>选择排序</td>
+<td>蛮力法</td>
+<td>O(n^2)</td>
+</tr>
+<tr>
+<td>冒泡排序</td>
+<td>蛮力法</td>
+<td>O(n^2)</td>
+</tr>
+<tr>
+<td>归并排序</td>
+<td>分治法</td>
+<td>O(nlogn)</td>
+</tr>
+<tr>
+<td>快速排序</td>
+<td>分治法</td>
+<td>O(nlogn)</td>
+</tr>
+<tr>
+<td>插入排序</td>
+<td>减治法</td>
+<td>O(n^2)</td>
+</tr>
+<tr>
+<td>堆排序</td>
+<td>减治法</td>
+<td>O(nlogn)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="部分排序的核心算法">部分排序的核心算法</h2>
+<h3 id="归并排序">归并排序</h3>
+<h4 id="图解">图解</h4>
+<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2019/11/21/IwoPu7Eb6VrLYiR.png" alt="" loading="lazy"></figure>
+<h4 id="代码">代码</h4>
+<pre><code class="language-c++">/*
+输入：待排序的数组r[n]，待排序区间[s,t]
+输出：升序序列r[s]~r[t]
+1. 如果s==t，则待排序区间只有一个元素，返回
+2. 计算划分重点：m=(s+t)/2
+3. 对于前半个子序列以 r[s]~r[m]进行递归，继续划分
+4. 对于后半个子序列以 r[m+1]~r[t]进行递归，继续划分
+5. 合并划分后的子序列：
+	5.1 令i=s,j=m+1,k=s 在 i&lt;=m&amp;&amp;j&lt;=t时进行循环
+		5.1.1 按照升序依次在两个子序列选择元素放入r1[]临时数组，同时改变两个子序列的索引位置
+6. 处理某个子序列未放完的元素
+7. 将r1复制到r中
+8. 待所有递归过程结束，打印r[]
+*/
+
+void MergeSort(int r[],int s,int t){
+    int m,r1[1000];
+    
+    if(s==t) return;		// 此时划分至只有一个元素了
+	
+    else{
+        m = (s+t)/2;		// 继续划分
+        MergeSort(r,s,m);	// 划分前半个子序列
+        MergeSort(r,m+1,t);	// 划分后半个子序列
+        Merge(r,r1,s,m,t);	// 合并划分后的结果
+        
+        for(int i=s;i&lt;=t;i++){
+            r[i]=r1[i];
+        }   
+    }
+}
+
+/* 合并函数 */
+void Merge(int r[],int r1[],int s,int m,int t){
+    
+    int i=s;
+    int j=m+1;		// 分别标记原数组两个子序列的起始位置
+    int k=s;		// 标记r1临时数组
+    
+    while(i&lt;=m&amp;&amp;j&lt;=t){
+        if(r[i]&lt;=r[j])	r1[k++]=r[i++];
+        else	r1[k++]=r[j++];
+    }
+    
+    // 进行收尾工作
+    while(i&lt;=m) r1[k++]=r[i++];
+    while(j&lt;=t) r1[k++]=r[j++];
+    
+}
+</code></pre>
+<h3 id="快速排序">快速排序</h3>
+<h4 id="图解-2">图解</h4>
+<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2019/11/21/qRtJ6xVDgNPfHwe.jpg" alt="" loading="lazy"></figure>
+<h4 id="代码-2">代码</h4>
+<pre><code class="language-c++">/*
+伪代码：
+（假设以首元素为轴值）
+输入：r[n]，first，end
+输出：升序排序的r[n]
+1. 选定首元素即 r[first] 为轴值
+2. 如果first&lt;end
+	2.1 划分左右区间，获得轴值位置
+		2.1.1 令 i=first j=end, if i&lt;j 做：
+		2.1.2 右侧扫描，if r[j]&gt;轴值 j-- ；反之 swap(r[i],r[j])
+		2.1.3 左侧扫描，if r[i]&lt;轴值 i++ ；反之 swap(r[i],r[j])
+	2.2 返回最后的i即为轴值的最新位置，pivot&lt;-i
+	2.3 左孩子序列以：r,first,pivot-1 快排
+    2.4 右孩子序列以：r,pivot+1,end 快排
+3. 最后输出排完序的r[n]
+*/
+
+void QuickSort(int r[],int first,int end){
+    int pivot;		// 轴值
+    
+    if(first&lt;end){
+    	pivot=Partition(r,first,end);	// 划分子序列，pivot是轴值所在位置的索引
+        QuickSort(r,first,pivot-1);		// 左子序列快排
+        QuickSort(r,pivot+1,end);		// 右子序列快排
+    }
+}
+
+/* 划分子序列，求解轴值位置 */
+int Partition(int r[],int first,int end){
+    int i=first;
+    int j=end;
+    
+    while(i&lt;j){
+        while(i&lt;j&amp;&amp;r[i]&lt;=r[j])	j--;
+        
+        if(i&lt;j){
+        	int temp=r[i];
+            r[i]=r[j];
+            r[j]=temp;
+            i++;
+        }
+        
+        while(i&lt;j&amp;&amp;r[i]&lt;=r[j])	i++;
+        
+        if(i&lt;j){
+            int temp=r[i];
+        	r[i]=r[j];
+            r[j]=temp;
+            j--;
+        }
+    }
+    return i;
+}
+</code></pre>
+<h3 id="插入排序">插入排序</h3>
+<h4 id="图解-3">图解</h4>
+<figure data-type="image" tabindex="3"><img src="https://i.loli.net/2019/11/21/IxXUsw3nHOTzJV2.png" alt="" loading="lazy"></figure>
+<h4 id="代码-3">代码</h4>
+<pre><code class="language-c++">// 设r[0]为哨兵，实际的数据从r[1]开始
+for(int i=2;i&lt;=n;i++){
+    r[0]=r[i];		// 使得r[0]一直为无序序列的第一个一个元素
+    for(int j=i-1;r[0]&lt;r[j];j--){
+        r[j+1]=r[j];		// 如果待插入元素比有序序列中某个元素小，这个元素后移
+    }
+    r[j+1]=r[0];
+}
+</code></pre>
+<h3 id="堆排序">堆排序</h3>
+<h4 id="图解-4">图解</h4>
+<figure data-type="image" tabindex="4"><img src="https://i.loli.net/2019/11/21/oLHMUvJ9eVZIXCf.jpg" alt="" loading="lazy"></figure>
+<h4 id="代码-4">代码</h4>
+<pre><code class="language-c++">/*
+伪代码：
+输入：r(k+1)~r(n)满足堆的条件，待筛选记录rk
+输出：{r(k)',r(k+1)',...r(n)'}为大根堆
+1. 设置i和j，分别指向要筛选的结点和其左孩子结点
+2. 若ri已是叶子，则筛选完毕
+	否则，比较要筛选结点的左右孩子结点，并将j指向较大的结点
+3. 将ri和rj进行比较，有以下两种情况：
+	3.1 如果ri&gt;rj，则完全二叉树已是堆，筛选完毕
+	3.2 否则将ri和rj进行交换；令i=j，转步骤2继续执行
+*/
+
+void HeapSort(int r[],int n){
+    int i,temp;
+    
+    for(i=(n-1)/2;i&gt;=0;i--){		// 初始建堆，最后一个分支下标为(n-1)/2
+        SiftHeap(r,i,n);
+    }
+    
+    for(i=1;i&lt;=n-1;i++){
+        temp=r[0];
+        r[0]=r[n-i];
+        r[n-i]=temp;
+        SiftHeap(r,0,n-i);			// 只需要调整根节点
+    }
+}
+
+void SiftHeap(int r[],int k,int n){
+    int i,j,temp;					// 置i为要筛的结点，j为i的左孩子
+    i=k;
+    j=i*2+1;
+    while(j&lt;n){
+        if(j&lt;n-1&amp;&amp;r[j]&lt;r[j+1]) j++;		// 比较i的左右孩子，j为较大者
+        if(r[i]&gt;r[j]) 	break;
+        else{
+            // 将被筛结点与结点j交换
+            temp=r[i];
+            r[i]=r[j];
+            r[j]=temp;
+            // 被筛节点位于原来结点j的位置
+            i=j;
+            j=2*i+1;
+        }
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E7%AD%96%E7%95%A5%E4%BB%A5%E5%8F%8A%E6%97%B6%E9%97%B4%E5%BC%80%E9%94%80">策略以及时间开销</a></li>
+<li><a href="#%E9%83%A8%E5%88%86%E6%8E%92%E5%BA%8F%E7%9A%84%E6%A0%B8%E5%BF%83%E7%AE%97%E6%B3%95">部分排序的核心算法</a>
+<ul>
+<li><a href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F">归并排序</a>
+<ul>
+<li><a href="#%E5%9B%BE%E8%A7%A3">图解</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81">代码</a></li>
+</ul>
+</li>
+<li><a href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F">快速排序</a>
+<ul>
+<li><a href="#%E5%9B%BE%E8%A7%A3-2">图解</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81-2">代码</a></li>
+</ul>
+</li>
+<li><a href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F">插入排序</a>
+<ul>
+<li><a href="#%E5%9B%BE%E8%A7%A3-3">图解</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81-3">代码</a></li>
+</ul>
+</li>
+<li><a href="#%E5%A0%86%E6%8E%92%E5%BA%8F">堆排序</a>
+<ul>
+<li><a href="#%E5%9B%BE%E8%A7%A3-4">图解</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81-4">代码</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/用不同算法解决01背包问题">
+              <h3 class="post-title">
+                用不同算法解决0/1背包问题
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

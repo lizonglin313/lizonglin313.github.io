@@ -1,0 +1,435 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>使用Golang构建区块链Part2：工作量证明 | Gridea</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1579616313288">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="使用Golang构建区块链Part2：工作量证明 | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="介绍
+在前面的文章中我们构建了一个非常简单的数据结构，也是区块链数据库的精华所在。然后我们让区块链以“链式”的形式添加区块成为可能：每一个区块连接到它前面的一个区块。可是，我们的区块链实现有一个重大的瑕疵：往链上添加区块太过简单，花费的代价..." />
+    <meta name="keywords" content="Golang,笔记" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1579616313288" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              使用Golang构建区块链Part2：工作量证明
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-09-04
+              </span>
+              <span>
+                12 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/Kf9p2vgKYl" class="post-tag">
+                  # Golang
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="post-tag">
+                  # 笔记
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h2 id="介绍">介绍</h2>
+<p>在前面的文章中我们构建了一个非常简单的数据结构，也是区块链数据库的精华所在。然后我们让区块链以“链式”的形式添加区块成为可能：每一个区块连接到它前面的一个区块。可是，我们的区块链实现有一个重大的瑕疵：往链上添加区块太过简单，花费的代价太低。让添加区块是一件非常艰难的工作，这是区块链和比特币的主旨。今天我们就去修复这个瑕疵。</p>
+<h2 id="工作量证明">工作量证明</h2>
+<p>区块链的一个核心思想就是存放一个数据需要执行困难的工作。这个艰难的工作保证了区块链安全性和一致性。同时，这项困难的工作也带来相应的报酬（人们就是这样在挖矿中收获的比特币的）。</p>
+<p>这项机制非常像我们的真实生活：一个人必须去努力工作，获得报酬以至去维持生活。在区块链中，一些维持网络工作的参与者（矿工）去维持区块链网络，向其中添加新的区块，并获得奖励。得益于他们的工作，区块可以以一种安全的方式加入区块链，维持区块链数据库的稳定性。值得注意的是，完成这项工作的人必须注意到这一点。</p>
+<p>这些全部的“困难的工作并且去证明”的机制就叫做工作量证明（Proof-of-Work）。这是非常困难的，因为它需要非常强大的算力（计算能力）：甚至是高性能计算机也不能很快的将它计算出。此外，这项工作难度的增加使其保持着每小时的出块速度为6块。在区块链中，这项工作的目标是是为每个区块去寻找一个哈希（或者叫做散列），用来满足一些要求。然后用这个哈希去作为一个证明。因此，为这个真正的工作寻找出一个证明。</p>
+<p>最后一件需要注意的事情是，工作量证明必须满足一个要求：做这项工作是困难的，但是验证它却是容易的。一个证明通常情况下是交给别人完成的，所以对于他们，这不应该花费太多时间。</p>
+<h2 id="哈希计算">哈希计算</h2>
+<p>在这一段落，我们将讨论哈希，如果你熟悉这个概念，你可以跳过这个部分。获取指定数据哈希值的过程就叫做哈希运算。一个哈希是对数据进行计算得到的独一无二的代表。一个哈希函数的功能是对任意大小的数据产生一个固定大小的哈希。这里有一些关于哈希的关键特点：</p>
+<ol>
+<li>原始数据不能从哈希反推。所以哈希并不是一种加密。</li>
+<li>确定的数据只能产生一个哈希并且是独一无二的。</li>
+<li>即使改变一个比特的输入数据也会得到截然不同的哈希。</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2019/09/05/c5vI6AjutkNbVZE.png" alt="" loading="lazy"></figure>
+<p>哈希函数广泛的应用于检测数据的一致性（数据是否被篡改）。一些软件提供者为软件包添加出版验证，在下载之后你可以通过一个哈希函数来与软件开发者提供的进行比较。</p>
+<p>在区块链中，哈希用来保证区块的一致性。哈希函数的输入数据包括前一个区块，因此对于区块的修改成为不可能的事情（或者...至少说是非常非常困难），一个人要是修改一个区块必须连同它后面的区块一并修改。</p>
+<h2 id="hashcash">Hashcash</h2>
+<p>比特币中使用了__Hashcash__,一个最初成熟于防止垃圾邮件的工作量证明算法。它可以被分成这样的几步：</p>
+<ol>
+<li>获得一些公开的数据（在电子邮件中，它是收件者的邮箱地址，在比特币中，它是区块头）。</li>
+<li>添加一个计数器__counter__进去，计数器从0开始。</li>
+<li>得到__data+counter__组合的哈希。</li>
+<li>检查哈希是否满足确定的要求。
+<ol>
+<li>如果是，那么你就完成了！</li>
+<li>如果不是，增加__counter__的数值，然后重复步骤3和步骤4.</li>
+</ol>
+</li>
+</ol>
+<p>因此，这是一种蛮力算法：你改变__counter__计数器的值，不断地计算新的哈希，检查它，增加__counter__的值，计算哈希...这就是为什么在计算上来讲，是代价昂贵的。</p>
+<p>现在，让我们更近一步的看一下哈希需要满足的基本需求。在原始的__Hashcash__的实现中，这种需求是听起来像“哈希的前20比特位必须是零”这样的。在比特币中，这个必要条件随着时间不断调整，因为，刻意的，每十分钟才可以产生一个区块，即使计算能力随着时间的推移不断增加，而且有越来越多的矿工的加入。</p>
+<p>为了证明这个算法，我找了一个和先前例子相似的（“I like donuts”），然后找到一个前三位是0的哈希：</p>
+<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2019/09/05/kjxna49ZE7so6Wt.png" alt="" loading="lazy"></figure>
+<p><strong>ca07ca__是计数器的16进制表示，也就是十进制系统中的__13240266</strong>。</p>
+<h2 id="实现">实现</h2>
+<p>好啦，我们现在完成了理论部分，让我们开始coding！！！首先，我们定义挖矿⛏难度：</p>
+<pre><code class="language-go">const targetBits = 24
+</code></pre>
+<p>在比特币中，__&quot;target bits&quot;__是区块被挖出来时存储在区块头的难度。我们现在不用实现target的调整算法，所以我们可以用一个全局常量来定义难度。</p>
+<p>24可以是任意的一个数字，我们的目标是有一个占用内存少于256bit的target。同时，我们也想要足够的差异让它具有代表性，但是不要太大，因为差异越大就越难找到一个合适的哈希。</p>
+<pre><code class="language-go">type ProofOfWork struct {
+	block  *Block
+	target *big.Int
+}
+
+func NewProofOfWork(b *Block) *ProofOfWork {
+	target := big.NewInt(1)
+	target.Lsh(target, uint(256-targetBits))
+
+	pow := &amp;ProofOfWork{b, target}
+
+	return pow
+}
+</code></pre>
+<p>这里创建了__ProofOfWork__结构体，有一个指向区块的指针和一个指向target的指针。这里的“target”就是前面段落描述的“必要条件”的另一个名字。我们使用__big integer__是由于我们对哈希和target的比较方式：我们将哈希转换成一个big integer类型然后检查它是否小于target。</p>
+<p>在__NewProofOfWork__函数中，我们使用1初始化了一个__big.Int__并且将它左移了__256 - targetBits__比特位。256是一个__SHA-256__哈希函数，同时__SHA-256__哈希函数也是我们正要使用的。这个__target__的16进制的表示是：</p>
+<pre><code class="language-go">0x10000000000000000000000000000000000000000000000000000000000
+</code></pre>
+<p>然后它在内存中占用了29个字节。这里是它与前一个例子的哈希的视觉上的比较：</p>
+<pre><code class="language-go">0fac49161af82ed938add1d8725835cc123a1a87b1b196488360e58d4bfb51e3
+0000010000000000000000000000000000000000000000000000000000000000
+0000008b0f41ec78bab747864db66bcb9fb89920ee75f43fdaaeb5544f7f76ca
+</code></pre>
+<p>第一个哈希（从&quot;I like donuts&quot;计算得到）要比target大，因此它不是一个合法的工作量证明。第二个哈希（从&quot;I like donutsca07ca&quot;计算得到）是小于target的，所以这是一个有效证明。</p>
+<blockquote>
+<p>引自Github上的翻译版本：</p>
+<p>译者注：上面的形式化比较有些“言不符实”，其实它应该并非由 “I like donuts” 而来，但是原文表达的意思是没问题的，可能是疏忽而已。下面是我做的一个小实验：</p>
+<pre><code class="language-go">package main
+
+import (
+ &quot;crypto/sha256&quot;
+ &quot;fmt&quot;
+ &quot;math/big&quot;
+)
+
+func main() {
+
+ data1 := []byte(&quot;I like donuts&quot;)
+ data2 := []byte(&quot;I like donutsca07ca&quot;)
+ targetBits := 24
+ target := big.NewInt(1)
+ target.Lsh(target, uint(256-targetBits))
+ fmt.Printf(&quot;%x\n&quot;, sha256.Sum256(data1))
+ fmt.Printf(&quot;%64x\n&quot;, target)
+ fmt.Printf(&quot;%x\n&quot;, sha256.Sum256(data2))
+
+}
+</code></pre>
+<p>输出：</p>
+<figure data-type="image" tabindex="3"><img src="https://i.loli.net/2019/09/05/okQuTpNGZr65AYD.png" alt="" loading="lazy"></figure>
+</blockquote>
+<p>你可以把一个target想象成一个目标范围的上界：如果一个数（哈希）比这个界限小，它就是合法的；反之就是不合法的。比界限小将导致合法的数更少，因此也就需要进行更困难的工作去找到更有效的一个。</p>
+<p>现在，我们需要进行哈希的数据。让我们去准备它：</p>
+<pre><code class="language-go">func (pow *ProofOfWork) prepareData(nonce int) []byte {
+	data := bytes.Join(
+		[][]byte{
+			pow.block.PrevBlockHash,
+			pow.block.Data,
+			IntToHex(pow.block.Timestamp),
+			IntToHex(int64(targetBits)),
+			IntToHex(int64(nonce)),
+		},
+		[]byte{},
+	)
+
+	return data
+}
+</code></pre>
+<p>这些模块是直接了当的：我们仅仅合并了区块字段连带着__target__和__nonce__。<strong>nonce__是上文中__Hashcash__中所描述的计数器__counter</strong>，这是密码学术语。</p>
+<p>好啦，所有的准备已完成，让我们实现__POW__算法的核心：</p>
+<pre><code class="language-go">func (pow *ProofOfWork) Run() (int, []byte) {
+	var hashInt big.Int
+	var hash [32]byte
+	nonce := 0
+
+	fmt.Printf(&quot;Mining the block containing \&quot;%s\&quot;\n&quot;, pow.block.Data)
+	for nonce &lt; maxNonce {
+		data := pow.prepareData(nonce)
+		hash = sha256.Sum256(data)
+		fmt.Printf(&quot;\r%x&quot;, hash)
+		hashInt.SetBytes(hash[:])
+
+		if hashInt.Cmp(pow.target) == -1 {
+			break
+		} else {
+			nonce++
+		}
+	}
+	fmt.Print(&quot;\n\n&quot;)
+
+	return nonce, hash[:]
+}
+</code></pre>
+<p>首先，我们初始化变量：__hashInt__是哈希的整数表现形式；<strong>nonce__是计数器。接下来，我们跑一个无限循环：它被__maxNonce__所限制，大小为__math.MaxInt64</strong>；这是避免__nonce__可能的溢出。虽然，对于计数器溢出来说，PoW的实现难度太低，但为了以防万一最好还是检查一下。</p>
+<p>在这个循环中，我们要做：</p>
+<ol>
+<li>准备数据。</li>
+<li>使用__SHA-256__取得哈希。</li>
+<li>将哈希转化成__big integer__类型。</li>
+<li>将这个__integer__与__target__进行比较。</li>
+</ol>
+<p>同前面的解释一样简单。现在我们可以移除__Block__的__SetHash__函数并对__NewBlock__函数进行修改：</p>
+<pre><code class="language-go">func NewBlock(data string, prevBlockHash []byte) *Block {
+	block := &amp;Block{time.Now().Unix(), []byte(data), prevBlockHash, []byte{}, 0}
+	pow := NewProofOfWork(block)
+	nonce, hash := pow.Run()
+
+	block.Hash = hash[:]
+	block.Nonce = nonce
+
+	return block
+}
+</code></pre>
+<p>在这里你可以看到__nonce__作为一个__Block__的性质被存储。这是非常有必要的，因为__nonce__是为验证一个证明所准备的。现在__Block__结构如下所示：</p>
+<pre><code class="language-go">type Block struct {
+	Timestamp     int64
+	Data          []byte
+	PrevBlockHash []byte
+	Hash          []byte
+	Nonce         int
+}
+
+</code></pre>
+<p>好啦！让我们运行程序，看看一切是否可以很好的运行：</p>
+<pre><code class="language-go">Mining the block containing &quot;Genesis Block&quot;
+00000041662c5fc2883535dc19ba8a33ac993b535da9899e593ff98e1eda56a1
+
+Mining the block containing &quot;Send 1 BTC to Ivan&quot;
+00000077a856e697c69833d9effb6bdad54c730a98d674f73c0b30020cc82804
+
+Mining the block containing &quot;Send 2 more BTC to Ivan&quot;
+000000b33185e927c9a989cc7d5aaaed739c56dad9fd9361dea558b9bfaf5fbe
+
+Prev. hash:
+Data: Genesis Block
+Hash: 00000041662c5fc2883535dc19ba8a33ac993b535da9899e593ff98e1eda56a1
+
+Prev. hash: 00000041662c5fc2883535dc19ba8a33ac993b535da9899e593ff98e1eda56a1
+Data: Send 1 BTC to Ivan
+Hash: 00000077a856e697c69833d9effb6bdad54c730a98d674f73c0b30020cc82804
+
+Prev. hash: 00000077a856e697c69833d9effb6bdad54c730a98d674f73c0b30020cc82804
+Data: Send 2 more BTC to Ivan
+Hash: 000000b33185e927c9a989cc7d5aaaed739c56dad9fd9361dea558b9bfaf5fbe
+
+</code></pre>
+<p>Wow!你可以看到每个哈希现在都是以三个字节的0开始，而且它花费了一些时间去得到这些哈希。</p>
+<p>这里还有一件事情需要去做：让验证工作量证明成为可能。</p>
+<pre><code class="language-go">func (pow *ProofOfWork) Validate() bool {
+	var hashInt big.Int
+
+	data := pow.prepareData(pow.block.Nonce)
+	hash := sha256.Sum256(data)
+	hashInt.SetBytes(hash[:])
+
+	isValid := hashInt.Cmp(pow.target) == -1
+
+	return isValid
+}
+
+</code></pre>
+<p>这里就需要用到我们保存的__nonce__。</p>
+<p>让我们再检查一次一切是否🆗：</p>
+<pre><code class="language-go">func main() {
+	...
+
+	for _, block := range bc.blocks {
+		...
+		pow := NewProofOfWork(block)
+		fmt.Printf(&quot;PoW: %s\n&quot;, strconv.FormatBool(pow.Validate()))
+		fmt.Println()
+	}
+}
+
+</code></pre>
+<p>输出：</p>
+<pre><code class="language-go">...
+
+Prev. hash:
+Data: Genesis Block
+Hash: 00000093253acb814afb942e652a84a8f245069a67b5eaa709df8ac612075038
+PoW: true
+
+Prev. hash: 00000093253acb814afb942e652a84a8f245069a67b5eaa709df8ac612075038
+Data: Send 1 BTC to Ivan
+Hash: 0000003eeb3743ee42020e4a15262fd110a72823d804ce8e49643b5fd9d1062b
+PoW: true
+
+Prev. hash: 0000003eeb3743ee42020e4a15262fd110a72823d804ce8e49643b5fd9d1062b
+Data: Send 2 more BTC to Ivan
+Hash: 000000e42afddf57a3daa11b43b2e0923f23e894f96d1f24bfd9b8d2d494c57a
+PoW: true
+
+</code></pre>
+<blockquote>
+<p>引自Github上的翻译版本：</p>
+<p>译者注：</p>
+<p>从下图可以看出，这次我们产生三个块花费了一分多钟，比没有工作量证明之前慢了很多（也就是成本高了很多）：</p>
+<figure data-type="image" tabindex="4"><img src="https://i.loli.net/2019/09/06/fAReb13SBacxWKn.png" alt="" loading="lazy"></figure>
+</blockquote>
+<h2 id="总结">总结</h2>
+<p>我们距离真正的区块链更近了：添加区块现在需要繁重的工作，因此挖矿就成为可能。但是它仍然缺少一些重要的要点，这里没有钱包、没有地址、没有交易，也没有共识机制。这些事情我们将会在后面的文章中实现，至于现在，开心的挖矿⛏叭！</p>
+<p>Links：</p>
+<ol>
+<li><a href="https://github.com/Jeiwan/blockchain_go/tree/part_2">Full source codes</a></li>
+<li><a href="https://en.bitcoin.it/wiki/Block_hashing_algorithm">Blockchain hashing algorithm</a></li>
+<li><a href="https://en.bitcoin.it/wiki/Proof_of_work">Proof of work</a></li>
+<li><a href="https://en.bitcoin.it/wiki/Hashcash">Hashcash</a></li>
+</ol>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E4%BB%8B%E7%BB%8D">介绍</a></li>
+<li><a href="#%E5%B7%A5%E4%BD%9C%E9%87%8F%E8%AF%81%E6%98%8E">工作量证明</a></li>
+<li><a href="#%E5%93%88%E5%B8%8C%E8%AE%A1%E7%AE%97">哈希计算</a></li>
+<li><a href="#hashcash">Hashcash</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0">实现</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part1：基本原型">
+              <h3 class="post-title">
+                使用Golang构建区块链Part1：基本原型
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

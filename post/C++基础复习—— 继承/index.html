@@ -1,0 +1,781 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>C++基础复习—— 继承 | Gridea</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1579616313288">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="C++基础复习—— 继承 | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+这篇是继承与派生
+
+C++基础复习—— 继承
+1.继承与派生
+C++继承的几个特点：
+(1)  一个派生类可以有一个或多个基类，只有一个基类时，称为单继承；有多个基类时称为多继承。
+(2)  继承关系可以是多级的。
+(3)  不允许循环继..." />
+    <meta name="keywords" content="C++基础,复习整理" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1579616313288" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              C++基础复习—— 继承
+            </h2>
+            <div class="post-info">
+              <span>
+                2018-11-26
+              </span>
+              <span>
+                16 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/n5U6EvYxUN" class="post-tag">
+                  # C++基础
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/FvEjZM6o_C" class="post-tag">
+                  # 复习整理
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
+<p>这篇是继承与派生</p>
+</blockquote>
+<h1 id="c基础复习-继承">C++基础复习—— 继承</h1>
+<h3 id="1继承与派生">1.继承与派生</h3>
+<p>C++继承的几个特点：<br>
+(1)  一个派生类可以有一个或多个基类，只有一个基类时，称为单继承；有多个基类时称为多继承。<br>
+(2)  继承关系可以是多级的。<br>
+(3)  不允许循环继承。<br>
+(4)  基类中能够被继承的部分只能是公有成员和保护成员，私有成员不能被继承。</p>
+<p>单继承<br>
+说明：<br>
+（1）在派生类定义中，继承方式只限定紧跟其后的那个基类。如果不显示给出继承方式系统默认私<br>
+有继承。<br>
+（2）派生方式有三个关键字，public  private  protected除此之外，缺省的方式默认私有继承。</p>
+<p>派生类实现方式：吸收 改造（主要通过同名覆盖实现） 添加</p>
+<p>多继承定义格式：class 派生类名:继承方式1 基类名1,继承方式2 基类名2，···<br>
+(继承方式缺省默认私有继承)</p>
+<p>基类与派生类的关系：<br>
+1)派生类是基类的具体化<br>
+2)派生类是基类定义的延续<br>
+3)派生类是基类的组合</p>
+<h3 id="2派生类的访问控制">2.派生类的访问控制</h3>
+<p>公有继承：</p>
+<pre><code>      基类        派生类       派生类内    派生类外
+     public  -&gt;   public       可使用     不可使用
+     private -&gt;   不可访问     不可使用    不可使用
+     protected -&gt;protected     可使用     可通过成员函数访问
+</code></pre>
+<p>私有继承：<br>
+基类        派生类      派生类内    派生类外<br>
+public  -&gt;  private    可使用        不可直接使用<br>
+protected-&gt;  private   可以使用      不可直接使用<br>
+private  -&gt;  不可访问   不能直接使用  不能直接使用（只能通过调用基类函数成员</p>
+<h3 id="3派生类的构造函数和析构函数">3.派生类的构造函数和析构函数</h3>
+<p>派生类的构造函数：在派生类对象的成员中，从基类继承来的成员被封装为基类的子对象，他们的初始化由派生类的构造函数隐含调用基类构造函数进行初始化；派生类新增数据成员则在派生类自己定义的构造函数中进行初始化。对象在使用之前必须初始化，对派生类对象初始化之时，需要对该类数据成员赋初值。由于派生类数据成员是由所有基类成员与派生类新成员共同组成的，所以这里要注意参数是否与所有要初始化的参数相匹配。</p>
+<ul>
+<li>派生类构造函数的调用规则</li>
+</ul>
+<p>1)单继承的构造函数调用顺序<br>
+调用基类构造函数-&gt;调用内嵌成员对象的构造函数-&gt;调用顺序取决于他们在类中定义的顺序-&gt;派生类自己的构造函数。</p>
+<p>例题（包括子对象条件下）</p>
+<pre><code class="language-c++">class Base1  //基类
+{
+public:
+	Base1(int i) {
+		a = i;
+		cout &lt;&lt; &quot;constructing Base1 a=&quot; &lt;&lt; a &lt;&lt; endl;
+	}
+private:
+	int a;
+};
+class Base2   //子对象f所属类
+{
+public:
+	Base2(int i) {
+		b = i;
+		cout &lt;&lt; &quot;constructing Base2 b=&quot; &lt;&lt; b &lt;&lt; endl;
+	}
+private:
+	int b;
+};
+class Base3   //子对象g所属类
+{
+public:
+	Base3(int i) {
+		c = i;
+		cout &lt;&lt; &quot;constructing Base3 c=&quot; &lt;&lt; c &lt;&lt; endl;
+	}
+private:
+	int c;
+};
+class Derivedclass :public Base1  //派生类
+{
+public:
+	Derivedclass(int i, int j, int k, int m);
+private:
+	int d;
+	Base2 f;   //子对象f
+	Base3 g;  //子对象g
+};
+Derivedclass::Derivedclass(int i, int j, int k, int m) :Base1(i), g(j), f(k)
+{
+	d = m;
+	cout &lt;&lt; &quot;constructing Derivedclass d=&quot; &lt;&lt; d &lt;&lt; endl;
+}
+int main()
+{
+	Derivedclass x(5, 6, 7, 8);
+	return 0;
+}
+</code></pre>
+<p>下面是调试结果：<br>
+constructing Base1 a=5<br>
+constructing Base2 b=7<br>
+constructing Base3 c=6<br>
+constructing Derivedclass d=8<br>
+*注意：子对象f和g的调用顺序取决于他们在派生类中被说明的顺序，与他们在成员初始化列表中的<br>
+顺序无关。<br>
+好了看完这个例子我们来总结一下派生类构造函数格式：<br>
+派生类名(参数总表):基类名1(参数表1),···,基类名m(参数表m),成员对象名1(成员对象参数表1),···成员对象n(成员对象参数表n)<br>
+{</p>
+<p>·······</p>
+<p>}；</p>
+<p>2)多继承的构造函数调用顺序<br>
+多继承下派生类的构造函数必须同时负责该派生类所有基类构造函数的调用。构造函数的调用顺序是：<br>
+先调用所有基类的构造函数，再调用派生类的构造函数。处于同一层次的各基类构造函数的调用次序<br>
+取决于定义派生类所指定的基类顺序，与派生类构造函数中所定义的初始化列表顺序无关。<br>
+*对于同一个基类不允许直接继承两次<br>
+我们来感受一下</p>
+<p>例题：</p>
+<pre><code class="language-c++">class Base1
+{
+public:
+	Base1(int i)
+	{
+		a = i;
+		cout &lt;&lt; &quot;constructing Base1 a=&quot; &lt;&lt; a &lt;&lt; endl;
+	}
+private:
+	int a;
+};
+class Base2
+{
+public:
+	Base2(int i)
+	{
+		b = i;
+		cout &lt;&lt; &quot;constructing Base2 b=&quot; &lt;&lt; b &lt;&lt; endl;
+	}
+private:
+	int b;
+};
+class Derivedclass :public Base1, public Base2
+{
+public:
+	Derivedclass(int i, int j, int k);
+private:
+	int d;
+};
+Derivedclass::Derivedclass(int i, int j, int k) :Base2(i), Base1(j)
+{
+	d = k;
+	cout &lt;&lt; &quot;constructing Derivedclass d=&quot; &lt;&lt; d &lt;&lt; endl;
+}
+int main()
+{
+	Derivedclass x(5, 6, 7);
+	return 0;
+}
+</code></pre>
+<p>调试结果如下：<br>
+constructing Base1 a=6<br>
+constructing Base2 b=5<br>
+constructing Derivedclass d=7<br>
+由于在声明派生类时，Base1在Base2之前，所以不关派生类构造函数参数列表的顺序如何，都要先<br>
+构造Base1，就是这个道理。</p>
+<p>3)派生类的析构函数</p>
+<ul>
+<li>析构函数调用规则如下：</li>
+</ul>
+<p>首先调用派生类的析构函数（清理派生类新增成员）-&gt;如果派生类有子对象,再调用子对象类的析构<br>
+函数-&gt;再调用普通基类的析构函数（清理从基类继承来的基类子对象）-&gt;最后调用虚基类的析构函数<br>
+例题：</p>
+<pre><code class="language-c++">class Base1
+{
+public:
+	Base1(int i)
+	{
+		a = i;
+		cout &lt;&lt; &quot;constructing Base1 a=&quot; &lt;&lt; a &lt;&lt; endl;
+	}
+	~Base1()
+	{
+		cout &lt;&lt; &quot;destructing Base1&quot; &lt;&lt; endl;
+	}
+private:
+	int a;
+};
+class Base2
+{
+public:
+	Base2(int i)
+	{
+		b = i;
+		cout &lt;&lt; &quot;constructing Base2 b=&quot; &lt;&lt; b &lt;&lt; endl;
+	}
+	~Base2()
+	{
+		cout &lt;&lt; &quot;destructing Base2&quot; &lt;&lt; endl;
+	}
+private:
+	int b;
+};
+class Base3
+{
+public:
+	Base3(int i)
+	{
+		c = i;
+		cout &lt;&lt; &quot;constructing Base3 c=&quot; &lt;&lt; c &lt;&lt;endl;
+	}
+	~Base3()
+	{
+		cout &lt;&lt; &quot;destructing Base3&quot; &lt;&lt; endl;
+	}
+private:
+	int c;
+};
+
+class Derivedclass :public Base1
+{
+public:
+	Derivedclass(int i, int j, int k, int m);
+	~Derivedclass();
+private:
+	int d;
+	Base2 f;
+	Base3 g;
+};
+Derivedclass::Derivedclass(int i, int j, int k, int m) :Base1(i), g(j), f(k)
+{
+	d = m;
+	cout &lt;&lt; &quot;constructing Derivedclass d=&quot; &lt;&lt; d &lt;&lt; endl;
+}
+Derivedclass::~Derivedclass()
+{
+	cout &lt;&lt; &quot;destructing Derivedclass&quot; &lt;&lt; endl;
+}
+int main()
+{
+	Derivedclass x(5, 6, 7, 8);
+	return 0;
+}
+</code></pre>
+<p>调试结果如下：<br>
+constructing Base1 a=5<br>
+constructing Base2 b=7<br>
+constructing Base3 c=6<br>
+constructing Derivedclass d=8<br>
+destructing Derivedclass<br>
+destructing Base3<br>
+destructing Base2<br>
+destructing Base1</p>
+<h3 id="4多继承">4.多继承</h3>
+<p>多继承语法：<br>
+class 派生类名: 访问区分符 基类1的类名,···, 访问区分符 基类n的类名</p>
+<p>*多继承中的二义性及其解决<br>
+引例：</p>
+<pre><code class="language-c++">class A
+{
+public:
+	void fun() { cout&lt;&lt;&quot;调用A类成员函数&quot; &lt;&lt; endl; }
+};
+class B
+{
+public:
+	void fun() { cout &lt;&lt; &quot;调用B类成员函数&quot; &lt;&lt; endl; }
+};
+class C
+{
+public:
+	void funC() {
+		cout &lt;&lt; &quot;调用C类成员函数&quot; &lt;&lt; endl;
+	}
+};
+class D :public B, public A, public C
+{
+public:
+	void fun() {
+		cout &lt;&lt; &quot;调用D类成员函数&quot; &lt;&lt; endl;
+	}
+};
+int main()
+{
+	D d;
+	d.fun();
+	d.funC();
+	return 0;
+}
+</code></pre>
+<p>调试结果如下：<br>
+调用D类成员函数<br>
+调用C类成员函数<br>
+我们发现，派生类的成员函数覆盖了基类中所有与之重名的成员函数，这一规则对于数据成员同样<br>
+适用。<br>
+由此来看二义性的产生：如果只是基类与基类有同名函数成员，存在二义性，系统不能自行判断他们<br>
+派生类C的对象访问是的成员中的哪一个。</p>
+<p>二义性的解决办法：<br>
+1）成员名限定：通过类作用域分辨符明确限定出现歧义的成员是继承自哪一个基类成员<br>
+2）成员重定义：在派生类中新增一个与基类成员相同的成员，由于同名覆盖，程序自动选择派生类<br>
+新增的成员。</p>
+<p>多继承中构造函数和析构函数调用顺序<br>
+多继承情况下，基类及派生类的构造函数是按照以下顺序被调用的：<br>
+(1)按基类被列出的顺序逐一调用基类构造函数<br>
+(2)如果该派生类存在对象成员，则调用成员对象的构造函数<br>
+(3)如果存在多个对象成员，按他们被列出的顺序逐一调用<br>
+(4)最后调用派生类构造函数<br>
+而析构函数调用顺序与构造函数的调用顺序正好相反<br>
+例题：</p>
+<pre><code class="language-c++">class HairColor
+{
+private:
+	int color;
+public:
+	HairColor(int color)
+	{
+		cout &lt;&lt; &quot;Constructor of class HairColor called&quot; &lt;&lt; endl;
+		this-&gt;color = color;
+	}
+	~HairColor()
+	{
+		cout &lt;&lt; &quot;Destructor of class HairColor called&quot; &lt;&lt; endl;
+	}
+};
+class Horse
+{
+public:
+	Horse()
+	{
+		cout &lt;&lt; &quot;Constructor of class Horse called&quot; &lt;&lt; endl;
+	}
+	~Horse()
+	{
+		cout &lt;&lt; &quot;Destructor of class Horse called&quot; &lt;&lt; endl;
+	}
+};
+class Donkey
+{
+public:
+	Donkey()
+	{
+		cout &lt;&lt; &quot;Constructor of class Donkey called&quot; &lt;&lt; endl;
+	}
+	~Donkey()
+	{
+		cout &lt;&lt; &quot;Destructor of class Donkey called&quot; &lt;&lt; endl;
+	}
+};
+class Mule :public Horse, public Donkey
+{
+private:
+	HairColor hcInstance;
+public:
+	Mule(int color) :hcInstance(color)
+	{
+		cout &lt;&lt; &quot;Constructor of class Mule called&quot; &lt;&lt; endl;
+	}
+	~Mule()
+	{
+		cout &lt;&lt; &quot;Destructor of class Mule called&quot; &lt;&lt; endl;
+	}
+};
+int main()
+{
+	Mule muleInstance(100);
+	cout &lt;&lt; &quot;Program over&quot; &lt;&lt; endl;
+	return 0;
+}
+</code></pre>
+<p>调试结果如下：<br>
+Constructor of class Horse called<br>
+Constructor of class Donkey called<br>
+Constructor of class HairColor called<br>
+Constructor of class Mule called<br>
+Program over<br>
+Destructor of class Mule called<br>
+Destructor of class HairColor called<br>
+Destructor of class Donkey called<br>
+Destructor of class Horse called</p>
+<h3 id="5虚基类">5.虚基类</h3>
+<p>（1）多重派生的基类拷贝<br>
+引例：</p>
+<pre><code class="language-c++">class A
+{
+public:
+  int x;
+  A(int a){x=a;}
+};
+class B:public A
+{
+public:
+  int y;
+  B(int a,int b):A(b){y=a;}
+};
+class C:public A
+{
+public:
+  int z;
+  C(int a,int b):A(b)
+  {
+    z=a;
+  }
+};
+class D:public B,public C
+{
+public:
+  int m;
+  D(int a,int b,int d,int e,int f):B(a,b),C(d,e)
+  {
+    m=f;
+  }
+  void Print()
+  {
+    cout&lt;&lt;&quot;x=&quot;&lt;&lt;B::x&lt;&lt;'\t'&lt;&lt;&quot;y=&quot;&lt;&lt;y&lt;&lt;endl;
+    cout&lt;&lt;&quot;x=&quot;&lt;&lt;C::x&lt;&lt;'\t'&lt;&lt;&quot;z=&quot;&lt;&lt;z&lt;&lt;endl;
+    cout&lt;&lt;&quot;m=&quot;&lt;&lt;m&lt;&lt;endl;
+  }
+}
+int main()
+{
+  D d1(100,200,300,400,500);
+  d1.Print();
+  return 0;
+}
+</code></pre>
+<p>调试结果如下：<br>
+x=200   y=100<br>
+x=400   z=300<br>
+m=500</p>
+<p>虚基类的定义<br>
+定义格式：<br>
+class &lt;派生类名&gt;:virtual <access> &lt;虚基类名&gt;<br>
+or<br>
+class &lt;派生类名&gt;:<access> virtual &lt;虚基类名&gt;</p>
+<p>例题：定义虚基类，使派生类中只有基类的一个拷贝</p>
+<pre><code class="language-c++">class A
+{
+public:
+  int x;
+  A(int a=0)
+  {
+    x=a;
+  }
+};
+class B:virtual public A
+{
+public:
+  int y;
+  B(int a,int b):A(b)
+  {
+    y=a;
+  }
+};
+class C:public virtual A
+{
+public:
+  int z;
+  C(int a,int b):A(b)
+  {
+    z=a;
+  }
+};
+class D:public B,public C
+{
+public:
+  int m;
+  D(int a,int b,int d,int e,int f):B(a,b),C(d,e){m=f;}
+  void Print()
+  {
+    cout&lt;&lt;&quot;x=&quot;&lt;&lt;x&lt;&lt;'\t'&lt;&lt;&quot;y=&quot;&lt;&lt;y&lt;&lt;endl;
+    cout&lt;&lt;&quot;x=&quot;&lt;&lt;x&lt;&lt;&quot;\t&quot;&lt;&lt;&quot;z=&quot;&lt;&lt;z&lt;&lt;endl;
+    cout&lt;&lt;&quot;m=&quot;&lt;&lt;m&lt;&lt;endl;
+  }
+};
+int main()
+{
+  D d1(100,200,300,400,500);
+  d1.Print();
+  d1.x=400;
+  d1.Print();
+  return 0;
+}
+</code></pre>
+<p>调试结果如下：<br>
+x=0     y=100<br>
+x=0     z=300<br>
+m=500<br>
+x=400   y=100<br>
+x=400   z=300<br>
+m=500<br>
+有虚基类时，多继承方式下构造函数的调用顺序<br>
+例题</p>
+<pre><code class="language-c++">class base1
+{
+public:
+  base1(){cout&lt;&lt;&quot;constructing base1&quot;&lt;&lt;endl;}
+};
+class base2
+{
+public:
+  base2(){cout&lt;&lt;&quot;constructing base2&quot;&lt;&lt;endl;}
+};
+class derived1:public base2,virtual public base1
+{
+public:
+  derived1(){cout&lt;&lt;&quot;constructing derived1&quot;&lt;&lt;endl;}
+};
+class derived2:public base2,virtual base1
+{
+public:
+  derived2(){cout&lt;&lt;&quot;constructing derived2&quot;&lt;&lt;endl;}
+};
+class Derived3:public derived1,virtual public derived2
+{
+public:
+  Derived3(){cout&lt;&lt;&quot;constructing derived3&quot;&lt;&lt;endl;}
+};
+
+int main()
+{
+  Derived3 obj;
+  return 0;
+}
+</code></pre>
+<p>调试结果如下<br>
+constructing base1<br>
+constructing base2<br>
+constructing derived2<br>
+constructing base2<br>
+constructing derived1<br>
+constructing derived3<br>
+*注意，虚基类的构造函数只调用一次</p>
+<p>*虚基类的构造与析构<br>
+C++建立对象时所使用的派生类为最远派生类。对于虚基类而言，由于最远派生类对象中只有一个<br>
+公共虚基类子对象，为了初始化该公共子对象，最远派生类的构造函数要调用该公共基类的构造函数<br>
+，而且只能被调用一次。<br>
+分为三种情况：<br>
+1）虚基类没有构造函数。程序自动调用系统缺省构造函数来初始化派生类对象中的虚基类子对象<br>
+2）虚基类中定义了缺省构造函数。程序自动调用自定义的缺省构造函数和析构函数<br>
+3）虚基类定义了带参的构造函数···比较复杂 textbook P196<br>
+*C++同时规定，在初始化列表中同时出现对虚基类和非虚基类构造函数的调用时，虚基类的构造函数<br>
+先于非虚基类的构造函数执行，虚基类的析构顺序与构造顺序完全相反。最先析构的是最远派生类自<br>
+身，最后析构的是虚基类</p>
+<p>赋值兼容规则：<br>
+1)派生类的对象可以赋值给基类对象<br>
+2)派生类的对象可以初始化基类引用<br>
+3)派生类对象的地址可以赋给指向基类的指针（指向基类的指针也可以指向派生类<br>
+4)通过基类对象名，指针只能使用从基类继承的成员<br>
+示例</p>
+<pre><code class="language-c++">class B0
+{
+public:
+  void display()
+  {
+    cout&lt;&lt;&quot;B0::display()&quot;&lt;&lt;endl;
+  }
+};
+class B1:public B0
+{
+public:
+  void display()
+  {
+    cout&lt;&lt;&quot;B1::display&quot;&lt;&lt;endl;
+  }
+};
+class D1:public B1
+{
+  void display()
+  {
+    cout&lt;&lt;&quot;D1::display&quot;&lt;&lt;endl;
+  }
+};
+void fun(B0 *ptr)
+{
+  ptr-&gt;display();
+}
+int main()
+{
+  B0 b0;
+  B1 b1;
+  D1 d1;
+  B0 *p;
+  p=&amp;b0;
+  fun(p);
+  p=&amp;b1;
+  fun(p);
+  p=&amp;d1;
+  fun(p);
+  return 0;
+}
+</code></pre>
+<p>调试结果如下<br>
+B0::display()<br>
+B0::display()<br>
+B0::display()</p>
+<hr>
+<h2 id="goodnight-20181122-2310">goodnight    2018.11.22  23：10</h2>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#c%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0-%E7%BB%A7%E6%89%BF">C++基础复习—— 继承</a><br>
+*
+<ul>
+<li><a href="#1%E7%BB%A7%E6%89%BF%E4%B8%8E%E6%B4%BE%E7%94%9F">1.继承与派生</a></li>
+<li><a href="#2%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6">2.派生类的访问控制</a></li>
+<li><a href="#3%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%92%8C%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0">3.派生类的构造函数和析构函数</a></li>
+<li><a href="#4%E5%A4%9A%E7%BB%A7%E6%89%BF">4.多继承</a></li>
+<li><a href="#5%E8%99%9A%E5%9F%BA%E7%B1%BB">5.虚基类</a></li>
+<li><a href="#goodnight-20181122-2310">goodnight    2018.11.22  23：10</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/C++基础复习—— 类与对象">
+              <h3 class="post-title">
+                C++基础复习—— 类与对象
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

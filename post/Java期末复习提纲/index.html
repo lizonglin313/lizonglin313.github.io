@@ -1,0 +1,2555 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Java期末复习提纲 | Gridea</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1579616313288">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Java期末复习提纲 | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="第一章 Java开发入门
+
+
+Java三个技术平台：JavaSE JavaEE JavaME
+
+
+Java语言的特点：
+
+简单易用
+安全可靠
+跨平台
+面向对象
+支持多线程
+
+
+
+什么是JDK？
+
+Java开发环境叫JDK，包括Java编译器..." />
+    <meta name="keywords" content="Java基础,复习整理" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1579616313288" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Java期末复习提纲
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-06-05
+              </span>
+              <span>
+                47 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/1_KCLGqHQ5" class="post-tag">
+                  # Java基础
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/FvEjZM6o_C" class="post-tag">
+                  # 复习整理
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h2 id="第一章-java开发入门">第一章 Java开发入门</h2>
+<ol>
+<li>
+<p>Java三个技术平台：JavaSE JavaEE JavaME</p>
+</li>
+<li>
+<p>Java语言的特点：</p>
+<ul>
+<li>简单易用</li>
+<li>安全可靠</li>
+<li>跨平台</li>
+<li>面向对象</li>
+<li>支持多线程</li>
+</ul>
+</li>
+<li>
+<p>什么是JDK？</p>
+<blockquote>
+<p>Java开发环境叫JDK，包括Java编译器、Java运行环境、Java文档生成器、Java打包工具等</p>
+</blockquote>
+<p>什么是JRE？</p>
+<blockquote>
+<p>Java运行环境</p>
+</blockquote>
+</li>
+<li>
+<p>关于系统环境变量</p>
+<blockquote>
+<p>PATH：告知系统去指定路径寻找JDK</p>
+<p>CLASSPATH：告知JDK到指定路径去查找类（.class）文件</p>
+</blockquote>
+</li>
+<li>
+<p>关于 javac.exe &amp; java.exe</p>
+<blockquote>
+<ul>
+<li>
+<p>编译java源文件：</p>
+<p>javac helloworld.java（完整的文件名）</p>
+<p>之后生成：helloworld.class文件</p>
+</li>
+<li>
+<p>运行java程序：</p>
+<p>java helloworld（类名）</p>
+</li>
+</ul>
+</blockquote>
+</li>
+</ol>
+<hr>
+<h2 id="第二章-java编程基础">第二章 Java编程基础</h2>
+<h3 id="21-java基本语法">2.1 Java基本语法</h3>
+<ol>
+<li>标识符规范：
+<ul>
+<li>包名所有的字母一律小写</li>
+<li>类名和接口名每个单词首字母都要大写</li>
+<li>常量名所有字母都大写，单词之间用下划线连接</li>
+<li>变量名和方法名第一个单词首字母都小写，从第二个单词开始首字母都大写</li>
+<li>使用有意义的单词表示</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="22-变量的数据结构">2.2 变量的数据结构</h3>
+<p>基本数据类型，和引用数据类型。</p>
+<p>基本数据类型：</p>
+<ul>
+<li>
+<p>数值型（整数类型[byte	short	int	long]	浮点类型[float	double]）</p>
+</li>
+<li>
+<p>字符型 char</p>
+</li>
+<li>
+<p>布尔型 boolean</p>
+</li>
+</ul>
+<p>引用数据类型：</p>
+<ul>
+<li>类（class）</li>
+<li>接口（interface）</li>
+<li>数组</li>
+<li>枚举（enum）</li>
+<li>注解（Annotation）</li>
+</ul>
+<hr>
+<h3 id="23-java中的运算符">2.3 Java中的运算符</h3>
+<h4 id="逻辑运算符">逻辑运算符</h4>
+<ul>
+<li>&amp;&amp;：短路与，当左边为false，右边就不会运算了</li>
+<li>&amp;：与，不论左边是true还是false，右边都会运算</li>
+<li>||：短路或，当左边为true的时候，右边就不会运算了</li>
+<li>|：或，不论左边是true还是false，右边都会运算</li>
+</ul>
+<hr>
+<h4 id="运算符的优先级">运算符的优先级</h4>
+<ol>
+<li>​		.		[]		()</li>
+<li>​        ++        --        ~        !</li>
+<li>​        *        /        %</li>
+<li>​        +        -</li>
+<li>​        &lt;&lt;        &gt;&gt;        &gt;&gt;&gt;</li>
+<li>​        &lt;        &gt;         &lt;=        &gt;=</li>
+<li>​         ==        !=</li>
+<li>​        &amp;</li>
+<li>​        ^</li>
+<li>​        |</li>
+<li>​        &amp;&amp;</li>
+<li>​        ||</li>
+<li>​        ？：</li>
+<li>​        =        *=        /=         +=        -=        &lt;&lt;=        &gt;&gt;=        &gt;&gt;&gt;=        &amp;=        ^=        |=</li>
+</ol>
+<hr>
+<h3 id="24-选择结合语句">2.4 选择结合语句</h3>
+<pre><code class="language-java">// if—else结构
+if(...){
+    ...
+}else{
+    ...
+}
+
+// if—else if-else结构
+if(...){
+    ...
+}else if(...){
+    
+}else if(...){
+    
+}else{
+    ...
+}
+
+// switch条件语句
+switch(...){
+    case ...:
+        ...
+            break;
+    case ...:
+        ...
+            break;
+    case ...:
+        ...
+            break;
+    default:
+        ...
+            break;
+}
+
+</code></pre>
+<h3 id="25循环结构语句">2.5循环结构语句</h3>
+<h4 id="循环语句">循环语句</h4>
+<pre><code class="language-java">// while
+while(...){
+    ...
+}
+
+// do-while
+do{
+    ...
+}while(...);
+
+// for
+for(初始化表达式; 循环条件; 操作表达式){
+    ...
+}
+
+// 循环嵌套
+for(...; ...; ...){
+    ...
+        for(...; ...; ...){
+            ...
+        }
+    ...
+}
+
+</code></pre>
+<h4 id="跳转语句">跳转语句</h4>
+<ul>
+<li>
+<p>break：在switch-case中，终止某个case并且跳出switch结构</p>
+<p>​			  在循环语句中，跳出当前循环</p>
+</li>
+</ul>
+<h5 id="break跳出多层循环">break跳出多层循环</h5>
+<pre><code class="language-java">outer: for(int i = 1; i &lt;= 9; i++){
+    for(int j = 1; j &lt;= i; j++){
+        if(i &gt;= 3){
+            break outer;			//直接跳出outer循环
+        }
+    }
+}
+</code></pre>
+<ul>
+<li>continue：在循环中，终止本次循环，执行下一次循环</li>
+</ul>
+<hr>
+<h3 id="26数组">2.6数组</h3>
+<h4 id="数组定义">数组定义</h4>
+<p>三种语法：</p>
+<pre><code class="language-java">数组类型[] 数组名 = new 数组类型 [数组长度];
+数组类型[] 数组名 = new 数组类型 []{e0, e1, e2, ...};
+数组类型[] 数组名 = {e0, e1, e2, ...}
+
+int[] ids = new int[100];
+String[] name = new String[] {&quot;张三&quot;, &quot;Tom&quot;, ...};
+Object[] object = {&quot;张三&quot;, &quot;tom&quot;, ...};
+
+int[] ids;
+ids = new int[100];
+</code></pre>
+<h4 id="多维数组">多维数组</h4>
+<pre><code class="language-java">int[][] arr = new int[3][4];
+int[][] arr = new int[3][];
+int[][] arr = {{1, 2},{3,4,5,6},{7,8,9}};
+</code></pre>
+<h4 id="基本操作">基本操作</h4>
+<ul>
+<li>
+<p>数组遍历</p>
+</li>
+<li>
+<p>数组求最值</p>
+</li>
+<li>
+<p>数组排序（冒泡）</p>
+</li>
+</ul>
+<hr>
+<h2 id="第三章-面向对象上">第三章 面向对象（上）</h2>
+<h3 id="31面型对象概述">3.1面型对象概述</h3>
+<ol>
+<li>封装</li>
+<li>继承</li>
+<li>多态</li>
+</ol>
+<h3 id="32类与对象">3.2类与对象</h3>
+<h4 id="类的定义">类的定义</h4>
+<pre><code class="language-java">// 类的定义 
+[修饰符] class 类名 [extends 父类名] [implements 接口名]{
+    // 类成员及方法
+}
+
+//类成员变量声明
+[修饰符] 数据类型 变量名 [=值];
+private String name;
+private int age = 20;
+
+// 类成员方法声明
+[修饰符] [返回值类型] 方法名 (参数列表){
+    ...
+    ...
+    return 返回值;
+}
+</code></pre>
+<h4 id="对象的创建与使用">对象的创建与使用</h4>
+<pre><code class="language-java">类名 对象名称 = new 类名();
+
+// 例如
+class Person{
+    
+}
+Person p = new Person();
+</code></pre>
+<h4 id="访问控制符">访问控制符</h4>
+<ul>
+<li>private（当前类访问级别）：只能被该类的其他成员所访问，其他类无法直接访问</li>
+<li>default（包访问级别）：如果一个类或者类的成员不使用任何访问控制修饰符，则成为默认访问级别，这个类或者类成员只能被本包中的其他类访问</li>
+<li>protected（子类访问级别）：这个成员既可以被同一包下的其他类访问也能被不同包下该类的子类所访问</li>
+<li>public（公共访问级别）：这个类和类成员可以被所有类所访问，不管是不是在同一个包中</li>
+</ul>
+<h3 id="33-类的封装">3.3 类的封装</h3>
+<p>具体实现是：在定义一个类时，将类中的属性私有化，即使用private关键字来修饰，私有属性只能在它所在的类中被访问；如果外界想访问私有属性，需要提供一些使用public修饰的公有方法。</p>
+<h3 id="34-方法的重载和递归">3.4 方法的重载和递归</h3>
+<h4 id="方法的重载">方法的重载</h4>
+<pre><code class="language-java">public class Example{
+    // 两个整数相加
+    public static int add(int x, int y){
+        return x+y;
+    }
+    
+    // 三个整数相加
+    public static int add(int x, int y, int z){
+        return x+y+z;
+    }
+    
+    // 两个小数相加
+    public static double(double x, double y){
+        return x+y;
+    }
+}
+</code></pre>
+<p>方法的重载：</p>
+<ul>
+<li><strong>方法名称相同</strong></li>
+<li><strong>参数个数或者参数类型不同</strong></li>
+<li><strong>与返回值无关</strong></li>
+</ul>
+<h4 id="方法的递归">方法的递归</h4>
+<p>递归必须要有结束条件，否则会陷入无限递归状态</p>
+<pre><code class="language-java">public class Example{
+    public static int getSum(int n){
+        if(n==1){
+            return 1;
+        }
+        int temp = getSum(n-1);
+        return temp + n;
+    }
+    public static void main(String[] args){
+        int sum = getSum(4);
+    }
+}
+</code></pre>
+<hr>
+<h3 id="35构造方法">3.5构造方法</h3>
+<h4 id="构造方法的定义">构造方法的定义</h4>
+<p>满足三个条件：</p>
+<ul>
+<li>方法名与类名相同</li>
+<li>方法名前面没有返回值类型的声明</li>
+<li>在方法中不能用return来返回一个值，但是可以单独的写return语句来作为方法的结束</li>
+</ul>
+<pre><code class="language-java">[修饰符] 方法名 (参数列表){
+    ...
+}
+
+// 构造无参
+class Person{
+    public Person(){
+        // 无参构造方法
+    }
+}
+
+Person p = new Person();
+
+// 构造有参
+class Person{
+    public Person(int a){
+        // 有参构造方法
+    }
+}
+
+Person p = new Person(18);
+</code></pre>
+<h4 id="构造方法的重载">构造方法的重载</h4>
+<p>只要每个构造方法的参数类型和个数不同即可</p>
+<pre><code class="language-java">class Person{
+    String name;
+    int age;
+    
+    public Person(int a){
+        age = a;
+    }
+    
+    public Person(String n, int a){
+        name = n;
+        age = a;
+    }
+}
+
+Person p1 = new Person(18);
+Person p2 = new Person(&quot;张三&quot;, 18);
+</code></pre>
+<ul>
+<li>注意：
+<ol>
+<li>Java中每个类都至少有一个构造方法，如果在一个类中没有显示地定义构造方法，系统就会自动为这个类创建一个默认构造方法</li>
+<li>一旦为该类定义构造方法，系统将不再提供默认的无参构造方法</li>
+</ol>
+</li>
+</ul>
+<h3 id="36-this关键字">3.6 this关键字</h3>
+<p>Java中提供了一个关键字this来指代当前对象，用于在方法中访问该类型的其他成员</p>
+<pre><code class="language-java">// this调用成员变量
+class Person{
+    int age;
+    public Person(int age){
+        this.age = age;
+    }
+}
+
+// this调用成员方法
+class Person{
+    public void openMouth(){
+        ...
+    }
+    
+    public void speak(){
+        this.openMouth();
+    }
+}
+
+// this调用构造方法
+/*
+注意：
+1.只能在构造方法中使用this调用其他构造方法，不能在类的成员方法中调用
+2.在构造方法中，使用this调用构造方法必须是该方法的第一条执行语句，且只能出现一次
+3.不能在一个类的两个构造方法中使用this互调
+*/
+class Person{
+    public Person(){
+        ...
+    }
+    
+    public Person(int age){
+        this();			// 调用无参构造方法
+    }
+}
+</code></pre>
+<h3 id="37static关键字">3.7static关键字</h3>
+<h4 id="静态变量">静态变量</h4>
+<p>静态变量所定义的对象可以被所有实例共享。</p>
+<pre><code class="language-java">类名.变量名;
+
+class Student {
+	static String schoolName;
+}
+
+public class Example {
+    public static void main(String[] args){
+        Student s1 = new Student();
+        Student s2 = new Student();
+        Student.schoolName = &quot;西安交通大学&quot;;
+        
+        System.out.println(&quot;我是&quot; + s1.schoolName + &quot;的学生&quot;);
+        System.out.println(&quot;我是&quot; + s2.schoolName + &quot;的学生&quot;);
+    }
+}
+
+/*
+输出结果：
+我是西安交通大学的学生
+我是西安交通大学的学生
+*/
+</code></pre>
+<ul>
+<li>注意：static关键字只能修饰成员变量，不可以修饰局部变量</li>
+</ul>
+<h4 id="静态方法">静态方法</h4>
+<p>有时候，开发人员希望在不创建对象的情况下就可以调用某个方法，这种情况下可以使用静态方法。</p>
+<p>静态方法的定义十分简单，只需在类中定义的方法前面加上static关键字即可。</p>
+<pre><code class="language-java">// 访问 类名.方法 or 实例对象名.方法
+class Person{
+    public static void say(){
+        ...
+    }
+   
+}
+
+public class Example{
+    public static void main(String[] args){
+        Person.say();
+        // 或者
+        Person p = new Person();
+        p.say();
+    }
+}
+</code></pre>
+<h4 id="静态代码块">静态代码块</h4>
+<pre><code class="language-java">static {
+    ...
+}
+// 静态代码块只在类的第一次使用时会被加载，并且只会被加载一次
+</code></pre>
+<h2 id="第四章-面向对象下">第四章 面向对象（下）</h2>
+<h3 id="41-类的继承">4.1 类的继承</h3>
+<h4 id="继承的概念">继承的概念</h4>
+<p>语法格式</p>
+<pre><code class="language-java">/*
+[修饰符] class 子类名 extends 父类名{
+	...
+}
+修饰符可选，默认default
+*/
+
+class Animal{
+    ...
+}
+
+class Dog extends Animal{
+    ...
+}
+/*
+1.子类在继承父类时，会自动拥有父亲所有公共的成员
+
+2.Java中，类只支持单继承，不允许多重继承，也就是一个类只有一个父亲
+
+3.多个类可以继承同一个父类
+
+4.可以多层继承，一个类的父类可以再继承另外的父类
+*/
+</code></pre>
+<h4 id="重写父类方法">重写父类方法</h4>
+<ul>
+<li>子类中重写的方法需要和父类被重写的方法具有相同的方法名、参数列表以及返回值类型</li>
+<li>不能使用比父类重写方法更加严格访问权限</li>
+</ul>
+<h4 id="super关键字">super关键字</h4>
+<ul>
+<li>
+<p>使用super关键字调用父类的成员变量和成员方法</p>
+<p>super.成员变量</p>
+<p>super.成员方法([参数1, 参数2...])</p>
+</li>
+<li>
+<p>使用super关键字调用父类构造方法，并且只能放在子类第一行，只能出现一次</p>
+<p>super([参数1, 参数2, ...])</p>
+</li>
+</ul>
+<h3 id="42-final关键字">4.2 final关键字</h3>
+<p>特性：</p>
+<ol>
+<li>final修饰的类不能被继承</li>
+<li>final修饰的方法不能被子类重写</li>
+<li>final修饰的变量是常量，只能赋值一次</li>
+</ol>
+<h3 id="43抽象类和接口">4.3抽象类和接口</h3>
+<h4 id="抽象类">抽象类</h4>
+<p>基本语法格式</p>
+<pre><code class="language-java">/*
+// 定义抽象类
+[修饰符] abstract class 类名{
+	// 定义抽象方法
+	[修饰符] abstract 返回值类型 方法名 (参数列表);
+	// 其他方法和属性
+}
+*/
+</code></pre>
+<ul>
+<li>包含抽象方法的类必须定义为抽象类，但是抽象类中可以不包含任何抽象方法</li>
+<li>抽象类不可以被实例化，如果要调用可以定义一个子类，在子类中实现</li>
+</ul>
+<h4 id="接口">接口</h4>
+<ul>
+<li>如果一个类中所有方法都是抽象的，那么这个类是接口（JDK8中重新定义，还可以有默认方法和静态方法，默认方法使用default修饰，静态方法使用static修饰，而且这两种方法都允许有方法体）</li>
+<li>与定义类不同的是，定义接口不再使用class关键字，而是使用interface关键字来声明</li>
+</ul>
+<pre><code class="language-java">[修饰符] interface 接口名 [extends 父接口1, 父接口2, ...]{
+    [public] [static] [final] 常量类型 常量名 = 常量值;
+    [public] [abstract] 方法返回值类型 方法名 (参数列表);
+    [public] default 方法返回类型值 方法名 (参数列表){
+        ...
+    }
+    [public] static 方法返回值类型 方法名 (参数列表){
+        ...
+    }
+} 
+</code></pre>
+<ul>
+<li>定义接口实现类</li>
+</ul>
+<pre><code class="language-java">[修饰符] class [extends 父类名] [implements 接口1, 接口2, ...]{
+    ...
+}
+</code></pre>
+<ul>
+<li>当一个类实现接口，如果这个类是抽象类，只需要实现接口中的部分抽象方法即可，否则需要实现所有抽象方法</li>
+<li>一个类可以通过implements实现多个接口</li>
+</ul>
+<pre><code class="language-java">class A extends B implements C{
+    // 需要先继承再实现接口，extends需要放在implements前面
+    ...
+}
+</code></pre>
+<h3 id="44多态">4.4多态</h3>
+<p>多态是指不同类的对象在调用一个方法时所呈现的不同动行为。解决方法同名的问题，并且使程序更加灵活，从而有效的提高了程序的可拓展性和可维护性。</p>
+<h4 id="对象类型的转换">对象类型的转换</h4>
+<p>涉及到子类对象当作父类类型使用的情况，“向上转型”</p>
+<pre><code class="language-java">Animal an1 = new Cat();		// Cat 类当作 Animal 类型来使用
+Animal an2 = new Dog();		// Dog 类当作 Animal 类型来使用
+// 注意，此时不能通过父类去调用子类特有的方法
+</code></pre>
+<p>instanceof 判断一个对象是否为某个类/接口的的实例或者子类实例</p>
+<pre><code class="language-java">/*
+对象（或对象引用变量）instanceof 类（或接口）
+*/
+if (an1 instanceof Cat){
+    Cat cat = (Cat)an1;
+}
+</code></pre>
+<h3 id="45-内部类">4.5 内部类</h3>
+<h4 id="成员内部类">成员内部类</h4>
+<p>在一个类中除了可以定义变量、成员方法还可以定义类，这样的类称为内部类。</p>
+<pre><code class="language-java">class Outer{
+    int m = 0;
+    void test1(){
+        ...
+    }
+    class Inner{
+        int n = 1;
+        void show1(){
+            
+        }
+        void show2(){
+            
+        }
+    }
+    // 定义外部类方法，访问内部类变量和方法
+    void test2(){
+        Inner inner = new Inner();
+    }
+}
+
+// 测试类
+public static void main(String[] args){
+    Outer outer = new Outer();
+    Outer.Inner inner = outer.new Inner();  // 注意这里有两种情况创建内部类
+    /*
+    1.如果已有初始化的外部类对象：
+    	Outer.Inner inner = outer.new Inner();
+    2.如果没有已经初始化的外部类对象:
+    	Outer.Inner inner = new Outer().new Inner();
+    */
+    
+    inner.show1();
+    outer.test2();
+}
+</code></pre>
+<h4 id="局部内部类">局部内部类</h4>
+<p>局部内部类，也叫方法内部类。就是在定义到某个局部范围中的类；它和局部变量一样，都是在方法中进行定义，其有效值仅限于方法内部。</p>
+<pre><code class="language-java">class Outer{
+    void test1(){
+        ...
+    }
+    void test2(){
+        class Inner{
+            void show(){
+                test1();
+            }
+        }
+    }
+}
+</code></pre>
+<p>局部类可以访问外部类所有成员，而只有包含在局部内部类的方法才可以访问内部类中的所有成员。</p>
+<h4 id="静态内部类">静态内部类</h4>
+<p>静态内部类就是使用static关键字修饰的成员内部类。</p>
+<ul>
+<li>形式上：静态内部类前增加了static关键字</li>
+<li>功能上：静态内部类只能访问外部类的静态成员，同时，通过外部类访问静态内部类成员时。可以跳过外部类直接通过内部类访问</li>
+</ul>
+<pre><code class="language-java">/*
+外部类名.静态内部类名 变量名 = new 外部类名.静态内部类名();
+*/
+// 定义外部类
+class Outer{
+    static int m = 0;
+    static class Inner{
+        void show(){
+            ...
+        }
+    }
+}
+
+public class Example{
+    public static void main(String[] args){
+        // 静态内部类可以直接通过外部类创建
+        Outer.Inner inner = new Outer.Inner();
+        inner.show();
+    }
+}
+</code></pre>
+<h4 id="匿名内部类">匿名内部类</h4>
+<p>在Java中调用某个方法时，如果该方法的参数是一个接口类型，除了可以传入一个参数接口实现类，还可以使用匿名内部类实现接口来作为该方法的参数。</p>
+<pre><code class="language-java">/*
+new 父接口(){
+	//匿名内部类实现部分
+}
+*/
+interface Animal{
+    void shout();
+}
+
+public class Example{
+    public static void main(String[] args){
+        String name = &quot;小花&quot;;
+        // 定义匿名内部类作为参数传递给Animal shout方法
+        animalShout (new Animal(){
+            // 实现shout方法
+            public void shout(){
+                ...
+            }
+        });
+    }
+    // 定义静态方法animalShout，接受接口类型参数
+    public static void animalShout(Animal an){
+        an.shout();
+    }
+}
+</code></pre>
+<h3 id="46-jdk8的lambda表达式">4.6 JDK8的Lambda表达式</h3>
+<p>使用简洁的表达式来表达一个接口，同时Lambda表达式也简化了对集合以及数组数据的遍历、过滤、提取等操作。</p>
+<h4 id="入门">入门</h4>
+<p>一个Lambda表达式由三个部分组成，分别为参数列表、&quot;-&gt;&quot;和表达式主体。</p>
+<pre><code class="language-java">/*
+([数据类型 参数名, 数据类型 参数名, ...]) -&gt; {表达式主体}
+*/
+
+interface Animal{
+    void shout();
+}
+
+public class Example{
+    public static void main(String[] args){
+        String name = &quot;xiaohua&quot;;
+        animalShout(()-&gt;System.out.println(&quot;...&quot;))；
+    }
+    
+    public static void animalShout(Animal an){
+        ...
+    }
+}
+</code></pre>
+<h4 id="函数式接口">函数式接口</h4>
+<p>接口中有且只有一个抽象方法时才可以使用Lambda表达式代替匿名内部类</p>
+<pre><code class="language-java">// 这个例子有些瞎写噢~
+package review;
+@FunctionalInterface
+interface ann{
+    void shout();
+}
+interface cc{
+    int sum(int a, int b);
+}
+public class test{
+    public static void main(String[] args){
+        as(()-&gt;System.out.println(&quot;asd&quot;));
+        s(10, 20, (x, y)-&gt;x+y);
+    }
+    private static void as(ann a){
+        a.shout();
+    }
+    private static void s(int x, int y, cc c){
+        c.sum(x, y);
+    }
+}
+</code></pre>
+<h4 id="方法引用和构造器引用">方法引用和构造器引用</h4>
+<p>看课本我没多少印象就不写啦</p>
+<h3 id="47异常">4.7异常</h3>
+<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2019/06/08/5cfb3330271ca67239.png" alt="Throwable异常体系结构图" loading="lazy"></figure>
+<center>Throwable异常体系结构图</center>
+<ul>
+<li>Error：错误类，表示Java运行时产生的系统内部错误或者资源耗尽的错误，是比较严重的</li>
+<li>Exception：异常类，表示程序本身可以处理的错误</li>
+</ul>
+<h4 id="异常的类型">异常的类型</h4>
+<ol>
+<li>编译时的异常</li>
+<li>运行时的异常</li>
+</ol>
+<h4 id="trycatch-和-finally">try...catch 和 finally</h4>
+<p>异常捕获</p>
+<pre><code class="language-java">try{
+    // 可能出现异常的地方
+}catch(Exception 类或者其子类 e){
+    // 异常捕获处理
+}finally{
+    // 有些时候，我们希望有些语句无论是否发生异常都要执行，就使用finally
+</code></pre>
+<h4 id="throws关键字和throw关键字">throws关键字和throw关键字</h4>
+<h4 id="垃圾回收">垃圾回收</h4>
+<h2 id="第五章-java中的常用类">第五章 Java中的常用类</h2>
+<h3 id="51-string类和stringbuffer类">5.1 String类和StringBuffer类</h3>
+<h4 id="string类的初始化">String类的初始化</h4>
+<pre><code class="language-java">String name = &quot;...&quot;;
+String name = new String(&quot;...&quot;);
+</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方法声明</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">String()</td>
+<td>创建一个内容为空的字符串0</td>
+</tr>
+<tr>
+<td style="text-align:left">String(String value)</td>
+<td>根据指定字符串内容创建对象</td>
+</tr>
+<tr>
+<td style="text-align:left">String(char[] value)</td>
+<td>根据指定的字符数组创建对象</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-java">String str1 = new String();
+String str2 = new String(&quot;abc&quot;);
+char[] arr = new char[]{'A', 'B', 'C'};
+String str3 = new String(arr);
+</code></pre>
+<h4 id="string类的常见操作">String类的常见操作</h4>
+<table>
+<thead>
+<tr>
+<th>方法声明</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int index(int ch)</td>
+<td>返回字符在字符串中第一次出现位置的索引</td>
+</tr>
+<tr>
+<td>int lastIndex(int ch)</td>
+<td>最后一次出现位置的索引</td>
+</tr>
+<tr>
+<td>int indexOf(String str)</td>
+<td>返回指定子串在字符串中第一次出现的位置索引</td>
+</tr>
+<tr>
+<td>int lastIndexOf(String str)</td>
+<td>子串最后一次出现位置的索引</td>
+</tr>
+<tr>
+<td>char charAt(int index)</td>
+<td>返回index位置上的字符</td>
+</tr>
+<tr>
+<td>boolean endsWith(String str)</td>
+<td>判断字符串是否以指定字符串结尾</td>
+</tr>
+<tr>
+<td>int length()</td>
+<td>返回长度</td>
+</tr>
+<tr>
+<td>boolean equals</td>
+<td>字符串与指定字符串比较</td>
+</tr>
+<tr>
+<td>boolean isEmpty()</td>
+<td>当且仅当字符串长度为零时，返回true</td>
+</tr>
+<tr>
+<td>boolean startsWith(String str)</td>
+<td>字符串是否以指定字符串开头</td>
+</tr>
+<tr>
+<td>boolean contains(CharSequence cs)</td>
+<td>字符串是否包含指定字符序列</td>
+</tr>
+<tr>
+<td>String toLowerCase()</td>
+<td>字符串转化成小写</td>
+</tr>
+<tr>
+<td>String toUpperCase()</td>
+<td>转化为大写</td>
+</tr>
+<tr>
+<td>static String valueOf(int i)</td>
+<td>返回int参数的字符串表示形式</td>
+</tr>
+<tr>
+<td>char[] toCharArray()</td>
+<td>字符串转化为一个字符数组</td>
+</tr>
+<tr>
+<td>String replace(CharSequence oldstr,CharSequence newstr)</td>
+<td>返回新的字符串，newstr代替旧字符串中所有的oldstr</td>
+</tr>
+<tr>
+<td>String[] split(String regex)</td>
+<td>根据参数regex（一个正则表达式）分割成若干字符串</td>
+</tr>
+<tr>
+<td>String substring(int beginIndex)</td>
+<td>返回从beginIndex角标开始的字符串直到最后</td>
+</tr>
+<tr>
+<td>String substring(int beginIndex, int endIndex)</td>
+<td>返回从 beginIndex 到 endIndex-1 的角标字符串</td>
+</tr>
+<tr>
+<td>String trim()</td>
+<td>返回新字符串，去掉首尾空格</td>
+</tr>
+</tbody>
+</table>
+<h4 id="stringbuffer类">StringBuffer类</h4>
+<p>为了便于对字符串进行修改，在JDK中提供了一个StringBuffer类（也称字符串缓冲区）来操作字符串。</p>
+<p>StringBuffer类的内容和长度是可以改变的，类似于一个字符容器，在进行添加删除时不会产生新的StringBuffer对象。</p>
+<table>
+<thead>
+<tr>
+<th>方法声明</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>StringBuffer append(char c)</td>
+<td>添加字符到字符串末尾</td>
+</tr>
+<tr>
+<td>StringBuffer insert(int offset, String str)</td>
+<td>在StringBuffer对象中offset位置插入字符串str</td>
+</tr>
+<tr>
+<td>StringBuffer deleteCharAt(int index)</td>
+<td>移出指定位置的字符</td>
+</tr>
+<tr>
+<td>StringBuffer delete(int start, int end)</td>
+<td>删除对象中指定范围的字符串或者字符串</td>
+</tr>
+<tr>
+<td>StringBuffer replace(int start, int end, String s)</td>
+<td>将StringBuffer对象中指定范围内的字符或者字符串用新的字符串s表示</td>
+</tr>
+<tr>
+<td>void setCharAt(int index, char ch)</td>
+<td>修改指定位置处的字符</td>
+</tr>
+<tr>
+<td>String toString()</td>
+<td>返回StringBuffer缓冲区的字符串对象</td>
+</tr>
+<tr>
+<td>StringBuffer reverse()</td>
+<td>StringBuffer对象用其反转形式取代</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>String和StringBuffer的不同</p>
+<ol>
+<li>String长度不可以改变，StringBuffer可以改变</li>
+<li>String类重写了equals()方法，StringBufer没有重写</li>
+<li>String类对象可以用“+”操作符进行连接，但是StringBuffer不可以</li>
+</ol>
+</blockquote>
+<h3 id="52system类与runtime类">5.2System类与Runtime类</h3>
+<h4 id="system类">System类</h4>
+<table>
+<thead>
+<tr>
+<th>方法声明</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>static void exit(int status)</td>
+<td>终止当前正在运行的Java虚拟机，statues为状态码，非0异常终止</td>
+</tr>
+<tr>
+<td>static void gc()</td>
+<td>运行垃圾回收器回收垃圾</td>
+</tr>
+<tr>
+<td>static native long currentTimeMillis()</td>
+<td>返回以毫秒为单位的当前时间</td>
+</tr>
+<tr>
+<td>static void arraycopy(Object scr, int scrPos, Object dest, int destPos, int length)</td>
+<td>从scr引用的指定原数组拷贝到dest引用的数组，拷贝从指定位置开始，到目标数组指定位置结束</td>
+</tr>
+<tr>
+<td>static Properties getProperties()</td>
+<td>获取当前的系统属性</td>
+</tr>
+<tr>
+<td>static String getProperties()</td>
+<td>获取当前的系统属性</td>
+</tr>
+<tr>
+<td>static String getProperty(String key)</td>
+<td>获取指定键描述的系统属性</td>
+</tr>
+</tbody>
+</table>
+<h4 id="runtime类">Runtime类</h4>
+<pre><code class="language-java">Runtime run = Runtime.getRuntime();
+run.availableProcessors();		// 处理器个数
+run.freeMemory();			   // 空闲内存大小
+run.maxMemory();			   // 最大可用内存大小
+</code></pre>
+<h3 id="53-math类与random类">5.3 Math类与Random类</h3>
+<h4 id="math类">Math类</h4>
+<pre><code class="language-java">package example5;
+public class example15 {
+    public static void main(String[] args) {
+        System.out.println(&quot;计算绝对值的结果：&quot; + Math.abs(-1));
+        System.out.println(&quot;计算正弦的结果：&quot; + Math.sin(1.57));
+        System.out.println(&quot;计算余弦的结果：&quot; + Math.cos(2.0));
+        System.out.println(&quot;计算正切的结果：&quot; + Math.tan(0.8));
+        System.out.println(&quot;计算平方根的结果：&quot; + Math.sqrt(4));
+        System.out.println(&quot;计算立方根的结果：&quot; + Math.cbrt(9));
+        System.out.println(&quot;计算乘方的结果：&quot; + Math.pow(2, 2));
+        System.out.println(&quot;求大于参数的最小整数：&quot; + Math.ceil(4.6));
+        System.out.println(&quot;求小于参数的最大整数：&quot; + Math.floor(-5.2));
+        System.out.println(&quot;对小数进行四舍五入后的结果：&quot; + Math.round(-8.6));
+        System.out.println(&quot;求两个数中的最大值：&quot; + Math.max(5.1, 5.5));
+        System.out.println(&quot;求两个数的最小值：&quot; + Math.min(5.1, 5.5));
+        System.out.println(&quot;生成一个大于0.0小于1.0的随机值：&quot; + Math.random());
+    }
+}
+/*
+控制台输出：
+计算绝对值的结果：1
+计算正弦的结果：0.9999996829318346
+计算余弦的结果：-0.4161468365471424
+计算正切的结果：1.0296385570503641
+计算平方根的结果：2.0
+计算立方根的结果：2.080083823051904
+计算乘方的结果：4.0
+求大于参数的最小整数：5.0
+求小于参数的最大整数：-6.0
+对小数进行四舍五入后的结果：-9
+求两个数中的最大值：5.5
+求两个数的最小值：5.1
+生成一个大于0.0小于1.0的随机值：0.5382268154233723
+*/
+</code></pre>
+<h4 id="random类">Random类</h4>
+<p>两个构造方法</p>
+<pre><code class="language-java">Random()		// 用于创建一个随机数生成器，每次实例化Random对象会生成不同的随机数
+Random(long seed) 		// 使用long型的随机数种子创建伪随机数生成器，当seed相同时，每次实例化Random对象							会生成相同的随机数
+</code></pre>
+<p>常用类方法</p>
+<table>
+<thead>
+<tr>
+<th>方法声明</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>boolean nextBoolean()</td>
+<td>随机生成boolean类型的随机数</td>
+</tr>
+<tr>
+<td>double nextBoolean()</td>
+<td>随机生成double类型的随机数</td>
+</tr>
+<tr>
+<td>float nextFloat()</td>
+<td>随机生成float类型的随机数</td>
+</tr>
+<tr>
+<td>int nextInt()</td>
+<td>随机生成int类型的随机数</td>
+</tr>
+<tr>
+<td>int nextInt(int n)</td>
+<td>随机生成[0, n)之间的int类型的随机数</td>
+</tr>
+<tr>
+<td>long nextLong()</td>
+<td>随机生成long类型的随机数</td>
+</tr>
+</tbody>
+</table>
+<h3 id="54包装类">5.4包装类</h3>
+<pre><code class="language-java">package example5;
+public class example18 {
+    public static void main(String[] args) {
+        //通过String.valueOf()方法将基本类型转换为字符串
+        int num=123;
+        String string = String.valueOf(num);
+        System.out.println(&quot;将 int 变量转换为字符串的结果：&quot; + string);
+        //通过包装类的静态方法将基本数据类型和字符串类型转换为对应的包装类
+        String str = &quot;998&quot;;
+        Integer integer = Integer.valueOf(num);
+        Integer integer2 = Integer.valueOf(str);
+        System.out.println(&quot;将 int 变量转换为对应包装类的结果：&quot; + integer);
+        System.out.println(&quot;将字符串变量转换为对应包装类的结果：&quot; + integer2);
+        //通过包装类的构造方法将基本数据类型和类型匹配的转换为包装类；
+        Integer integer3 = new Integer(num);
+        Integer integer4 = new	Integer(str);
+        System.out.println(&quot;通过构造器将 int 类型的变量转换为包装类的结果：&quot; + integer3);
+        System.out.println(&quot;通过构造器将字符串变量转换为包装类的结果：&quot; + integer4);
+        //通过包装类的parse···()方法将，字符串变量转换为基本类型
+        int parseInt = Integer.parseInt(str);
+        System.out.println(&quot;将字符串换为基本类型的结果：&quot; + parseInt);
+        //通过包装类的toString()方法将包装类转换为字符串
+        String string2 = integer.toString();
+        System.out.println(&quot;将包装类转换为字符串的结果：&quot; + string2);
+    }
+}
+/*
+控制台输出：
+将 int 变量转换为字符串的结果：123
+将 int 变量转换为对应包装类的结果：123
+将字符串变量转换为对应包装类的结果：998
+通过构造器将 int 类型的变量转换为包装类的结果：123
+通过构造器将字符串变量转换为包装类的结果：998
+将字符串换为基本类型的结果：998
+将包装类转换为字符串的结果：123
+*/
+</code></pre>
+<h3 id="55日期与时间类">5.5日期与时间类</h3>
+<h4 id="date类">Date类</h4>
+<p>在JDK的java.util包中，提供了Date类表示日期和时间。</p>
+<pre><code class="language-java">// 构造方法
+Date();
+Date(long date);		// date时是1970/01/01 00:00以来的时间戳
+</code></pre>
+<h4 id="calender类">Calender类</h4>
+<p>抽象类，不可以被实例化</p>
+<pre><code class="language-java">Calendar calendar = Calendar.getInstance();
+int get(int field);	// 返回指定日历字段的值
+void add(int field, int amount);	// 为日历字段增加或者减去指定的时间量
+void set(int field, int value);		// 为指定日历设置值
+void set(int year, int month, int date);	// 设置Calendar对象的年、月、日三个字段的值
+void set(int year, int month, int date, int hour, int min, int sec);  // 设置年月日时分秒
+
+// 获取当前计算机时间
+package example5;
+import java.util.*;
+public class example20 {
+    public static void main(String[] args) {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DATE);
+        int hour = calendar.get(Calendar.HOUR);
+        int minute = calendar.get(Calendar.MINUTE);
+        int second = calendar.get(Calendar.SECOND);
+        System.out.println(&quot;当前的时间为：&quot; + year + &quot;年&quot; + month + &quot;月&quot; +
+                day + &quot;日&quot; + hour + &quot;时&quot; + minute + &quot;分&quot; + second + &quot;秒&quot;);
+    }
+}
+
+/*
+控制台输出：
+当前的时间为：2019年6月8日2时25分13秒
+*/
+</code></pre>
+<h3 id="56-格式化类">5.6 格式化类</h3>
+<h4 id="dateformat类">DateFormat类</h4>
+<p>常用方法</p>
+<table>
+<thead>
+<tr>
+<th>方法声明</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>static DateFormat getDateInstance()</td>
+<td>创建默认日期格式器</td>
+</tr>
+<tr>
+<td>static DateFormat getDateInstance(int style)</td>
+<td>创建指定格式化风格的日期格式器</td>
+</tr>
+<tr>
+<td>static DateFormat getDateTimeInstance()</td>
+<td>创建默认风格的日期/时间格式器</td>
+</tr>
+<tr>
+<td>static DateFormat getDateTimeInstance(int dataStyle, int timeStyle)</td>
+<td>创建制定格式化风格的时间/日期格式器</td>
+</tr>
+<tr>
+<td>String format(Date date)</td>
+<td>将一个Date格式化为日期。时间字符串</td>
+</tr>
+<tr>
+<td>Date parse(String source)</td>
+<td>将指定字符串解析为一个日期</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-java">package example5;
+import java.text.*;
+import java.util.*;
+public class example24 {
+    public static void main(String[] args) {
+        Date date = new Date();
+        //full格
+        DateFormat fullFormat = DateFormat.getDateInstance(DateFormat.FULL);
+        //Long格式
+        DateFormat longFormat = DateFormat.getDateInstance(DateFormat.LONG);
+        //MEDIUM格式
+        DateFormat mediumFormat = DateFormat.getDateInstance(DateFormat.MEDIUM );
+        //SHORT格式
+        DateFormat shortFormat = DateFormat.getDateInstance(DateFormat.SHORT);
+        //下面打印格式化之后的日期时间
+        System.out.println(&quot;当前时间的完整格式为：&quot; + fullFormat.format(date));
+        System.out.println(&quot;当前时间的长格式为：&quot; + longFormat.format(date));
+        System.out.println(&quot;当前时间的普通格式为：&quot; + mediumFormat.format(date));
+        System.out.println(&quot;当前时间的短格式为：&quot; + shortFormat.format(date));
+    }
+}
+</code></pre>
+<h4 id="simpledateformat类">SimpleDateFormat类</h4>
+<pre><code class="language-java">package example5;
+import java.text.DateFormat;
+import java.text.ParseException;
+public class example25 {
+    public static void main(String[] args) throws ParseException {
+        DateFormat dt1 = DateFormat.getDateInstance();
+        //long
+        DateFormat dt2 = DateFormat.getDateInstance(DateFormat.LONG);
+        //String str1 = &quot;2018-01-27&quot;;
+        String str2 = &quot;2018年01月27日&quot;;
+        //输出解析成date对象后的结果
+        //System.out.println(dt1.parse(str1));
+        System.out.println(dt2.parse(str2));
+    }
+}
+// Sat Jan 27 00:00:00 CST 2018
+</code></pre>
+<h4 id="datetimeformatter类">DateTimeFormatter类</h4>
+<p>相当于DateFormat和SimpleDateFormat类的合体</p>
+<p>完成时间和日期格式化：</p>
+<pre><code class="language-java">package example5;
+import java.time.*;
+import java.time.format.*;
+public class example28 {
+    public static void main(String[] args) {
+        LocalDateTime date = LocalDateTime.now();
+        //创建DateTimeFormatter
+        System.out.print(&quot;使用常量创建 DateTimeFormatter：&quot;);
+        DateTimeFormatter dtf1 = DateTimeFormatter.ISO_DATE_TIME;
+        System.out.println(dtf1.format(date));
+        //MEDIUM
+        System.out.print(&quot;使用MEDIUM类型风格的DateTimeFormatter：&quot;);
+        DateTimeFormatter dtf2 = DateTimeFormatter
+                .ofLocalizedDateTime(FormatStyle.MEDIUM);
+        System.out.println(dtf2.format(date));
+        System.out.print(&quot;根据模式字符串创建 DateTimeFormatter：&quot;);
+        DateTimeFormatter dtf3 = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+        System.out.println(date.format(dtf3));
+    }
+}
+/*
+使用常量创建 DateTimeFormatter：2019-06-08T14:49:04.400044
+使用MEDIUM类型风格的DateTimeFormatter：2019年6月8日 下午2:49:04
+根据模式字符串创建 DateTimeFormatter：2019-06-08 14:49:04
+*/
+</code></pre>
+<p>解析字符串：</p>
+<pre><code class="language-java">package example5;
+import java.time.*;
+import java.time.format.*;
+import java.util.Date;
+public class example29 {
+    public static void main(String[] args) {
+        //两种格式
+        String str1 = &quot;2018-01-27 12:38:36&quot;;
+        String str2 = &quot;2018年01月29日15时01分20秒&quot;;
+        //定义解析格式器
+        DateTimeFormatter f1 = DateTimeFormatter
+                .ofPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+        DateTimeFormatter f2 = DateTimeFormatter.
+                ofPattern(&quot;yyyy年MM月dd日HH时mm分ss秒&quot;);
+        //LocalDateTime的parse方法解析
+        LocalDateTime l1 = LocalDateTime.parse(str1, f1);
+        LocalDateTime l2 = LocalDateTime.parse(str2, f2);
+        //输出结果
+        System.out.println(l1);
+        System.out.println(l2);
+    }
+}
+/*
+2018-01-27T12:38:36
+2018-01-29T15:01:20
+*/
+</code></pre>
+<h2 id="第六章-集合">第六章 集合</h2>
+<h3 id="61-集合概述">6.1 集合概述</h3>
+<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2019/06/08/5cfb602711e7270865.png" alt="" loading="lazy"></figure>
+<center/>集合框架<center>
+<p>集合按照存储结构分为两大类：</p>
+<ul>
+<li>Collection：单列集合的根接口，用于存储一系列符合某种规则的元素
+<ol>
+<li>Collection集合有两个重要的子接口，分别是List和Set</li>
+<li>List集合的特点是元素有序、可重复</li>
+<li>Set集合的特点是元素无序且不可重复</li>
+<li>List接口实现类主要有ArrayList和LinkedList</li>
+<li>Set类接口的主要实现类有HashSet和TreeSet</li>
+</ol>
+</li>
+<li>Map：双列集合的根接口，用于存储具有键（Key）、值（Value）映射关系的元素
+<ol>
+<li>Map的每个元素都包含一对键值</li>
+<li>Key是唯一的，使用Map集合时可以通过指定的Key值找到对应的Value</li>
+<li>Map的接口实现类主要有HashMap和TreeMap</li>
+</ol>
+</li>
+</ul>
+<h3 id="62-collection接口">6.2 Collection接口</h3>
+<p>定义了单列结合所有方法（List和set）一些通用方法，可用于操作所有单列集合</p>
+<table>
+<thead>
+<tr>
+<th>方法声明</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>boolean add(Object o)</td>
+<td>向集合中添加一个元素</td>
+</tr>
+<tr>
+<td>boolean addAll(Collection c)</td>
+<td>将指定c中的所有元素添加到该集合中</td>
+</tr>
+<tr>
+<td>void clear()</td>
+<td>删除该集合中所有元素</td>
+</tr>
+<tr>
+<td>boolean remove(Object o)</td>
+<td>删除该集合中指定的元素</td>
+</tr>
+<tr>
+<td>boolean removeAll(Collection)</td>
+<td>删除该集合中包括指定集合c中的所有元素</td>
+</tr>
+<tr>
+<td>boolean isEmpty()</td>
+<td>判断该集合是否为空</td>
+</tr>
+<tr>
+<td>boolean contains(Object o)</td>
+<td>判断集合中是否包含某个元素</td>
+</tr>
+<tr>
+<td>boolean contains(Colleciton c)</td>
+<td>判断集合中是否包含指定集合c中的所有元素</td>
+</tr>
+<tr>
+<td>Iterator iterator()</td>
+<td>返回在该集合的元素上进行迭代的迭代器，用于遍历集合所有元素</td>
+</tr>
+<tr>
+<td>int size()</td>
+<td>获取该集合元素个数</td>
+</tr>
+<tr>
+<td>Stream&lt;E&gt; stream()</td>
+<td>将集合源转换为有序元素的流对象</td>
+</tr>
+</tbody>
+</table>
+<h3 id="63-list接口">6.3 List接口</h3>
+<h4 id="list接口简介">List接口简介</h4>
+<p>List集合中允许出现重复的元素，所有的元素是按照一种线性方式进行存储的。</p>
+<p>List集合中元素有序，即存入顺序和取出顺序一致</p>
+<p>List集合特有方法</p>
+<table>
+<thead>
+<tr>
+<th>方法声明</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>void add(int index, Object element)</td>
+<td>将元素插到指定位置</td>
+</tr>
+<tr>
+<td>boolean addAll(int index, Collection c)</td>
+<td>将集合c中的所有元素插到指定位置</td>
+</tr>
+<tr>
+<td>Object get(int index)</td>
+<td>返回索引位置的元素</td>
+</tr>
+<tr>
+<td>Object remove(int index)</td>
+<td>删除索引位置的元素</td>
+</tr>
+<tr>
+<td>Object set(int index, Object element)</td>
+<td>将索引位置处的元素替换为element，并返回替换后的元素</td>
+</tr>
+<tr>
+<td>int indexOf(Object o)</td>
+<td>返回对象o在List集合中首次出现的位置索引</td>
+</tr>
+<tr>
+<td>int lastIndexOf(Object o)</td>
+<td>返回对象o在集合中最后一次出现的位置索引</td>
+</tr>
+<tr>
+<td>List subList(int fromIndex, int toIndex)</td>
+<td>返回子集合，从fromIndex（包括）到toIndex（不包括）</td>
+</tr>
+<tr>
+<td>Object[ ] toArray()</td>
+<td>将集合元素转化为数组</td>
+</tr>
+<tr>
+<td>default void sort(Comparator&lt;? super E&gt; c)</td>
+<td>根据指定的比较器集合对元素进行排序</td>
+</tr>
+</tbody>
+</table>
+<h4 id="arraylist集合">ArrayList集合</h4>
+<p>内部数据结构数组形式，在遍历和查找时高效，不适合做大量的增删</p>
+<h4 id="linkedlist集合">LinkedList集合</h4>
+<p>内部有双向循环链表，增删操作高效</p>
+<p>特有方法</p>
+<table>
+<thead>
+<tr>
+<th>方法声明</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>void add(int index, E element)</td>
+<td>指定位置插入元素</td>
+</tr>
+<tr>
+<td>void addFirst(Object o)</td>
+<td>指定元素插入集合开头</td>
+</tr>
+<tr>
+<td>void addLast(Object o)</td>
+<td>元素插入集合结尾</td>
+</tr>
+<tr>
+<td>Object getFirst()</td>
+<td>返回集合的第一个元素</td>
+</tr>
+<tr>
+<td>Object getLast()</td>
+<td>返回集合的最后一个元素</td>
+</tr>
+<tr>
+<td>Object removeFirst()</td>
+<td>移除并返回集合的第一个元素</td>
+</tr>
+<tr>
+<td>Object removeLast()</td>
+<td>移除并返回集合的最后一个元素</td>
+</tr>
+<tr>
+<td>boolean offer(Object o)</td>
+<td>指定元素添加到集合结尾</td>
+</tr>
+<tr>
+<td>boolean offerFirst(Object o)</td>
+<td>指定元素添加到集合开头</td>
+</tr>
+<tr>
+<td>boolean offerLast(Object o)</td>
+<td>指定元素添加到集合结尾</td>
+</tr>
+<tr>
+<td>Object peek()</td>
+<td>获取集合第一个元素</td>
+</tr>
+<tr>
+<td>Object peekFirst()</td>
+<td>获取集合第一个元素</td>
+</tr>
+<tr>
+<td>Object peekLast()</td>
+<td>获取集合最后一个元素</td>
+</tr>
+<tr>
+<td>Object poll()</td>
+<td>移除并返回集合第一个元素</td>
+</tr>
+<tr>
+<td>Object pollFirst()</td>
+<td>移除并返回集合第一个元素</td>
+</tr>
+<tr>
+<td>Object pollLast()</td>
+<td>移除并返回集合最后一个元素</td>
+</tr>
+<tr>
+<td>void push(Object o)</td>
+<td>指定元素添加到集合开头</td>
+</tr>
+<tr>
+<td>Object pop()</td>
+<td>移出并返回集合第一个元素</td>
+</tr>
+</tbody>
+</table>
+<h3 id="64-collection集合遍历">6.4 Collection集合遍历</h3>
+<h4 id="iterator遍历集合">Iterator遍历集合</h4>
+<p>Iterator是集合框架一员，但是它是主要用于迭代访问（即遍历）Collection中的元素，因此Iterator对象也被称为迭代器。</p>
+<pre><code class="language-java">package example6;
+
+import javax.swing.text.html.HTMLDocument;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class example3 {
+    public static void main(String[] args){
+        ArrayList list = new ArrayList();
+        //添加字符串
+        list.add(&quot;data_1&quot;);
+        list.add(&quot;data_2&quot;);
+        list.add(&quot;data_3&quot;);
+
+        //获取Iterator对象
+        Iterator iterator = list.iterator();
+        while (iterator.hasNext()){     //判断集合中是否存在下一个元素
+            Object obj = iterator.next();
+            System.out.println(obj);
+        }
+    }
+}
+/*
+data_1
+data_2
+data_3
+*/
+</code></pre>
+<h4 id="foreach遍历集合">foreach遍历集合</h4>
+<pre><code class="language-java">/*
+for(容器中元素类型 临时变量 : 容器变量){
+	// 执行语句
+}
+*/
+package example6;
+import java.util.ArrayList;
+public class example4 {
+    public static void main(String[] args){
+        ArrayList list = new ArrayList();
+        list.add(&quot;data_1&quot;);
+        list.add(&quot;data_2&quot;);
+        list.add(&quot;data_3&quot;);
+        //foreach遍历集合
+        for (Object obj:list){
+            System.out.println(obj);
+        }
+    }
+}
+/*
+data_1
+data_2
+data_3
+*/
+</code></pre>
+<ul>
+<li>注意：使用foreach进行循环遍历时不可以改变数组中元素的值</li>
+</ul>
+<h4 id="jdk8中的foreach遍历集合">JDK8中的forEach遍历集合</h4>
+<p>根据Lambda表达式增加的方法</p>
+<pre><code class="language-java">import java.util.ArrayList;
+public class Example{
+    public static void main(String[] args){
+        ArrayList list = new ArrayList();
+        list.add(&quot;data_1&quot;);
+        list.add(&quot;data_2&quot;);
+        list.add(&quot;data_3&quot;);
+        System.out.println(list);
+        list.forEach(obj-&gt;System.out.println(&quot;迭代集合元素：&quot; + obj));
+    }
+}
+/*
+[data_1, data_2, data_3]
+迭代集合元素：data_1
+迭代集合元素：data_2
+迭代集合元素：data_3
+*/
+</code></pre>
+<h3 id="65-set接口">6.5 Set接口</h3>
+<p>Set接口和List接口一样，同样继承自Collection接口，它与Collection接口中的方法基本一致。</p>
+<p>Set接口中的元素无序，并且都会以某种规则保证存入的元素不出现重复。</p>
+<p>Set接口主要有两个实现类，分别是HashSet和TreeSet：</p>
+<ul>
+<li>HashSet：根据对象的Hash值来确定对象在集合中的存储位置，具有良好的存取和查找性能。</li>
+<li>TreeSet：以二叉树的方式来存储元素，可以实现对集合元素中所有元素进行排序。</li>
+</ul>
+<h4 id="hashset集合">HashSet集合</h4>
+<figure data-type="image" tabindex="3"><img src="https://i.loli.net/2019/06/08/5cfba17128ccc51186.png" alt="" loading="lazy"></figure>
+<center/>存储原理高糊图<center>
+<ul>
+<li>如果元素类型是自定义类型，则使用此集合不会消除重复元素，这就需要我们重写hashCode()和equals()方法</li>
+</ul>
+<h4 id="treeset集合">TreeSet集合</h4>
+<p>TreeSet集合是Set接口的另一个实现类，内部采用平衡二叉树存储元素，可以保证集合中无重复元素，并且可以对元素进行排序</p>
+<p>TreeSet集合在继承Set集合接口的基础上一些特有的方法</p>
+<table>
+<thead>
+<tr>
+<th>方法声明</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Object first()</td>
+<td>返回TreeSet集合的首个元素</td>
+</tr>
+<tr>
+<td>Object last()</td>
+<td>返回集合最后一个元素</td>
+</tr>
+<tr>
+<td>Object lower(Object o)</td>
+<td>返回集合中小于给定元素的最大元素，如果没有返回null</td>
+</tr>
+<tr>
+<td>Object floor(Object o)</td>
+<td>返回集合中小于等于给定元素的最大元素，如果没有返回null</td>
+</tr>
+<tr>
+<td>Object higher(Object o)</td>
+<td>返回集合中大于给定元素的最小元素，如果没有返回null</td>
+</tr>
+<tr>
+<td>Object ceiling(object o)</td>
+<td>返回集合中大于等于给定元素的最小元素，如果没有返回null</td>
+</tr>
+<tr>
+<td>Object pollFirst()</td>
+<td>移除并返回集合中第一个元素</td>
+</tr>
+<tr>
+<td>Object pollLast()</td>
+<td>移出并返回集合中最后一个元素</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>通过Compare接口实现CompareTO()方法进行排序，其中重写函数定制排序，P209</p>
+</blockquote>
+<h3 id="66-map接口">6.6 Map接口</h3>
+<h4 id="map接口简介">Map接口简介</h4>
+<p>双列集合，每个元素包含 Key 和 Value，存在映射关系。</p>
+<p>Map集合常用方法</p>
+<table>
+<thead>
+<tr>
+<th>方法声明</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>void put(Object key, Object value)</td>
+<td>向Map集合中添加Key-Value映射对象</td>
+</tr>
+<tr>
+<td>int size()</td>
+<td>返回键值对个数</td>
+</tr>
+<tr>
+<td>Object get(Object key)</td>
+<td>返回键所映射的值，没有返回null</td>
+</tr>
+<tr>
+<td>boolean containsKey(Object key)</td>
+<td>查看是否包含指定的键对象key</td>
+</tr>
+<tr>
+<td>boolean containsValue(Object value)</td>
+<td>查看是否包含指定的值对象value</td>
+</tr>
+<tr>
+<td>Object remove(Object key)</td>
+<td>删除并返回Key对象键值映射元素</td>
+</tr>
+<tr>
+<td>void clear()</td>
+<td>清空键值映射元素</td>
+</tr>
+<tr>
+<td>Set keySet()</td>
+<td>以Set形式返回集合中所有键对象Key</td>
+</tr>
+<tr>
+<td>Collection values()</td>
+<td>以Collection形式返回Map集合中所有值对象Value</td>
+</tr>
+<tr>
+<td>Set&lt;Map.Entry&lt;Key,Value&gt;&gt;entry set()</td>
+<td>将Map集合转化成存储元素类型为Map的Set集合</td>
+</tr>
+<tr>
+<td>boolean replace(Object key, Object value)</td>
+<td>指定键值所映射的值改为value</td>
+</tr>
+<tr>
+<td>boolean remove(Object key, Object value)</td>
+<td>删除Map中键值同时匹配的元素</td>
+</tr>
+</tbody>
+</table>
+<h4 id="hashmap集合">HashMap集合</h4>
+<p>HashMap是Map接口的一个实现类，用于存储键值映射关系，集合键值允许为空，但是键不能重复，而且集合中的元素是无序的。</p>
+<p>底层由哈希表组成，其实是“数组+链表”，对于元素的增、删、查、改操作效率都比较高。</p>
+<figure data-type="image" tabindex="4"><img src="https://i.loli.net/2019/06/08/5cfbad673b3e574549.png" alt="" loading="lazy"></figure>
+<center/>HashMap高糊原理图<center>
+<pre><code class="language-java">package example6;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class example14 {
+    public static void main(String[] args){
+        Map map = new HashMap();
+        map.put(&quot;1&quot;,&quot;Jack&quot;);
+        map.put(&quot;2&quot;,&quot;Rose&quot;);
+        map.put(&quot;3&quot;,&quot;Lucky&quot;);
+        map.put(&quot;4&quot;,&quot;Lucky&quot;);
+        map.put(&quot;1&quot;,&quot;Tom&quot;);
+        System.out.println(map);
+
+        // 查看键对象是否存在
+        System.out.println(map.containsKey(&quot;1&quot;));
+
+        System.out.println(map.get(&quot;1&quot;));
+        System.out.println(map.keySet());
+        System.out.println(map.values());
+
+        map.replace(&quot;1&quot;,&quot;Tom2&quot;);
+        System.out.println(map);
+        map.remove(&quot;1&quot;);
+        System.out.println(map);
+    }
+}
+/*
+{1=Tom, 2=Rose, 3=Lucky, 4=Lucky}
+true
+Tom
+[1, 2, 3, 4]
+[Tom, Rose, Lucky, Lucky]
+{1=Tom2, 2=Rose, 3=Lucky, 4=Lucky}
+{2=Rose, 3=Lucky, 4=Lucky}
+*/
+</code></pre>
+<ul>
+<li>Map集合中键具有唯一性，当向集合中添加已存在的键值元素时，会覆盖以前的键值元素，如果需要可以返回原来的旧值</li>
+</ul>
+<h4 id="map集合遍历">Map集合遍历</h4>
+<ul>
+<li>Iterator迭代器遍历</li>
+</ul>
+<pre><code class="language-java">// keySet()方法
+Iterator it = keySet.iterator();
+while (it.hasNext()){
+    Object key = it.next();
+    // 获取每个键所对应的值
+    Object value = map.get(key);
+    System.out.println(key + &quot;:&quot; + value);
+}
+
+// entrySet()方法
+Set entrySet = map.entrySet();
+Iterator it = entrySet.iterator();
+while(it.hasNext()){
+    Map.Entry entry = (Map.Entry) (it.next());
+    // 获取键
+    Object key = entry.getKey();
+    // 获取值
+    Object value = entry.getValue();
+    System.out.println(key + &quot;:&quot; + value);
+}
+</code></pre>
+<ul>
+<li>forEach方法遍历</li>
+</ul>
+<pre><code class="language-java">map.forEach((key, value)-&gt;System.out.println(key + &quot;:&quot; + value));
+</code></pre>
+<ul>
+<li>LinkedHashMap可以顺序存入和读出</li>
+</ul>
+<h4 id="treemap集合">TreeMap集合</h4>
+<p>用来存储键值映射关系且不允许出现重复的键</p>
+<ul>
+<li>可以通过自定义比较器Comparator方式对所有的键进行定制排序 P221</li>
+</ul>
+<h4 id="properties集合">Properties集合</h4>
+<p>Hashtable类的子类Properties，主要用于配置文件</p>
+<h3 id="67泛型">6.7泛型</h3>
+<p>P223（dbq我整理不完了...）</p>
+<h3 id="68常用工具类">6.8常用工具类</h3>
+<p>P255</p>
+<h3 id="69聚合操作">6.9聚合操作</h3>
+<p>P232</p>
+<h2 id="第七章-io流">第七章 I/O流</h2>
+<h3 id="71-io流概述">7.1 I/O流概述</h3>
+<figure data-type="image" tabindex="5"><img src="https://i.loli.net/2019/06/08/5cfbc2b3c456f83277.png" alt="" loading="lazy"></figure>
+<center/>IO流体系结构（图源来自《菜鸟教程》）<center>
+<p>I/O流有很多种，按照不同的方式可以分为以下三类：</p>
+<h4 id="1字节流和字符流">1.字节流和字符流</h4>
+<p>根据操作的数据单位不同，可以分为字节流和字符流。</p>
+<h4 id="2输入流和输出流">2.输入流和输出流</h4>
+<p>根据流传输方向不同，分为输入流和输出流。其中输入流只能从流中读取数据，而不能向里写入数据；输出流只能向流中写入数据，而不能从中读取数据。</p>
+<h4 id="3节点流和处理流">3.节点流和处理流</h4>
+<ul>
+<li>根据流的功能不同，可以分为节点流和处理流。节点流也称为低级流；处理流（直连数据源）也成为高级流（对节点流封装）。</li>
+</ul>
+<p>Java的I/O流主要在java.io包中，其中4个类为流的顶级类：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>字节流</th>
+<th>字符流</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>输入流</strong></td>
+<td><strong>InputStream</strong></td>
+<td><strong>Reader</strong></td>
+</tr>
+<tr>
+<td><strong>输出流</strong></td>
+<td><strong>OutputStream</strong></td>
+<td><strong>Writer</strong></td>
+</tr>
+</tbody>
+</table>
+<p>这4个顶级类都是抽象类，并且是所有流类型的父类。</p>
+<h3 id="72字节流">7.2字节流</h3>
+<h4 id="字节流概述">字节流概述</h4>
+<p>字节流两个抽象类InputStream和OutputStream是字节流的顶级父类。所有字节输入流继承自InputStream，所有字节输出流继承自OutputStream。</p>
+<ul>
+<li>InputStream从源输入到程序</li>
+<li>OutputStream从程序输出到目标设备</li>
+<li>注意：都是相对于程序而言</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>方法声明</th>
+<th style="text-align:left">功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int read()</td>
+<td style="text-align:left">从输入流中读取一个8位的字节，转换为0~255之间的整数，并且返回一个整数。当没有字节可读时，将返回-1</td>
+</tr>
+<tr>
+<td>int read(by)</td>
+<td style="text-align:left">从输入流中读取若干个字节，把它们保存到参数b指定的字节数组中，返回读取字节的数目</td>
+</tr>
+<tr>
+<td>int read(byte[] b, int off, int len)</td>
+<td style="text-align:left">从输入流中读取若干字节保存在参数b指定的字节数组中，off是数组开始保存数据起始下标，len为读取字节数目</td>
+</tr>
+<tr>
+<td>void close()</td>
+<td style="text-align:left">关闭此输入流并释放与该流相关的所有系统资源</td>
+</tr>
+</tbody>
+</table>
+<center/>InputStream常用方法<center>
+<table>
+<thead>
+<tr>
+<th>方法声明</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>void write(int b)</td>
+<td>向输出流写一个字节</td>
+</tr>
+<tr>
+<td>void write(byte[] b)</td>
+<td>把参数b指定的字节数字的所有字节写到输出流</td>
+</tr>
+<tr>
+<td>void write(byte[] b, int off, int len)</td>
+<td>把b数组从偏移量off开始的len个字节写道输出流</td>
+</tr>
+<tr>
+<td>void flush()</td>
+<td>刷新此输出流并强制写出所有缓冲流的输出字节</td>
+</tr>
+<tr>
+<td>void close()</td>
+<td>关闭此输出流并释放与此流相关的所有系统资源</td>
+</tr>
+</tbody>
+</table>
+<center/>OutputStream常用方法<center>
+<p>InputStream和OutputStream虽然提供了一系列读写数据方法，单号是这两个类是抽象类，不能被实例化，因此提供了不同的子类：</p>
+<figure data-type="image" tabindex="6"><img src="https://i.loli.net/2019/06/09/5cfca7135cd8e20590.jpg" alt="" loading="lazy"></figure>
+<center/>InputStream的子类<center>
+<figure data-type="image" tabindex="7"><img src="https://i.loli.net/2019/06/09/5cfca87d5d42019722.png" alt="" loading="lazy"></figure>
+<center/>OutputStream的子类<center>
+<h4 id="字节流读写文件">字节流读写文件</h4>
+<p>针对文件读写，JDK专门提供了两个类：</p>
+<ul>
+<li>FileInputStream</li>
+<li>FileOutputStream</li>
+</ul>
+<pre><code class="language-java">// 使用FielInputStream输入流读取文件
+FileInputStream in = new FileInputStream(&quot;test.txt&quot;);
+int b = 0;
+// 通过循环读取文件
+while((b = in.read()) != -1){
+    System.out.println(b)
+}
+// 关闭流
+in.close();
+
+// 使用FileOutputStream输出流写入文件
+FileOutputStream out = new FileOutputStream(&quot;out.txt&quot;);
+String str = &quot;hello&quot;;
+// 将字符串转化成字节数组写入，注意，如果向一个已经存在的文件操作，文件的数据首先会被清空
+// 如果以追加的形式写入
+// FileOutputStream out = new FileOutputStream(&quot;out.txt&quot;, true);
+out.write(str.getBytes());
+// 关闭流
+out.close();
+</code></pre>
+<ul>
+<li>通常将close()放在finally代码块中</li>
+</ul>
+<h4 id="文件的拷贝">文件的拷贝</h4>
+<pre><code class="language-java">FileInputStream in = new FileInputStream(&quot;test.txt&quot;);
+FileOutputStream out = new FileOutputStream(&quot;out.txt&quot;);
+int len = 0;
+while((len = in.read()) != -1){
+    out.write(len);
+}
+in.close();
+out.close();
+</code></pre>
+<h4 id="字节流缓冲区">字节流缓冲区</h4>
+<p>可以一次性读取多个字节数据，将数据先保存在字节数组中，然后将字节数组一次性的写入文件中</p>
+<pre><code class="language-java">FileInputStream in = new FileInputStream(&quot;source/scr.jpg&quot;);
+FileOutputStream out = new FileOutputStream(&quot;target/dest.jpg&quot;);
+int len = 0;
+byte[] buff = new byte[1024];
+while((len = in.read(buff)) != -1){
+    out.write(buff, 0, len);
+}
+in.close();
+out.close();
+</code></pre>
+<h4 id="字节缓冲流">字节缓冲流</h4>
+<p>I/O包中提供了两个带缓冲的字节流，分别是BufferedInputStream和BufferedOutputStream，它们的构造方法中分别接受InputStream和OutputStream类型的参数作为对象，在读写数据时提供缓冲功能。</p>
+<pre><code class="language-java">// 使用缓冲流进行文件拷贝
+BufferedInputStream bis = new BufferedInputStream(
+							new FileInputStream(&quot;source/scr.jpg&quot;)
+							);
+BufferedOutputStream bos = new BufferedOutputStream(
+							new FileOutputStream(&quot;target/dest.jpg&quot;)
+							);
+int len = 0;
+while((bis.read()) != -1 ){
+    bos.write(len);
+}
+bis.close();
+bos.close();
+</code></pre>
+<h3 id="73-字符流">7.3 字符流</h3>
+<h4 id="字符流概述">字符流概述</h4>
+<p>字符流有两个顶级的父类：</p>
+<ul>
+<li>Reader：字符输入流，从某个源设备读取字符</li>
+<li>Writer：字符输出流，向某个目标设备写入字符</li>
+</ul>
+<figure data-type="image" tabindex="8"><img src="https://i.loli.net/2019/06/09/5cfcb2f46198072354.png" alt="" loading="lazy"></figure>
+<center/>Reader的子类<center>
+<figure data-type="image" tabindex="9"><img src="https://i.loli.net/2019/06/09/5cfcb31f6f90c53814.png" alt="" loading="lazy"></figure>
+<center/>Writer的子类<center>
+<p>其中FileReader和FileWriter用于读写文件，BufferedReader和BufferedWriter是具有缓冲功能的流，可以提高读写效率</p>
+<h4 id="字符流操作文件">字符流操作文件</h4>
+<p>如果想从文件中读取字符便可以使用字符输入流FileReader，通过此流可以从文件中读取一个或者一组字符</p>
+<pre><code class="language-java">FileReader fileReader = new FileReader(&quot;reader.txt&quot;);
+int len = 0;
+while((len = fileReader.read()) != -1){
+    System.out.println((char)len);
+}
+fileReader.close();
+</code></pre>
+<p>如果要向文件中写入字符就需要使用FileWriter类</p>
+<pre><code class="language-java">// 同样如果原文件存在则会先清空再写入
+// 如果追加
+// FileWriter fileWriter = new FileWriter(&quot;writer.txt&quot;, true);
+FileWriter fileWriter = new FileWriter(&quot;writer.txt&quot;);
+fileWriter.write(&quot;轻轻的我走了,\r\n&quot;);
+// 关闭流
+fileWriter.close();
+</code></pre>
+<p>使用字符流缓冲区实现文件拷贝</p>
+<pre><code class="language-java">FileReader fileReader = new FileReader(&quot;reader.txt&quot;);
+FileWriter fileWriter = new FileWriter(&quot;writer.txt&quot;);
+int len = 0;
+char[] buff = new char[1024];
+while((len = fileReader.read(buff)) != -1){
+    fileWriter.write(buff, 0, len);
+}
+fileReader.close();
+fileWriter.close();
+</code></pre>
+<p>使用字符输入输出缓冲流进行文件拷贝</p>
+<pre><code class="language-java">BufferedReader br = new BufferedReader(
+                        new FileReader(&quot;reader.txt&quot;)
+                        );
+BufferedWriter bw = new BufferedWriter(
+                        new FileWriter(&quot;writer.txt&quot;)
+                        );
+String str = null;
+// 循环时每次读取一行文本
+while((str = br.readLine()) != null){
+    bw.write(str);
+    // 写入一个换行符
+    bw.newLine();
+}
+br.close();
+bw.close();
+</code></pre>
+<h4 id="转换流">转换流</h4>
+<ul>
+<li>InputStreamReader</li>
+<li>OutputStreamWriter</li>
+</ul>
+<p>将字节输出流转化成字符输出流，方便直接写入字符</p>
+<h3 id="74-file类">7.4 File类</h3>
+<h4 id="file类的常用方法">File类的常用方法</h4>
+<table>
+<thead>
+<tr>
+<th>方法声明</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>File(String pathname)</td>
+<td>通过指定的一个字符串类型的文件路径来创建一个新的File对象</td>
+</tr>
+<tr>
+<td>File(String parent, String child)</td>
+<td>根据一个指定的字符串类型的父路径和一个字符串类型的子路径（包括文件名称）创建一个File对象</td>
+</tr>
+<tr>
+<td>File(File parent, String child)</td>
+<td>根据指定的File类的父路径和字符串类型的子路径（包括文件名称）创建一个File对象</td>
+</tr>
+</tbody>
+</table>
+<center/>File类的常用构造方法<center>
+<table>
+<thead>
+<tr>
+<th>方法声明</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>boolean exists()</td>
+<td>判断File对象对应的文件是否存在</td>
+</tr>
+<tr>
+<td>boolean delete()</td>
+<td>删除File对象对应的文件或目录</td>
+</tr>
+<tr>
+<td>boolean createNewFile()</td>
+<td>当File对象对应的文件不存在时，新建一个此File对象所指定的文件</td>
+</tr>
+<tr>
+<td>String getName()</td>
+<td>返回文件名或者文件夹名</td>
+</tr>
+<tr>
+<td>String getPath()</td>
+<td>返回对应路径</td>
+</tr>
+<tr>
+<td>String getAbsolutePath()</td>
+<td>获得绝对路径</td>
+</tr>
+<tr>
+<td>String getParent()</td>
+<td>返回对应的父目录</td>
+</tr>
+<tr>
+<td>boolean canRead()</td>
+<td>对象对应的文件或者目录是否可读</td>
+</tr>
+<tr>
+<td>boolean canWrite()</td>
+<td>对应的文件或者目录是否可写</td>
+</tr>
+<tr>
+<td>boolean isFile()</td>
+<td>判断是否是文件（不是目录）</td>
+</tr>
+<tr>
+<td>boolean isDirectory()</td>
+<td>判断是否是目录（不是文件）</td>
+</tr>
+<tr>
+<td>boolean isAbsolute()</td>
+<td>判断对应文件或者目录是否为绝对路径</td>
+</tr>
+<tr>
+<td>long lastModified()</td>
+<td>返回自1970/1/1 00:00 到文件最后修改时间的毫秒值</td>
+</tr>
+<tr>
+<td>long length()</td>
+<td>返回文件内容长度</td>
+</tr>
+<tr>
+<td>String[]  list()</td>
+<td>列出指定目录的所有内容，只是列出名称</td>
+</tr>
+<tr>
+<td>String[] list(FilenameFilter filter)</td>
+<td>接受一个FilenameFilter参数，只列出符合条件的文件</td>
+</tr>
+<tr>
+<td>File[] listFiles()</td>
+<td>返回一个包含File对象所有子文件和子目录的File数组</td>
+</tr>
+</tbody>
+</table>
+<center/>File类的常用方法<center>
+<h3 id="75-randomaccessfile">7.5 RandomAccessFile</h3>
+<p>P266</p>
+<h3 id="76-对象序列化">7.6 对象序列化</h3>
+<p>P268</p>
+<h3 id="77-nio">7.7 NIO</h3>
+<p>P269</p>
+<h3 id="78-nio2">7.8 NIO.2</h3>
+<p>P275</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-java%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8">第一章 Java开发入门</a></li>
+<li><a href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-java%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80">第二章 Java编程基础</a>
+<ul>
+<li><a href="#21-java%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95">2.1 Java基本语法</a></li>
+<li><a href="#22-%E5%8F%98%E9%87%8F%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">2.2 变量的数据结构</a></li>
+<li><a href="#23-java%E4%B8%AD%E7%9A%84%E8%BF%90%E7%AE%97%E7%AC%A6">2.3 Java中的运算符</a>
+<ul>
+<li><a href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6">逻辑运算符</a></li>
+<li><a href="#%E8%BF%90%E7%AE%97%E7%AC%A6%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7">运算符的优先级</a></li>
+</ul>
+</li>
+<li><a href="#24-%E9%80%89%E6%8B%A9%E7%BB%93%E5%90%88%E8%AF%AD%E5%8F%A5">2.4 选择结合语句</a></li>
+<li><a href="#25%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84%E8%AF%AD%E5%8F%A5">2.5循环结构语句</a>
+<ul>
+<li><a href="#%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5">循环语句</a></li>
+<li><a href="#%E8%B7%B3%E8%BD%AC%E8%AF%AD%E5%8F%A5">跳转语句</a>
+<ul>
+<li><a href="#break%E8%B7%B3%E5%87%BA%E5%A4%9A%E5%B1%82%E5%BE%AA%E7%8E%AF">break跳出多层循环</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#26%E6%95%B0%E7%BB%84">2.6数组</a>
+<ul>
+<li><a href="#%E6%95%B0%E7%BB%84%E5%AE%9A%E4%B9%89">数组定义</a></li>
+<li><a href="#%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84">多维数组</a></li>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">基本操作</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%8A">第三章 面向对象（上）</a>
+<ul>
+<li><a href="#31%E9%9D%A2%E5%9E%8B%E5%AF%B9%E8%B1%A1%E6%A6%82%E8%BF%B0">3.1面型对象概述</a></li>
+<li><a href="#32%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1">3.2类与对象</a>
+<ul>
+<li><a href="#%E7%B1%BB%E7%9A%84%E5%AE%9A%E4%B9%89">类的定义</a></li>
+<li><a href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8">对象的创建与使用</a></li>
+<li><a href="#%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E7%AC%A6">访问控制符</a></li>
+</ul>
+</li>
+<li><a href="#33-%E7%B1%BB%E7%9A%84%E5%B0%81%E8%A3%85">3.3 类的封装</a></li>
+<li><a href="#34-%E6%96%B9%E6%B3%95%E7%9A%84%E9%87%8D%E8%BD%BD%E5%92%8C%E9%80%92%E5%BD%92">3.4 方法的重载和递归</a>
+<ul>
+<li><a href="#%E6%96%B9%E6%B3%95%E7%9A%84%E9%87%8D%E8%BD%BD">方法的重载</a></li>
+<li><a href="#%E6%96%B9%E6%B3%95%E7%9A%84%E9%80%92%E5%BD%92">方法的递归</a></li>
+</ul>
+</li>
+<li><a href="#35%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95">3.5构造方法</a>
+<ul>
+<li><a href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E7%9A%84%E5%AE%9A%E4%B9%89">构造方法的定义</a></li>
+<li><a href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E7%9A%84%E9%87%8D%E8%BD%BD">构造方法的重载</a></li>
+</ul>
+</li>
+<li><a href="#36-this%E5%85%B3%E9%94%AE%E5%AD%97">3.6 this关键字</a></li>
+<li><a href="#37static%E5%85%B3%E9%94%AE%E5%AD%97">3.7static关键字</a>
+<ul>
+<li><a href="#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F">静态变量</a></li>
+<li><a href="#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95">静态方法</a></li>
+<li><a href="#%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97">静态代码块</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%8B">第四章 面向对象（下）</a>
+<ul>
+<li><a href="#41-%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF">4.1 类的继承</a>
+<ul>
+<li><a href="#%E7%BB%A7%E6%89%BF%E7%9A%84%E6%A6%82%E5%BF%B5">继承的概念</a></li>
+<li><a href="#%E9%87%8D%E5%86%99%E7%88%B6%E7%B1%BB%E6%96%B9%E6%B3%95">重写父类方法</a></li>
+<li><a href="#super%E5%85%B3%E9%94%AE%E5%AD%97">super关键字</a></li>
+</ul>
+</li>
+<li><a href="#42-final%E5%85%B3%E9%94%AE%E5%AD%97">4.2 final关键字</a></li>
+<li><a href="#43%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3">4.3抽象类和接口</a>
+<ul>
+<li><a href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB">抽象类</a></li>
+<li><a href="#%E6%8E%A5%E5%8F%A3">接口</a></li>
+</ul>
+</li>
+<li><a href="#44%E5%A4%9A%E6%80%81">4.4多态</a>
+<ul>
+<li><a href="#%E5%AF%B9%E8%B1%A1%E7%B1%BB%E5%9E%8B%E7%9A%84%E8%BD%AC%E6%8D%A2">对象类型的转换</a></li>
+</ul>
+</li>
+<li><a href="#45-%E5%86%85%E9%83%A8%E7%B1%BB">4.5 内部类</a>
+<ul>
+<li><a href="#%E6%88%90%E5%91%98%E5%86%85%E9%83%A8%E7%B1%BB">成员内部类</a></li>
+<li><a href="#%E5%B1%80%E9%83%A8%E5%86%85%E9%83%A8%E7%B1%BB">局部内部类</a></li>
+<li><a href="#%E9%9D%99%E6%80%81%E5%86%85%E9%83%A8%E7%B1%BB">静态内部类</a></li>
+<li><a href="#%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB">匿名内部类</a></li>
+</ul>
+</li>
+<li><a href="#46-jdk8%E7%9A%84lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F">4.6 JDK8的Lambda表达式</a>
+<ul>
+<li><a href="#%E5%85%A5%E9%97%A8">入门</a></li>
+<li><a href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3">函数式接口</a></li>
+<li><a href="#%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8%E5%92%8C%E6%9E%84%E9%80%A0%E5%99%A8%E5%BC%95%E7%94%A8">方法引用和构造器引用</a></li>
+</ul>
+</li>
+<li><a href="#47%E5%BC%82%E5%B8%B8">4.7异常</a>
+<ul>
+<li><a href="#%E5%BC%82%E5%B8%B8%E7%9A%84%E7%B1%BB%E5%9E%8B">异常的类型</a></li>
+<li><a href="#trycatch-%E5%92%8C-finally">try...catch 和 finally</a></li>
+<li><a href="#throws%E5%85%B3%E9%94%AE%E5%AD%97%E5%92%8Cthrow%E5%85%B3%E9%94%AE%E5%AD%97">throws关键字和throw关键字</a></li>
+<li><a href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6">垃圾回收</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-java%E4%B8%AD%E7%9A%84%E5%B8%B8%E7%94%A8%E7%B1%BB">第五章 Java中的常用类</a>
+<ul>
+<li><a href="#51-string%E7%B1%BB%E5%92%8Cstringbuffer%E7%B1%BB">5.1 String类和StringBuffer类</a>
+<ul>
+<li><a href="#string%E7%B1%BB%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96">String类的初始化</a></li>
+<li><a href="#string%E7%B1%BB%E7%9A%84%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C">String类的常见操作</a></li>
+<li><a href="#stringbuffer%E7%B1%BB">StringBuffer类</a></li>
+</ul>
+</li>
+<li><a href="#52system%E7%B1%BB%E4%B8%8Eruntime%E7%B1%BB">5.2System类与Runtime类</a>
+<ul>
+<li><a href="#system%E7%B1%BB">System类</a></li>
+<li><a href="#runtime%E7%B1%BB">Runtime类</a></li>
+</ul>
+</li>
+<li><a href="#53-math%E7%B1%BB%E4%B8%8Erandom%E7%B1%BB">5.3 Math类与Random类</a>
+<ul>
+<li><a href="#math%E7%B1%BB">Math类</a></li>
+<li><a href="#random%E7%B1%BB">Random类</a></li>
+</ul>
+</li>
+<li><a href="#54%E5%8C%85%E8%A3%85%E7%B1%BB">5.4包装类</a></li>
+<li><a href="#55%E6%97%A5%E6%9C%9F%E4%B8%8E%E6%97%B6%E9%97%B4%E7%B1%BB">5.5日期与时间类</a>
+<ul>
+<li><a href="#date%E7%B1%BB">Date类</a></li>
+<li><a href="#calender%E7%B1%BB">Calender类</a></li>
+</ul>
+</li>
+<li><a href="#56-%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%B1%BB">5.6 格式化类</a>
+<ul>
+<li><a href="#dateformat%E7%B1%BB">DateFormat类</a></li>
+<li><a href="#simpledateformat%E7%B1%BB">SimpleDateFormat类</a></li>
+<li><a href="#datetimeformatter%E7%B1%BB">DateTimeFormatter类</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E9%9B%86%E5%90%88">第六章 集合</a>
+<ul>
+<li><a href="#61-%E9%9B%86%E5%90%88%E6%A6%82%E8%BF%B0">6.1 集合概述</a></li>
+<li><a href="#62-collection%E6%8E%A5%E5%8F%A3">6.2 Collection接口</a></li>
+<li><a href="#63-list%E6%8E%A5%E5%8F%A3">6.3 List接口</a>
+<ul>
+<li><a href="#list%E6%8E%A5%E5%8F%A3%E7%AE%80%E4%BB%8B">List接口简介</a></li>
+<li><a href="#arraylist%E9%9B%86%E5%90%88">ArrayList集合</a></li>
+<li><a href="#linkedlist%E9%9B%86%E5%90%88">LinkedList集合</a></li>
+</ul>
+</li>
+<li><a href="#64-collection%E9%9B%86%E5%90%88%E9%81%8D%E5%8E%86">6.4 Collection集合遍历</a>
+<ul>
+<li><a href="#iterator%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88">Iterator遍历集合</a></li>
+<li><a href="#foreach%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88">foreach遍历集合</a></li>
+<li><a href="#jdk8%E4%B8%AD%E7%9A%84foreach%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88">JDK8中的forEach遍历集合</a></li>
+</ul>
+</li>
+<li><a href="#65-set%E6%8E%A5%E5%8F%A3">6.5 Set接口</a>
+<ul>
+<li><a href="#hashset%E9%9B%86%E5%90%88">HashSet集合</a></li>
+<li><a href="#treeset%E9%9B%86%E5%90%88">TreeSet集合</a></li>
+</ul>
+</li>
+<li><a href="#66-map%E6%8E%A5%E5%8F%A3">6.6 Map接口</a>
+<ul>
+<li><a href="#map%E6%8E%A5%E5%8F%A3%E7%AE%80%E4%BB%8B">Map接口简介</a></li>
+<li><a href="#hashmap%E9%9B%86%E5%90%88">HashMap集合</a></li>
+<li><a href="#map%E9%9B%86%E5%90%88%E9%81%8D%E5%8E%86">Map集合遍历</a></li>
+<li><a href="#treemap%E9%9B%86%E5%90%88">TreeMap集合</a></li>
+<li><a href="#properties%E9%9B%86%E5%90%88">Properties集合</a></li>
+</ul>
+</li>
+<li><a href="#67%E6%B3%9B%E5%9E%8B">6.7泛型</a></li>
+<li><a href="#68%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E7%B1%BB">6.8常用工具类</a></li>
+<li><a href="#69%E8%81%9A%E5%90%88%E6%93%8D%E4%BD%9C">6.9聚合操作</a></li>
+</ul>
+</li>
+<li><a href="#%E7%AC%AC%E4%B8%83%E7%AB%A0-io%E6%B5%81">第七章 I/O流</a>
+<ul>
+<li><a href="#71-io%E6%B5%81%E6%A6%82%E8%BF%B0">7.1 I/O流概述</a>
+<ul>
+<li><a href="#1%E5%AD%97%E8%8A%82%E6%B5%81%E5%92%8C%E5%AD%97%E7%AC%A6%E6%B5%81">1.字节流和字符流</a></li>
+<li><a href="#2%E8%BE%93%E5%85%A5%E6%B5%81%E5%92%8C%E8%BE%93%E5%87%BA%E6%B5%81">2.输入流和输出流</a></li>
+<li><a href="#3%E8%8A%82%E7%82%B9%E6%B5%81%E5%92%8C%E5%A4%84%E7%90%86%E6%B5%81">3.节点流和处理流</a></li>
+</ul>
+</li>
+<li><a href="#72%E5%AD%97%E8%8A%82%E6%B5%81">7.2字节流</a>
+<ul>
+<li><a href="#%E5%AD%97%E8%8A%82%E6%B5%81%E6%A6%82%E8%BF%B0">字节流概述</a></li>
+<li><a href="#%E5%AD%97%E8%8A%82%E6%B5%81%E8%AF%BB%E5%86%99%E6%96%87%E4%BB%B6">字节流读写文件</a></li>
+<li><a href="#%E6%96%87%E4%BB%B6%E7%9A%84%E6%8B%B7%E8%B4%9D">文件的拷贝</a></li>
+<li><a href="#%E5%AD%97%E8%8A%82%E6%B5%81%E7%BC%93%E5%86%B2%E5%8C%BA">字节流缓冲区</a></li>
+<li><a href="#%E5%AD%97%E8%8A%82%E7%BC%93%E5%86%B2%E6%B5%81">字节缓冲流</a></li>
+</ul>
+</li>
+<li><a href="#73-%E5%AD%97%E7%AC%A6%E6%B5%81">7.3 字符流</a>
+<ul>
+<li><a href="#%E5%AD%97%E7%AC%A6%E6%B5%81%E6%A6%82%E8%BF%B0">字符流概述</a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E6%B5%81%E6%93%8D%E4%BD%9C%E6%96%87%E4%BB%B6">字符流操作文件</a></li>
+<li><a href="#%E8%BD%AC%E6%8D%A2%E6%B5%81">转换流</a></li>
+</ul>
+</li>
+<li><a href="#74-file%E7%B1%BB">7.4 File类</a>
+<ul>
+<li><a href="#file%E7%B1%BB%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95">File类的常用方法</a></li>
+</ul>
+</li>
+<li><a href="#75-randomaccessfile">7.5 RandomAccessFile</a></li>
+<li><a href="#76-%E5%AF%B9%E8%B1%A1%E5%BA%8F%E5%88%97%E5%8C%96">7.6 对象序列化</a></li>
+<li><a href="#77-nio">7.7 NIO</a></li>
+<li><a href="#78-nio2">7.8 NIO.2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/软件工程期末复习整理">
+              <h3 class="post-title">
+                软件工程期末复习整理
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

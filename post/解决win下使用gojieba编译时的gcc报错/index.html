@@ -1,0 +1,220 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>解决win下使用gojieba编译时的gcc报错 | Gridea</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1579616313288">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="解决win下使用gojieba编译时的gcc报错 | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+最近正在做的一个项目要在Linux环境下迁移到Windows下进行继续的开发， 结果在Windows下尝试对项目进行编译时出了问题。
+
+问题描述
+由于项目中有使用到jieba库的Golang版本，而这个版本的构建中有使用到C++。因此在编..." />
+    <meta name="keywords" content="gcc,杂项,Golang" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1579616313288" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              解决win下使用gojieba编译时的gcc报错
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-08-16
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/FSwSbVCwii" class="post-tag">
+                  # gcc
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/er-p6UONLN" class="post-tag">
+                  # 杂项
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/Kf9p2vgKYl" class="post-tag">
+                  # Golang
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
+<p>最近正在做的一个项目要在Linux环境下迁移到Windows下进行继续的开发， 结果在Windows下尝试对项目进行编译时出了问题。</p>
+</blockquote>
+<h2 id="问题描述">问题描述</h2>
+<p>由于项目中有使用到jieba库的Golang版本，而这个版本的构建中有使用到C++。因此在编译过程中有对gcc的依赖。然而，在编译的过程中，报出来这样的错误：</p>
+<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2019/08/16/qLoJfi4AbEa78px.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2019/08/16/OsGC7Sfub2n1JjI.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://i.loli.net/2019/08/16/LN1sXce2IYhGfxv.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://i.loli.net/2019/08/16/HOu7PrhioQAt9be.png" alt="" loading="lazy"></figure>
+<h2 id="解决思路">解决思路</h2>
+<p>在查询这些报错时（英语不好很多没看懂），一条回答的意思大概是GCC8这个版本后，对一些什么东西加强了检查。换句话说就是更严格了，这就导致有些代码用旧版本GCC编译后不会产生错误，而使用新的版本就有可能会出现错误。</p>
+<p>所以我看了本机的GCC环境：</p>
+<figure data-type="image" tabindex="5"><img src="https://i.loli.net/2019/08/16/KQTiYo6b1UtAnVa.png" alt="" loading="lazy"></figure>
+<p>怪不得，version 8.1.0；接着我又去看了原来的开发环境Ubuntu的GCC版本：</p>
+<figure data-type="image" tabindex="6"><img src="https://i.loli.net/2019/08/16/GI5J7MZtHwXFONr.png" alt="" loading="lazy"></figure>
+<p>version 7.4.0，看来应该就是这里出现了问题。</p>
+<p>之后，我重新找了老版本的MinGW重新下了个GCC，捯饬半天，终于可以了：</p>
+<figure data-type="image" tabindex="7"><img src="https://i.loli.net/2019/08/16/Ajye1WYqR3SIgaM.png" alt="" loading="lazy"></figure>
+<p>ps:图床突然挂了我贴那个编译成功的代码吧...</p>
+<p>把GCC降到version 4.8.2（其实是我随便找的版本，版本在8之前的应该都OK）后，再次编译：</p>
+<pre><code class="language-go">D:\Goland\Gowork\BlockChain\bitcoin_part6\src\coin&gt;go build main.go
+
+D:\Goland\Gowork\BlockChain\bitcoin_part6\src\coin&gt;
+</code></pre>
+<p>就不会有错误啦！</p>
+<h2 id="references">References</h2>
+<p>MinGW旧版本下载：</p>
+<p>[https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/4.8.2/threads-posix/seh/x86_64-4.8.2-release-posix-seh-rt_v3-rev2.7z/download](https://sourceforge.net/projects/mingw-w64/files/Toolchains targetting Win64/Personal Builds/mingw-builds/4.8.2/threads-posix/seh/x86_64-4.8.2-release-posix-seh-rt_v3-rev2.7z/download)</p>
+<p>问题：</p>
+<p><a href="https://github.com/ziglang/zig/issues/1357">https://github.com/ziglang/zig/issues/1357</a></p>
+<p><a href="https://github.com/fantasticfears/cppjieba_rb/issues/2">https://github.com/fantasticfears/cppjieba_rb/issues/2</a></p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0">问题描述</a></li>
+<li><a href="#%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF">解决思路</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/Golang实现基础Simhash算法">
+              <h3 class="post-title">
+                Golang实现基础Simhash算法
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

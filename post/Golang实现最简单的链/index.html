@@ -1,0 +1,341 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Golang实现最简单的链 | Gridea</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1579616313288">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Golang实现最简单的链 | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+最近一直忙于伏羲也没怎么学别的东西···今天更一点东西，一起来看看一条最简单的区块链是如何实现的。
+本文转载自：Wuman's Blog
+
+区块结构体
+我们把一个区块看成一个结构体，用结构体来存储区块所需要的信息。
+// 创建区块链结构体..." />
+    <meta name="keywords" content="区块链,Golang" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1579616313288" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Golang实现最简单的链
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-05-31
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/SdJaZfdphq" class="post-tag">
+                  # 区块链
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/Kf9p2vgKYl" class="post-tag">
+                  # Golang
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
+<p>最近一直忙于伏羲也没怎么学别的东西···今天更一点东西，一起来看看一条最简单的区块链是如何实现的。</p>
+<p>本文转载自：<a href="%5Bhttps://wumansgy.github.io/2018/09/01/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B01/%5D(https://wumansgy.github.io/2018/09/01/%E5%8C%BA%E5%9D%97%E9%93%BE%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B01/)">Wuman's Blog</a></p>
+</blockquote>
+<h3 id="区块结构体">区块结构体</h3>
+<p>我们把一个区块看成一个结构体，用结构体来存储区块所需要的信息。</p>
+<pre><code class="language-go">// 创建区块链结构体
+type Block struct {
+	Timer	int64	// 时间戳
+	Data 	[]byte	// 数据
+	prevHash[]byte	// 前一个区块的Hash
+	Hash 	[]byte	// 本区块的Hash
+}
+</code></pre>
+<p>在一个最简单的区块中,我们需要的最基本的属性有：</p>
+<ul>
+<li>时间戳</li>
+<li>区块数据</li>
+<li>前一个区块的Hash值</li>
+<li>本区块的Hash值</li>
+</ul>
+<p>其中，除了时间戳外，我们均使用字节类型来定义。</p>
+<h3 id="创建一个区块">创建一个区块</h3>
+<p>我们需要一些数据来创建一个区块（创世块会稍稍有区别）。</p>
+<pre><code class="language-go">//创建区块
+func NewBlock(data string, prevhash []byte) *Block {
+	// 创建一个区块链结构体
+	block1 := Block{}
+	// 获取时间
+	block1.Timer = time.Now().Unix()
+	// 传入数据参数
+	block1.Data = []byte(data)
+	// 传入前一个Hash
+	block1.prevHash = prevhash
+	// setHash方法加密获得自己的Hash
+	block1.setHash()
+	// 返回区块指针
+	return &amp;block1
+}
+</code></pre>
+<p>首先，我们需要区块所存储的数据内容data，还需要上一个区块的Hash，在创建完成之后，我们返回一个结构体类型的指针。</p>
+<p>其中，我们使用的setHash方法是用来获取本区块Hash的。下面我们来看一看这个函数。</p>
+<h3 id="sethash函数">setHash函数</h3>
+<p>setHash用来给区块加密，来获取本区块的Hash值。</p>
+<pre><code class="language-go">// 进行加密设置Hash
+func (block *Block) setHash()  {
+	// 首先将区块的时间转化为字符切片类型，便于加密
+	time := []byte(strconv.FormatInt(block.Timer, 10))
+	// 将数据，时间，前一个区块的Hash进行拼接
+	heards := bytes.Join([][]byte{time, block.Data, block.prevHash}, []byte{})
+	// sha256加密
+	hash := sha256.Sum256(heards)
+	// 加密后的Hash直接赋给本Hash
+	block.Hash = hash[:]
+}
+</code></pre>
+<p>在这里，我们通过sha256加密，对由时间戳、区块数据、上一个区块Hash组成的信息进行加密，将得到的Hash赋给本区块的Hash。</p>
+<h3 id="创世区块">创世区块</h3>
+<p>创世区块由于没有前一个区块，我们就不需要使用前一个区块的Hash值了。</p>
+<pre><code class="language-go">// 创建创世块
+func Firstblock() *Block {
+	// 传入参数，返回结构体指针
+	firstblock := NewBlock(&quot;This is firstblock&quot;, []byte{})
+	// 返回结构体指针类型
+	return firstblock
+}
+</code></pre>
+<h3 id="main函数">main函数</h3>
+<p>我们在main函数里打印出区块的Hash</p>
+<pre><code class="language-go">func main()  {
+	firstblock := Firstblock()
+	// 按照16进制打印
+	fmt.Printf(&quot;%x&quot;,string(firstblock.Hash))
+}
+</code></pre>
+<hr>
+<h3 id="代码">代码</h3>
+<pre><code class="language-go">package main
+
+import (
+	&quot;bytes&quot;
+	&quot;crypto/sha256&quot;
+	&quot;fmt&quot;
+	&quot;strconv&quot;
+	&quot;time&quot;
+)
+
+// 创建区块链结构体
+type Block struct {
+	Timer	int64	// 时间戳
+	Data 	[]byte	// 数据
+	prevHash[]byte	// 前一个区块的Hash
+	Hash 	[]byte	// 本区块的Hash
+}
+
+
+// 进行加密设置Hash
+func (block *Block) setHash()  {
+	// 首先将区块的时间转化为字符切片类型，便于加密
+	time := []byte(strconv.FormatInt(block.Timer, 10))
+	// 将数据，时间，前一个区块的Hash进行拼接
+	heards := bytes.Join([][]byte{time, block.Data, block.prevHash}, []byte{})
+	// sha256加密
+	hash := sha256.Sum256(heards)
+	// 加密后的Hash直接赋给本Hash
+	block.Hash = hash[:]
+}
+
+// 创建创世块
+func Firstblock() *Block {
+	// 传入参数，返回结构体指针
+	firstblock := NewBlock(&quot;This is firstblock&quot;, []byte{})
+	// 返回结构体指针类型
+	return firstblock
+}
+
+//创建区块
+func NewBlock(data string, prevhash []byte) *Block {
+	// 创建一个区块链结构体
+	block1 := Block{}
+	// 获取时间
+	block1.Timer = time.Now().Unix()
+	// 传入数据参数
+	block1.Data = []byte(data)
+	// 传入前一个Hash
+	block1.prevHash = prevhash
+	// setHash方法加密获得自己的Hash
+	block1.setHash()
+	// 返回区块指针
+	return &amp;block1
+}
+
+func main()  {
+	firstblock := Firstblock()
+	// 按照16进制打印
+	fmt.Printf(&quot;%x&quot;,string(firstblock.Hash))
+}
+</code></pre>
+<h3 id="打印结果">打印结果</h3>
+<pre><code class="language-go">GOROOT=D:\Goland\Go #gosetup
+GOPATH=D:\Goland\Gowork;D:\Goland\Go #gosetup
+D:\Goland\Go\bin\go.exe build -o C:\Users\HP\AppData\Local\Temp\___go_build_running_go.exe D:/Goland/Gowork/src/main/running.go #gosetup
+C:\Users\HP\AppData\Local\Temp\___go_build_running_go.exe #gosetup
+0d00bc4d9ef291f3e0fe6ac36fa2a1a62e6f6e1939b191688bc18817bb96f1e9
+Process finished with exit code 0
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E5%8C%BA%E5%9D%97%E7%BB%93%E6%9E%84%E4%BD%93">区块结构体</a></li>
+<li><a href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%8C%BA%E5%9D%97">创建一个区块</a></li>
+<li><a href="#sethash%E5%87%BD%E6%95%B0">setHash函数</a></li>
+<li><a href="#%E5%88%9B%E4%B8%96%E5%8C%BA%E5%9D%97">创世区块</a></li>
+<li><a href="#main%E5%87%BD%E6%95%B0">main函数</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81">代码</a></li>
+<li><a href="#%E6%89%93%E5%8D%B0%E7%BB%93%E6%9E%9C">打印结果</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/Linux下使用以太坊虚拟环境搭建私有链">
+              <h3 class="post-title">
+                使用以太坊虚拟环境搭建私有链
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

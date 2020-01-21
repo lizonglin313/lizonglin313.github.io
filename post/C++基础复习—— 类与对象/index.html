@@ -1,0 +1,601 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>C++基础复习—— 类与对象 | Gridea</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1579616313288">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="C++基础复习—— 类与对象 | Gridea - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+C++期末复习随便写写加深一下印象
+
+C++基础复习—— 类与对象
+类和对象
+类=数据＋操作（函数）
+1.类
+（1）语法：
+​		class 类名{
+​		public:
+函数主要在类外使用，可以在类外访问
+​		protected:
+​..." />
+    <meta name="keywords" content="C++基础,复习整理" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1579616313288" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              C++基础复习—— 类与对象
+            </h2>
+            <div class="post-info">
+              <span>
+                2018-11-26
+              </span>
+              <span>
+                12 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/n5U6EvYxUN" class="post-tag">
+                  # C++基础
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/FvEjZM6o_C" class="post-tag">
+                  # 复习整理
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
+<p>C++期末复习随便写写加深一下印象</p>
+</blockquote>
+<h1 id="c基础复习-类与对象">C++基础复习—— 类与对象</h1>
+<h2 id="类和对象">类和对象</h2>
+<p>类=数据＋操作（函数）</p>
+<h3 id="1类">1.类</h3>
+<p>（1）语法：<br>
+​		class 类名{<br>
+​		public:<br>
+函数主要在类外使用，可以在类外访问<br>
+​		protected:<br>
+​		private:<br>
+如果只为类内中的其他函数使用一般设为private<br>
+​		};<br>
+（2）使用域限定符  &quot;::&quot;</p>
+<h3 id="2构造函数">2.构造函数</h3>
+<p>（1）缺省构造函数：没有构造函数时，系统会自动生成一个默认构造函数，默认所有数据成员值均为其所在数据类型为、意义中的0。<br>
+（2）拷贝构造函数：用已经存在的类的对象去构造一个新的对象，两个对象的数据成    员值是完全相同的。<br>
+声明格式：</p>
+<pre><code class="language-c++">   Point(Point&amp;);
+   Point(const Point&amp;);
+</code></pre>
+<p>拷贝函数被调用的三种情况：</p>
+<ul>
+<li>
+<p>用已经存在的对象初始化另一个对象</p>
+</li>
+<li>
+<p>对象作为实参传递给形参时</p>
+</li>
+<li>
+<p>对象作为函数返回值时</p>
+</li>
+</ul>
+<p>例：</p>
+<pre><code class="language-c++">
+class Point
+{
+public:
+Point(int xx = 0, int yy = 0) { X = xx; Y = yy; }
+Point(Point &amp;p);    //拷贝构造函数
+int GetX() { return X; }
+int GetY() { return Y; }
+void SetX(int x) { X = x; }
+void SetY(int y) { Y = y; }
+private:
+int X;
+int Y;
+};
+Point::Point(Point &amp;p)
+{
+X = p.X;
+Y = p.Y;
+cout &lt;&lt; &quot;Copy constructor is called.&quot; &lt;&lt; endl;
+}
+Point Fun(Point p)
+{
+Point p1;
+p1.SetX(p.GetX() + 2);
+p1.SetY(p.GetY() + 2);
+return p1;
+}
+int main()
+{
+Point A(1, 2);
+Point B(A);     //拷贝构造函数被调用，给B赋值
+Point C;
+C = Fun(A);
+cout &lt;&lt; B.GetX() &lt;&lt; &quot;,&quot; &lt;&lt; B.GetY() &lt;&lt; endl;
+cout &lt;&lt; C.GetX() &lt;&lt; &quot;,&quot; &lt;&lt; C.GetY() &lt;&lt; endl;
+return 0;
+}
+</code></pre>
+<p>调试结果如下：<br>
+1，2<br>
+3，4</p>
+<h3 id="3析构函数">3.析构函数</h3>
+<p>析构函数是用来完成对象被删除之前的一些清理工作的；析构函数是在对象的生存期即将结束的时刻由系统自动调用。调用完成，对象消失，其内存空间被释放。<br>
+声明格式：(以Person类为例)<br>
+<strong>~Person();</strong></p>
+<p>注意：</p>
+<ul>
+<li>析构函数不允许有参数，所以一个类中只能有唯一的析构函数。</li>
+<li>先构造的后析构，后构造的先析构(栈)</li>
+<li>构造函数与析构函数的调用顺序例题：</li>
+</ul>
+<pre><code class="language-c++">class Person
+{
+public:
+Person(char* input_name)
+{
+	name = new char[20];
+	strcpy(name, input_name);
+	cout &lt;&lt; name &lt;&lt; &quot; Constructor Called.&quot; &lt;&lt; endl;
+}
+~Person()
+{
+	cout &lt;&lt; name &lt;&lt; &quot; Destructor Called.&quot; &lt;&lt; endl;
+	delete[] name;
+}
+void show();
+private:
+  char *name;
+};
+
+void Person::show()
+{
+   cout &lt;&lt; name &lt;&lt; endl;
+}
+int main()
+{
+Person student1(&quot;zhangming&quot;);
+Person student2(&quot;lixin&quot;);
+student1.show();
+student2.show();
+return 0;
+}
+</code></pre>
+<p>调试结果如下：<br>
+zhangming Constructor Called.<br>
+lixin Constructor Called.<br>
+zhangming<br>
+lixin<br>
+lixin Destructor Called.<br>
+zhangming Destructor Called.</p>
+<h3 id="4常成员">4.常成员</h3>
+<p>（1）const修饰符<br>
+定义常对象语法：</p>
+<pre><code class="language-c++">          const class_Type object_name;
+       or
+          class_Type const object_name;
+</code></pre>
+<p>定义常引用语法：const data_Type &amp; reference_name<br>
+常引用经常被用做参数的形参，它能提高函数的运行效率，节省内存，并保证实参不会被更改。<br>
+以下为原代码示例：</p>
+<pre><code class="language-c++">void display(const int&amp; d);
+int main()
+{
+int d(2008);
+display(d);
+return 0;
+}
+void display(const int&amp; d)
+{
+cout&lt;&lt;d&lt;&lt;endl;
+}
+</code></pre>
+<p>然而这是一个错误程序，我们来看看报错吧：<br>
+[Error] assignment of read-only reference 'd'  d不可被修改！<br>
+（2）常数据成员</p>
+<ul>
+<li>使用const说明的数据成员我们称为常数据成员。</li>
+<li>如果一个类中存在常数据成员，那么任何函数成员都不能对该成员赋值。</li>
+<li>常数据成员只能在构造函数的初始化列表位置进行初始化</li>
+</ul>
+<p>例题：</p>
+<pre><code class="language-c++">class Point
+{
+	public:
+		Point(double new_x,double new_y);
+		Point(const Point&amp; p);
+		void disp();
+		private:
+			double x;
+			const double y;  //常数据成员y
+};
+Point::Point(double new_x,double new_y):y(new_y)
+//初始化列表初始化常数据成员y
+{
+	x=new_x;
+}
+Point::Point(const Point&amp; p):y(p.y)
+//初始化列表初始化常数据成员y
+{
+	x=p.x;
+}
+void Point::disp()
+{
+	cout&lt;&lt;&quot;该点的坐标为：(&quot;&lt;&lt;x&lt;&lt;&quot;,&quot;&lt;&lt;y&lt;&lt;&quot;)&quot;&lt;&lt;endl;
+}
+int main()
+{
+	Point p1(1,2),p2(p1);
+	p1.disp();
+	p2.disp();
+	return 0;
+}
+</code></pre>
+<p>(3)常函数成员</p>
+<p>说明格式：</p>
+<p>return_type function_name(formal parameters list)const;<br>
+由于有了const的修饰，该常函数成员和一般函数成员就有了不同，它不能更新对象的数据成员，也不能调用非常函数成员，这样就保证了常函数成员不会改变数据类型成员的值。（const关键字可以被用于对重载函数的区分，例如：void disp(); void disp()const;）</p>
+<ul>
+<li>常函数成员做只读操作</li>
+<li>常对象只调用常函数</li>
+<li>常函数可以给常/非常对象使用</li>
+</ul>
+<p>（4）常对象<br>
+对象被const修饰（例如：const Point p(4,5);），因此变成一个常对象，和一般常变量一样，常对象在进行定义时必须进行初始化，而且在生存期内不能被改变。常对象只能调用常函数成员是专门给常对象而准备的。</p>
+<h3 id="5指向对象的指针">5.指向对象的指针</h3>
+<p>（1）对象指针<br>
+语法：</p>
+<pre><code class="language-c++"> Person *p_Person;
+ Person p1;
+ p_Person=&amp;p1;
+</code></pre>
+<p>等价于<br>
+Person p1,*p_Person=&amp;p1;<br>
+(2)this 指针<br>
+栗子：<br>
+Person::Person(string new_name,unsigned new_age)<br>
+{<br>
+name=new_name;<br>
+age=new_age;<br>
+}<br>
+对于系统来讲，每次调用都相当于执行以下语句：<br>
+this-&gt;name=new_name;<br>
+this-&gt;age=new_age;</p>
+<h3 id="6静态成员与友元">6.静态成员与友元</h3>
+<p>（1）静态数据成员与静态函数成员<br>
+静态数据成员</p>
+<p>定义格式：static datatypy variablename;</p>
+<p>静态数据成员必须在定义后立即初始化，静态数据成员不属于任何对象，所以其初始化不能由构造函数实现，其初始化通过域限定符在类外实现，语法如下：<br>
+datatypy classname::avriablename=some_value;</p>
+<p>注意：</p>
+<ul>
+<li>数据型静态函数成员默认值为0，（若在类内有：static int count;即类外初始化count语句可以写为：int Person::count;但该语句不能省略。</li>
+<li>静态数据成员不影响对象所占的内存空间。</li>
+<li>当常函数成员同时又是静态函数成员时，即静态常函数成员时，其遵循静态成员的特点，需要在类外单独通过赋值语句来初始化。</li>
+<li>静态数据成员属于整个类，不属于某个对象；类外初始化，声明在类内。</li>
+<li>普通成员函数可以访问非静态和静态函数成员。</li>
+</ul>
+<p>可以类外直访的有：<br>
+公有静态数据成员<br>
+公有普通数据成员</p>
+<p>公有普通数据成员只可由对象访问，公有静态数据成员可以通过类/对象访问。</p>
+<p>静态函数成员</p>
+<p>静态函数成员和其他函数成员一样，属于类而非类的对象，但只能改变类的静态成员（数据/函数）其它函数成员则可以访问类的所有成员。</p>
+<p>声明格式如下：<br>
+static return_type Function_name(formal parameters list);<br>
+和类的其他函数成员一样，静态函数成员既可以定义在类内作为静态内联函数成员，也可在类内声明<br>
+在类外定义；在类外定义时static不用写。<br>
+例题：</p>
+<pre><code class="language-c++">class Person
+{
+	public:
+	    Person(string new_name,unsigned new_age);
+	    Person(const Person&amp; p);
+	    Person(){count++;}
+	    void set_name(string new_name);
+	    void set_age(unsigned new_age);
+	    string get_name(){
+		   return name;
+	   }
+	    unsigned get_age(){
+		   return age;
+	   }
+	    void disp();
+	    static int getCount();
+	private:
+		string name;
+		unsigned age;
+		static int count;  //定义静态数据成员count
+};
+int Person::count=0;      //使用域限定符在类外初始化静态数据成员
+Person::Person(string new_name,unsigned new_age)
+{
+	name=new_name;
+	age=new_age;
+	count++;
+}
+Person::Person(const Person&amp; p)
+{
+	name=p.name;
+	age=p.age;
+	count++;
+}
+int Person::getCount()   //静态函数成员在类外定义
+{
+	return count;
+}
+int main()
+{
+	Person p1,p2,p3;
+	Person p4(&quot;xiaoming&quot;,21),p5(p4);
+	cout&lt;&lt;&quot;当前Person类对象的个数为：&quot;;
+	cout&lt;&lt;Person::getCount()&lt;&lt;endl;
+	return 0;
+}
+</code></pre>
+<p>调试结果如下：<br>
+当前Person类对象的个数为：5</p>
+<h3 id="7友元函数与友元类">7.友元函数与友元类</h3>
+<p>通过友元机制，一个普通函数或者类的函数成员可以访问到封装在某一个类中的私有数据成员。如果友元是一般函数或者类的函数成员，成为友元函数；如果友元是一个类，则称为友元类，友元类中所有函数成员都是友元函数。<br>
+（1）友元函数<br>
+声明格式：<br>
+friend return_type function_name(formal parameters list);<br>
+在友元函数体中可以通过对象名访问类的所有成员，包括public private  protected<br>
+例题，友元函数的使用</p>
+<pre><code class="language-c++">class Complex
+{
+public:
+  Complex();
+  Complex(const Complex&amp;);
+  Complex(double re,double im);
+  friend bool equal(Complex c1,Complex c2);  //友元函数声明
+  void set_real(double re){real=re;}
+  void set_imag(double im){imag=im;}
+  double get_real(){return real;}
+  double get_imag(){return imag;}
+  void diap(){cout&lt;&lt;real&lt;&lt;&quot;+&quot;&lt;&lt;imag&lt;&lt;&quot;i&quot;;}
+private:
+  double real;
+  double imag;
+};
+Complex::Complex(double re,double im)
+{
+  real=re;
+  imag=im;
+}
+Complex::Complex(const Complex&amp; comp)
+{
+  real=comp.real;
+  imag=comp.imag;
+}
+bool equal(Complex c1,Complex c2)
+{
+  if((c1.real==c2.real)&amp;&amp;(c1.imag=c2.imag))
+  return true;
+  else
+  return false;
+}
+int main()
+{
+  Complex c1(2,3),c2(3,4);
+  if(equal(c1,c2))
+  cout&lt;&lt;&quot;这两个复数相等！&quot;&lt;&lt;endl;
+  else
+  cout&lt;&lt;&quot;这两个复数不相等！&quot;&lt;&lt;endl;
+  return 0;
+}
+</code></pre>
+<p>调试结果如下：<br>
+这两个复数不相等！<br>
+判断两个复数是否相等的函数，由于直接访问了复数类的private数据成员，避免了频繁调用函数成员，效率大大提高。</p>
+<p>注意：</p>
+<ul>
+<li>友元函数不是类的成员函数，它是类的朋友，使用时不需要类域限定符。</li>
+<li>但是要在类中声明通过关键字friend声明，其声明的位置可以在类内任意位置。</li>
+<li>友元函数可以在类内实现，也可以在类外实现，在类外实现不需要关键字friend</li>
+<li>C++中，不允许  构造函数 析构函数  虚函数  为友元函数。</li>
+</ul>
+<p>友元函数和类的函数成员一样，可以访问类中的所有成员。不只是非函数成员，一个类的函数成员也可以是另一个类的友元。</p>
+<p>函数成员作为友元：</p>
+<pre><code class="language-c++">class Student;
+class Teacher
+{
+public:
+  //...
+  void gradeofcourse(Student&amp; S);
+private:
+  int numberofstu;
+  //...
+};
+class Student
+{
+public:
+  //...
+  friend void Teacher::gradeofcourse(Student&amp; S);
+private:
+  float grad;
+  Teacher* pT;
+  //...
+};
+void Teacher::gradeofcourse(Student&amp; S)
+{
+  s.grad=5;   //直接访问到其他private数据成员grad
+}
+</code></pre>
+<p>(2)友元类<br>
+当一个类中的所有函数成员都是另一个类的友元的时候，我们可以定义一个类为另一个类的友元。<br>
+例如，下面的代码是把整个Teacher类作为Student类的友元类，即Teacher类的所有函数成员都可以访问Student类的所有成员。</p>
+<pre><code class="language-c++">class Teacher
+{
+public:
+  //...
+  void gradeofcourse(Student&amp; S);   //前向声明
+private:
+  int numberofstu;
+  //...
+};
+class Student
+{
+public:
+  //...
+  friend class Teacher;
+private:
+  float grad；
+  //...
+};
+</code></pre>
+<p>注意：</p>
+<ul>
+<li>类是单向传递的，A是C的友元不等于C是A的友元。即Student类是Teacher类的友元，Teacher类的函数成员可以访问Student类成员，反之则不可以。</li>
+</ul>
+<blockquote>
+<p>下一篇写继承了·</p>
+</blockquote>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#c%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0-%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1">C++基础复习—— 类与对象</a>
+<ul>
+<li><a href="#%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1">类和对象</a>
+<ul>
+<li><a href="#1%E7%B1%BB">1.类</a></li>
+<li><a href="#2%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0">2.构造函数</a></li>
+<li><a href="#3%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0">3.析构函数</a></li>
+<li><a href="#4%E5%B8%B8%E6%88%90%E5%91%98">4.常成员</a></li>
+<li><a href="#5%E6%8C%87%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%8C%87%E9%92%88">5.指向对象的指针</a></li>
+<li><a href="#6%E9%9D%99%E6%80%81%E6%88%90%E5%91%98%E4%B8%8E%E5%8F%8B%E5%85%83">6.静态成员与友元</a></li>
+<li><a href="#7%E5%8F%8B%E5%85%83%E5%87%BD%E6%95%B0%E4%B8%8E%E5%8F%8B%E5%85%83%E7%B1%BB">7.友元函数与友元类</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
