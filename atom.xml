@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lizonglin313.github.io/</id>
-    <title>Gridea</title>
-    <updated>2020-01-21T14:28:01.920Z</updated>
+    <title>Big Carrot</title>
+    <updated>2020-01-21T15:10:35.181Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lizonglin313.github.io/"/>
     <link rel="self" href="https://lizonglin313.github.io/atom.xml"/>
-    <subtitle>温故而知新</subtitle>
+    <subtitle>人们依然相信未来会更精彩</subtitle>
     <logo>https://lizonglin313.github.io/images/avatar.png</logo>
     <icon>https://lizonglin313.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, Gridea</rights>
+    <rights>All rights reserved 2020, Big Carrot</rights>
     <entry>
         <title type="html"><![CDATA[常见的排序算法总结]]></title>
         <id>https://lizonglin313.github.io/post/常见的排序算法总结</id>
