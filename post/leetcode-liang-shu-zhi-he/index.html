@@ -1,0 +1,305 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>leetcode-两数之和 | Big Carrot</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580453596388">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="leetcode-两数之和 | Big Carrot - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="题目重述
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/two-sum
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+题解：程序员小吴(C++) Karl ..." />
+    <meta name="keywords" content="leetcode" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1580453596388" alt="">
+  </a>
+  <h1 class="site-title">
+    Big Carrot
+  </h1>
+  <p class="site-description">
+    人们依然相信未来会更精彩
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+      
+        <a href="/post/friends" class="menu">
+          朋友
+        </a>
+      
+    
+      
+        <a href="/post/indexlink" class="menu">
+          常用站点
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/lizonglin313" target="_blank">
+          <i class="ri-github-line"></i>
+        </a>
+      
+    
+      
+    
+      
+        <a href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot&amp;is_hot=1" target="_blank">
+          <i class="ri-weibo-line"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              leetcode-两数之和
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-01-31
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/nsruyUaRm" class="post-tag">
+                  # leetcode
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h3 id="题目重述">题目重述</h3>
+<blockquote>
+<p>来源：力扣（LeetCode）<br>
+链接：https://leetcode-cn.com/problems/two-sum<br>
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<p>题解：程序员小吴(C++) Karl Xavier(Go)</p>
+</blockquote>
+<p>给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。</p>
+<p>你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。</p>
+<h3 id="示例">示例</h3>
+<pre><code>给定 nums = [2, 7, 11, 15], target = 9
+因为 nums[0] + nums[1] = 2 + 7 = 9
+所以返回 [0, 1]
+</code></pre>
+<h3 id="题解">题解</h3>
+<h5 id="c版本思路及代码">C++版本思路及代码</h5>
+<p>设置一个<code>map</code>容器和<code>record</code>用来记录元素的值与索引，然后遍历数组<code>nums</code>。</p>
+<ul>
+<li>每次遍历中使用临时变量<code>complement</code>用来保存目标值与当前值的差值</li>
+<li>在此次遍历中查找<code>record</code>，查看是否有与<code>complement</code>一致的值，如果查找成功则返回查找值的索引与当前<code>nums</code>中变量值的索引<code>i</code></li>
+<li>如果未找到，则在<code>record</code>中保存该元素与索引值<code>i</code></li>
+</ul>
+<pre><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;unordered_map&gt;
+using namespace std;
+
+class Solution {
+public:
+    vector&lt;int&gt; twoSum(vector&lt;int&gt; &amp;nums, int target) {
+        unordered_map&lt;int, int&gt; record;
+        for (int i = 0; i &lt; nums.size(); ++i) {
+            int complement = target - nums[i];
+            if (record.find(complement) != record.end()) {  // 如果在 map 里没有查找到，就返回 end()
+                int res[] = {i, record[complement]};
+                cout &lt;&lt; res &lt;&lt; endl;
+                cout &lt;&lt; res + 2 &lt;&lt; endl;
+                return vector&lt;int&gt;(res, res + 2);
+            }
+            record[nums[i]] = i;    // 查到了， 将原数组值变为其下标
+        }
+        return vector&lt;int&gt;();
+    }
+};
+
+// [2,7,11,15]
+// 9
+int main() {
+    vector&lt;int&gt; nums = {2, 7, 11, 15};
+    vector&lt;int&gt; res;
+    int target = 9;
+    Solution s = *new Solution();
+    res = s.twoSum(nums, target);
+    for (int i = 0; i &lt; res.size(); ++i) {
+        cout &lt;&lt; res[i] &lt;&lt; endl;
+    }
+}
+
+
+</code></pre>
+<h5 id="go版本思路及代码">Go版本思路及代码</h5>
+<ul>
+<li>创建<code>map</code>映射<code>v</code>，存放目标数组的相关信息</li>
+<li>遍历目标数组，并获取目标值<code>target</code>与数组元素<code>nums[i]</code>的差值<code>dif</code></li>
+<li>将差值<code>dif</code>作为<code>map</code>中的<code>key</code>，目标数组<code>nums</code>的索引作为<code>map</code>中的<code>value</code></li>
+<li>判断<code>map</code>中是否包含差值<code>dif</code>，如果包含则返回对应的<code>value</code></li>
+<li>如果<code>map</code>中没有，则把其放到<code>map</code>中</li>
+</ul>
+<pre><code class="language-go">package main
+import &quot;fmt&quot;
+
+func twoSum(nums []int, target int) []int {
+	v := make(map[int]int)
+	for i := 0; i &lt; len(nums); i++ {
+		dif := target - nums[i]
+		c, ok := v[dif]
+		if ok != false {
+			return []int{c, i}
+		}
+		v[nums[i]] = i
+	}
+	return []int{-1, -1}
+}
+// [2,7,11,15]
+// 9
+func main() {
+	target := 9
+	nums := []int{2, 7, 11, 15}
+	fmt.Print(twoSum(nums, target))
+    
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E9%A2%98%E7%9B%AE%E9%87%8D%E8%BF%B0">题目重述</a></li>
+<li><a href="#%E7%A4%BA%E4%BE%8B">示例</a></li>
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a><br>
+*
+<ul>
+<li><a href="#c%E7%89%88%E6%9C%AC%E6%80%9D%E8%B7%AF%E5%8F%8A%E4%BB%A3%E7%A0%81">C++版本思路及代码</a></li>
+<li><a href="#go%E7%89%88%E6%9C%AC%E6%80%9D%E8%B7%AF%E5%8F%8A%E4%BB%A3%E7%A0%81">Go版本思路及代码</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/geng-zi-nian-jian-nan-de-kai-ju">
+              <h3 class="post-title">
+                庚子年，艰难的开局
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  <a> --©2017-2020-</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv"><a>-本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次-</a></span><a>-Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
