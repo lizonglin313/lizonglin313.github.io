@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lizonglin313.github.io/</id>
     <title>Big Carrot</title>
-    <updated>2020-01-31T08:52:01.878Z</updated>
+    <updated>2020-01-31T08:58:05.288Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lizonglin313.github.io/"/>
     <link rel="self" href="https://lizonglin313.github.io/atom.xml"/>
@@ -111,12 +111,12 @@ func main() {
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[庚子年，艰难的开局]]></title>
+        <title type="html"><![CDATA[2020能不能重新开始]]></title>
         <id>https://lizonglin313.github.io/post/geng-zi-nian-jian-nan-de-kai-ju</id>
         <link href="https://lizonglin313.github.io/post/geng-zi-nian-jian-nan-de-kai-ju">
         </link>
         <updated>2020-01-24T15:06:31.000Z</updated>
-        <content type="html"><![CDATA[<p>洪水猛兽般的疫情下，我写的所有文字都显得那么苍白</p>
+        <content type="html"><![CDATA[<p>⏮</p>
 ]]></content>
     </entry>
     <entry>
