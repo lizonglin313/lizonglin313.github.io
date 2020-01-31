@@ -1,20 +1,13 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>C++基础复习—— 类与对象 | Big Carrot</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580460229112">
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580460562797">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
-
-
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<link rel="alternate" type="application/atom+xml" title="C++基础复习—— 类与对象 | Big Carrot - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
@@ -32,102 +25,110 @@ C++基础复习—— 类与对象
 ​		protected:
 ​..." />
     <meta name="keywords" content="C++基础,复习整理" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://lizonglin313.github.io/">
-        <img src="https://lizonglin313.github.io//images/avatar.png?v=1580460229112" class="site-logo">
-        <h1 class="site-title">Big Carrot</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1580460562797" alt="">
+  </a>
+  <h1 class="site-title">
+    Big Carrot
+  </h1>
+  <p class="site-description">
+    人们依然相信未来会更精彩
+  </p>
+  <div class="menu-container">
+    
       
-        
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
+        <a href="/" class="menu">
+          首页
+        </a>
       
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
-        
+    
       
-        
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
-        
+        <a href="/archives" class="menu">
+          归档
+        </a>
       
-        
-          <a href="/post/about" class="site-nav">
-            关于
-          </a>
-        
+    
       
-        
-          <a href="/post/friends" class="site-nav">
-            朋友
-          </a>
-        
+        <a href="/tags" class="menu">
+          标签
+        </a>
       
-        
-          <a href="/post/indexlink" class="site-nav">
-            常用站点
-          </a>
-        
+    
       
-    </div>
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+      
+        <a href="/post/friends" class="menu">
+          朋友
+        </a>
+      
+    
+      
+        <a href="/post/indexlink" class="menu">
+          常用站点
+        </a>
+      
+    
   </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
+  <div class="social-container">
+    
       
-        
-          <a class="social-link" href="https://github.com/lizonglin313" target="_blank">
-            <i class="fab fa-github"></i>
-          </a>
-        
+        <a href="https://github.com/lizonglin313" target="_blank">
+          <i class="ri-github-line"></i>
+        </a>
       
-        
+    
       
-        
-          <a class="social-link" href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot" target="_blank">
-            <i class="fab fa-weibo"></i>
-          </a>
-        
+    
       
-        
+        <a href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot&amp;is_hot=1" target="_blank">
+          <i class="ri-weibo-line"></i>
+        </a>
       
-        
+    
       
-    </div>
-    <div class="site-description">
-      人们依然相信未来会更精彩
-    </div>
-    <div class="site-footer">
-      <a>©2017-2020</a><br/><br/><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<span id="busuanzi_container_site_pv"><a>本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次</a></span><br/><br/><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea</a> | <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
+    
+      
+    
   </div>
 </div>
 
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">C++基础复习—— 类与对象</h2>
-            <div class="post-date">2018-11-26</div>
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              C++基础复习—— 类与对象
+            </h2>
+            <div class="post-info">
+              <span>
+                2018-11-26
+              </span>
+              <span>
+                12 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/n5U6EvYxUN" class="post-tag">
+                  # C++基础
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/FvEjZM6o_C" class="post-tag">
+                  # 复习整理
+                </a>
+              
+            </div>
             
-            <div class="post-content" v-pre>
-              <blockquote>
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
 <p>C++期末复习随便写写加深一下印象</p>
 </blockquote>
 <h1 id="c基础复习-类与对象">C++基础复习—— 类与对象</h1>
@@ -537,53 +538,85 @@ private:
 <p>下一篇写继承了·</p>
 </blockquote>
 
-            </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://lizonglin313.github.io/tag/n5U6EvYxUN" class="tag">
-                    C++基础
-                  </a>
-                
-                  <a href="https://lizonglin313.github.io/tag/FvEjZM6o_C" class="tag">
-                    复习整理
-                  </a>
-                
               </div>
-            
-            
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#c%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0-%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1">C++基础复习—— 类与对象</a>
+<ul>
+<li><a href="#%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1">类和对象</a>
+<ul>
+<li><a href="#1%E7%B1%BB">1.类</a></li>
+<li><a href="#2%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0">2.构造函数</a></li>
+<li><a href="#3%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0">3.析构函数</a></li>
+<li><a href="#4%E5%B8%B8%E6%88%90%E5%91%98">4.常成员</a></li>
+<li><a href="#5%E6%8C%87%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%8C%87%E9%92%88">5.指向对象的指针</a></li>
+<li><a href="#6%E9%9D%99%E6%80%81%E6%88%90%E5%91%98%E4%B8%8E%E5%8F%8B%E5%85%83">6.静态成员与友元</a></li>
+<li><a href="#7%E5%8F%8B%E5%85%83%E5%87%BD%E6%95%B0%E4%B8%8E%E5%8F%8B%E5%85%83%E7%B1%BB">7.友元函数与友元类</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
-            
-
-          </div>
-
+              </div>
+            </div>
+          </article>
         </div>
+
+        
+
+        
+
+        <div class="site-footer">
+  <a>--©2017-2020</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv"><a>--本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次--</a></span><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
       </div>
     </div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script type="application/javascript">
+    <script>
+      hljs.initHighlightingOnLoad()
 
-AOS.init();
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
 
-</script>
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
 
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
 
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>
-    hljs.initHighlightingOnLoad()
-  </script>
-
-
-
-
-
+    </script>
   </body>
 </html>

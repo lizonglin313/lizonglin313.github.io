@@ -1,20 +1,13 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>使用以太坊虚拟环境搭建私有链 | Big Carrot</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580460229112">
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580460562797">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
-
-
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<link rel="alternate" type="application/atom+xml" title="使用以太坊虚拟环境搭建私有链 | Big Carrot - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
@@ -26,102 +19,110 @@ Geth（go-ethereum客户端）
 首先，我们需要安装 geth 。具体安装参考官方指南
 打开终端，分别输入以下命..." />
     <meta name="keywords" content="区块链,以太坊" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://lizonglin313.github.io/">
-        <img src="https://lizonglin313.github.io//images/avatar.png?v=1580460229112" class="site-logo">
-        <h1 class="site-title">Big Carrot</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1580460562797" alt="">
+  </a>
+  <h1 class="site-title">
+    Big Carrot
+  </h1>
+  <p class="site-description">
+    人们依然相信未来会更精彩
+  </p>
+  <div class="menu-container">
+    
       
-        
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
+        <a href="/" class="menu">
+          首页
+        </a>
       
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
-        
+    
       
-        
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
-        
+        <a href="/archives" class="menu">
+          归档
+        </a>
       
-        
-          <a href="/post/about" class="site-nav">
-            关于
-          </a>
-        
+    
       
-        
-          <a href="/post/friends" class="site-nav">
-            朋友
-          </a>
-        
+        <a href="/tags" class="menu">
+          标签
+        </a>
       
-        
-          <a href="/post/indexlink" class="site-nav">
-            常用站点
-          </a>
-        
+    
       
-    </div>
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+      
+        <a href="/post/friends" class="menu">
+          朋友
+        </a>
+      
+    
+      
+        <a href="/post/indexlink" class="menu">
+          常用站点
+        </a>
+      
+    
   </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
+  <div class="social-container">
+    
       
-        
-          <a class="social-link" href="https://github.com/lizonglin313" target="_blank">
-            <i class="fab fa-github"></i>
-          </a>
-        
+        <a href="https://github.com/lizonglin313" target="_blank">
+          <i class="ri-github-line"></i>
+        </a>
       
-        
+    
       
-        
-          <a class="social-link" href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot" target="_blank">
-            <i class="fab fa-weibo"></i>
-          </a>
-        
+    
       
-        
+        <a href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot&amp;is_hot=1" target="_blank">
+          <i class="ri-weibo-line"></i>
+        </a>
       
-        
+    
       
-    </div>
-    <div class="site-description">
-      人们依然相信未来会更精彩
-    </div>
-    <div class="site-footer">
-      <a>©2017-2020</a><br/><br/><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<span id="busuanzi_container_site_pv"><a>本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次</a></span><br/><br/><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea</a> | <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
+    
+      
+    
   </div>
 </div>
 
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">使用以太坊虚拟环境搭建私有链</h2>
-            <div class="post-date">2019-04-20</div>
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              使用以太坊虚拟环境搭建私有链
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-04-20
+              </span>
+              <span>
+                9 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/SdJaZfdphq" class="post-tag">
+                  # 区块链
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/1G53uSCA89" class="post-tag">
+                  # 以太坊
+                </a>
+              
+            </div>
             
-            <div class="post-content" v-pre>
-              <blockquote>
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
 <p>很多时候，在开发中我们需要使用私有链进行测试。</p>
 <p>本文主要讲述如何在Ubuntu系统中使用以太坊虚拟环境搭建私有链。</p>
 </blockquote>
@@ -303,62 +304,101 @@ true
 <p><a href="https://blog.csdn.net/striver_jt/article/details/68490921">柠檬宵宵-区块链学习（三）</a></p>
 </blockquote>
 
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#gethgo-ethereum%E5%AE%A2%E6%88%B7%E7%AB%AF">Geth（go-ethereum客户端）</a></li>
+<li><a href="#%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E9%93%BE">搭建私有链</a>
+<ul>
+<li><a href="#%E5%88%9B%E4%B8%96%E5%8C%BA%E5%9D%97">创世区块</a></li>
+<li><a href="#%E5%86%99%E5%85%A5%E5%88%9B%E4%B8%96%E5%8C%BA%E5%9D%97">写入创世区块</a></li>
+<li><a href="#%E5%90%AF%E5%8A%A8%E7%A7%81%E6%9C%89%E8%8A%82%E7%82%B9">启动私有节点</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8javascript-console">使用Javascript Console</a>
+<ul>
+<li><a href="#%E5%88%9B%E5%BB%BA%E8%B4%A6%E6%88%B7">创建账户</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E8%B4%A6%E6%88%B7%E4%BD%99%E9%A2%9D">查看账户余额</a></li>
+<li><a href="#%E5%90%AF%E5%8A%A8%E5%81%9C%E6%AD%A2%E6%8C%96%E7%9F%BF">启动，停止挖矿</a></li>
+<li><a href="#%E5%8F%91%E9%80%81%E4%BA%A4%E6%98%93">发送交易</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E4%BA%A4%E6%98%93%E5%92%8C%E5%8C%BA%E5%9D%97">查看交易和区块</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://lizonglin313.github.io/tag/SdJaZfdphq" class="tag">
-                    区块链
-                  </a>
-                
-                  <a href="https://lizonglin313.github.io/tag/1G53uSCA89" class="tag">
-                    以太坊
-                  </a>
-                
-              </div>
-            
-            
-              <div class="next-post">
-                <div class="next">下一篇</div>
-                <a href="https://lizonglin313.github.io/post/浅谈“区块链-版权保护”(非技术文)">
-                  <h3 class="post-title">
-                    浅谈“区块链+版权保护”
-                  </h3>
-                </a>
-              </div>
-            
-
-            
-
-          </div>
-
+          </article>
         </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/浅谈“区块链-版权保护”(非技术文)">
+              <h3 class="post-title">
+                浅谈“区块链+版权保护”
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  <a>--©2017-2020</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv"><a>--本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次--</a></span><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
       </div>
     </div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script type="application/javascript">
+    <script>
+      hljs.initHighlightingOnLoad()
 
-AOS.init();
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
 
-</script>
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
 
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
 
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>
-    hljs.initHighlightingOnLoad()
-  </script>
-
-
-
-
-
+    </script>
   </body>
 </html>

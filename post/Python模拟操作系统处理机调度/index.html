@@ -1,122 +1,123 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Python模拟操作系统处理机调度 | Big Carrot</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580460229112">
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580460562797">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
-
-
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<link rel="alternate" type="application/atom+xml" title="Python模拟操作系统处理机调度 | Big Carrot - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
     <meta name="description" content="
 拖拖拉拉，昨天终于写完核心算法，UI界面几乎没写，估计开学会被导师mao一顿。说一下python GUI大家最好不要去动TK，前些日子找官方文档查方法体验非常差，而且网上的教程写的乱七八糟。有兴趣的话大家可以学习PyQt，这是一个跨平台的..." />
     <meta name="keywords" content="模拟实验,操作系统" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://lizonglin313.github.io/">
-        <img src="https://lizonglin313.github.io//images/avatar.png?v=1580460229112" class="site-logo">
-        <h1 class="site-title">Big Carrot</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1580460562797" alt="">
+  </a>
+  <h1 class="site-title">
+    Big Carrot
+  </h1>
+  <p class="site-description">
+    人们依然相信未来会更精彩
+  </p>
+  <div class="menu-container">
+    
       
-        
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
+        <a href="/" class="menu">
+          首页
+        </a>
       
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
-        
+    
       
-        
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
-        
+        <a href="/archives" class="menu">
+          归档
+        </a>
       
-        
-          <a href="/post/about" class="site-nav">
-            关于
-          </a>
-        
+    
       
-        
-          <a href="/post/friends" class="site-nav">
-            朋友
-          </a>
-        
+        <a href="/tags" class="menu">
+          标签
+        </a>
       
-        
-          <a href="/post/indexlink" class="site-nav">
-            常用站点
-          </a>
-        
+    
       
-    </div>
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+      
+        <a href="/post/friends" class="menu">
+          朋友
+        </a>
+      
+    
+      
+        <a href="/post/indexlink" class="menu">
+          常用站点
+        </a>
+      
+    
   </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
+  <div class="social-container">
+    
       
-        
-          <a class="social-link" href="https://github.com/lizonglin313" target="_blank">
-            <i class="fab fa-github"></i>
-          </a>
-        
+        <a href="https://github.com/lizonglin313" target="_blank">
+          <i class="ri-github-line"></i>
+        </a>
       
-        
+    
       
-        
-          <a class="social-link" href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot" target="_blank">
-            <i class="fab fa-weibo"></i>
-          </a>
-        
+    
       
-        
+        <a href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot&amp;is_hot=1" target="_blank">
+          <i class="ri-weibo-line"></i>
+        </a>
       
-        
+    
       
-    </div>
-    <div class="site-description">
-      人们依然相信未来会更精彩
-    </div>
-    <div class="site-footer">
-      <a>©2017-2020</a><br/><br/><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<span id="busuanzi_container_site_pv"><a>本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次</a></span><br/><br/><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea</a> | <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
+    
+      
+    
   </div>
 </div>
 
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">Python模拟操作系统处理机调度</h2>
-            <div class="post-date">2019-02-19</div>
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Python模拟操作系统处理机调度
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-02-19
+              </span>
+              <span>
+                18 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/N8OvYKkqKk" class="post-tag">
+                  # 模拟实验
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/JEQiAp6BGJ" class="post-tag">
+                  # 操作系统
+                </a>
+              
+            </div>
             
-            <div class="post-content" v-pre>
-              <blockquote>
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
 <p>拖拖拉拉，昨天终于写完核心算法，UI界面几乎没写，估计开学会被导师mao一顿。说一下python GUI大家最好不要去动TK，前些日子找官方文档查方法体验非常差，而且网上的教程写的乱七八糟。有兴趣的话大家可以学习PyQt，这是一个跨平台的GUI，除了python，好多语言都有自己的版本，可以移植性比较高。重要的是有前辈翻译的官方文档，也会一直更新，后期会如果有时间会放上链接及相关教程。</p>
 <p>这一篇是关于如何用python语言模拟常见的处理机调度，我这么菜是当然不会有UI界面的···</p>
 </blockquote>
@@ -560,62 +561,98 @@ class SRTF:
 <p><a href="https://github.com/lizonglin313/-python-">Github源码戳这里</a></p>
 </blockquote>
 
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#python%E6%A8%A1%E6%8B%9F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6">Python模拟操作系统处理机调度</a>
+<ul>
+<li><a href="#%E7%AE%97%E6%B3%95%E6%A6%82%E8%A7%88">算法概览</a></li>
+<li><a href="#%E6%A0%B8%E5%BF%83%E7%AE%97%E6%B3%95">核心算法</a>
+<ul>
+<li><a href="#%E5%AE%9A%E4%B9%89%E8%BF%9B%E7%A8%8B%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">定义进程数据结构</a></li>
+<li><a href="#fcfs-%E5%85%88%E6%9D%A5%E5%85%88%E6%9C%8D%E5%8A%A1">FCFS 先来先服务</a></li>
+<li><a href="#scf-%E9%9D%99%E6%80%81%E4%BC%98%E5%85%88%E6%9D%83%E4%BC%98%E5%85%88%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95">SCF 静态优先权优先调度算法</a></li>
+<li><a href="#sjf-%E7%9F%AD%E4%BD%9C%E4%B8%9A%E4%BC%98%E5%85%88">SJF 短作业优先</a></li>
+<li><a href="#srtf-%E6%9C%80%E7%9F%AD%E5%89%A9%E4%BD%99%E6%97%B6%E9%97%B4%E4%BC%98%E5%85%88">SRTF 最短剩余时间优先</a></li>
+<li><a href="#hrrn-%E6%9C%80%E9%AB%98%E5%93%8D%E5%BA%94%E6%AF%94%E4%BC%98%E5%85%88">HRRN 最高响应比优先</a></li>
+<li><a href="#rr-%E8%BD%AE%E8%BD%AC%E6%B3%95%E8%B0%83%E5%BA%A6">RR 轮转法调度</a></li>
+<li><a href="#mfq-%E5%A4%9A%E7%BA%A7%E5%8F%8D%E9%A6%88%E9%98%9F%E5%88%97%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95">MFQ 多级反馈队列调度算法</a></li>
+<li><a href="#%E6%B5%8B%E8%AF%95%E6%A0%B7%E4%BE%8B">测试样例</a></li>
+</ul>
+</li>
+<li><a href="#%E5%B0%8F%E7%BB%93">小结</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://lizonglin313.github.io/tag/N8OvYKkqKk" class="tag">
-                    模拟实验
-                  </a>
-                
-                  <a href="https://lizonglin313.github.io/tag/JEQiAp6BGJ" class="tag">
-                    操作系统
-                  </a>
-                
-              </div>
-            
-            
-              <div class="next-post">
-                <div class="next">下一篇</div>
-                <a href="https://lizonglin313.github.io/post/解决使用pip安装第三方包出现‘拒绝访问’的错误">
-                  <h3 class="post-title">
-                    解决使用pip安装第三方包出现‘拒绝访问’的错误
-                  </h3>
-                </a>
-              </div>
-            
-
-            
-
-          </div>
-
+          </article>
         </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/解决使用pip安装第三方包出现‘拒绝访问’的错误">
+              <h3 class="post-title">
+                解决使用pip安装第三方包出现‘拒绝访问’的错误
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  <a>--©2017-2020</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv"><a>--本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次--</a></span><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
       </div>
     </div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script type="application/javascript">
+    <script>
+      hljs.initHighlightingOnLoad()
 
-AOS.init();
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
 
-</script>
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
 
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
 
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>
-    hljs.initHighlightingOnLoad()
-  </script>
-
-
-
-
-
+    </script>
   </body>
 </html>

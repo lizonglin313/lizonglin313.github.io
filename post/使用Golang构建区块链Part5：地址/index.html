@@ -1,20 +1,13 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>使用Golang构建区块链Part5：地址 | Big Carrot</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580460229112">
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580460562797">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
-
-
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<link rel="alternate" type="application/atom+xml" title="使用Golang构建区块链Part5：地址 | Big Carrot - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
@@ -24,102 +17,110 @@
 引言
 在前面的文章中，我们实现..." />
     <meta name="keywords" content="Golang,笔记" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://lizonglin313.github.io/">
-        <img src="https://lizonglin313.github.io//images/avatar.png?v=1580460229112" class="site-logo">
-        <h1 class="site-title">Big Carrot</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1580460562797" alt="">
+  </a>
+  <h1 class="site-title">
+    Big Carrot
+  </h1>
+  <p class="site-description">
+    人们依然相信未来会更精彩
+  </p>
+  <div class="menu-container">
+    
       
-        
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
+        <a href="/" class="menu">
+          首页
+        </a>
       
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
-        
+    
       
-        
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
-        
+        <a href="/archives" class="menu">
+          归档
+        </a>
       
-        
-          <a href="/post/about" class="site-nav">
-            关于
-          </a>
-        
+    
       
-        
-          <a href="/post/friends" class="site-nav">
-            朋友
-          </a>
-        
+        <a href="/tags" class="menu">
+          标签
+        </a>
       
-        
-          <a href="/post/indexlink" class="site-nav">
-            常用站点
-          </a>
-        
+    
       
-    </div>
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+      
+        <a href="/post/friends" class="menu">
+          朋友
+        </a>
+      
+    
+      
+        <a href="/post/indexlink" class="menu">
+          常用站点
+        </a>
+      
+    
   </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
+  <div class="social-container">
+    
       
-        
-          <a class="social-link" href="https://github.com/lizonglin313" target="_blank">
-            <i class="fab fa-github"></i>
-          </a>
-        
+        <a href="https://github.com/lizonglin313" target="_blank">
+          <i class="ri-github-line"></i>
+        </a>
       
-        
+    
       
-        
-          <a class="social-link" href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot" target="_blank">
-            <i class="fab fa-weibo"></i>
-          </a>
-        
+    
       
-        
+        <a href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot&amp;is_hot=1" target="_blank">
+          <i class="ri-weibo-line"></i>
+        </a>
       
-        
+    
       
-    </div>
-    <div class="site-description">
-      人们依然相信未来会更精彩
-    </div>
-    <div class="site-footer">
-      <a>©2017-2020</a><br/><br/><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<span id="busuanzi_container_site_pv"><a>本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次</a></span><br/><br/><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea</a> | <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
+    
+      
+    
   </div>
 </div>
 
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">使用Golang构建区块链Part5：地址</h2>
-            <div class="post-date">2019-09-10</div>
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              使用Golang构建区块链Part5：地址
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-09-10
+              </span>
+              <span>
+                23 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/Kf9p2vgKYl" class="post-tag">
+                  # Golang
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="post-tag">
+                  # 笔记
+                </a>
+              
+            </div>
             
-            <div class="post-content" v-pre>
-              <blockquote>
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
 <p>这一篇断断续续做了几天才得以实现，由于文章篇幅限制，作者只将新版本代码中最重要的最有代表性的改变在博客中进行分析。但是仍然有较多的代码需要大家根据compare进行自己细读。我们今天来进行“地址”的实现。</p>
 </blockquote>
 <h2 id="引言">引言</h2>
@@ -608,62 +609,92 @@ $ blockchain_go send -from 1AmVdDvvQ977oVCpUqz7zAPUEiXKrX5avR -to 1NE86r4Esjf53E
 <li><a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/">A gentle introduction to elliptic curve cryptography</a></li>
 </ol>
 
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%BC%95%E8%A8%80">引言</a></li>
+<li><a href="#%E6%AF%94%E7%89%B9%E5%B8%81%E5%9C%B0%E5%9D%80">比特币地址</a></li>
+<li><a href="#%E5%85%AC%E9%92%A5%E5%8A%A0%E5%AF%86">公钥加密</a></li>
+<li><a href="#%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D">数字签名</a></li>
+<li><a href="#%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%8A%A0%E5%AF%86">椭圆曲线加密</a></li>
+<li><a href="#base58">Base58</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E5%9C%B0%E5%9D%80">实现地址</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E7%AD%BE%E5%90%8D">实现签名</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://lizonglin313.github.io/tag/Kf9p2vgKYl" class="tag">
-                    Golang
-                  </a>
-                
-                  <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="tag">
-                    笔记
-                  </a>
-                
-              </div>
-            
-            
-              <div class="next-post">
-                <div class="next">下一篇</div>
-                <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part4：交易-1">
-                  <h3 class="post-title">
-                    使用Golang构建区块链Part4：交易-1
-                  </h3>
-                </a>
-              </div>
-            
-
-            
-
-          </div>
-
+          </article>
         </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part4：交易-1">
+              <h3 class="post-title">
+                使用Golang构建区块链Part4：交易-1
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  <a>--©2017-2020</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv"><a>--本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次--</a></span><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
       </div>
     </div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script type="application/javascript">
+    <script>
+      hljs.initHighlightingOnLoad()
 
-AOS.init();
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
 
-</script>
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
 
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
 
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>
-    hljs.initHighlightingOnLoad()
-  </script>
-
-
-
-
-
+    </script>
   </body>
 </html>

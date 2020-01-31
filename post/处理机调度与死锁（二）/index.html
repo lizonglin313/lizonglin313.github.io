@@ -1,20 +1,13 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>处理机调度与死锁（二） | Big Carrot</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580460229112">
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580460562797">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
-
-
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<link rel="alternate" type="application/atom+xml" title="处理机调度与死锁（二） | Big Carrot - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
@@ -29,102 +22,110 @@
 
 引起死锁的资源类型：临界资源（需..." />
     <meta name="keywords" content="模拟实验,操作系统" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://lizonglin313.github.io/">
-        <img src="https://lizonglin313.github.io//images/avatar.png?v=1580460229112" class="site-logo">
-        <h1 class="site-title">Big Carrot</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://lizonglin313.github.io/">
+  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1580460562797" alt="">
+  </a>
+  <h1 class="site-title">
+    Big Carrot
+  </h1>
+  <p class="site-description">
+    人们依然相信未来会更精彩
+  </p>
+  <div class="menu-container">
+    
       
-        
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
+        <a href="/" class="menu">
+          首页
+        </a>
       
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
-        
+    
       
-        
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
-        
+        <a href="/archives" class="menu">
+          归档
+        </a>
       
-        
-          <a href="/post/about" class="site-nav">
-            关于
-          </a>
-        
+    
       
-        
-          <a href="/post/friends" class="site-nav">
-            朋友
-          </a>
-        
+        <a href="/tags" class="menu">
+          标签
+        </a>
       
-        
-          <a href="/post/indexlink" class="site-nav">
-            常用站点
-          </a>
-        
+    
       
-    </div>
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+      
+        <a href="/post/friends" class="menu">
+          朋友
+        </a>
+      
+    
+      
+        <a href="/post/indexlink" class="menu">
+          常用站点
+        </a>
+      
+    
   </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
+  <div class="social-container">
+    
       
-        
-          <a class="social-link" href="https://github.com/lizonglin313" target="_blank">
-            <i class="fab fa-github"></i>
-          </a>
-        
+        <a href="https://github.com/lizonglin313" target="_blank">
+          <i class="ri-github-line"></i>
+        </a>
       
-        
+    
       
-        
-          <a class="social-link" href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot" target="_blank">
-            <i class="fab fa-weibo"></i>
-          </a>
-        
+    
       
-        
+        <a href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot&amp;is_hot=1" target="_blank">
+          <i class="ri-weibo-line"></i>
+        </a>
       
-        
+    
       
-    </div>
-    <div class="site-description">
-      人们依然相信未来会更精彩
-    </div>
-    <div class="site-footer">
-      <a>©2017-2020</a><br/><br/><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<span id="busuanzi_container_site_pv"><a>本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次</a></span><br/><br/><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea</a> | <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
+    
+      
+    
   </div>
 </div>
 
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">处理机调度与死锁（二）</h2>
-            <div class="post-date">2019-01-26</div>
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              处理机调度与死锁（二）
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-01-26
+              </span>
+              <span>
+                14 min read
+              </span>
+              
+                <a href="https://lizonglin313.github.io/tag/N8OvYKkqKk" class="post-tag">
+                  # 模拟实验
+                </a>
+              
+                <a href="https://lizonglin313.github.io/tag/JEQiAp6BGJ" class="post-tag">
+                  # 操作系统
+                </a>
+              
+            </div>
             
-            <div class="post-content" v-pre>
-              <blockquote>
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
 <p>接处理机调度与死锁（一），本篇主要讲述死锁部分内容。</p>
 </blockquote>
 <h2 id="四死锁概述">四.死锁概述</h2>
@@ -501,62 +502,149 @@ deadlock  =  not (L={P1, P2, …, Pn})
 </li>
 </ul>
 
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%9B%9B%E6%AD%BB%E9%94%81%E6%A6%82%E8%BF%B0">四.死锁概述</a>
+<ul>
+<li><a href="#1%E8%B5%84%E6%BA%90%E9%97%AE%E9%A2%98">1.资源问题</a>
+<ul>
+<li><a href="#1%E5%8F%AF%E9%87%8D%E7%94%A8%E6%80%A7%E8%B5%84%E6%BA%90%E5%92%8C%E6%B6%88%E8%80%97%E6%80%A7%E8%B5%84%E6%BA%90">（1）可重用性资源和消耗性资源</a></li>
+<li><a href="#2%E5%8F%AF%E6%8A%A2%E5%8D%A0%E6%80%A7%E8%B5%84%E6%BA%90%E5%92%8C%E4%B8%8D%E5%8F%AF%E6%8A%A2%E5%8D%A0%E6%80%A7%E8%B5%84%E6%BA%90">（2）可抢占性资源和不可抢占性资源</a></li>
+</ul>
+</li>
+<li><a href="#2%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E6%AD%BB%E9%94%81">2.计算机系统中的死锁</a>
+<ul>
+<li><a href="#1%E7%AB%9E%E4%BA%89%E4%B8%8D%E5%8F%AF%E6%8A%A2%E6%96%AD%E6%80%A7%E8%B5%84%E6%BA%90%E5%BC%95%E8%B5%B7%E6%AD%BB%E9%94%81">（1）竞争不可抢断性资源引起死锁</a></li>
+<li><a href="#2%E7%AB%9E%E4%BA%89%E5%8F%AF%E6%B6%88%E8%80%97%E6%80%A7%E8%B5%84%E6%BA%90%E5%BC%95%E8%B5%B7%E6%AD%BB%E9%94%81">（2）竞争可消耗性资源引起死锁</a></li>
+<li><a href="#3%E8%BF%9B%E7%A8%8B%E6%8E%A8%E8%BF%9B%E9%A1%BA%E5%BA%8F%E4%B8%8D%E5%BD%93%E5%BC%95%E8%B5%B7%E6%AD%BB%E9%94%81">（3）进程推进顺序不当引起死锁</a></li>
+</ul>
+</li>
+<li><a href="#3%E6%AD%BB%E9%94%81%E7%9A%84%E5%AE%9A%E4%B9%89-%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6%E5%92%8C%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95">3.死锁的定义、必要条件和处理方法</a>
+<ul>
+<li><a href="#1%E6%AD%BB%E9%94%81%E7%9A%84%E5%AE%9A%E4%B9%89">（1）死锁的定义</a></li>
+<li><a href="#2%E4%BA%A7%E7%94%9F%E6%AD%BB%E9%94%81%E7%9A%84%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6">（2）产生死锁的必要条件</a></li>
+<li><a href="#3%E5%A4%84%E7%90%86%E6%AD%BB%E9%94%81%E7%9A%84%E6%96%B9%E6%B3%95">（3）处理死锁的方法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%85%AD%E9%A2%84%E9%98%B2%E6%AD%BB%E9%94%81">六.预防死锁</a>
+<ul>
+<li><a href="#1%E7%A0%B4%E5%9D%8F%E8%AF%B7%E6%B1%82%E5%92%8C%E4%BF%9D%E6%8C%81%E6%9D%A1%E4%BB%B6">1.破坏“请求和保持”条件</a>
+<ul>
+<li><a href="#1%E7%AC%AC%E4%B8%80%E7%A7%8D%E5%8D%8F%E8%AE%AE%E9%A2%84%E5%85%88%E9%9D%99%E6%80%81%E5%88%86%E9%85%8D%E6%B3%95">（1）第一种协议（预先静态分配法）</a></li>
+<li><a href="#2%E7%AC%AC%E4%BA%8C%E7%A7%8D%E5%8D%8F%E8%AE%AE%E9%98%B6%E6%AE%B5%E6%80%A7%E8%B5%84%E6%BA%90%E5%88%86%E9%85%8D%E6%B3%95">（2）第二种协议（阶段性资源分配法）</a></li>
+</ul>
+</li>
+<li><a href="#2%E7%A0%B4%E5%9D%8F%E4%B8%8D%E5%8F%AF%E6%8A%A2%E5%8D%A0%E8%B5%84%E6%BA%90%E6%9D%A1%E4%BB%B6">2.破坏“不可抢占资源”条件</a></li>
+<li><a href="#3%E7%A0%B4%E5%9D%8F%E5%BE%AA%E7%8E%AF%E7%AD%89%E5%BE%85%E6%9D%A1%E4%BB%B6">3.破坏“循环等待”条件</a></li>
+</ul>
+</li>
+<li><a href="#%E4%B8%83%E9%81%BF%E5%85%8D%E6%AD%BB%E9%94%81">七.避免死锁</a>
+<ul>
+<li><a href="#1%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E7%8A%B6%E6%80%81">1.系统安全状态</a>
+<ul>
+<li><a href="#1%E5%AE%89%E5%85%A8%E7%8A%B6%E6%80%81">（1）安全状态</a></li>
+<li><a href="#2%E5%AE%89%E5%85%A8%E7%8A%B6%E6%80%81%E4%B8%BE%E4%BE%8B">（2）安全状态举例</a></li>
+</ul>
+</li>
+<li><a href="#2%E5%88%A9%E7%94%A8%E9%93%B6%E8%A1%8C%E5%AE%B6%E7%AE%97%E6%B3%95%E9%81%BF%E5%85%8D%E6%AD%BB%E9%94%81">2.利用银行家算法避免死锁</a>
+<ul>
+<li><a href="#1%E9%93%B6%E8%A1%8C%E5%AE%B6%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">（1）银行家算法中的数据结构</a></li>
+<li><a href="#2%E9%93%B6%E8%A1%8C%E5%AE%B6%E7%AE%97%E6%B3%95">（2）银行家算法</a></li>
+<li><a href="#3%E5%AE%89%E5%85%A8%E6%80%A7%E7%AE%97%E6%B3%95">（3）安全性算法</a></li>
+<li><a href="#4%E9%93%B6%E8%A1%8C%E5%AE%B6%E7%AE%97%E6%B3%95%E4%B8%BE%E4%BE%8B">（4）银行家算法举例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%85%AB%E6%AD%BB%E9%94%81%E7%9A%84%E6%A3%80%E6%B5%8B%E4%B8%8E%E8%A7%A3%E9%99%A4">八.死锁的检测与解除</a>
+<ul>
+<li><a href="#1%E6%AD%BB%E9%94%81%E7%9A%84%E6%A3%80%E6%B5%8B">1.死锁的检测</a>
+<ul>
+<li><a href="#1%E8%B5%84%E6%BA%90%E5%88%86%E9%85%8D%E5%9B%BE">（1）资源分配图</a></li>
+<li><a href="#2%E6%AD%BB%E9%94%81%E5%AE%9A%E7%90%86">（2）死锁定理</a></li>
+<li><a href="#3%E6%AD%BB%E9%94%81%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">（3）死锁检测中的数据结构</a></li>
+</ul>
+</li>
+<li><a href="#2%E6%AD%BB%E9%94%81%E7%9A%84%E8%A7%A3%E9%99%A4">2.死锁的解除</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://lizonglin313.github.io/tag/N8OvYKkqKk" class="tag">
-                    模拟实验
-                  </a>
-                
-                  <a href="https://lizonglin313.github.io/tag/JEQiAp6BGJ" class="tag">
-                    操作系统
-                  </a>
-                
-              </div>
-            
-            
-              <div class="next-post">
-                <div class="next">下一篇</div>
-                <a href="https://lizonglin313.github.io/post/Hexo配置使用数学公式">
-                  <h3 class="post-title">
-                    MarkDown数学公式
-                  </h3>
-                </a>
-              </div>
-            
-
-            
-
-          </div>
-
+          </article>
         </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://lizonglin313.github.io/post/Hexo配置使用数学公式">
+              <h3 class="post-title">
+                MarkDown数学公式
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  <a>--©2017-2020</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv"><a>--本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次--</a></span><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a>
+  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
       </div>
     </div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script type="application/javascript">
+    <script>
+      hljs.initHighlightingOnLoad()
 
-AOS.init();
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
 
-</script>
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
 
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
 
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>
-    hljs.initHighlightingOnLoad()
-  </script>
-
-
-
-
-
+    </script>
   </body>
 </html>
