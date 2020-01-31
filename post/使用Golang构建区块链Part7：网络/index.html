@@ -1,13 +1,20 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" >
+
 <title>使用Golang构建区块链Part7：网络 | Big Carrot</title>
-<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580453944664">
-<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580459248413">
 <link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="使用Golang构建区块链Part7：网络 | Big Carrot - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 
 
@@ -17,110 +24,102 @@
 引言
 不久之前，我们已经构建了拥有所有关键特性的区块链：匿名的、安全的并且随机产生的地址；区块链数据存储；工作量证明系统；可靠的交易存储。虽然这些特性是至关重要的，但是这还不够。真正让这些特性闪闪发光的，让加密货币成..." />
     <meta name="keywords" content="Golang,笔记" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://lizonglin313.github.io/">
-  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1580453944664" alt="">
-  </a>
-  <h1 class="site-title">
-    Big Carrot
-  </h1>
-  <p class="site-description">
-    人们依然相信未来会更精彩
-  </p>
-  <div class="menu-container">
-    
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://lizonglin313.github.io/">
+        <img src="https://lizonglin313.github.io//images/avatar.png?v=1580459248413" class="site-logo">
+        <h1 class="site-title">Big Carrot</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
       
-        <a href="/" class="menu">
-          首页
-        </a>
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
       
-    
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
       
-        <a href="/archives" class="menu">
-          归档
-        </a>
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
       
-    
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
       
-        <a href="/tags" class="menu">
-          标签
-        </a>
+        
+          <a href="/post/friends" class="site-nav">
+            朋友
+          </a>
+        
       
-    
+        
+          <a href="/post/indexlink" class="site-nav">
+            常用站点
+          </a>
+        
       
-        <a href="/post/about" class="menu">
-          关于
-        </a>
-      
-    
-      
-        <a href="/post/friends" class="menu">
-          朋友
-        </a>
-      
-    
-      
-        <a href="/post/indexlink" class="menu">
-          常用站点
-        </a>
-      
-    
+    </div>
   </div>
-  <div class="social-container">
-    
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
       
-        <a href="https://github.com/lizonglin313" target="_blank">
-          <i class="ri-github-line"></i>
-        </a>
+        
+          <a class="social-link" href="https://github.com/lizonglin313" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
       
-    
+        
       
-    
+        
+          <a class="social-link" href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
       
-        <a href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot&amp;is_hot=1" target="_blank">
-          <i class="ri-weibo-line"></i>
-        </a>
+        
       
-    
+        
       
-    
-      
-    
+    </div>
+    <div class="site-description">
+      人们依然相信未来会更精彩
+    </div>
+    <div class="site-footer">
+      <a> --©2017-2020-</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv"><a>-本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次-</a></span><a>-Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a> | <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
   </div>
 </div>
 
-        <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              使用Golang构建区块链Part7：网络
-            </h2>
-            <div class="post-info">
-              <span>
-                2019-09-22
-              </span>
-              <span>
-                22 min read
-              </span>
-              
-                <a href="https://lizonglin313.github.io/tag/Kf9p2vgKYl" class="post-tag">
-                  # Golang
-                </a>
-              
-                <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="post-tag">
-                  # 笔记
-                </a>
-              
-            </div>
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">使用Golang构建区块链Part7：网络</h2>
+            <div class="post-date">2019-09-22</div>
             
-            <div class="post-content-wrapper">
-              <div class="post-content">
-                <blockquote>
+            <div class="post-content" v-pre>
+              <blockquote>
 <p>终于到最后一篇了~</p>
 </blockquote>
 <h2 id="引言">引言</h2>
@@ -624,108 +623,62 @@ Balance of 'MINER_WALLET': 10
 <p>感谢以上，让我初步真正的探索到区块链及比特币技术的底层世界。在未来，我会对我从接触区块链到现在写出并理解一个简单底层系统原型的路程做一个小总结，为有需要朋友提供入门指南。</p>
 <p>路还很长，不过已经上路了！加油！</p>
 
-              </div>
-              <div class="toc-container">
-                <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li><a href="#%E5%BC%95%E8%A8%80">引言</a></li>
-<li><a href="#%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BD%91%E7%BB%9C">区块链网络</a></li>
-<li><a href="#%E8%8A%82%E7%82%B9%E8%A7%92%E8%89%B2">节点角色</a></li>
-<li><a href="#%E7%BD%91%E7%BB%9C%E7%AE%80%E5%8C%96">网络简化</a></li>
-<li><a href="#%E5%AE%9E%E7%8E%B0">实现</a></li>
-<li><a href="#%E6%83%85%E6%99%AF">情景</a></li>
-<li><a href="#%E7%89%88%E6%9C%AC">版本</a></li>
-<li><a href="#getblocks">getblocks</a></li>
-<li><a href="#inv">inv</a></li>
-<li><a href="#getdata">getdata</a></li>
-<li><a href="#block-%E5%92%8C-tx">block 和 tx</a></li>
-<li><a href="#%E7%BB%93%E6%9E%9C">结果</a>
-<ul>
-<li><a href="#noed-3000">NOED 3000</a></li>
-<li><a href="#node-3001">NODE 3001</a></li>
-<li><a href="#node-3000">NODE 3000</a></li>
-<li><a href="#node-3001-2">NODE 3001</a></li>
-<li><a href="#node-3002">NODE 3002</a></li>
-<li><a href="#node-3001-3">NODE 3001</a></li>
-<li><a href="#node-3002-2">NODE 3002</a></li>
-<li><a href="#noed-3001">NOED 3001</a></li>
-</ul>
-</li>
-<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
-<li><a href="#%E6%9C%80%E5%90%8E">最后</a></li>
-</ul>
-</li>
-</ul>
-
-              </div>
             </div>
-          </article>
-        </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://lizonglin313.github.io/tag/Kf9p2vgKYl" class="tag">
+                    Golang
+                  </a>
+                
+                  <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="tag">
+                    笔记
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part6：交易-2">
+                  <h3 class="post-title">
+                    使用Golang构建区块链Part6：交易-2
+                  </h3>
+                </a>
+              </div>
+            
 
-        
-          <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part6：交易-2">
-              <h3 class="post-title">
-                使用Golang构建区块链Part6：交易-2
-              </h3>
-            </a>
+            
+
           </div>
-        
 
-        
-
-        <div class="site-footer">
-  <a> --©2017-2020-</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<span id="busuanzi_container_site_pv"><a>-本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次-</a></span><a>-Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a>
-  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
-</div>
-
+        </div>
       </div>
     </div>
 
-    <script>
-      hljs.initHighlightingOnLoad()
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
 
-      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+AOS.init();
 
-      // This should probably be throttled.
-      // Especially because it triggers during smooth scrolling.
-      // https://lodash.com/docs/4.17.10#throttle
-      // You could do like...
-      // window.addEventListener("scroll", () => {
-      //    _.throttle(doThatStuff, 100);
-      // });
-      // Only not doing it here to keep this Pen dependency-free.
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
 
-      window.addEventListener("scroll", event => {
-        let fromTop = window.scrollY;
+</script>
 
-        mainNavLinks.forEach((link, index) => {
-          let section = document.getElementById(decodeURI(link.hash).substring(1));
-          let nextSection = null
-          if (mainNavLinks[index + 1]) {
-            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-          }
-          if (section.offsetTop <= fromTop) {
-            if (nextSection) {
-              if (nextSection.offsetTop > fromTop) {
-                link.classList.add("current");
-              } else {
-                link.classList.remove("current");    
-              }
-            } else {
-              link.classList.add("current");
-            }
-          } else {
-            link.classList.remove("current");
-          }
-        });
-      });
 
-    </script>
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
   </body>
 </html>

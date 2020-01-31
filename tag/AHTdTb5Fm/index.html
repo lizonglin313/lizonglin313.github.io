@@ -1,355 +1,284 @@
+<!DOCTYPE html>
 <html>
   <head>
-  <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" >
+
 <title>笔记 | Big Carrot</title>
-<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580453944664">
-<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580459248413">
 <link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="笔记 | Big Carrot - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-  <meta name="description" content="人们依然相信未来会更精彩" />
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="人们依然相信未来会更精彩">
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://lizonglin313.github.io/">
-  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1580453944664" alt="">
-  </a>
-  <h1 class="site-title">
-    Big Carrot
-  </h1>
-  <p class="site-description">
-    人们依然相信未来会更精彩
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="/" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="/archives" class="menu">
-          归档
-        </a>
-      
-    
-      
-        <a href="/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="/post/about" class="menu">
-          关于
-        </a>
-      
-    
-      
-        <a href="/post/friends" class="menu">
-          朋友
-        </a>
-      
-    
-      
-        <a href="/post/indexlink" class="menu">
-          常用站点
-        </a>
-      
-    
-  </div>
-  <div class="social-container">
-    
-      
-        <a href="https://github.com/lizonglin313" target="_blank">
-          <i class="ri-github-line"></i>
-        </a>
-      
-    
-      
-    
-      
-        <a href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot&amp;is_hot=1" target="_blank">
-          <i class="ri-weibo-line"></i>
-        </a>
-      
-    
-      
-    
-      
-    
-  </div>
-</div>
+    <div id="app" class="main">
 
-        <div class="current-tag-container">
-            <h2 class="title">
-                标签：# 笔记
-            </h2> 
-        </div>
-        <div class="post-container">
-  
-    <article class="post">
-      <a href="https://lizonglin313.github.io/post/用不同算法解决01背包问题">
-        <h2 class="post-title">用不同算法解决0/1背包问题</h2>
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://lizonglin313.github.io/">
+        <img src="https://lizonglin313.github.io//images/avatar.png?v=1580459248413" class="site-logo">
+        <h1 class="site-title">Big Carrot</h1>
       </a>
-      <div class="post-info">
-        <span>
-          2019-11-21
-        </span>
-        <span>
-          21 min read
-        </span>
-        
-          <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="post-tag">
-            # 笔记
-          </a>
-        
-          <a href="https://lizonglin313.github.io/tag/WykunZOOE" class="post-tag">
-            # 算法
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </div>
-    </article>
-  
-    <article class="post">
-      <a href="https://lizonglin313.github.io/post/Google-Bigtable论文要点整理">
-        <h2 class="post-title">Google Bigtable论文要点整理</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2019-10-07
-        </span>
-        <span>
-          25 min read
-        </span>
-        
-          <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="post-tag">
-            # 笔记
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </div>
-    </article>
-  
-    <article class="post">
-      <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part7：网络">
-        <h2 class="post-title">使用Golang构建区块链Part7：网络</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2019-09-22
-        </span>
-        <span>
-          22 min read
-        </span>
-        
-          <a href="https://lizonglin313.github.io/tag/Kf9p2vgKYl" class="post-tag">
-            # Golang
-          </a>
-        
-          <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="post-tag">
-            # 笔记
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </div>
-    </article>
-  
-    <article class="post">
-      <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part6：交易-2">
-        <h2 class="post-title">使用Golang构建区块链Part6：交易-2</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2019-09-17
-        </span>
-        <span>
-          19 min read
-        </span>
-        
-          <a href="https://lizonglin313.github.io/tag/Kf9p2vgKYl" class="post-tag">
-            # Golang
-          </a>
-        
-          <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="post-tag">
-            # 笔记
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </div>
-    </article>
-  
-    <article class="post">
-      <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part5：地址">
-        <h2 class="post-title">使用Golang构建区块链Part5：地址</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2019-09-10
-        </span>
-        <span>
-          23 min read
-        </span>
-        
-          <a href="https://lizonglin313.github.io/tag/Kf9p2vgKYl" class="post-tag">
-            # Golang
-          </a>
-        
-          <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="post-tag">
-            # 笔记
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </div>
-    </article>
-  
-    <article class="post">
-      <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part4：交易-1">
-        <h2 class="post-title">使用Golang构建区块链Part4：交易-1</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2019-09-07
-        </span>
-        <span>
-          21 min read
-        </span>
-        
-          <a href="https://lizonglin313.github.io/tag/Kf9p2vgKYl" class="post-tag">
-            # Golang
-          </a>
-        
-          <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="post-tag">
-            # 笔记
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </div>
-    </article>
-  
-    <article class="post">
-      <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part3：持久化和命令行接口">
-        <h2 class="post-title">使用Golang构建区块链Part3：持久化和命令行接口</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2019-09-06
-        </span>
-        <span>
-          16 min read
-        </span>
-        
-          <a href="https://lizonglin313.github.io/tag/Kf9p2vgKYl" class="post-tag">
-            # Golang
-          </a>
-        
-          <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="post-tag">
-            # 笔记
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </div>
-    </article>
-  
-    <article class="post">
-      <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part2：工作量证明">
-        <h2 class="post-title">使用Golang构建区块链Part2：工作量证明</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2019-09-04
-        </span>
-        <span>
-          12 min read
-        </span>
-        
-          <a href="https://lizonglin313.github.io/tag/Kf9p2vgKYl" class="post-tag">
-            # Golang
-          </a>
-        
-          <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="post-tag">
-            # 笔记
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </div>
-    </article>
-  
-    <article class="post">
-      <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part1：基本原型">
-        <h2 class="post-title">使用Golang构建区块链Part1：基本原型</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2019-09-04
-        </span>
-        <span>
-          9 min read
-        </span>
-        
-          <a href="https://lizonglin313.github.io/tag/Kf9p2vgKYl" class="post-tag">
-            # Golang
-          </a>
-        
-          <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="post-tag">
-            # 笔记
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </div>
-    </article>
-  
-</div>
-
-        <div class="pagination-container">
-  
-  
-</div>
-
-        <div class="site-footer">
-  <a> --©2017-2020-</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<span id="busuanzi_container_site_pv"><a>-本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次-</a></span><a>-Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a>
-  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
-</div>
-
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
       </div>
     </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="/post/friends" class="site-nav">
+            朋友
+          </a>
+        
+      
+        
+          <a href="/post/indexlink" class="site-nav">
+            常用站点
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/lizonglin313" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      人们依然相信未来会更精彩
+    </div>
+    <div class="site-footer">
+      <a> --©2017-2020-</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv"><a>-本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次-</a></span><a>-Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a> | <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <h2 class="current-tag">标签: 笔记</h2>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://lizonglin313.github.io/post/用不同算法解决01背包问题">
+                  <h2 class="post-title">用不同算法解决0/1背包问题</h2>
+                </a>
+                <div class="post-date">
+                  2019-11-21
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://lizonglin313.github.io/post/Google-Bigtable论文要点整理">
+                  <h2 class="post-title">Google Bigtable论文要点整理</h2>
+                </a>
+                <div class="post-date">
+                  2019-10-07
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part7：网络">
+                  <h2 class="post-title">使用Golang构建区块链Part7：网络</h2>
+                </a>
+                <div class="post-date">
+                  2019-09-22
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part6：交易-2">
+                  <h2 class="post-title">使用Golang构建区块链Part6：交易-2</h2>
+                </a>
+                <div class="post-date">
+                  2019-09-17
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part5：地址">
+                  <h2 class="post-title">使用Golang构建区块链Part5：地址</h2>
+                </a>
+                <div class="post-date">
+                  2019-09-10
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part4：交易-1">
+                  <h2 class="post-title">使用Golang构建区块链Part4：交易-1</h2>
+                </a>
+                <div class="post-date">
+                  2019-09-07
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part3：持久化和命令行接口">
+                  <h2 class="post-title">使用Golang构建区块链Part3：持久化和命令行接口</h2>
+                </a>
+                <div class="post-date">
+                  2019-09-06
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part2：工作量证明">
+                  <h2 class="post-title">使用Golang构建区块链Part2：工作量证明</h2>
+                </a>
+                <div class="post-date">
+                  2019-09-04
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part1：基本原型">
+                  <h2 class="post-title">使用Golang构建区块链Part1：基本原型</h2>
+                </a>
+                <div class="post-date">
+                  2019-09-04
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+
+          <div class="pagination-container">
+  
+  
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
   </body>
 </html>
