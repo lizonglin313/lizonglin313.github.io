@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lizonglin313.github.io/</id>
     <title>Big Carrot</title>
-    <updated>2020-01-31T11:58:34.950Z</updated>
+    <updated>2020-01-31T12:11:24.516Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lizonglin313.github.io/"/>
     <link rel="self" href="https://lizonglin313.github.io/atom.xml"/>
@@ -84,7 +84,7 @@ int main() {
 <li>判断<code>map</code>中是否包含差值<code>dif</code>，如果包含则返回对应的<code>value</code></li>
 <li>如果<code>map</code>中没有，则把其放到<code>map</code>中</li>
 </ul>
-<pre><code class="language-go">package main
+<pre><code class="language-c++">package main
 import &quot;fmt&quot;
 
 func twoSum(nums []int, target int) []int {
