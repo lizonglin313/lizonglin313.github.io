@@ -2,21 +2,21 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>leetcode-两数之和 | Big Carrot</title>
+<title>leetcode-两数相加 | Big Carrot</title>
 <link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580529033607">
 <link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="leetcode-两数之和 | Big Carrot - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+<link rel="alternate" type="application/atom+xml" title="leetcode-两数相加 | Big Carrot - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 <!-- <script src="https://blog-static.cnblogs.com/files/anbus/prism.js"></script> -->
 
 
     <meta name="description" content="
 来源：力扣（LeetCode）
-链接：https://leetcode-cn.com/problems/two-sum
+链接：https://leetcode-cn.com/problems/add-two-numbers
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-题解：程序员小吴(C++) Karl Xavie..." />
-    <meta name="keywords" content="leetcode" />
+题解：陈乐乐(c++) dp0q..." />
+    <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   </head>
@@ -98,19 +98,15 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              leetcode-两数之和
+              leetcode-两数相加
             </h2>
             <div class="post-info">
               <span>
-                2020-01-31
+                2020-02-01
               </span>
               <span>
-                3 min read
+                5 min read
               </span>
-              
-                <a href="https://lizonglin313.github.io/tag/nsruyUaRm" class="post-tag">
-                  # leetcode
-                </a>
               
             </div>
             
@@ -118,94 +114,139 @@
               <div class="post-content">
                 <blockquote>
 <p>来源：力扣（LeetCode）<br>
-链接：https://leetcode-cn.com/problems/two-sum<br>
+链接：https://leetcode-cn.com/problems/add-two-numbers<br>
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-<p>题解：程序员小吴(C++) Karl Xavier(Go)</p>
+<p>题解：陈乐乐(c++) dp0qb(go)</p>
 </blockquote>
-<h3 id="题目重述">题目重述</h3>
-<p>给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。</p>
-<p>你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。</p>
-<h3 id="示例">示例</h3>
-<pre><code>给定 nums = [2, 7, 11, 15], target = 9
-因为 nums[0] + nums[1] = 2 + 7 = 9
-所以返回 [0, 1]
+<h4 id="题目重述">题目重述</h4>
+<p>给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。</p>
+<p>如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。</p>
+<p>您可以假设除了数字 0 之外，这两个数都不会以 0 开头。</p>
+<h4 id="示例">示例</h4>
+<pre><code>输入：(2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)
+输出：7 -&gt; 0 -&gt; 8
+原因：342 + 465 = 807
 </code></pre>
-<h3 id="题解">题解</h3>
+<h4 id="题解">题解</h4>
 <h5 id="c版本思路及代码">C++版本思路及代码</h5>
-<p>设置一个<code>map</code>容器和<code>record</code>用来记录元素的值与索引，然后遍历数组<code>nums</code>。</p>
+<p>将长度较短的链表在末尾补<code>0</code>使得两个链表长度相等，然后再一个一个元素对其相加，需要注意的是要考虑进位。</p>
 <ul>
-<li>每次遍历中使用临时变量<code>complement</code>用来保存目标值与当前值的差值</li>
-<li>在此次遍历中查找<code>record</code>，查看是否有与<code>complement</code>一致的值，如果查找成功则返回查找值的索引与当前<code>nums</code>中变量值的索引<code>i</code></li>
-<li>如果未找到，则在<code>record</code>中保存该元素与索引值<code>i</code></li>
+<li>获取两个链表的长度</li>
+<li>较短的链表末尾补零</li>
+<li>对齐相加，注意考虑进位</li>
 </ul>
-<pre><code class="language-c++">#include &lt;iostream&gt;
-#include &lt;vector&gt;
-#include &lt;unordered_map&gt;
-using namespace std;
-
+<pre><code class="language-c++">struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}    // 定义链表的构造方法
+};
 class Solution {
 public:
-    vector&lt;int&gt; twoSum(vector&lt;int&gt; &amp;nums, int target) {
-        unordered_map&lt;int, int&gt; record;
-        for (int i = 0; i &lt; nums.size(); ++i) {
-            int complement = target - nums[i];
-            if (record.find(complement) != record.end()) {  // 如果在 map 里没有查找到，就返回 end()
-                int res[] = {i, record[complement]};
-                cout &lt;&lt; res &lt;&lt; endl;
-                cout &lt;&lt; res + 2 &lt;&lt; endl;
-                return vector&lt;int&gt;(res, res + 2);
-            }
-            record[nums[i]] = i;    // 查到了， 将原数组值变为其下标
+    ListNode *addTwoNumbers(ListNode *l1, ListNode *l2) {
+        int len1 = 1;   // 记录L1的长度
+        int len2 = 1;   // 记录L2的长度
+        ListNode *p = l1;
+        ListNode *q = l2;
+        while (p-&gt;next != NULL) {
+            // 获取 L1 的长度
+            len1++;
+            p = p-&gt;next;
         }
-        return vector&lt;int&gt;();
+        while (q-&gt;next != NULL) {
+            // 获取 L2 的长度
+            len2++;
+            q = q-&gt;next;
+        }
+        if (len1 &gt; len2) {
+            // 如果 L1 比 L2 长，在 L2 末尾补零
+            for (int i = 0; i &lt;= len1 - len2; ++i) {
+                q-&gt;next = new ListNode(0);
+                q = q-&gt;next;
+            }
+        } else {
+            // L2 长 就在 L1 后面补 0
+            for (int i = 0; i &lt;= len2 - len1; ++i) {
+                p-&gt;next = new ListNode(0);
+                p = p-&gt;next;
+            }
+        }
+        p = l1;
+        q = l2;
+        bool count = false;     // 记录进位
+        ListNode *l3 = new ListNode(-1);    // 结果链表
+        ListNode *w = l3;       // L3 的移动指针
+        int i = 0;                // 记录相加结果
+        while (p != NULL &amp;&amp; q != NULL) {
+            i = count + p-&gt;val + q-&gt;val;
+            w-&gt;next = new ListNode(i % 10);
+            count = i &gt;= 10 ? true : false;
+            w = w-&gt;next;
+            p = p-&gt;next;
+            q = q-&gt;next;
+        }
+        if (count) {
+            // 如果最后还有进位
+            w-&gt;next = new ListNode(1);
+            w = w-&gt;next;
+        }
+        return l3-&gt;next;    // L3 头为 -1
     }
 };
-
-// [2,7,11,15]
-// 9
-int main() {
-    vector&lt;int&gt; nums = {2, 7, 11, 15};
-    vector&lt;int&gt; res;
-    int target = 9;
-    Solution s = *new Solution();
-    res = s.twoSum(nums, target);
-    for (int i = 0; i &lt; res.size(); ++i) {
-        cout &lt;&lt; res[i] &lt;&lt; endl;
-    }
-}
-
-
 </code></pre>
-<h5 id="go版本思路及代码">Go版本思路及代码</h5>
+<h4 id="go版本思路及代码">Go版本思路及代码</h4>
 <ul>
-<li>创建<code>map</code>映射<code>v</code>，存放目标数组的相关信息</li>
-<li>遍历目标数组，并获取目标值<code>target</code>与数组元素<code>nums[i]</code>的差值<code>dif</code></li>
-<li>将差值<code>dif</code>作为<code>map</code>中的<code>key</code>，目标数组<code>nums</code>的索引作为<code>map</code>中的<code>value</code></li>
-<li>判断<code>map</code>中是否包含差值<code>dif</code>，如果包含则返回对应的<code>value</code></li>
-<li>如果<code>map</code>中没有，则把其放到<code>map</code>中</li>
+<li>依次正常遍历链表，按照对应位两数相加，如果超过<code>10</code>，则取结果的个位数，下一位加<code>1</code></li>
+<li>如果一个链表比另一个链表短，那么长的链表就直接加<code>0</code></li>
+<li>如果最后一位相加之和大于<code>10</code>，那么最后不要忘记加上一个<code>1</code>结点</li>
 </ul>
-<pre><code class="language-c++">package main
-import &quot;fmt&quot;
-
-func twoSum(nums []int, target int) []int {
-	v := make(map[int]int)
-	for i := 0; i &lt; len(nums); i++ {
-		dif := target - nums[i]
-		c, ok := v[dif]
-		if ok != false {
-			return []int{c, i}
-		}
-		v[nums[i]] = i
-	}
-	return []int{-1, -1}
+<pre><code class="language-c++">/**  Definition for singly-linked list.  **/
+type ListNode struct {
+	Val  int
+	Next *ListNode
 }
-// [2,7,11,15]
-// 9
-func main() {
-	target := 9
-	nums := []int{2, 7, 11, 15}
-	fmt.Print(twoSum(nums, target))
-    
+func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
+	var i, s int             // 分别表示 相加是否大于10 ，以及 两数之和
+	res := &amp;ListNode{Val: 0} // 头结点
+	now := res               // 当前节点
+	for true {
+		if i &gt; 0 {
+			// 前面两数之和大于10，当前的和加 1
+			s = l1.Val + l2.Val + 1
+		} else {
+			s = l1.Val + l2.Val
+		}
+		if s &gt;= 10 {
+			// 两数之和大于10 该位 s-10 否则就是 本身，并设置 i标记
+			now.Next = &amp;ListNode{Val: s - 10}
+			i = 1
+		} else {
+			now.Next = &amp;ListNode{Val: s}
+			i = 0
+		}
+		now = now.Next
+		// 当 l1 和 l2 移到最后
+		if l1.Next == nil &amp;&amp; l2.Next == nil {
+			// 如果 l1 l2 最后的和大于10 即i==1 那么后面还需要加一个 1
+			if i == 1 {
+				now.Next = &amp;ListNode{Val: 1}
+			}
+			break;
+		}
+		// l1 到最后 如果是 l2 没结束，把 l1 当前结点设置为0 继续和 l2 相加，否则后移指针
+		if l1.Next == nil {
+			l1.Val = 0
+		} else {
+			l1 = l1.Next
+		}
+		// 同理 对 l2 有
+		if l2.Next == nil {
+			l2.Val = 0
+		} else {
+			l2 = l2.Next
+		}
+	}
+	// 返回头结点的下一个结点指针
+	return res.Next
 }
 </code></pre>
 
@@ -216,12 +257,15 @@ func main() {
 <ul>
 <li>
 <ul>
+<li>
+<ul>
 <li><a href="#%E9%A2%98%E7%9B%AE%E9%87%8D%E8%BF%B0">题目重述</a></li>
 <li><a href="#%E7%A4%BA%E4%BE%8B">示例</a></li>
-<li><a href="#%E9%A2%98%E8%A7%A3">题解</a><br>
-*
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
 <ul>
 <li><a href="#c%E7%89%88%E6%9C%AC%E6%80%9D%E8%B7%AF%E5%8F%8A%E4%BB%A3%E7%A0%81">C++版本思路及代码</a></li>
+</ul>
+</li>
 <li><a href="#go%E7%89%88%E6%9C%AC%E6%80%9D%E8%B7%AF%E5%8F%8A%E4%BB%A3%E7%A0%81">Go版本思路及代码</a></li>
 </ul>
 </li>
@@ -239,9 +283,9 @@ func main() {
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://lizonglin313.github.io/post/geng-zi-nian-jian-nan-de-kai-ju">
+            <a href="https://lizonglin313.github.io/post/leetcode-liang-shu-zhi-he">
               <h3 class="post-title">
-                2020能不能重新开始
+                leetcode-两数之和
               </h3>
             </a>
           </div>
