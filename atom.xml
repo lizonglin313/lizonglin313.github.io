@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lizonglin313.github.io/</id>
     <title>Big Carrot</title>
-    <updated>2020-02-02T13:57:22.745Z</updated>
+    <updated>2020-02-02T13:57:50.143Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lizonglin313.github.io/"/>
     <link rel="self" href="https://lizonglin313.github.io/atom.xml"/>
@@ -10,6 +10,119 @@
     <logo>https://lizonglin313.github.io/images/avatar.png</logo>
     <icon>https://lizonglin313.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Big Carrot</rights>
+    <entry>
+        <title type="html"><![CDATA[leetcode20-有效的括号]]></title>
+        <id>https://lizonglin313.github.io/post/leetcode20-you-xiao-de-gua-hao</id>
+        <link href="https://lizonglin313.github.io/post/leetcode20-you-xiao-de-gua-hao">
+        </link>
+        <updated>2020-02-02T13:25:24.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>来源：力扣（LeetCode）<br>
+链接：https://leetcode-cn.com/problems/valid-parentheses<br>
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<p>题解：c***6(c++) chris(go)</p>
+</blockquote>
+<h4 id="题目重述">题目重述</h4>
+<p>给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。</p>
+<p>有效字符串需满足：</p>
+<p>左括号必须用相同类型的右括号闭合。<br>
+左括号必须以正确的顺序闭合。<br>
+注意空字符串可被认为是有效字符串。</p>
+<h4 id="示例">示例</h4>
+<pre><code>示例 1:
+输入: &quot;()&quot;
+输出: true
+
+示例 2:
+输入: &quot;()[]{}&quot;
+输出: true
+
+示例 3:
+输入: &quot;(]&quot;
+输出: false
+
+示例 4:
+输入: &quot;([)]&quot;
+输出: false
+
+示例 5:
+输入: &quot;{[]}&quot;
+输出: true
+</code></pre>
+<h4 id="题解">题解</h4>
+<h5 id="c版本思路及代码">C++版本思路及代码</h5>
+<ul>
+<li>使用<code>vector</code>来模拟栈</li>
+<li>每次取前半括号包括<code>(</code>、<code>[</code>、<code>{</code>都将其入栈</li>
+<li>如果取到的是后半括号<code>)</code>、<code>]</code>、<code>}</code>就与取栈顶元素进行匹配，如果匹配就进行出栈操作，不匹配就返回错误</li>
+</ul>
+<pre><code class="language-c++">class Solution {
+public:
+    bool isValid(string s) {
+        int len = s.length();
+        int tmp;
+        // 用 vector 模拟栈
+        vector&lt;char&gt; hp;
+        for (int i = 0; i &lt; len; i++) {
+            // 入栈
+            if (s[i] == '(' || s[i] == '[' || s[i] == '{')
+                hp.push_back(s[i]);	// 进栈
+            else {
+                // 栈空
+                if (hp.size() == 0)return false;
+                // 取栈顶元素，注意这不是出栈
+                tmp = hp.back();
+                // 出栈
+                if (tmp == '(' &amp;&amp; s[i] == ')' || tmp == '[' &amp;&amp; s[i] == ']' || tmp == '{' &amp;&amp; s[i] == '}')
+                    hp.pop_back();  // 出栈
+                else
+                    return false;
+            }
+        }
+        return hp.size() == 0;
+    }
+};
+</code></pre>
+<h5 id="go版本思路及代码">Go版本思路及代码</h5>
+<p>利用数组切片模拟栈进行操作。</p>
+<ul>
+<li>使用<code>map</code>用<code>symbol</code>变量保存匹配规则，只有到右括号的时候才取左括号</li>
+<li>申请<code>c</code>保存左括号</li>
+<li>依次对字符串<code>s</code>进行遍历
+<ul>
+<li>用<code>clen</code>保存<code>c</code>的长度，先判断<code>clen</code>长度是否大于零
+<ul>
+<li>不大于零，将这个字符<code>value</code>加入</li>
+<li>大于零，同时如果<code>symbol</code>中存在这个字符的<code>key</code>，就和<code>clen</code>最新加入的值进行匹配，匹配成功对<code>c</code>进行切片，把最新加入的值切掉</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>最后判断<code>c</code>是否为空，空了说明都匹配了</li>
+</ul>
+<pre><code class="language-c++">func isValid(s string) bool {
+	var c []byte
+	symbol := map[byte]byte{
+		')': '(',
+		']': '[',
+		'}': '{',
+	}
+	for _, value := range s {
+		clen := len(c)
+		if clen &gt; 0 {
+			if _, ok := symbol[byte(value)]; ok {
+				if c[clen-1] == symbol[byte(value)] {
+					c = c[:clen-1]
+					continue
+				}
+			}
+		}
+		c = append(c, byte(value))
+	}
+	return len(c) == 0
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[leetcode-两数相加]]></title>
         <id>https://lizonglin313.github.io/post/leetcode-liang-shu-xiang-jia</id>
@@ -2393,404 +2506,6 @@ Balance of 'MINER_WALLET': 10
 </ul>
 <p>感谢以上，让我初步真正的探索到区块链及比特币技术的底层世界。在未来，我会对我从接触区块链到现在写出并理解一个简单底层系统原型的路程做一个小总结，为有需要朋友提供入门指南。</p>
 <p>路还很长，不过已经上路了！加油！</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[使用Golang构建区块链Part6：交易-2]]></title>
-        <id>https://lizonglin313.github.io/post/使用Golang构建区块链Part6：交易-2</id>
-        <link href="https://lizonglin313.github.io/post/使用Golang构建区块链Part6：交易-2">
-        </link>
-        <updated>2019-09-17T04:35:12.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p>最近事情比较多，这一篇现在才更。又开始忙起来了~在本篇文章所涉及到的代码实现中，大部分改动相比之前的在条理和逻辑上更加清晰。</p>
-</blockquote>
-<h2 id="引言">引言</h2>
-<p>在本系列文章中的最开始，我说过区块链是一个分布式数据库。那时，我们决定先跳过“分布式”的部分而把精力放到“数据库”相关的内容。不久之前，我们几乎已经实现了所有的关于数据库部分的内容。在这篇文章中，会覆盖到先前我们跳过的一些机制，同时在下一篇文章中，我们会开始着手于区块链的分布式特性。</p>
-<p>先前的章节：</p>
-<ol>
-<li><a href="https://jeiwan.cc/posts/building-blockchain-in-go-part-1/">Basic Prototype</a></li>
-<li><a href="https://jeiwan.cc/posts/building-blockchain-in-go-part-2/">Proof-of-Work</a></li>
-<li><a href="https://jeiwan.cc/posts/building-blockchain-in-go-part-3/">Persistence and CLI</a></li>
-<li><a href="https://jeiwan.cc/posts/building-blockchain-in-go-part-4/">Transactions 1</a></li>
-<li><a href="https://jeiwan.cc/posts/building-blockchain-in-go-part-5/">Addresses</a></li>
-</ol>
-<p>（原文地址可能无法访问）</p>
-<blockquote>
-<p>本部分只介绍有重大变化的代码，所以在这里将它们全部进行解释是没有必要的。请根据<a href="https://github.com/Jeiwan/blockchain_go/compare/part_5...part_6#files_bucket">这个页面</a>去看代码的变动（与上一篇文章比较）。</p>
-</blockquote>
-<h2 id="奖励">奖励</h2>
-<p>在先前的文章中，我们跳过了一个很细微的细节就是挖矿奖励。现在我们具有了实现它的一切。</p>
-<p>这个奖励是仅仅是一个<code>coinbase</code>交易。当一个挖矿节点开始挖一个新的区块时，它收集队列中的交易同时为它们准备一个<code>coinbase</code>交易。这个<code>coinbase</code>交易仅仅包含一个矿工公钥哈希的输出。</p>
-<p>实现奖励和更新<code>send</code>命令一样简单：</p>
-<pre><code class="language-go">func (cli *CLI) send(from, to string, amount int) {
-    ...
-    bc := NewBlockchain()
-    UTXOSet := UTXOSet{bc}
-    defer bc.db.Close()
-
-    tx := NewUTXOTransaction(from, to, amount, &amp;UTXOSet)
-    cbTx := NewCoinbaseTX(from, &quot;&quot;)
-    txs := []*Transaction{cbTx, tx}
-
-    newBlock := bc.MineBlock(txs)
-    fmt.Println(&quot;Success!&quot;)
-}
-</code></pre>
-<p>在我们的实现中，创建交易挖出新块的那一个（矿工）会获得奖励。</p>
-<h2 id="utxo-集合">UTXO 集合</h2>
-<p>在第三部分<a href="https://jeiwan.cc/posts/building-blockchain-in-go-part-3/">持久化和命令行接口</a>中，我们学习了比特币内核将区块存储到数据库的方式。它讲到区块都是存储在<code>blocks</code>数据库的，交易出账是存储在<code>chainstate</code>数据库的。让我提醒你一下<code>chainstate</code>的结构是什么样的：</p>
-<ol>
-<li>'c' + 32位交易哈希 -&gt; 交易的未花费交易输出记录</li>
-<li>'B' + 32位区块哈希 -&gt; 数据库中代表未花费交易输出的区块哈希</li>
-</ol>
-<p>至这一篇文章，我们已经实现了交易，但是我们并没有去使用<code>chainstate</code>去存储它们的输出。所以，这就是我们现在要去做的。</p>
-<p><code>chainstate</code>不会去存储交易。取而代之的，它存储一个叫UTXO的集合，或者说是未花费交易输出的集合。除此之外，它存储了“数据库表示的未花费交易输出的区块哈希”，这儿我们先暂时省略，因为我们还没有使用区块高度（但是我们会在下一篇文章中进行实现）。</p>
-<p>所以，为什么我要去实现UTXO集合呢？</p>
-<p>考虑到我们先前实现的<code>Blockchain.FindUnspentTransactions</code>方法：</p>
-<pre><code class="language-go">func (bc *Blockchain) FindUnspentTransactions(pubKeyHash []byte) []Transaction {
-    ...
-    bci := bc.Iterator()
-
-    for {
-        block := bci.Next()
-
-        for _, tx := range block.Transactions {
-            ...
-        }
-
-        if len(block.PrevBlockHash) == 0 {
-            break
-        }
-    }
-    ...
-}
-</code></pre>
-<p>这个函数寻找还有未花费输出的交易。因为交易是存储在区块中的，它迭代区块链中的每一个区块同时检查里面的每一个交易。在2017年9月18日是，比特币中就已经有485,860个区块了，整个数据库使用了140+Gb的磁盘空间。这意味着一个人需要运行整个节点去验证交易。此外，验证交易需要迭代很多区块。</p>
-<p>这个问题的解决方案就是，只为存储的未花费出账建立一个索引，这就是UTXO集合所做的事情：这就是一个从所有区块链交易中所建立的一个高速缓存（通过迭代所有区块，是的，但是只需要做一次），在后面也用这个来计算余额以及验证新的交易。2017年9月的时候，UTXO集合需要大概2.7Gb。</p>
-<p>好的，让我们想想我们实现UTXO集合的话需要做哪些改变。目前，下面的函数是用来寻找交易的：</p>
-<ol>
-<li><code>Blockchain.FindUnspentTransactions</code> - 主要功能是寻找含有未花费交易输出的交易。这是遍历所有区块的地方。</li>
-<li><code>Blockchain.FindSpendableOutputs</code> - 这个函数在一个新的交易被创建时被使用。如果找到的数额足够出账的需求。使用<code>Blockchain.FindUnspentTransactions</code>。</li>
-<li><code>Blockchain.FindUTXO</code> - 为一个公钥哈希寻找未花费交易输出，用来获取余额。使用了<code>Blockchain.FindUnspentTransactions</code>。</li>
-<li><code>Blockchain.FindTransaction</code> - 通过一个交易的ID在区块链中寻找这个交易。它迭代所有区块去直至找到它。</li>
-</ol>
-<p>正如你所看到的，所有的方法都迭代了数据库中的所有区块。但是我们现在不能改进它们，因为UTXO集合没有存储所有的交易，仅仅存储了那些包含未花费交易输出的。因此，它不能被用于<code>Blockchain.FindTransaction</code>。</p>
-<p>所以，我们需要下面的这些方法：</p>
-<ol>
-<li><code>Blockchain.FindUTXO</code> - 通过迭代区块寻找所有的未花费出账。</li>
-<li><code>UTXOSet.Reindex</code> - 使用<code>FindUTXO</code>去寻找未花费出账，并且将它们存储到数据库中。这儿就是产生缓存的地方。</li>
-<li><code>UTXOSet.FindSpendableOutputs</code> - 这个方法模仿了<code>Blockchain.FindSpendableOutputs</code>方法，只不过使用了UTXO集合。</li>
-<li><code>UTXOSet.FindUTXO</code> - 这个方法模仿了<code>Blockchain.FindUTXO</code>方法，同样的只不过使用的是UTXO集合。</li>
-<li><code>Blockchain.FindTransaction</code>和之前的一样。</li>
-</ol>
-<p>因此，最常使用的两个函数将从现在起使用到高速缓存！</p>
-<p>让我们开始coding！</p>
-<pre><code class="language-go">type UTXOSet struct {
-    Blockchain *Blockchain
-}
-</code></pre>
-<p>我们将会使用一个单独的数据库，但是我们将会把UTXO集合存储到一个不同的<code>bucket</code>里。因此，<code>UTXO</code>是和<code>Blockchain</code>成对的。</p>
-<pre><code class="language-go">func (u UTXOSet) Reindex() {
-    db := u.Blockchain.db
-    bucketName := []byte(utxoBucket)
-
-    err := db.Update(func(tx *bolt.Tx) error {
-        err := tx.DeleteBucket(bucketName)
-        _, err = tx.CreateBucket(bucketName)
-    })
-
-    UTXO := u.Blockchain.FindUTXO()
-
-    err = db.Update(func(tx *bolt.Tx) error {
-        b := tx.Bucket(bucketName)
-
-        for txID, outs := range UTXO {
-            key, err := hex.DecodeString(txID)
-            err = b.Put(key, outs.Serialize())
-        }
-    })
-}
-</code></pre>
-<p>这个方法创建了一个原始的UTXO集合。首先，如果它存在一个<code>bucket</code>的话讲首先将它移除，然后从区块链上寻找所有的未花费交易输出，最后将这些出账存储到<code>bucket</code>里。</p>
-<p><code>Blockchain.FindUTXO</code>方法几乎和<code>Blockchain.FindUnspentTransactions</code>是相同的，但是现在它返回一个<code>TransactionID</code>到<code>TransactionOutputs</code>的<code>Map</code>（映射）结构。</p>
-<p>现在，UTXO集合可以被用来发送币：</p>
-<pre><code class="language-go">func (u UTXOSet) FindSpendableOutputs(pubkeyHash []byte, amount int) (int, map[string][]int) {
-    unspentOutputs := make(map[string][]int)
-    accumulated := 0
-    db := u.Blockchain.db
-
-    err := db.View(func(tx *bolt.Tx) error {
-        b := tx.Bucket([]byte(utxoBucket))
-        c := b.Cursor()
-
-        for k, v := c.First(); k != nil; k, v = c.Next() {
-            txID := hex.EncodeToString(k)
-            outs := DeserializeOutputs(v)
-
-            for outIdx, out := range outs.Outputs {
-                if out.IsLockedWithKey(pubkeyHash) &amp;&amp; accumulated &lt; amount {
-                    accumulated += out.Value
-                    unspentOutputs[txID] = append(unspentOutputs[txID], outIdx)
-                }
-            }
-        }
-    })
-
-    return accumulated, unspentOutputs
-}
-</code></pre>
-<p>或者用来查询余额：</p>
-<pre><code class="language-go">func (u UTXOSet) FindUTXO(pubKeyHash []byte) []TXOutput {
-    var UTXOs []TXOutput
-    db := u.Blockchain.db
-
-    err := db.View(func(tx *bolt.Tx) error {
-        b := tx.Bucket([]byte(utxoBucket))
-        c := b.Cursor()
-
-        for k, v := c.First(); k != nil; k, v = c.Next() {
-            outs := DeserializeOutputs(v)
-
-            for _, out := range outs.Outputs {
-                if out.IsLockedWithKey(pubKeyHash) {
-                    UTXOs = append(UTXOs, out)
-                }
-            }
-        }
-
-        return nil
-    })
-
-    return UTXOs
-}
-</code></pre>
-<p>这些是对于相应的<code>Blockchain</code>方法相应的微改的版本。这些<code>Blockchain</code>方法不再需要了。</p>
-<p>拥有UTXO集合意味着我们数据（交易）是分开去存储的：实际上交易是存储在区块链中的，同时未花费交易输出是存储在UTXO集合中。这样的分开（存储）需要很强的同步机制，因为我们想要UTXO集合总是被更新同时存储最近的交易出账。但是我们不想在每次新块被挖出的时候重建索引，因为我们要避免的正是这种频繁的区块链扫描。因此，我们需要一个更新UTXO集合的机制：</p>
-<pre><code class="language-go">func (u UTXOSet) Update(block *Block) {
-    db := u.Blockchain.db
-
-    err := db.Update(func(tx *bolt.Tx) error {
-        b := tx.Bucket([]byte(utxoBucket))
-
-        for _, tx := range block.Transactions {
-            if tx.IsCoinbase() == false {
-                for _, vin := range tx.Vin {
-                    updatedOuts := TXOutputs{}
-                    outsBytes := b.Get(vin.Txid)
-                    outs := DeserializeOutputs(outsBytes)
-
-                    for outIdx, out := range outs.Outputs {
-                        if outIdx != vin.Vout {
-                            updatedOuts.Outputs = append(updatedOuts.Outputs, out)
-                        }
-                    }
-
-                    if len(updatedOuts.Outputs) == 0 {
-                        err := b.Delete(vin.Txid)
-                    } else {
-                        err := b.Put(vin.Txid, updatedOuts.Serialize())
-                    }
-
-                }
-            }
-
-            newOutputs := TXOutputs{}
-            for _, out := range tx.Vout {
-                newOutputs.Outputs = append(newOutputs.Outputs, out)
-            }
-
-            err := b.Put(tx.ID, newOutputs.Serialize())
-        }
-    })
-}
-</code></pre>
-<p>这个函数看起来比较庞大，但是它所做的是非常直接的。当一个新的区块被挖出来时，这个UTXO集合应该被更新。更新意味着移除已花费出账，同时添加从新挖出的交易中所得到的未花费输出。如果一个出账被移除的交易中，不再包含其他的出账，它就被完全移除了。非常简单！</p>
-<p>现在让我们在必要的地方使用UTXO集合吧：</p>
-<pre><code class="language-go">func (cli *CLI) createBlockchain(address string) {
-    ...
-    bc := CreateBlockchain(address)
-    defer bc.db.Close()
-
-    UTXOSet := UTXOSet{bc}
-    UTXOSet.Reindex()
-    ...
-}
-</code></pre>
-<p>一个索引的重建发生在一个新的区块链被创建时。例如现在，这里只有一个地方用到<code>Reindex</code>，虽然看起来有些多余在这里，因为在区块链的开始只有一个区块带有一个交易，同时可以用<code>Update</code>去替换它。但是我们可能需要这个重建索引机制在以后。（英语的语言组织规则怎么有点像山东话啊我觉得...看看可以翻译成中式倒装这个句子...）</p>
-<pre><code class="language-go">func (cli *CLI) send(from, to string, amount int) {
-    ...
-    newBlock := bc.MineBlock(txs)
-    UTXOSet.Update(newBlock)
-}
-</code></pre>
-<p>然后UTXO集合在新的区块被挖出后更新：</p>
-<p>让我们检查一下它的工作：</p>
-<pre><code class="language-go">$ blockchain_go createblockchain -address 1JnMDSqVoHi4TEFXNw5wJ8skPsPf4LHkQ1
-00000086a725e18ed7e9e06f1051651a4fc46a315a9d298e59e57aeacbe0bf73
-
-Done!
-
-$ blockchain_go send -from 1JnMDSqVoHi4TEFXNw5wJ8skPsPf4LHkQ1 -to 12DkLzLQ4B3gnQt62EPRJGZ38n3zF4Hzt5 -amount 6
-0000001f75cb3a5033aeecbf6a8d378e15b25d026fb0a665c7721a5bb0faa21b
-
-Success!
-
-$ blockchain_go send -from 1JnMDSqVoHi4TEFXNw5wJ8skPsPf4LHkQ1 -to 12ncZhA5mFTTnTmHq1aTPYBri4jAK8TacL -amount 4
-000000cc51e665d53c78af5e65774a72fc7b864140a8224bf4e7709d8e0fa433
-
-Success!
-
-$ blockchain_go getbalance -address 1JnMDSqVoHi4TEFXNw5wJ8skPsPf4LHkQ1
-Balance of '1F4MbuqjcuJGymjcuYQMUVYB37AWKkSLif': 20
-
-$ blockchain_go getbalance -address 12DkLzLQ4B3gnQt62EPRJGZ38n3zF4Hzt5
-Balance of '1XWu6nitBWe6J6v6MXmd5rhdP7dZsExbx': 6
-
-$ blockchain_go getbalance -address 12ncZhA5mFTTnTmHq1aTPYBri4jAK8TacL
-Balance of '13UASQpCR8Nr41PojH8Bz4K6cmTCqweskL': 4
-</code></pre>
-<p>好噢！这个<code>1JnMDSqVoHi4TEFXNw5wJ8skPsPf4LHkQ1</code>地址接受了三次奖励：</p>
-<ol>
-<li>一次来自挖出创世纪块。</li>
-<li>一次来自挖出区块<code>0000001f75cb3a5033aeecbf6a8d378e15b25d026fb0a665c7721a5bb0faa21b</code>。</li>
-<li>一次来自挖出区块<code>000000cc51e665d53c78af5e65774a72fc7b864140a8224bf4e7709d8e0fa433</code>。</li>
-</ol>
-<h2 id="merkle-tree默克尔树">Merkle Tree（默克尔树）</h2>
-<p>这里有一个最好的机制我想在这部分讨论一下。</p>
-<p>正如我们上文所说的，全部的比特币数据库（或者说区块链）使用了超过140Gb的磁盘空间。由于比特币去中心化的特性，网络中的每个节点必须独立和自给自足，也就是说每个节点必须存储整个区块链的副本。随着更多的人开始使用比特币，这个规则变得很难去遵守：没有可能每个人都去运行全节点。同时，由于节点是网络的成熟的参与者，它们拥有责任：它们必须验证交易和区块。同时，它们需要有确切的互联网流量来与其他节点进行交互并且下载新的区块。</p>
-<p>在中本聪发布的<a href="https://bitcoin.org/bitcoin.pdf">比特币原始论文</a>中，对这个问题有一个解决方案：简单支付验证（Simplified Payment Verification SPV）。SPV是一个轻节点，不需要下载全部的区块链也不需要对区块和交易进行验证。取而代之，它在区块中寻找交易（用来验证支付）同时连接到一个全节点检索必要的数据（也就是说轻节点需要某些数据时，可以从连接全节点，在上面下载）。这个机制允许多个轻钱包节点只运行一个全节点。</p>
-<p>为了让SPV成为可能，这就应该有一种检查一个区块是否包含特定的交易而不用下载整个区块的方法。这就是Merkle树所做的。</p>
-<p>Merkle树被比特币用来获取交易的哈希，也就是之后存储在区块头并且被工作量证明所考虑到。直到现在，我们仅仅连接了区块中每个交易的哈希然后对它们使用<code>SHA-256</code>方法。这也是一个很好的方式来获取区块交易的独一无二的特征值，但是没有Merkle树的优势。</p>
-<p>让我们看看Merkle树：</p>
-<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2019/09/19/QlatOoLygwCJM4E.png" alt="" loading="lazy"></figure>
-<p>一个Merkle树是为每一个区块建立的，它从叶节点开始（树的底部），一个叶子是一个交易哈希（比特币使用双重<code>SHA256</code>哈希算法）。叶节点的数目比必须是偶数，但是并不是每一个区块都包含偶数个数的交易。如果一个区块的交易数是奇数，那么最后一个交易将会被复制（在Merkle树中，不是区块中！）。</p>
-<p>离开底部，叶节点成对成组，它们的哈希被连接，同时一个新的哈希从它们相连的哈希得到。新的哈希组成新的树节点。这个步骤被重复执行直至仅剩一个节点，叫做树的根节点。这个根哈希被用做这些交易的独一无二的特征代表，被存储在区块头中，用于工作量证明程序。</p>
-<p>最后，写代码：</p>
-<pre><code class="language-go">type MerkleTree struct {
-    RootNode *MerkleNode
-}
-
-type MerkleNode struct {
-    Left  *MerkleNode
-    Right *MerkleNode
-    Data  []byte
-}
-</code></pre>
-<p>我们从结构体开始。每一个<code>MerkleNode</code>（Merkle节点）维持数据并且连接到分支上。<code>MerkleNode</code>是真正的连接到下一个节点的根节点，又连接到更远的节点。</p>
-<p>让我们首先创建一个节点：</p>
-<pre><code class="language-go">func NewMerkleNode(left, right *MerkleNode, data []byte) *MerkleNode {
-    mNode := MerkleNode{}
-
-    if left == nil &amp;&amp; right == nil {
-        hash := sha256.Sum256(data)
-        mNode.Data = hash[:]
-    } else {
-        prevHashes := append(left.Data, right.Data...)
-        hash := sha256.Sum256(prevHashes)
-        mNode.Data = hash[:]
-    }
-
-    mNode.Left = left
-    mNode.Right = right
-
-    return &amp;mNode
-}
-</code></pre>
-<p>每个节点包含一些数据。当一个节点是叶子时，数据在外界获得（我们的实例中是序列化的交易）。当一个节点连接到另一个节点时，它获取它们的数据并且连接它们然后进行哈希运算。</p>
-<pre><code class="language-go">func NewMerkleTree(data [][]byte) *MerkleTree {
-    var nodes []MerkleNode
-
-    if len(data)%2 != 0 {
-        data = append(data, data[len(data)-1])
-    }
-
-    for _, datum := range data {
-        node := NewMerkleNode(nil, nil, datum)
-        nodes = append(nodes, *node)
-    }
-
-    for i := 0; i &lt; len(data)/2; i++ {
-        var newLevel []MerkleNode
-
-        for j := 0; j &lt; len(nodes); j += 2 {
-            node := NewMerkleNode(&amp;nodes[j], &amp;nodes[j+1], nil)
-            newLevel = append(newLevel, *node)
-        }
-
-        nodes = newLevel
-    }
-
-    mTree := MerkleTree{&amp;nodes[0]}
-
-    return &amp;mTree
-}
-</code></pre>
-<p>当一个新的树被创建，第一件事就是确定是否是偶数个叶子。在那之后，数据（一个序列化交易数组）被传入树叶子，然后树开始由这些叶子生长。</p>
-<p>现在，让我们修改<code>Block.HashTransactions</code>，在工作量证明中被使用来获取交易哈希：</p>
-<pre><code class="language-go">func (b *Block) HashTransactions() []byte {
-    var transactions [][]byte
-
-    for _, tx := range b.Transactions {
-        transactions = append(transactions, tx.Serialize())
-    }
-    mTree := NewMerkleTree(transactions)
-
-    return mTree.RootNode.Data
-}
-</code></pre>
-<p>首先，交易被序列化（使用<code>encoding/gob</code>），然后它们被用来构建Merkle树。树的根节点被作为这些区块交易的独一无二的标识来存储。</p>
-<h2 id="p2kh">P2KH</h2>
-<blockquote>
-<p>这部分相当于扩展内容，有关比特币的脚本语言。我好困好想睡~就先转AnnatarHe的了。</p>
-</blockquote>
-<p>在细节上还有一点要说一下。</p>
-<p>你记得吗，在比特币种有一种脚本(<em>Script</em>)编程语言，它被用来锁定交易出账：交易入账提供数据去锁定出账。这个语言非常简单，语言的代码也就仅仅是数据和操作符的排列而已。看下这个例子：</p>
-<pre><code class="language-shell">5 2 OP_ADD 7 OP_EQUAL
-</code></pre>
-<p><strong>5</strong>, <strong>2</strong>, 和 <strong>7</strong> 都是数据. <strong>OP_ADD</strong> 和 <strong>OP_EQUAL</strong> 是操作符。<em>Script</em> 的代码是从左至右执行的：数据的每一块都被塞进栈里然后下个操作会会被栈顶的元素调用。<em>Script</em>的栈只是一个简单的 FILO(先入后出)内存存储：栈中的第一个进去的元素会被最后一个拿走，之后进来的每个元素都是放到前一个的上面。</p>
-<p>来分解一下上面这个脚本执行的步骤吧：</p>
-<ol>
-<li>栈：空。脚本：<strong>5 2 OP_ADD 7 OP_EQUAL</strong></li>
-<li>栈：<strong>5</strong>。脚本：<strong>2 OP_ADD 7 OP_EQUAL</strong></li>
-<li>栈：<strong>5 2</strong>。脚本：<strong>OP_ADD 7 OP_EQUAL</strong></li>
-<li>栈：<strong>7</strong>。脚本：<strong>7 OP_EQUAL</strong></li>
-<li>栈：<strong>7 7</strong>。脚本：<strong>OP_EQUAL</strong></li>
-<li>栈：<strong>true</strong>。脚本：空</li>
-</ol>
-<p><strong>OP_ADD</strong>拿走栈上的两个元素，求和，然后把和再塞进栈里。<strong>OP_EQUAL</strong>从栈里拿两个元素，然后比较： 如果一样就把<strong>true</strong> 推到栈里，不一样就把<strong>false</strong>推进去。脚本执行的结果就是栈顶的值：在我们的场景下，它是 <strong>true</strong>，这就意味着脚本正常地成功执行了。</p>
-<p>现在来看一眼比特币中执行支付的脚本：</p>
-<pre><code class="language-shell">&lt;signature&gt; &lt;pubKey&gt; OP_DUP OP_HASH160 &lt;pubKeyHash&gt; OP_EQUALVERIFY OP_CHECKSIG
-</code></pre>
-<p>这个脚本被称作<em>付款给公钥哈希(Pay to Public Key Hash)</em>(P2PKH)，这是比特币中最常用的脚本。它就是字面上的给公钥哈希付款的意思，它会用一个确定的公钥锁币。这是 <strong>比特币支付的核心</strong>：无账户，两者之间无资金交互；只有脚本去确认提供的数字签名和公钥是正确的。</p>
-<p>此脚本实质上存在两个部分：</p>
-<ol>
-<li>第一块。<strong>signature</strong>, <strong>pubKey</strong>存在入账的 <strong>ScriptSig</strong> 字段中。</li>
-<li>第二部分。<strong>OP_DUP OP_HASH160 pubKeyHash OP_EQUALVERIFY OP_CHECKSIG</strong>存在出账的 <strong>ScriptPubKey</strong> 中。</li>
-</ol>
-<p>所以，它是定义解锁逻辑的出账，也是提供数据区解锁出账的入账。来执行以下这个脚本：</p>
-<p>1 栈: empty 脚本: signature pubKey OP_DUP OP_HASH160 pubKeyHash OP_EQUALVERIFY OP_CHECKSIG</p>
-<p>2 栈: signature 脚本: pubKey OP_DUP OP_HASH160 pubKeyHash OP_EQUALVERIFY OP_CHECKSIG</p>
-<p>3 栈: signature pubKey 脚本: OP_DUP OP_HASH160 pubKeyHash OP_EQUALVERIFY OP_CHECKSIG</p>
-<p>4 栈: signature pubKey pubKey 脚本: OP_HASH160 pubKeyHash OP_EQUALVERIFY OP_CHECKSIG</p>
-<p>5 栈: signature pubKey pubKeyHash 脚本: pubKeyHash OP_EQUALVERIFY OP_CHECKSIG</p>
-<p>6 栈: signature pubKey pubKeyHash pubKeyHash 脚本: OP_EQUALVERIFY OP_CHECKSIG</p>
-<p>7 栈: signature pubKey 脚本: OP_CHECKSIG</p>
-<p>8 栈: <strong>true</strong> 或 <strong>false</strong>. Script: empty.</p>
-<p><strong>OP_DUP</strong> 复制栈顶的一个元素. <strong>OP_HASH160</strong> 拿走栈顶的元素，并用 <strong>RIPEMD160</strong> 哈希一下; 再把结果塞到栈里. <strong>OP_EQUALVERIFY</strong> 对比栈顶的两个元素，如果不一样就中断脚本的执行. <strong>OP_CHECKSIG</strong> 通过哈希交易，还有 <strong>signature</strong> 和 <strong>pubKey</strong> 来验证交易的签名. 后面的一个操作颇为复杂: 它做了一个简版的交易副本, 对它哈希(因为这是被签名的交易哈希), 然后用提供的 <strong>signature</strong> 和 <strong>pubKey</strong> 验证签名.</p>
-<p>有了这样的脚本语言就允许比特币可以成为智能合约平台：这种语言是的除了穿衣单个秘钥之外的其他交易方式成为了可能。</p>
-<h2 id="总结">总结</h2>
-<p>好啦！我们几乎实现了以区块链为基础的加密货币的所有关键特性。我们有了区块链、地址、挖矿以及交易。但是还有一件事赋予这些所有机制生命，使区块链成为一个全局生态：一致性。在下一篇文章中，我们将开始实现区块链的“去中心化”部分。尽请期待！</p>
-<p>Links:</p>
-<ol>
-<li><a href="https://github.com/Jeiwan/blockchain_go/tree/part_6">Full source codes</a></li>
-<li><a href="https://en.bitcoin.it/wiki/Bitcoin_Core_0.11_(ch_2):_Data_Storage#The_UTXO_set_.28chainstate_leveldb.29">The UTXO Set</a></li>
-<li><a href="https://en.bitcoin.it/wiki/Protocol_documentation#Merkle_Trees">Merkle Tree</a></li>
-<li><a href="https://en.bitcoin.it/wiki/Script">Script</a></li>
-<li><a href="https://github.com/sipa/bitcoin/commit/450cbb0944cd20a06ce806e6679a1f4c83c50db2">“Ultraprune” Bitcoin Core commit</a></li>
-<li><a href="https://statoshi.info/dashboard/db/unspent-transaction-output-set">UTXO set statistics</a></li>
-<li><a href="https://medium.com/@maraoz/smart-contracts-and-bitcoin-a5d61011d9b1">Smart contracts and Bitcoin</a></li>
-<li><a href="https://medium.com/@jonaldfyookball/why-every-bitcoin-user-should-understand-spv-security-520d1d45e0b9">Why every Bitcoin user should understand “SPV security”</a></li>
-</ol>
 ]]></content>
     </entry>
 </feed>
