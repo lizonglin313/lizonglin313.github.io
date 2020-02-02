@@ -1,140 +1,126 @@
 <html>
-  <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Java期末复习提纲 | Big Carrot</title>
-<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580652186507">
-<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580652641921">
+<link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.css" rel="stylesheet">
 <link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="Java期末复习提纲 | Big Carrot - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
-<!-- <script src="https://blog-static.cnblogs.com/files/anbus/prism.js"></script> -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/go.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+<!-- DEMO JS -->
+<script src="media/scripts/index.js"></script>
 
 
-    <meta name="description" content="第一章 Java开发入门
 
-
-Java三个技术平台：JavaSE JavaEE JavaME
-
-
-Java语言的特点：
-
-简单易用
-安全可靠
-跨平台
-面向对象
-支持多线程
-
-
-
-什么是JDK？
-
-Java开发环境叫JDK，包括Java编译器..." />
-    <meta name="keywords" content="Java基础,复习整理" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  </head>
-  <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://lizonglin313.github.io/">
-  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1580652186507" alt="">
-  </a>
-  <h1 class="site-title">
-    Big Carrot
-  </h1>
-  <p class="site-description">
-    人们依然相信未来会更精彩
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="/" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="/archives" class="menu">
-          归档
-        </a>
-      
-    
-      
-        <a href="/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="/post/about" class="menu">
-          关于
-        </a>
-      
-    
-      
-        <a href="/post/friends" class="menu">
-          朋友
-        </a>
-      
-    
-      
-        <a href="/post/indexlink" class="menu">
-          常用站点
-        </a>
-      
-    
-  </div>
-  <div class="social-container">
-    
-      
-        <a href="https://github.com/lizonglin313" target="_blank">
-          <i class="ri-github-line"></i>
-        </a>
-      
-    
-      
-    
-      
-        <a href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot&amp;is_hot=1" target="_blank">
-          <i class="ri-weibo-line"></i>
-        </a>
-      
-    
-      
-    
-      
-    
-  </div>
-</div>
-
-        <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              Java期末复习提纲
-            </h2>
-            <div class="post-info">
-              <span>
-                2019-06-05
-              </span>
-              <span>
-                47 min read
-              </span>
-              
-                <a href="https://lizonglin313.github.io/tag/1_KCLGqHQ5" class="post-tag">
-                  # Java基础
-                </a>
-              
-                <a href="https://lizonglin313.github.io/tag/FvEjZM6o_C" class="post-tag">
-                  # 复习整理
-                </a>
-              
-            </div>
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Big Carrot
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
             
-            <div class="post-content-wrapper">
-              <div class="post-content">
-                <h2 id="第一章-java开发入门">第一章 Java开发入门</h2>
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/friends" class="menu gt-a-link">
+                            朋友
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/indexlink" class="menu gt-a-link">
+                            常用站点
+                        </a>
+                    
+                </div>
+            
+        </div>
+    </div>
+</nav>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Java期末复习提纲
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2019-06-05 ·
+                    </time>
+                    
+                        <a href="https://lizonglin313.github.io/tag/1_KCLGqHQ5" class="post-tags">
+                            # Java基础
+                        </a>
+                    
+                        <a href="https://lizonglin313.github.io/tag/FvEjZM6o_C" class="post-tags">
+                            # 复习整理
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h2 id="第一章-java开发入门">第一章 Java开发入门</h2>
 <ol>
 <li>
 <p>Java三个技术平台：JavaSE JavaEE JavaME</p>
@@ -2273,304 +2259,56 @@ bw.close();
 <h3 id="78-nio2">7.8 NIO.2</h3>
 <p>P275</p>
 
-              </div>
-              <div class="toc-container">
-                <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li><a href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-java%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8">第一章 Java开发入门</a></li>
-<li><a href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-java%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80">第二章 Java编程基础</a>
-<ul>
-<li><a href="#21-java%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95">2.1 Java基本语法</a></li>
-<li><a href="#22-%E5%8F%98%E9%87%8F%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">2.2 变量的数据结构</a></li>
-<li><a href="#23-java%E4%B8%AD%E7%9A%84%E8%BF%90%E7%AE%97%E7%AC%A6">2.3 Java中的运算符</a>
-<ul>
-<li><a href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6">逻辑运算符</a></li>
-<li><a href="#%E8%BF%90%E7%AE%97%E7%AC%A6%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7">运算符的优先级</a></li>
-</ul>
-</li>
-<li><a href="#24-%E9%80%89%E6%8B%A9%E7%BB%93%E5%90%88%E8%AF%AD%E5%8F%A5">2.4 选择结合语句</a></li>
-<li><a href="#25%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84%E8%AF%AD%E5%8F%A5">2.5循环结构语句</a>
-<ul>
-<li><a href="#%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5">循环语句</a></li>
-<li><a href="#%E8%B7%B3%E8%BD%AC%E8%AF%AD%E5%8F%A5">跳转语句</a>
-<ul>
-<li><a href="#break%E8%B7%B3%E5%87%BA%E5%A4%9A%E5%B1%82%E5%BE%AA%E7%8E%AF">break跳出多层循环</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#26%E6%95%B0%E7%BB%84">2.6数组</a>
-<ul>
-<li><a href="#%E6%95%B0%E7%BB%84%E5%AE%9A%E4%B9%89">数组定义</a></li>
-<li><a href="#%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84">多维数组</a></li>
-<li><a href="#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">基本操作</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%8A">第三章 面向对象（上）</a>
-<ul>
-<li><a href="#31%E9%9D%A2%E5%9E%8B%E5%AF%B9%E8%B1%A1%E6%A6%82%E8%BF%B0">3.1面型对象概述</a></li>
-<li><a href="#32%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1">3.2类与对象</a>
-<ul>
-<li><a href="#%E7%B1%BB%E7%9A%84%E5%AE%9A%E4%B9%89">类的定义</a></li>
-<li><a href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8">对象的创建与使用</a></li>
-<li><a href="#%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E7%AC%A6">访问控制符</a></li>
-</ul>
-</li>
-<li><a href="#33-%E7%B1%BB%E7%9A%84%E5%B0%81%E8%A3%85">3.3 类的封装</a></li>
-<li><a href="#34-%E6%96%B9%E6%B3%95%E7%9A%84%E9%87%8D%E8%BD%BD%E5%92%8C%E9%80%92%E5%BD%92">3.4 方法的重载和递归</a>
-<ul>
-<li><a href="#%E6%96%B9%E6%B3%95%E7%9A%84%E9%87%8D%E8%BD%BD">方法的重载</a></li>
-<li><a href="#%E6%96%B9%E6%B3%95%E7%9A%84%E9%80%92%E5%BD%92">方法的递归</a></li>
-</ul>
-</li>
-<li><a href="#35%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95">3.5构造方法</a>
-<ul>
-<li><a href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E7%9A%84%E5%AE%9A%E4%B9%89">构造方法的定义</a></li>
-<li><a href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E7%9A%84%E9%87%8D%E8%BD%BD">构造方法的重载</a></li>
-</ul>
-</li>
-<li><a href="#36-this%E5%85%B3%E9%94%AE%E5%AD%97">3.6 this关键字</a></li>
-<li><a href="#37static%E5%85%B3%E9%94%AE%E5%AD%97">3.7static关键字</a>
-<ul>
-<li><a href="#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F">静态变量</a></li>
-<li><a href="#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95">静态方法</a></li>
-<li><a href="#%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97">静态代码块</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%8B">第四章 面向对象（下）</a>
-<ul>
-<li><a href="#41-%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF">4.1 类的继承</a>
-<ul>
-<li><a href="#%E7%BB%A7%E6%89%BF%E7%9A%84%E6%A6%82%E5%BF%B5">继承的概念</a></li>
-<li><a href="#%E9%87%8D%E5%86%99%E7%88%B6%E7%B1%BB%E6%96%B9%E6%B3%95">重写父类方法</a></li>
-<li><a href="#super%E5%85%B3%E9%94%AE%E5%AD%97">super关键字</a></li>
-</ul>
-</li>
-<li><a href="#42-final%E5%85%B3%E9%94%AE%E5%AD%97">4.2 final关键字</a></li>
-<li><a href="#43%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3">4.3抽象类和接口</a>
-<ul>
-<li><a href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB">抽象类</a></li>
-<li><a href="#%E6%8E%A5%E5%8F%A3">接口</a></li>
-</ul>
-</li>
-<li><a href="#44%E5%A4%9A%E6%80%81">4.4多态</a>
-<ul>
-<li><a href="#%E5%AF%B9%E8%B1%A1%E7%B1%BB%E5%9E%8B%E7%9A%84%E8%BD%AC%E6%8D%A2">对象类型的转换</a></li>
-</ul>
-</li>
-<li><a href="#45-%E5%86%85%E9%83%A8%E7%B1%BB">4.5 内部类</a>
-<ul>
-<li><a href="#%E6%88%90%E5%91%98%E5%86%85%E9%83%A8%E7%B1%BB">成员内部类</a></li>
-<li><a href="#%E5%B1%80%E9%83%A8%E5%86%85%E9%83%A8%E7%B1%BB">局部内部类</a></li>
-<li><a href="#%E9%9D%99%E6%80%81%E5%86%85%E9%83%A8%E7%B1%BB">静态内部类</a></li>
-<li><a href="#%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB">匿名内部类</a></li>
-</ul>
-</li>
-<li><a href="#46-jdk8%E7%9A%84lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F">4.6 JDK8的Lambda表达式</a>
-<ul>
-<li><a href="#%E5%85%A5%E9%97%A8">入门</a></li>
-<li><a href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3">函数式接口</a></li>
-<li><a href="#%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8%E5%92%8C%E6%9E%84%E9%80%A0%E5%99%A8%E5%BC%95%E7%94%A8">方法引用和构造器引用</a></li>
-</ul>
-</li>
-<li><a href="#47%E5%BC%82%E5%B8%B8">4.7异常</a>
-<ul>
-<li><a href="#%E5%BC%82%E5%B8%B8%E7%9A%84%E7%B1%BB%E5%9E%8B">异常的类型</a></li>
-<li><a href="#trycatch-%E5%92%8C-finally">try...catch 和 finally</a></li>
-<li><a href="#throws%E5%85%B3%E9%94%AE%E5%AD%97%E5%92%8Cthrow%E5%85%B3%E9%94%AE%E5%AD%97">throws关键字和throw关键字</a></li>
-<li><a href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6">垃圾回收</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-java%E4%B8%AD%E7%9A%84%E5%B8%B8%E7%94%A8%E7%B1%BB">第五章 Java中的常用类</a>
-<ul>
-<li><a href="#51-string%E7%B1%BB%E5%92%8Cstringbuffer%E7%B1%BB">5.1 String类和StringBuffer类</a>
-<ul>
-<li><a href="#string%E7%B1%BB%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96">String类的初始化</a></li>
-<li><a href="#string%E7%B1%BB%E7%9A%84%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C">String类的常见操作</a></li>
-<li><a href="#stringbuffer%E7%B1%BB">StringBuffer类</a></li>
-</ul>
-</li>
-<li><a href="#52system%E7%B1%BB%E4%B8%8Eruntime%E7%B1%BB">5.2System类与Runtime类</a>
-<ul>
-<li><a href="#system%E7%B1%BB">System类</a></li>
-<li><a href="#runtime%E7%B1%BB">Runtime类</a></li>
-</ul>
-</li>
-<li><a href="#53-math%E7%B1%BB%E4%B8%8Erandom%E7%B1%BB">5.3 Math类与Random类</a>
-<ul>
-<li><a href="#math%E7%B1%BB">Math类</a></li>
-<li><a href="#random%E7%B1%BB">Random类</a></li>
-</ul>
-</li>
-<li><a href="#54%E5%8C%85%E8%A3%85%E7%B1%BB">5.4包装类</a></li>
-<li><a href="#55%E6%97%A5%E6%9C%9F%E4%B8%8E%E6%97%B6%E9%97%B4%E7%B1%BB">5.5日期与时间类</a>
-<ul>
-<li><a href="#date%E7%B1%BB">Date类</a></li>
-<li><a href="#calender%E7%B1%BB">Calender类</a></li>
-</ul>
-</li>
-<li><a href="#56-%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%B1%BB">5.6 格式化类</a>
-<ul>
-<li><a href="#dateformat%E7%B1%BB">DateFormat类</a></li>
-<li><a href="#simpledateformat%E7%B1%BB">SimpleDateFormat类</a></li>
-<li><a href="#datetimeformatter%E7%B1%BB">DateTimeFormatter类</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E9%9B%86%E5%90%88">第六章 集合</a>
-<ul>
-<li><a href="#61-%E9%9B%86%E5%90%88%E6%A6%82%E8%BF%B0">6.1 集合概述</a></li>
-<li><a href="#62-collection%E6%8E%A5%E5%8F%A3">6.2 Collection接口</a></li>
-<li><a href="#63-list%E6%8E%A5%E5%8F%A3">6.3 List接口</a>
-<ul>
-<li><a href="#list%E6%8E%A5%E5%8F%A3%E7%AE%80%E4%BB%8B">List接口简介</a></li>
-<li><a href="#arraylist%E9%9B%86%E5%90%88">ArrayList集合</a></li>
-<li><a href="#linkedlist%E9%9B%86%E5%90%88">LinkedList集合</a></li>
-</ul>
-</li>
-<li><a href="#64-collection%E9%9B%86%E5%90%88%E9%81%8D%E5%8E%86">6.4 Collection集合遍历</a>
-<ul>
-<li><a href="#iterator%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88">Iterator遍历集合</a></li>
-<li><a href="#foreach%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88">foreach遍历集合</a></li>
-<li><a href="#jdk8%E4%B8%AD%E7%9A%84foreach%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88">JDK8中的forEach遍历集合</a></li>
-</ul>
-</li>
-<li><a href="#65-set%E6%8E%A5%E5%8F%A3">6.5 Set接口</a>
-<ul>
-<li><a href="#hashset%E9%9B%86%E5%90%88">HashSet集合</a></li>
-<li><a href="#treeset%E9%9B%86%E5%90%88">TreeSet集合</a></li>
-</ul>
-</li>
-<li><a href="#66-map%E6%8E%A5%E5%8F%A3">6.6 Map接口</a>
-<ul>
-<li><a href="#map%E6%8E%A5%E5%8F%A3%E7%AE%80%E4%BB%8B">Map接口简介</a></li>
-<li><a href="#hashmap%E9%9B%86%E5%90%88">HashMap集合</a></li>
-<li><a href="#map%E9%9B%86%E5%90%88%E9%81%8D%E5%8E%86">Map集合遍历</a></li>
-<li><a href="#treemap%E9%9B%86%E5%90%88">TreeMap集合</a></li>
-<li><a href="#properties%E9%9B%86%E5%90%88">Properties集合</a></li>
-</ul>
-</li>
-<li><a href="#67%E6%B3%9B%E5%9E%8B">6.7泛型</a></li>
-<li><a href="#68%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E7%B1%BB">6.8常用工具类</a></li>
-<li><a href="#69%E8%81%9A%E5%90%88%E6%93%8D%E4%BD%9C">6.9聚合操作</a></li>
-</ul>
-</li>
-<li><a href="#%E7%AC%AC%E4%B8%83%E7%AB%A0-io%E6%B5%81">第七章 I/O流</a>
-<ul>
-<li><a href="#71-io%E6%B5%81%E6%A6%82%E8%BF%B0">7.1 I/O流概述</a>
-<ul>
-<li><a href="#1%E5%AD%97%E8%8A%82%E6%B5%81%E5%92%8C%E5%AD%97%E7%AC%A6%E6%B5%81">1.字节流和字符流</a></li>
-<li><a href="#2%E8%BE%93%E5%85%A5%E6%B5%81%E5%92%8C%E8%BE%93%E5%87%BA%E6%B5%81">2.输入流和输出流</a></li>
-<li><a href="#3%E8%8A%82%E7%82%B9%E6%B5%81%E5%92%8C%E5%A4%84%E7%90%86%E6%B5%81">3.节点流和处理流</a></li>
-</ul>
-</li>
-<li><a href="#72%E5%AD%97%E8%8A%82%E6%B5%81">7.2字节流</a>
-<ul>
-<li><a href="#%E5%AD%97%E8%8A%82%E6%B5%81%E6%A6%82%E8%BF%B0">字节流概述</a></li>
-<li><a href="#%E5%AD%97%E8%8A%82%E6%B5%81%E8%AF%BB%E5%86%99%E6%96%87%E4%BB%B6">字节流读写文件</a></li>
-<li><a href="#%E6%96%87%E4%BB%B6%E7%9A%84%E6%8B%B7%E8%B4%9D">文件的拷贝</a></li>
-<li><a href="#%E5%AD%97%E8%8A%82%E6%B5%81%E7%BC%93%E5%86%B2%E5%8C%BA">字节流缓冲区</a></li>
-<li><a href="#%E5%AD%97%E8%8A%82%E7%BC%93%E5%86%B2%E6%B5%81">字节缓冲流</a></li>
-</ul>
-</li>
-<li><a href="#73-%E5%AD%97%E7%AC%A6%E6%B5%81">7.3 字符流</a>
-<ul>
-<li><a href="#%E5%AD%97%E7%AC%A6%E6%B5%81%E6%A6%82%E8%BF%B0">字符流概述</a></li>
-<li><a href="#%E5%AD%97%E7%AC%A6%E6%B5%81%E6%93%8D%E4%BD%9C%E6%96%87%E4%BB%B6">字符流操作文件</a></li>
-<li><a href="#%E8%BD%AC%E6%8D%A2%E6%B5%81">转换流</a></li>
-</ul>
-</li>
-<li><a href="#74-file%E7%B1%BB">7.4 File类</a>
-<ul>
-<li><a href="#file%E7%B1%BB%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95">File类的常用方法</a></li>
-</ul>
-</li>
-<li><a href="#75-randomaccessfile">7.5 RandomAccessFile</a></li>
-<li><a href="#76-%E5%AF%B9%E8%B1%A1%E5%BA%8F%E5%88%97%E5%8C%96">7.6 对象序列化</a></li>
-<li><a href="#77-nio">7.7 NIO</a></li>
-<li><a href="#78-nio2">7.8 NIO.2</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-              </div>
-            </div>
-          </article>
+                </div>
+            </article>
         </div>
 
         
-          <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://lizonglin313.github.io/post/软件工程期末复习整理">
-              <h3 class="post-title">
-                软件工程期末复习整理
-              </h3>
-            </a>
-          </div>
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://lizonglin313.github.io/post/软件工程期末复习整理" class="post-title gt-a-link">
+                    软件工程期末复习整理
+                </a>
+            </div>
         
 
         
 
-        <div class="site-footer">
-  <a>--©2017-2020</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<span id="busuanzi_container_site_pv"><a>--本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次--</a></span><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a>
-  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">人们依然相信未来会更精彩</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/lizonglin313" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+                <a href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot" target="_blank">
+                    <i class="fab fa-weibo gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <a>--©2017-2020</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv"><a>--本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次--</a></span><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a> | <a href="https://lizonglin313.github.io//atom.xml" target="_blank">RSS</a>
 </div>
 
-      </div>
+<script>
+    hljs.initHighlightingOnLoad()
+</script>
+
+
     </div>
-
-    <script>
-      hljs.initHighlightingOnLoad()
-
-      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
-
-      // This should probably be throttled.
-      // Especially because it triggers during smooth scrolling.
-      // https://lodash.com/docs/4.17.10#throttle
-      // You could do like...
-      // window.addEventListener("scroll", () => {
-      //    _.throttle(doThatStuff, 100);
-      // });
-      // Only not doing it here to keep this Pen dependency-free.
-
-      window.addEventListener("scroll", event => {
-        let fromTop = window.scrollY;
-
-        mainNavLinks.forEach((link, index) => {
-          let section = document.getElementById(decodeURI(link.hash).substring(1));
-          let nextSection = null
-          if (mainNavLinks[index + 1]) {
-            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-          }
-          if (section.offsetTop <= fromTop) {
-            if (nextSection) {
-              if (nextSection.offsetTop > fromTop) {
-                link.classList.add("current");
-              } else {
-                link.classList.remove("current");    
-              }
-            } else {
-              link.classList.add("current");
-            }
-          } else {
-            link.classList.remove("current");
-          }
-        });
-      });
-
-    </script>
-  </body>
+</div>
+</body>
 </html>

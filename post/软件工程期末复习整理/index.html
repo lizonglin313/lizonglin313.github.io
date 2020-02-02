@@ -1,127 +1,122 @@
 <html>
-  <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>软件工程期末复习整理 | Big Carrot</title>
-<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580652186507">
-<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580652641921">
+<link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.css" rel="stylesheet">
 <link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="软件工程期末复习整理 | Big Carrot - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
-<!-- <script src="https://blog-static.cnblogs.com/files/anbus/prism.js"></script> -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/go.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+<!-- DEMO JS -->
+<script src="media/scripts/index.js"></script>
 
 
-    <meta name="description" content="第一章	软件工程概论
-1. 软件危机
 
-软件危机是指：在计算机软件的开发和维护过程中所遇到的一系列严重问题。
-软件危机包含下述两方面问题：
-
-（1）如何开发软件，以满足对软件日益增长的需求；
-（2）如何维护数量不断膨胀的已有软件。
-
-2. ..." />
-    <meta name="keywords" content="软件工程整理" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  </head>
-  <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://lizonglin313.github.io/">
-  <img class="avatar" src="https://lizonglin313.github.io//images/avatar.png?v=1580652186507" alt="">
-  </a>
-  <h1 class="site-title">
-    Big Carrot
-  </h1>
-  <p class="site-description">
-    人们依然相信未来会更精彩
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="/" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="/archives" class="menu">
-          归档
-        </a>
-      
-    
-      
-        <a href="/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="/post/about" class="menu">
-          关于
-        </a>
-      
-    
-      
-        <a href="/post/friends" class="menu">
-          朋友
-        </a>
-      
-    
-      
-        <a href="/post/indexlink" class="menu">
-          常用站点
-        </a>
-      
-    
-  </div>
-  <div class="social-container">
-    
-      
-        <a href="https://github.com/lizonglin313" target="_blank">
-          <i class="ri-github-line"></i>
-        </a>
-      
-    
-      
-    
-      
-        <a href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot&amp;is_hot=1" target="_blank">
-          <i class="ri-weibo-line"></i>
-        </a>
-      
-    
-      
-    
-      
-    
-  </div>
-</div>
-
-        <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              软件工程期末复习整理
-            </h2>
-            <div class="post-info">
-              <span>
-                2019-06-01
-              </span>
-              <span>
-                29 min read
-              </span>
-              
-                <a href="https://lizonglin313.github.io/tag/wIgIUpVi03" class="post-tag">
-                  # 软件工程整理
-                </a>
-              
-            </div>
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Big Carrot
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
             
-            <div class="post-content-wrapper">
-              <div class="post-content">
-                <h2 id="第一章软件工程概论">第一章	软件工程概论</h2>
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/friends" class="menu gt-a-link">
+                            朋友
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/indexlink" class="menu gt-a-link">
+                            常用站点
+                        </a>
+                    
+                </div>
+            
+        </div>
+    </div>
+</nav>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    软件工程期末复习整理
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2019-06-01 ·
+                    </time>
+                    
+                        <a href="https://lizonglin313.github.io/tag/wIgIUpVi03" class="post-tags">
+                            # 软件工程整理
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h2 id="第一章软件工程概论">第一章	软件工程概论</h2>
 <h3 id="1-软件危机">1. 软件危机</h3>
 <ul>
 <li>软件危机是指：在计算机软件的开发和维护过程中所遇到的一系列严重问题。</li>
@@ -663,166 +658,56 @@
 <p>2019/6/1	21:51 先整理到这里</p>
 </blockquote>
 
-              </div>
-              <div class="toc-container">
-                <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li><a href="#%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BA">第一章	软件工程概论</a>
-<ul>
-<li><a href="#1-%E8%BD%AF%E4%BB%B6%E5%8D%B1%E6%9C%BA">1. 软件危机</a></li>
-<li><a href="#2-%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B">2.  软件工程</a></li>
-<li><a href="#3-%E8%BD%AF%E4%BB%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F">3. 软件生命周期</a></li>
-<li><a href="#%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89"><strong>软件定义</strong></a></li>
-<li><a href="#%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91"><strong>软件开发</strong></a></li>
-<li><a href="#%E8%BD%AF%E4%BB%B6%E7%BB%B4%E6%8A%A4"><strong>软件维护</strong></a></li>
-<li><a href="#4%E8%BD%AF%E4%BB%B6%E8%BF%87%E7%A8%8B">4.软件过程</a>
-<ul>
-<li><a href="#%E7%80%91%E5%B8%83%E6%A8%A1%E5%9E%8B">瀑布模型</a></li>
-<li><a href="#%E5%BF%AB%E9%80%9F%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%9E%8B">快速原型模型</a></li>
-<li><a href="#%E5%A2%9E%E9%87%8F%E6%A8%A1%E5%9E%8B">增量模型</a></li>
-<li><a href="#%E8%9E%BA%E6%97%8B%E6%A8%A1%E5%9E%8B">螺旋模型</a></li>
-<li><a href="#%E5%96%B7%E6%B3%89%E6%A8%A1%E5%9E%8B">喷泉模型</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0%E7%BB%93%E6%9E%84%E5%8C%96%E5%88%86%E6%9E%90">第二章	结构化分析</a>
-<ul>
-<li><a href="#1%E5%8F%AF%E8%A1%8C%E6%80%A7%E7%A0%94%E7%A9%B6%E7%9A%84%E7%9B%AE%E7%9A%84">1.可行性研究的目的</a></li>
-<li><a href="#2%E5%8F%AF%E8%A1%8C%E6%80%A7%E7%A0%94%E7%A9%B6%E8%BF%87%E7%A8%8B">2.可行性研究过程</a></li>
-<li><a href="#3%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E7%9A%84%E4%BB%BB%E5%8A%A1">3.需求分析的任务</a>
-<ul>
-<li><a href="#%E8%A6%81%E7%A1%AE%E5%AE%9A%E5%AF%B9%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%BB%BC%E5%90%88%E8%A6%81%E6%B1%82">要确定对系统的综合要求</a></li>
-</ul>
-</li>
-<li><a href="#4%E4%B8%8E%E7%94%A8%E6%88%B7%E6%B2%9F%E9%80%9A%E6%96%B9%E6%B3%95">4.与用户沟通方法</a>
-<ul>
-<li><a href="#1-%E8%AE%BF%E8%B0%88">1. 访谈</a></li>
-<li><a href="#2-%E9%9D%A2%E5%90%91%E6%95%B0%E6%8D%AE%E6%B5%81%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%B1%82%E7%B2%BE">2. 面向数据流自顶向下求精</a></li>
-<li><a href="#3-%E7%AE%80%E6%98%93%E7%9A%84%E5%BA%94%E7%94%A8%E8%A7%84%E6%A0%BC%E8%AF%B4%E6%98%8E%E6%8A%80%E6%9C%AF">3. 简易的应用规格说明技术</a></li>
-<li><a href="#4-%E5%BF%AB%E9%80%9F%E5%BB%BA%E7%AB%8B%E8%BD%AF%E4%BB%B6%E5%8E%9F%E5%9E%8B">4. 快速建立软件原型</a></li>
-</ul>
-</li>
-<li><a href="#5%E5%88%86%E6%9E%90%E5%BB%BA%E6%A8%A1%E4%B8%8E%E8%A7%84%E6%A0%BC%E8%AF%B4%E6%98%8E">5.分析建模与规格说明</a></li>
-<li><a href="#6-%E7%B3%BB%E7%BB%9F%E6%B5%81%E7%A8%8B%E5%9B%BE-%E5%AE%9E%E4%BD%93%E8%81%94%E7%B3%BB%E5%9B%BE-%E6%95%B0%E6%8D%AE%E6%B5%81%E5%9B%BE-%E6%95%B0%E6%8D%AE%E5%AD%97%E5%85%B8-%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE">6. 系统流程图 — 实体联系图 — 数据流图 — 数据字典 — 状态转换图</a>
-<ul>
-<li><a href="#%E7%B3%BB%E7%BB%9F%E6%B5%81%E7%A8%8B%E5%9B%BE">系统流程图</a></li>
-<li><a href="#%E6%95%B0%E6%8D%AE%E6%B5%81%E5%9B%BE">数据流图</a></li>
-<li><a href="#%E6%95%B0%E6%8D%AE%E5%AD%97%E5%85%B8">数据字典</a></li>
-</ul>
-</li>
-<li><a href="#7%E6%88%90%E6%9C%AC%E6%95%88%E7%9B%8A%E4%BC%B0%E8%AE%A1">7.成本/效益估计</a>
-<ul>
-<li><a href="#1%E6%88%90%E6%9C%AC%E4%BC%B0%E8%AE%A1">1.成本估计</a></li>
-<li><a href="#2%E6%88%90%E6%9C%AC%E6%95%88%E7%9B%8A%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95">2.成本/效益分析方法</a></li>
-</ul>
-</li>
-<li><a href="#8%E9%AA%8C%E8%AF%81%E8%BD%AF%E4%BB%B6%E9%9C%80%E6%B1%82">8.验证软件需求</a></li>
-</ul>
-</li>
-<li><a href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%80%BB%E4%BD%93%E8%AE%BE%E8%AE%A1">第三章 总体设计</a><br>
-*
-<ul>
-<li><a href="#%E6%A6%82%E8%A6%81%E8%AE%BE%E8%AE%A1">概要设计</a></li>
-<li><a href="#%E8%AF%A6%E7%BB%86%E8%AE%BE%E8%AE%A1">详细设计</a></li>
-<li><a href="#1%E8%AE%BE%E8%AE%A1%E8%BF%87%E7%A8%8B">1.设计过程</a></li>
-<li><a href="#2%E8%AE%BE%E8%AE%A1%E5%8E%9F%E7%90%86">2.设计原理</a>
-<ul>
-<li><a href="#1%E6%A8%A1%E5%9D%97%E5%8C%96">1.模块化</a></li>
-<li><a href="#2%E6%8A%BD%E8%B1%A1">2.抽象</a></li>
-<li><a href="#3%E9%80%90%E6%AD%A5%E6%B1%82%E7%B2%BE">3.逐步求精</a></li>
-<li><a href="#4%E4%BF%A1%E6%81%AF%E9%9A%90%E8%97%8F%E5%92%8C%E5%B1%80%E9%83%A8%E5%8C%96">4.信息隐藏和局部化</a></li>
-<li><a href="#5%E6%A8%A1%E5%9D%97%E7%8B%AC%E7%AB%8B">5.模块独立</a></li>
-</ul>
-</li>
-<li><a href="#3%E5%90%AF%E5%8F%91%E8%A7%84%E5%88%99">3.启发规则</a></li>
-<li><a href="#4%E6%8F%8F%E7%BB%98%E8%BD%AF%E4%BB%B6%E7%BB%93%E6%9E%84%E7%9A%84%E5%9B%BE%E5%BD%A2%E5%B7%A5%E5%85%B7">4.描绘软件结构的图形工具</a>
-<ul>
-<li><a href="#1%E5%B1%82%E6%AC%A1%E5%9B%BE%E5%92%8Chipo%E5%9B%BE">1.层次图和HIPO图</a></li>
-<li><a href="#2%E7%BB%93%E6%9E%84%E5%9B%BE">2.结构图</a></li>
-</ul>
-</li>
-<li><a href="#5%E9%9D%A2%E5%90%91%E6%95%B0%E6%8D%AE%E6%B5%81%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95">5.面向数据流的设计方法</a>
-<ul>
-<li><a href="#1%E6%95%B0%E6%8D%AE%E6%B5%81%E7%B1%BB%E5%9E%8B">1.数据流类型</a></li>
-<li><a href="#2%E8%AE%BE%E8%AE%A1%E6%AD%A5%E9%AA%A4">2.设计步骤</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-              </div>
-            </div>
-          </article>
+                </div>
+            </article>
         </div>
 
         
-          <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://lizonglin313.github.io/post/Golang实现最简单的链">
-              <h3 class="post-title">
-                Golang实现最简单的链
-              </h3>
-            </a>
-          </div>
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://lizonglin313.github.io/post/Golang实现最简单的链" class="post-title gt-a-link">
+                    Golang实现最简单的链
+                </a>
+            </div>
         
 
         
 
-        <div class="site-footer">
-  <a>--©2017-2020</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<span id="busuanzi_container_site_pv"><a>--本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次--</a></span><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a>
-  <a class="rss" href="https://lizonglin313.github.io//atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">人们依然相信未来会更精彩</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/lizonglin313" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+                <a href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot" target="_blank">
+                    <i class="fab fa-weibo gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <a>--©2017-2020</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv"><a>--本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次--</a></span><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a> | <a href="https://lizonglin313.github.io//atom.xml" target="_blank">RSS</a>
 </div>
 
-      </div>
+<script>
+    hljs.initHighlightingOnLoad()
+</script>
+
+
     </div>
-
-    <script>
-      hljs.initHighlightingOnLoad()
-
-      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
-
-      // This should probably be throttled.
-      // Especially because it triggers during smooth scrolling.
-      // https://lodash.com/docs/4.17.10#throttle
-      // You could do like...
-      // window.addEventListener("scroll", () => {
-      //    _.throttle(doThatStuff, 100);
-      // });
-      // Only not doing it here to keep this Pen dependency-free.
-
-      window.addEventListener("scroll", event => {
-        let fromTop = window.scrollY;
-
-        mainNavLinks.forEach((link, index) => {
-          let section = document.getElementById(decodeURI(link.hash).substring(1));
-          let nextSection = null
-          if (mainNavLinks[index + 1]) {
-            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-          }
-          if (section.offsetTop <= fromTop) {
-            if (nextSection) {
-              if (nextSection.offsetTop > fromTop) {
-                link.classList.add("current");
-              } else {
-                link.classList.remove("current");    
-              }
-            } else {
-              link.classList.add("current");
-            }
-          } else {
-            link.classList.remove("current");
-          }
-        });
-      });
-
-    </script>
-  </body>
+</div>
+</body>
 </html>
