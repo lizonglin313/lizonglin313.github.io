@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lizonglin313.github.io/</id>
     <title>Big Carrot</title>
-    <updated>2020-02-02T14:00:27.287Z</updated>
+    <updated>2020-02-02T14:01:39.749Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lizonglin313.github.io/"/>
     <link rel="self" href="https://lizonglin313.github.io/atom.xml"/>
@@ -11,7 +11,7 @@
     <icon>https://lizonglin313.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Big Carrot</rights>
     <entry>
-        <title type="html"><![CDATA[leetcode20-有效的括号]]></title>
+        <title type="html"><![CDATA[leetcode020-有效的括号]]></title>
         <id>https://lizonglin313.github.io/post/leetcode20-you-xiao-de-gua-hao</id>
         <link href="https://lizonglin313.github.io/post/leetcode20-you-xiao-de-gua-hao">
         </link>
@@ -124,7 +124,7 @@ public:
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[leetcode-两数相加]]></title>
+        <title type="html"><![CDATA[leetcode002-两数相加]]></title>
         <id>https://lizonglin313.github.io/post/leetcode-liang-shu-xiang-jia</id>
         <link href="https://lizonglin313.github.io/post/leetcode-liang-shu-xiang-jia">
         </link>
@@ -269,7 +269,7 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[leetcode-两数之和]]></title>
+        <title type="html"><![CDATA[leetcode001-两数之和]]></title>
         <id>https://lizonglin313.github.io/post/leetcode-liang-shu-zhi-he</id>
         <link href="https://lizonglin313.github.io/post/leetcode-liang-shu-zhi-he">
         </link>
