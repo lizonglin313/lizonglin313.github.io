@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lizonglin313.github.io/</id>
     <title>Big Carrot</title>
-    <updated>2020-02-02T14:11:55.840Z</updated>
+    <updated>2020-02-02T14:14:52.167Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lizonglin313.github.io/"/>
     <link rel="self" href="https://lizonglin313.github.io/atom.xml"/>
@@ -216,7 +216,7 @@ public:
 <li>如果一个链表比另一个链表短，那么长的链表就直接加<code>0</code></li>
 <li>如果最后一位相加之和大于<code>10</code>，那么最后不要忘记加上一个<code>1</code>结点</li>
 </ul>
-<pre><code class="language-c++">/**  Definition for singly-linked list.  **/
+<pre><code class="language-go">/**  Definition for singly-linked list.  **/
 type ListNode struct {
 	Val  int
 	Next *ListNode
@@ -342,7 +342,7 @@ int main() {
 <li>判断<code>map</code>中是否包含差值<code>dif</code>，如果包含则返回对应的<code>value</code></li>
 <li>如果<code>map</code>中没有，则把其放到<code>map</code>中</li>
 </ul>
-<pre><code class="language-c++">package main
+<pre><code class="language-go">package main
 import &quot;fmt&quot;
 
 func twoSum(nums []int, target int) []int {
