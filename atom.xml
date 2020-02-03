@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lizonglin313.github.io/</id>
     <title>Big Carrot</title>
-    <updated>2020-02-03T16:00:43.358Z</updated>
+    <updated>2020-02-03T16:48:42.436Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lizonglin313.github.io/"/>
     <link rel="self" href="https://lizonglin313.github.io/atom.xml"/>
@@ -10,6 +10,208 @@
     <logo>https://lizonglin313.github.io/images/avatar.png</logo>
     <icon>https://lizonglin313.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Big Carrot</rights>
+    <entry>
+        <title type="html"><![CDATA[C++ Vector的简单说明]]></title>
+        <id>https://lizonglin313.github.io/post/c-vector-rong-qi-de-jian-dan-shuo-ming</id>
+        <link href="https://lizonglin313.github.io/post/c-vector-rong-qi-de-jian-dan-shuo-ming">
+        </link>
+        <updated>2020-02-03T16:10:31.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>整理自wiki、菜鸟教程、W3Cschool</p>
+</blockquote>
+<h3 id="什么是vector">什么是Vector</h3>
+<p><strong>Vector</strong> 是<a href="https://zh.wikipedia.org/wiki/C%2B%2B%E6%A8%99%E6%BA%96%E7%A8%8B%E5%BC%8F%E5%BA%AB">C++标准程序库</a>中的一个<a href="https://zh.wikipedia.org/wiki/%E7%B1%BB_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)">类</a>，可视为会自动扩展容量的数组，以循序(Sequential)的方式维护变量集合。vector的特色有支持随机存取，在集合尾端增删元素很快，但是在集合中间增删元素比较费时。vector是<a href="https://zh.wikipedia.org/wiki/C%2B%2B%E6%A8%99%E6%BA%96%E7%A8%8B%E5%BC%8F%E5%BA%AB">C++标准程序库</a>中的众多<a href="https://zh.wikipedia.org/wiki/%E5%AE%B9%E5%99%A8_(%E8%B3%87%E6%96%99%E9%A1%9E%E5%9E%8B)">容器</a>（<em>container</em>）之一。 vector以<a href="https://zh.wikipedia.org/wiki/%E6%A8%A1%E6%9D%BF_(C%2B%2B)">模板</a>(泛型)方式实现，可以保存任意类型的变量，包括用户自定义的数据类型，例如：它可以是放置整数（int）类型的 vector、也可以是放置字符串（string）类型的 vector、或者放置用户自定类别（user-defined class）的 vector。(from:wiki)</p>
+<p>向量（Vector）是一个封装了动态大小数组的顺序容器（Sequence Container）。跟任意其它类型容器一样，它能够存放各种类型的对象。可以简单的认为，向量是一个能够存放任意类型的动态数组。(from:runoob)</p>
+<p>在c++中，vector是一个十分有用的容器。它能够像容器一样存放各种类型的对象，简单地说，vector是一个能够存放任意类型的动态数组，能够增加和压缩数据。(from:w3cschool)</p>
+<h3 id="特性">特性</h3>
+<ul>
+<li>顺序序列：顺序容器中的元素按照严格的线性顺序排序。可以通过元素在序列中的位置访问对应的元素。</li>
+<li>动态数组：支持对序列中的任意元素进行快速直接访问，甚至可以通过指针算述进行该操作。操供了在序列末尾相对快速地添加/删除元素的操作。</li>
+<li>内存分配器感知：容器使用一个内存分配器对象来动态地处理它的存储需求。</li>
+</ul>
+<blockquote>
+<p>注意⚠</p>
+<ol>
+<li>
+<p>如果你要表示的向量长度较长（需要为向量内部保存很多数），容易导致内存泄漏，而且效率会很低；</p>
+</li>
+<li>
+<p>Vector作为函数的参数或者返回值时，需要注意它的写法：</p>
+<p><code>double Distance(vector&lt;int&gt;&amp;a, vector&lt;int&gt;&amp;b)</code></p>
+</li>
+</ol>
+</blockquote>
+<h3 id="使用方法">使用方法</h3>
+<h4 id="基本方法">基本方法</h4>
+<ul>
+<li>引入头文件</li>
+</ul>
+<pre><code class="language-c++">#include &lt;vector&gt;
+</code></pre>
+<ul>
+<li>创建vector对象</li>
+</ul>
+<pre><code class="language-c++">vector&lt;int&gt; vec;
+</code></pre>
+<ul>
+<li>在尾部插入一个元素</li>
+</ul>
+<pre><code class="language-c++">vec.push_back(a);
+</code></pre>
+<ul>
+<li>在尾部删除一个元素</li>
+</ul>
+<pre><code class="language-c++">vec.pop_back();
+</code></pre>
+<ul>
+<li>使用下标访问</li>
+</ul>
+<pre><code class="language-c++">cout &lt;&lt; vec[0] &lt;&lt; endl;
+</code></pre>
+<ul>
+<li>使用迭代器访问</li>
+</ul>
+<pre><code class="language-c++">vector&lt;int&gt;::iterator it;
+for (it = vec.begin(); it != vec.end(); it++)
+    cout &lt;&lt; *it &lt;&lt; endl;
+</code></pre>
+<ul>
+<li>在第<code>i+1</code>个元素前插入<code>a</code></li>
+</ul>
+<pre><code class="language-c++">vec.insert(vec.begin()+i,a);
+</code></pre>
+<ul>
+<li>删除第三个元素</li>
+</ul>
+<pre><code class="language-c++">vec.erase(vec.begin()+2);
+</code></pre>
+<ul>
+<li>删除区间<code>[i,j-1]</code>，区间从<code>0</code>开始</li>
+</ul>
+<pre><code class="language-c++">vec.erase(vec.begin()+i,vec.end()+j);
+</code></pre>
+<ul>
+<li>获取长度</li>
+</ul>
+<pre><code class="language-c++">vec.size();
+</code></pre>
+<ul>
+<li>清空</li>
+</ul>
+<pre><code class="language-c++">vec.clear();
+</code></pre>
+<ul>
+<li>逆序，需要引入头文件<code>#include&lt;algorithm&gt;</code></li>
+</ul>
+<pre><code class="language-c++">reverse(vec.begin(),vec.end());
+</code></pre>
+<ul>
+<li>使用<code>sort</code>排序，需要引入头文件<code>#include&lt;algorithm&gt;</code></li>
+</ul>
+<pre><code class="language-c++">sort(vec.begin(),vec.end());	// 默认升序
+
+/* 通过重写排序算法降序排列 */
+bool Comp(const int &amp;a,const int &amp;b)
+{
+    return a&gt;b;
+}
+sort(vec.begin(),vec.end(),Comp);	// 调用
+</code></pre>
+<h4 id="二维数组定义">二维数组定义</h4>
+<p>方法1：</p>
+<pre><code class="language-c++">#include &lt;string.h&gt;
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int main()
+{
+    int N = 5, M = 6; 
+    vector&lt;vector&lt;int&gt;&gt; obj(N); 	//定义二维动态数组大小5行 
+    for(int i = 0; i &lt; obj.size(); i++)	//动态二维数组为5行6列，值全为0 
+    { 
+        obj[i].resize(M);	
+        // resize()改变当前使用数据的大小，如果它比当前使用的大，者填充默认值 
+    } 
+ 
+    for(int i = 0; i&lt; obj.size(); i++)//输出二维动态数组 
+    {
+        for(int j = 0; j &lt; obj[i].size(); j++)
+        {
+            cout &lt;&lt; obj[i][j] &lt;&lt; &quot; &quot;;
+        }
+        cout &lt;&lt; &quot;\n&quot;;
+    }
+    return 0;
+}
+</code></pre>
+<p>方法2：</p>
+<pre><code class="language-c++">#include &lt;string.h&gt;
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+ 
+int main()
+{
+    int N = 5, M = 6; 
+    vector&lt;vector&lt;int&gt;&gt; obj(N, vector&lt;int&gt;(M)); //定义二维动态数组5行6列 
+ 
+    for(int i = 0; i &lt; obj.size(); i++)	//输出二维动态数组 
+    {
+        for(int j = 0; j &lt; obj[i].size(); j++)
+        {
+            cout &lt;&lt; obj[i][j] &lt;&lt; &quot; &quot;;
+        }
+        cout &lt;&lt; &quot;\n&quot;;
+    }
+    return 0;
+}
+</code></pre>
+<h4 id="结构体类型元素">结构体类型元素</h4>
+<blockquote>
+<p>注意⚠：结构体要定义为全局！</p>
+</blockquote>
+<pre><code class="language-c++">#include&lt;stdio.h&gt;  
+#include&lt;algorithm&gt;  
+#include&lt;vector&gt;  
+#include&lt;iostream&gt;  
+using namespace std;  
+typedef struct rect  
+{  
+    int id;  
+    int length;  
+    int width;  
+　　//对于向量元素是结构体的，可在结构体内部定义比较函数，下面按照id,length,width升序排序。  
+　　bool operator&lt; (const rect &amp;a)  const  
+    {  
+        if(id!=a.id)  
+            return id&lt;a.id;  
+        else  
+        {  
+            if(length!=a.length)  
+                return length&lt;a.length;  
+            else  
+                return width&lt;a.width;  
+        }  
+    }  
+}Rect;  
+int main()  
+{  
+    vector&lt;Rect&gt; vec;  
+    Rect rect;  
+    rect.id=1;  
+    rect.length=2;  
+    rect.width=3;  
+    vec.push_back(rect);  
+    vector&lt;Rect&gt;::iterator it=vec.begin();  
+    cout&lt;&lt;(*it).id&lt;&lt;' '&lt;&lt;(*it).length&lt;&lt;' '&lt;&lt;(*it).width&lt;&lt;endl;      
+return 0;  
+}  
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[leetcode026-删除排序数组中的重复项]]></title>
         <id>https://lizonglin313.github.io/post/leetcode026-shan-chu-pai-xu-shu-zu-zhong-de-chong-fu-xiang</id>
@@ -2008,62 +2210,6 @@ Major Compaction 产生的 SSTable 可能含有特殊的删除条目，这些删
 <p>邮件: andy.yanwei@163.com</p>
 <p>博客: http://andyblog.sinaapp.com</p>
 <p>微博：http://weibo.com/2152410864</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[解决pip安装PyQt5之后Spyder无法正常打开的问题]]></title>
-        <id>https://lizonglin313.github.io/post/解决pip安装PyQt5之后Spyder无法正常打开的问题</id>
-        <link href="https://lizonglin313.github.io/post/解决pip安装PyQt5之后Spyder无法正常打开的问题">
-        </link>
-        <updated>2019-09-24T13:37:06.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="开发环境">开发环境</h2>
-<ul>
-<li>Anaconda3 + Pycharm</li>
-<li>Python3.7</li>
-</ul>
-<h2 id="报错描述">报错描述</h2>
-<p>我是用的Pycharm+conda的环境进行开发的，有的时候会用到Spyder。</p>
-<p>在我安装PyQt5后，使用Pycharm进行GUI的开发后发现，Anaconda中的Spyder打不开了：</p>
-<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2019/09/24/EJqYLocpkRuAFD3.png" alt="" loading="lazy"></figure>
-<p>并有了以下报错：</p>
-<pre><code class="language-shell">Traceback (most recent call last):
-File &quot;D:\Anaconda\installanaconda\Scripts\spyder-script.py&quot;, line 10, in 
-sys.exit(main())
-File &quot;D:\Anaconda\installanaconda\lib\site-packages\spyder\app\start.py&quot;, line 186, in main
-from spyder.app import mainwindow
-File &quot;D:\Anaconda\installanaconda\lib\site-packages\spyder\app\mainwindow.py&quot;, line 90, in 
-from qtpy import QtWebEngineWidgets # analysis:ignore
-File &quot;D:\Anaconda\installanaconda\lib\site-packages\qtpy\QtWebEngineWidgets.py&quot;, line 22, in 
-from PyQt5.QtWebEngineWidgets import QWebEnginePage
-ValueError: PyCapsule_GetPointer called with incorrect name
-</code></pre>
-<p>这个问题原来遇到过，由于没有使用Spyder的需求就一直没有想去解决。这是用于安装的PyQt5与spyder中带有的pyqt版本发生了冲突。于是我最终在stackoverflow上找到了<a href="https://stackoverflow.com/questions/55794101/valueerrorpycapsule-getpointer-called-with-incorrect-name-with-from-pyqt5-qtwe">解决方案</a></p>
-<h2 id="解决方案">解决方案</h2>
-<p>原文是这样说的：</p>
-<p>The solution is to downgrade <code>PyQt5</code>.</p>
-<pre><code class="language-py">pip install PyQt5==5.10.1
-Collecting PyQt5==5.10.1
-  Downloading https://files.pythonhosted.org/packages/a7/22/67cc2bac6ae2cd3a7eabb2a2e91638b94bdc6e0503747e49670ce44bb5b0/PyQt5-5.10.1-5.10.1-cp35.cp36.cp37.cp38-none-win_amd64.whl (81.0MB)
-    100% |████████████████████████████████| 81.0MB 187kB/s
-Requirement already satisfied: sip&lt;4.20,&gt;=4.19.4 in c:\anaconda3\lib\site-packages (from PyQt5==5.10.1) (4.19.8)
-spyder 3.3.4 requires pyqtwebengine&lt;5.13, which is not installed.
-Installing collected packages: PyQt5
-  Found existing installation: PyQt5 5.12.1
-    Uninstalling PyQt5-5.12.1:
-      Successfully uninstalled PyQt5-5.12.1
-Successfully installed PyQt5-5.10.1
-</code></pre>
-<p>This problem occurs because the <code>PyQt5</code> I installed is beyond version as the version of <code>spyder</code>.</p>
-<p>所以，我将原先的PyQt5进行卸载后，安装了5.10.1版本的PyQt5。</p>
-<p>之后对结果进行测试。</p>
-<h2 id="结果">结果</h2>
-<p>先是看一下Spyder是否正常打开以及运行：</p>
-<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2019/09/24/EqGTIaXZt7zcoiA.png" alt="" loading="lazy"></figure>
-<p>Spyder可以正常打开并且使用了。</p>
-<p>然后检查PyQt模块是否能正常使用：</p>
-<figure data-type="image" tabindex="3"><img src="https://i.loli.net/2019/09/24/fLHzla6yTh8ZqjW.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="4"><img src="https://i.loli.net/2019/09/24/At3sGvlrMm82F5I.png" alt="" loading="lazy"></figure>
-<p>完事！</p>
 ]]></content>
     </entry>
 </feed>

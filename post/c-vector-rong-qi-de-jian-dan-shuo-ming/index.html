@@ -1,0 +1,370 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>C++ Vector的简单说明 | Big Carrot</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580748517842">
+<link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.css" rel="stylesheet">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/go.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+<!-- DEMO JS -->
+<script src="media/scripts/index.js"></script>
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Big Carrot
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/friends" class="menu gt-a-link">
+                            朋友
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/indexlink" class="menu gt-a-link">
+                            常用站点
+                        </a>
+                    
+                </div>
+            
+        </div>
+    </div>
+</nav>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    C++ Vector的简单说明
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2020-02-04 ·
+                    </time>
+                    
+                        <a href="https://lizonglin313.github.io/tag/n5U6EvYxUN" class="post-tags">
+                            # C++基础
+                        </a>
+                    
+                        <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="post-tags">
+                            # 笔记
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <blockquote>
+<p>整理自wiki、菜鸟教程、W3Cschool</p>
+</blockquote>
+<h3 id="什么是vector">什么是Vector</h3>
+<p><strong>Vector</strong> 是<a href="https://zh.wikipedia.org/wiki/C%2B%2B%E6%A8%99%E6%BA%96%E7%A8%8B%E5%BC%8F%E5%BA%AB">C++标准程序库</a>中的一个<a href="https://zh.wikipedia.org/wiki/%E7%B1%BB_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)">类</a>，可视为会自动扩展容量的数组，以循序(Sequential)的方式维护变量集合。vector的特色有支持随机存取，在集合尾端增删元素很快，但是在集合中间增删元素比较费时。vector是<a href="https://zh.wikipedia.org/wiki/C%2B%2B%E6%A8%99%E6%BA%96%E7%A8%8B%E5%BC%8F%E5%BA%AB">C++标准程序库</a>中的众多<a href="https://zh.wikipedia.org/wiki/%E5%AE%B9%E5%99%A8_(%E8%B3%87%E6%96%99%E9%A1%9E%E5%9E%8B)">容器</a>（<em>container</em>）之一。 vector以<a href="https://zh.wikipedia.org/wiki/%E6%A8%A1%E6%9D%BF_(C%2B%2B)">模板</a>(泛型)方式实现，可以保存任意类型的变量，包括用户自定义的数据类型，例如：它可以是放置整数（int）类型的 vector、也可以是放置字符串（string）类型的 vector、或者放置用户自定类别（user-defined class）的 vector。(from:wiki)</p>
+<p>向量（Vector）是一个封装了动态大小数组的顺序容器（Sequence Container）。跟任意其它类型容器一样，它能够存放各种类型的对象。可以简单的认为，向量是一个能够存放任意类型的动态数组。(from:runoob)</p>
+<p>在c++中，vector是一个十分有用的容器。它能够像容器一样存放各种类型的对象，简单地说，vector是一个能够存放任意类型的动态数组，能够增加和压缩数据。(from:w3cschool)</p>
+<h3 id="特性">特性</h3>
+<ul>
+<li>顺序序列：顺序容器中的元素按照严格的线性顺序排序。可以通过元素在序列中的位置访问对应的元素。</li>
+<li>动态数组：支持对序列中的任意元素进行快速直接访问，甚至可以通过指针算述进行该操作。操供了在序列末尾相对快速地添加/删除元素的操作。</li>
+<li>内存分配器感知：容器使用一个内存分配器对象来动态地处理它的存储需求。</li>
+</ul>
+<blockquote>
+<p>注意⚠</p>
+<ol>
+<li>
+<p>如果你要表示的向量长度较长（需要为向量内部保存很多数），容易导致内存泄漏，而且效率会很低；</p>
+</li>
+<li>
+<p>Vector作为函数的参数或者返回值时，需要注意它的写法：</p>
+<p><code>double Distance(vector&lt;int&gt;&amp;a, vector&lt;int&gt;&amp;b)</code></p>
+</li>
+</ol>
+</blockquote>
+<h3 id="使用方法">使用方法</h3>
+<h4 id="基本方法">基本方法</h4>
+<ul>
+<li>引入头文件</li>
+</ul>
+<pre><code class="language-c++">#include &lt;vector&gt;
+</code></pre>
+<ul>
+<li>创建vector对象</li>
+</ul>
+<pre><code class="language-c++">vector&lt;int&gt; vec;
+</code></pre>
+<ul>
+<li>在尾部插入一个元素</li>
+</ul>
+<pre><code class="language-c++">vec.push_back(a);
+</code></pre>
+<ul>
+<li>在尾部删除一个元素</li>
+</ul>
+<pre><code class="language-c++">vec.pop_back();
+</code></pre>
+<ul>
+<li>使用下标访问</li>
+</ul>
+<pre><code class="language-c++">cout &lt;&lt; vec[0] &lt;&lt; endl;
+</code></pre>
+<ul>
+<li>使用迭代器访问</li>
+</ul>
+<pre><code class="language-c++">vector&lt;int&gt;::iterator it;
+for (it = vec.begin(); it != vec.end(); it++)
+    cout &lt;&lt; *it &lt;&lt; endl;
+</code></pre>
+<ul>
+<li>在第<code>i+1</code>个元素前插入<code>a</code></li>
+</ul>
+<pre><code class="language-c++">vec.insert(vec.begin()+i,a);
+</code></pre>
+<ul>
+<li>删除第三个元素</li>
+</ul>
+<pre><code class="language-c++">vec.erase(vec.begin()+2);
+</code></pre>
+<ul>
+<li>删除区间<code>[i,j-1]</code>，区间从<code>0</code>开始</li>
+</ul>
+<pre><code class="language-c++">vec.erase(vec.begin()+i,vec.end()+j);
+</code></pre>
+<ul>
+<li>获取长度</li>
+</ul>
+<pre><code class="language-c++">vec.size();
+</code></pre>
+<ul>
+<li>清空</li>
+</ul>
+<pre><code class="language-c++">vec.clear();
+</code></pre>
+<ul>
+<li>逆序，需要引入头文件<code>#include&lt;algorithm&gt;</code></li>
+</ul>
+<pre><code class="language-c++">reverse(vec.begin(),vec.end());
+</code></pre>
+<ul>
+<li>使用<code>sort</code>排序，需要引入头文件<code>#include&lt;algorithm&gt;</code></li>
+</ul>
+<pre><code class="language-c++">sort(vec.begin(),vec.end());	// 默认升序
+
+/* 通过重写排序算法降序排列 */
+bool Comp(const int &amp;a,const int &amp;b)
+{
+    return a&gt;b;
+}
+sort(vec.begin(),vec.end(),Comp);	// 调用
+</code></pre>
+<h4 id="二维数组定义">二维数组定义</h4>
+<p>方法1：</p>
+<pre><code class="language-c++">#include &lt;string.h&gt;
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int main()
+{
+    int N = 5, M = 6; 
+    vector&lt;vector&lt;int&gt;&gt; obj(N); 	//定义二维动态数组大小5行 
+    for(int i = 0; i &lt; obj.size(); i++)	//动态二维数组为5行6列，值全为0 
+    { 
+        obj[i].resize(M);	
+        // resize()改变当前使用数据的大小，如果它比当前使用的大，者填充默认值 
+    } 
+ 
+    for(int i = 0; i&lt; obj.size(); i++)//输出二维动态数组 
+    {
+        for(int j = 0; j &lt; obj[i].size(); j++)
+        {
+            cout &lt;&lt; obj[i][j] &lt;&lt; &quot; &quot;;
+        }
+        cout &lt;&lt; &quot;\n&quot;;
+    }
+    return 0;
+}
+</code></pre>
+<p>方法2：</p>
+<pre><code class="language-c++">#include &lt;string.h&gt;
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+ 
+int main()
+{
+    int N = 5, M = 6; 
+    vector&lt;vector&lt;int&gt;&gt; obj(N, vector&lt;int&gt;(M)); //定义二维动态数组5行6列 
+ 
+    for(int i = 0; i &lt; obj.size(); i++)	//输出二维动态数组 
+    {
+        for(int j = 0; j &lt; obj[i].size(); j++)
+        {
+            cout &lt;&lt; obj[i][j] &lt;&lt; &quot; &quot;;
+        }
+        cout &lt;&lt; &quot;\n&quot;;
+    }
+    return 0;
+}
+</code></pre>
+<h4 id="结构体类型元素">结构体类型元素</h4>
+<blockquote>
+<p>注意⚠：结构体要定义为全局！</p>
+</blockquote>
+<pre><code class="language-c++">#include&lt;stdio.h&gt;  
+#include&lt;algorithm&gt;  
+#include&lt;vector&gt;  
+#include&lt;iostream&gt;  
+using namespace std;  
+typedef struct rect  
+{  
+    int id;  
+    int length;  
+    int width;  
+　　//对于向量元素是结构体的，可在结构体内部定义比较函数，下面按照id,length,width升序排序。  
+　　bool operator&lt; (const rect &amp;a)  const  
+    {  
+        if(id!=a.id)  
+            return id&lt;a.id;  
+        else  
+        {  
+            if(length!=a.length)  
+                return length&lt;a.length;  
+            else  
+                return width&lt;a.width;  
+        }  
+    }  
+}Rect;  
+int main()  
+{  
+    vector&lt;Rect&gt; vec;  
+    Rect rect;  
+    rect.id=1;  
+    rect.length=2;  
+    rect.width=3;  
+    vec.push_back(rect);  
+    vector&lt;Rect&gt;::iterator it=vec.begin();  
+    cout&lt;&lt;(*it).id&lt;&lt;' '&lt;&lt;(*it).length&lt;&lt;' '&lt;&lt;(*it).width&lt;&lt;endl;      
+return 0;  
+}  
+</code></pre>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://lizonglin313.github.io/post/leetcode026-shan-chu-pai-xu-shu-zu-zhong-de-chong-fu-xiang" class="post-title gt-a-link">
+                    leetcode026-删除排序数组中的重复项
+                </a>
+            </div>
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">人们依然相信未来会更精彩</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/lizonglin313" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+                <a href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot" target="_blank">
+                    <i class="fab fa-weibo gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <a>--©2017-2020</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv"><a>--本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次--</a></span><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a> | <a href="https://lizonglin313.github.io//atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+    hljs.initHighlightingOnLoad()
+</script>
+
+
+    </div>
+</div>
+</body>
+</html>
