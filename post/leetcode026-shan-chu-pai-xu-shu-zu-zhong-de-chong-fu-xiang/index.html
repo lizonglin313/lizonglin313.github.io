@@ -3,7 +3,7 @@
     <meta charset="utf-8"/>
 <meta name="description" content=""/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>朋友 | Big Carrot</title>
+<title>leetcode026-删除排序数组中的重复项 | Big Carrot</title>
 <link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580745636131">
 <link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.css" rel="stylesheet">
 <link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
@@ -103,30 +103,100 @@
         <div class="post-detail gt-bg-theme-color-second">
             <article class="gt-post-content">
                 <h2 class="post-title">
-                    朋友
+                    leetcode026-删除排序数组中的重复项
                 </h2>
                 <div class="post-info">
                     <time class="post-time gt-c-content-color-first">
-                        · 2019-01-25 ·
+                        · 2020-02-03 ·
                     </time>
                     
-                        <a href="https://lizonglin313.github.io/tag/jO82o7M_u" class="post-tags">
-                            # 社交
+                        <a href="https://lizonglin313.github.io/tag/nsruyUaRm" class="post-tags">
+                            # leetcode
+                        </a>
+                    
+                        <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="post-tags">
+                            # 笔记
+                        </a>
+                    
+                        <a href="https://lizonglin313.github.io/tag/WykunZOOE" class="post-tags">
+                            # 算法
                         </a>
                     
                 </div>
                 <div class="post-content">
                     <blockquote>
-<p>这里是我滴👦🧑👩👶朋友！</p>
+<p>来源：力扣（LeetCode）<br>
+链接：https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array<br>
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<p>题解：陈乐乐(C++)  BeYanJin(Go)</p>
 </blockquote>
+<h4 id="题目重述">题目重述</h4>
+<p>给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。</p>
+<p>不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成。</p>
+<h4 id="示例">示例</h4>
+<pre><code>示例 1:
+给定数组 nums = [1,1,2], 
+函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。 
+你不需要考虑数组中超出新长度后面的元素。
+
+示例 2:
+给定 nums = [0,0,1,1,1,2,2,3,3,4],
+函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。
+你不需要考虑数组中超出新长度后面的元素。
+</code></pre>
+<h3 id="题解">题解</h3>
+<blockquote>
+<p>这个题目两种代码版本的思路基本相同，以Golang代码为例。</p>
+</blockquote>
+<p>使用快慢指针的思想来操作数组元素。</p>
 <ul>
-<li>急需找对象的👦<a href="https://wulonglin.github.io/">wulonglin</a>，大家快帮帮他！</li>
+<li>定义慢指针<code>low</code>让它始终指向数组的有序无重复序列的最后一项，即其所指位置的后一项就是有重复元素的项</li>
+<li>定义快指针<code>fast</code>让它始终指向数组中没有加入有序无重复序列的第一项</li>
+<li>如果<code>nums[fast] != nums[low]</code>，就有<code>nums[low+1] = nums[fast]</code>，然后<code>low++</code>；否则<code>fast++</code>，寻找没有加入无重复序列的那项</li>
 </ul>
+<h5 id="c版本思路及代码">C++版本思路及代码</h5>
+<pre><code class="language-c++">class Solution {
+public:
+    int removeDuplicates(vector&lt;int&gt; &amp;nums) {
+        if (nums.size() == 0) return 0;
+        int i = 0;
+        for (int j = 1; j &lt; nums.size(); ++j) {
+            if (nums[j] != nums[i]) {
+                i++;
+                nums[i] = nums[j];
+            }
+        }
+        return i + 1;
+    }
+};
+</code></pre>
+<h5 id="go版本思路及代码">Go版本思路及代码</h5>
+<pre><code class="language-go">func removeDuplicates(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+	low := 0
+	for fast := 0; fast &lt; len(nums); fast++ {
+		if nums[low] != nums[fast] {
+			nums[low+1] = nums[fast]
+			low++
+		}
+	}
+	return low + 1
+}
+</code></pre>
 
                 </div>
             </article>
         </div>
 
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://lizonglin313.github.io/post/leetcode20-you-xiao-de-gua-hao" class="post-title gt-a-link">
+                    leetcode020-有效的括号
+                </a>
+            </div>
         
 
         
