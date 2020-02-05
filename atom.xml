@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lizonglin313.github.io/</id>
     <title>Big Carrot</title>
-    <updated>2020-02-04T02:15:32.156Z</updated>
+    <updated>2020-02-05T12:49:12.255Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lizonglin313.github.io/"/>
     <link rel="self" href="https://lizonglin313.github.io/atom.xml"/>
@@ -10,6 +10,111 @@
     <logo>https://lizonglin313.github.io/images/avatar.png</logo>
     <icon>https://lizonglin313.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Big Carrot</rights>
+    <entry>
+        <title type="html"><![CDATA[leetcode053-最大子序和]]></title>
+        <id>https://lizonglin313.github.io/post/leetcode053-zui-da-zi-xu-he</id>
+        <link href="https://lizonglin313.github.io/post/leetcode053-zui-da-zi-xu-he">
+        </link>
+        <updated>2020-02-05T11:33:37.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>最大子序和是算法中经典的题目，同时也有很多种做法.</p>
+<p>来源：力扣（LeetCode）<br>
+链接：https://leetcode-cn.com/problems/maximum-subarray<br>
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<p>题解：pinku-2</p>
+</blockquote>
+<h3 id="题目重述">题目重述</h3>
+<p>给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p>
+<h3 id="示例">示例</h3>
+<pre><code>输入: [-2,1,-3,4,-1,2,1,-5,4],
+输出: 6
+解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
+</code></pre>
+<h3 id="题解">题解</h3>
+<h5 id="动态规划">动态规划</h5>
+<ul>
+<li>动态规划的关键点我认为有两个部分：
+<ul>
+<li>确定dp数组：<code>dp[i]</code>表示以<code>i</code>结尾的字段的和的最大值</li>
+<li>建立状态转移方程：<code>dp[i]</code>的值等于<code>max(dp[i-1],0)+nums[i]</code>，这是因为：如果<code>dp[i]</code>最大并且<code>dp[i-1]</code>大于<code>0</code>，那么<code>dp[i-1]</code>也最大；如果<code>dp[i-1]</code>小于<code>0</code>，那么前面的数就不用加上去了，所以干脆直接取<code>nums[i]</code>。</li>
+</ul>
+</li>
+<li>故有递推公式：$ dp[i] = max(dp[i-1], 0) + nums[i] $</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2020/02/05/nYuqp5Z1sa6DBoO.png" alt="e6ca21377d5533204c3149e0b5cdcc146ada4efe1ed2294b3e0615cdb4754853-file_1576478143560.png" loading="lazy"></figure>
+<pre><code class="language-c++">class Solution1 {
+public:
+    int maxSubArray(vector&lt;int&gt; &amp;nums) {
+        int result = INT_MIN;
+        int numsSize = int(nums.size());
+        vector&lt;int&gt; dp(numsSize);   // dp[i]表示nums中以nums[i]结尾的最大子序和
+        dp[0] = nums[0];
+        result = dp[0];
+        for (int i = 1; i &lt; numsSize; ++i) {
+            dp[i] = max(dp[i - 1] + nums[i], nums[i]);
+            result = max(result, dp[i]);
+        }
+        return result;
+    }
+};
+</code></pre>
+<h5 id="分治法">分治法</h5>
+<p>最大子序和是使用分治法解决问题的典型的例子，并且可以用与合并排序相似的算法求解。下面是用分治法解决问题的模板：</p>
+<ul>
+<li>定义基本情况。</li>
+<li>将问题分解为子问题并递归地解决它们。</li>
+<li>合并子问题的解以获得原始问题的解。</li>
+</ul>
+<p>当最大子数组有 <code>n</code> 个数字时：</p>
+<ul>
+<li>若 <code>n==1</code>，返回此元素。</li>
+<li><code>left_sum</code> 为最大子数组前 <code>n/2</code> 个元素，在索引为 <code>(left + right) / 2</code> 的元素属于左子数组。</li>
+<li><code>right_sum</code> 为最大子数组的右子数组，为最后 <code>n/2</code> 的元素。</li>
+<li><code>mid_sum</code> 是包含左右子数组且含索引 <code>(left + right) / 2</code> 的最大值。</li>
+</ul>
+<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2020/02/05/1LZbIoUg9JYdVqH.png" alt="11.png" loading="lazy"></figure>
+<pre><code class="language-c++">class Solution2 {
+public:
+    int maxSubArray(vector&lt;int&gt; &amp;nums) {
+        int result = INT_MIN;
+        int numsSize = int(nums.size());
+        result = maxSubArrayHelper(nums, 0, numsSize - 1);
+        return result;
+    }
+
+    int maxSubArrayHelper(vector&lt;int&gt; &amp;nums, int left, int right) {
+        if (left == right) {
+            return nums[left];
+        }
+        int mid = (left + right) / 2;
+        int leftSum = maxSubArrayHelper(nums, left, mid);
+        int rightSum = maxSubArrayHelper(nums, mid + 1, right);
+        int midSum = findMaxCrossingSubarray(nums, left, mid, right);
+        int result = max(leftSum, rightSum);
+        result = max(result, midSum);
+        return result;
+    }
+
+    int findMaxCrossingSubarray(vector&lt;int&gt; &amp;nums, int left, int mid, int right) {
+        int leftSum = INT_MIN;
+        int sum = 0;
+        for (int i = mid; i &gt;= left; i--) {
+            sum += nums[i];
+            leftSum = max(leftSum, sum);
+        }
+
+        int rightSum = INT_MIN;
+        sum = 0;
+        for (int i = mid + 1; i &lt;= right; i++) {
+            sum += nums[i];
+            rightSum = max(rightSum, sum);
+        }
+        return (leftSum + rightSum);
+    }
+};
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[C++ Vector的简单说明]]></title>
         <id>https://lizonglin313.github.io/post/c-vector-rong-qi-de-jian-dan-shuo-ming</id>
@@ -1817,399 +1922,6 @@ int main() {
 　　这还算不到“大侮蔑”——因为大侮蔑也须有胆力。<br>
 　　																		                                                   ----    鲁迅《热风》</p>
 </blockquote>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Google Bigtable论文要点整理]]></title>
-        <id>https://lizonglin313.github.io/post/Google-Bigtable论文要点整理</id>
-        <link href="https://lizonglin313.github.io/post/Google-Bigtable论文要点整理">
-        </link>
-        <updated>2019-10-07T06:53:05.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="google-bigtable">Google Bigtable</h1>
-<blockquote>
-<p>Google Bigtable论文要点整理</p>
-</blockquote>
-<h2 id="摘要">摘要</h2>
-<h3 id="本质及用途">本质及用途</h3>
-<ul>
-<li>分布式的结构化数据存储系统</li>
-<li>被设计用来处理海量数据（通常是分布在数千台普通服务器上的 PB 级的数据）</li>
-</ul>
-<h3 id="应用">应用</h3>
-<ul>
-<li>Web索引</li>
-<li>Google Earth</li>
-<li>Google Finanace</li>
-</ul>
-<h3 id="本文所做的">本文所做的</h3>
-<p>本论文描述了 Bigtable 提供的简单的数据模型。利用这个模型，用户可以动态的控制数据的分布和格式。<br>
-我们还将描述 Bigtable 的设计和实现。</p>
-<h2 id="介绍">介绍</h2>
-<h3 id="bigtable的目标">Bigtable的目标</h3>
-<ul>
-<li>适用性广泛</li>
-<li>可扩展</li>
-<li>高性能</li>
-<li>高可用性</li>
-</ul>
-<h3 id="与传统数据库的异同">与传统数据库的异同</h3>
-<p>相同点：</p>
-<ul>
-<li>使用很多数据库的实现策略</li>
-</ul>
-<p>不同点：</p>
-<ul>
-<li>Bigtable 不支持完整的关系数据模型</li>
-<li>Bigtable 为客户提供了简单的数据模型，利用这个模型，客户可以动态控制数据的分布和格式，用户也可以自己推测底层存储数据的位置相关性</li>
-</ul>
-<h3 id="数据">数据</h3>
-<ul>
-<li>数据的下标是行和列的名字</li>
-<li>名字可以是任意字符串</li>
-<li>存储的数据均视为字符串</li>
-<li>Bigtable本身不会去解析</li>
-<li>客户存入结构化或半结构化数据，通过选择数据模式，用户可以控制数据位置的相关性</li>
-<li>通过参数调节存放位置：内存 | 硬盘</li>
-</ul>
-<h2 id="数据模型">数据模型</h2>
-<p>Bigtable 是一个稀疏的、分布式的、持久化存储的多维度排序 Map。Map 的索引是行关键字、列关键字<br>
-以及时间戳；Map 中的每个 value 都是一个未经解析的 byte 数组。</p>
-<pre><code class="language-cpp"> (row:string, column:string,time:int64)-&gt;string
-</code></pre>
-<p>Webtable</p>
-<ul>
-<li>行关键字：URL</li>
-<li>列名：网页的某些属性</li>
-<li>contents列：存储网页的某些属性</li>
-<li>标识：网页的时间戳</li>
-</ul>
-<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2019/10/07/R1ZUGxPod82NriE.png" alt="" loading="lazy"></figure>
-<center/>图1 一个存储Web网页的例子的表的片段
-<ul>
-<li>行名：反向URL</li>
-<li>contents列族：网页的内容</li>
-<li>anchor列族：引用该网页的锚链接文本</li>
-</ul>
-<h3 id="行">行</h3>
-<p>行关键字：</p>
-<ul>
-<li>任意字符串（最大支持64KB）</li>
-<li>同一行关键字读写操作都为原子操作</li>
-</ul>
-<p>Tablet</p>
-<ul>
-<li>Bigtable通过行关键字字典顺序组织数据</li>
-<li>表中每行可以动态分区，每个分区叫Tablet，是数据分布和负载均衡调整的最小单位</li>
-</ul>
-<h3 id="列族">列族</h3>
-<ul>
-<li>列关键字组成的集合叫做“列族“，是访问控制的基本单位</li>
-<li>同一列族下的所有数据通常都属于同一个类型</li>
-<li>列族在使用之前必须先创建，然后才能在列族中任何的列关键字下存放数据</li>
-<li>创建后，其中的任何一个列关键字下都可以存放数据</li>
-<li>一张表中列族不能太多（最多几百个）</li>
-<li>但是一张表中可以有无限多个列</li>
-</ul>
-<h4 id="列关键字命名">列关键字命名</h4>
-<p>语法：</p>
-<pre><code>列族：限定词
-</code></pre>
-<p>列组名字：可打印字符串</p>
-<p>限定词：任意的字符串</p>
-<blockquote>
-<p>比如，Webtable 有个列族 language，language 列族用来存放撰写网页的语言。我们在 language列族中只使用一个列关键字，用来存放每个网页的语言标识 ID。Webtable 中另一个有用的列族是 anchor；这个列族的每一个列关键字代表一个锚链接，如图一所示。Anchor 列族的限定词是引用该网页的站点名；Anchor列族每列的数据项存放的是链接文本。</p>
-</blockquote>
-<h4 id="控制权限">控制权限</h4>
-<ul>
-<li>访问控制、磁盘和内存的使用统计都是在列族层面进行</li>
-</ul>
-<p>在我们的 Webtable 的例子中，上述的控制权限能帮助我们管理不同类型的应用：</p>
-<ul>
-<li>允许一些应用可以添加新的基本数据</li>
-<li>一些应用可以读取基本数据并创建继承的列族</li>
-<li>一些应用则只允许浏览数据（甚至可能因为隐私的原因不能浏览所有数据）</li>
-</ul>
-<h3 id="时间戳">时间戳</h3>
-<p>在 Bigtable 中，表的每一个数据项都可以包含同一份数据的不同版本；不同版本的数据通过<strong>时间戳</strong>来索引。</p>
-<p>时间戳：</p>
-<ul>
-<li>64位整型</li>
-<li>Bigtable可以给时间戳赋值，精确到ms</li>
-<li>用户可以给时间戳赋值</li>
-<li>不同版本数据按照时间戳倒序排序，最新的数据在最前面</li>
-</ul>
-<p>垃圾回收：</p>
-<p>为了减轻多个版本数据的管理负担，我们对每一个列族配有两个设置参数，Bigtable 通过这两个参数可以对废弃版本的数据自动进行垃圾收集。用户可以指定只保存最后 n 个版本的数据，或者只保存“足够新”的版本的数据（比如，只保存最近 7 天的内容写入的数据）。 、</p>
-<h2 id="api">API</h2>
-<h3 id="bigtable提供的api">Bigtable提供的API</h3>
-<ul>
-<li>建立和删除表以及列族的API函数</li>
-<li>修改集群、表和列族的元数据的API</li>
-</ul>
-<p>例如修改访问权限：</p>
-<pre><code class="language-c++"> // Open the table 
-Table *T = OpenOrDie(“/bigtable/web/webtable”); 
-// Write a new anchor and delete an old anchor 
-RowMutation r1(T, “com.cnn.www”); 
-r1.Set(“anchor:www.c-span.org”, “CNN”); 
-r1.Delete(“anchor:www.abc.com”); 
-Operation op; 
-Apply(&amp;op, &amp;r1);
-
-/*
- *客户程序可以对 Bigtable 进行如下的操作：写入或者删除 Bigtable 中的值、从每个行中查找值、或者遍历表中 
- *的一个数据子集。图 2 中的Ｃ++代码使用 RowMutation 抽象对象进行了一系列的更新操作。（为了保持示例代码的 
- *简洁，我们忽略了一些细节相关代码）。调用 Apply 函数对Ｗebtable 进行了一个原子修改操作：它为
- *www.cnn.com 增加了一个锚点，同时删除了另外一个锚点。
- */
-</code></pre>
-<pre><code class="language-cpp">Scanner scanner(T); 
-ScanStream *stream; 
-stream = scanner.FetchColumnFamily(“anchor”); 
-stream-&gt;SetReturnAllVersions(); 
-scanner.Lookup(“com.cnn.www”); 
-for (; !stream-&gt;Done(); stream-&gt;Next()) { 
-    printf(“%s %s %lld %s\n”, 
-    scanner.RowName(), 
-    stream-&gt;ColumnName(), 
-    stream-&gt;MicroTimestamp(), 
-    stream-&gt;Value()); 
-} 
-
-/*
- *C++代码使用 Scanner 抽象对象遍历一个行内的所有锚点。客户程序可以遍历多个列族，有几种方法可以对扫描输出 
- *的行、列和时间戳进行限制。例如，我们可以限制上面的扫描，让它只输出那些匹配正则表达式*.cnn.com 的锚点，
- *或者那些时间戳在当前时间前 10 天的锚点
-*/
-</code></pre>
-<h3 id="支持的其他特性">支持的其他特性</h3>
-<ol>
-<li>Bigtable 支持单行上的事务处理：利用这个功能，用户可以对存储在一个行关键字下的数据进行原子性的读-更新-写操作</li>
-<li>Bigtable 允许把数据项用做整数计数器</li>
-<li>Bigtable 允许用户在服务器的地址空间内执行脚本程序</li>
-</ol>
-<p>Bigtable 可以和 MapReduce 一起使用，MapReduce 是 Google 开发的大规模并行计算框架。我们已经开发了一些 Wrapper 类，通过使用这些 Wrapper 类，Bigtable 可以作为 MapReduce 框架的输入和输出。</p>
-<h2 id="bigtable构建">BigTable构建</h2>
-<h3 id="gfs">GFS</h3>
-<ul>
-<li>BigTable 使用 Google 的分布式文件系统(GFS)存储日志文件和数据文件</li>
-</ul>
-<h3 id="集群">集群</h3>
-<ul>
-<li>BigTable 集群通常运行在一个共享的机器池中，池中的机器还会运行其它的各种各样的分布式应用程序，BigTable 的进程经常要和其它应用的进程共享机器</li>
-<li>BigTable 依赖集群管理系统来调度任务、管理共享的机器上的资源、处理机器的故障、以及监视机器的状态</li>
-</ul>
-<h3 id="google-sstable">Google SSTable</h3>
-<ul>
-<li>BigTable 内部存储数据的文件是 Google SSTable 格式的</li>
-</ul>
-<blockquote>
-<p>SSTable 是一个持久化的、排序的、不可更改的Map 结构，而 Map 是一个 key-value 映射的数据结构，key 和 value 的值都是任意的 Byte 串。可以对 SSTable进行如下的操作：查询与一个 key 值相关的 value，或者遍历某个 key 值范围内的所有的 key-value 对。从内部看，SSTable 是一系列的数据块（通常每个块的大小是 64KB，这个大小是可以配置的）。SSTable 使用块索引（通常存储在 SSTable 的最后）来定位数据块；在打开 SSTable 的时候，索引被加载到内存。每次查找都可以通过一次磁盘搜索完成：首先使用二分查找法在内存中的索引里找到数据块的位置，然后再从硬盘读取相应的数据块。也可以选择把整个 SSTable 都放在内存中，这样就不必访问硬盘了。</p>
-</blockquote>
-<h3 id="chubby">Chubby</h3>
-<ul>
-<li>BigTable 还依赖一个高可用的、序列化的分布式锁服务组件，叫做 Chubby</li>
-</ul>
-<blockquote>
-<p>一个 Chubby 服务包括了 5 个活动的副本，其中的一个副本被选为 Master，并且处理请求。只有在大多数副本都是正常运行的，并且彼此之间能够互相通信的情况下，Chubby 服务才是可用的。当有副本失效的时候，Chubby 使用 Paxos 算法来保证副本的一致性。Chubby 提供了一个名字空间，里面包括了目录和小文件。每个目录或者文件可以当成一个锁，读写文件的操作都是原子的。Chubby 客户程序库提供对 Chubby 文件的一致性缓存。每个<br>
-Chubby 客户程序都维护一个与 Chubby 服务的会话。如果客户程序不能在租约到期的时间内重新签订会话的租约，这个会话就过期失效了9。当一个会话失效时，它拥有的锁和打开的文件句柄都失效了。Chubby 客户程序可以在文件和目录上注册回调函数，当文件或目录改变、或者会话过期时，回调函数会通知客户程序。</p>
-</blockquote>
-<p>Bigtable 使用 Chubby 完成以下的几个任务：</p>
-<ol>
-<li>确保在任何给定的时间内最多只有一个活动的 Master 副本；</li>
-<li>存储 BigTable 数据的自引导指令的位置（参考 5.1 节）；</li>
-<li>查找 Tablet 服务器，以及在 Tablet 服务器失效时进行善后（5.2 节）；</li>
-<li>存储 BigTable 的模式信息（每张表的列族信息）；</li>
-<li>以及存储访问控制列表。</li>
-</ol>
-<p>如果Chubby长时间无法访问，BigTable就会失效。</p>
-<h2 id="介绍-2">介绍</h2>
-<p>Bigtable包括了主要的三个组件：</p>
-<ol>
-<li>链接到客户程序中的库</li>
-<li>一个Master服务器</li>
-<li>多个Tablet服务器</li>
-</ol>
-<p>根据系统工作负载的变化，BigTable动态的向集群中添加（或删除）Tablet服务器。</p>
-<h4 id="master服务器">Master服务器</h4>
-<p>Master服务器主要负责以下工作：</p>
-<ol>
-<li>为 Tablet 服务器分配 Tablets</li>
-<li>检测新加入的或者过期失效的 Table 服务器</li>
-<li>对 Tablet 服务器进行负载均衡</li>
-<li>对保存在 GFS 上的文件进行垃圾收集</li>
-<li>处理对模式的相关修改操作，例如建立表和列族</li>
-</ol>
-<h4 id="tablet服务器">Tablet服务器</h4>
-<p>每个 Tablet 服务器都管理一个 <strong>Tablet 的集合</strong>（通常每个服务器有大约数十个至上千个 Tablet）。每个 Tablet服务器负责处理它所加载的 Tablet 的读写操作，以及在 Tablets 过大时，对其进行分割。</p>
-<blockquote>
-<p>和很多 Single-Master 类型的分布式存储系统【17.21】类似，客户端读取的数据都不经过 Master 服务器：客户程序直接和 Tablet 服务器通信进行读写操作。由于 BigTable 的客户程序不必通过 Master 服务器来获取<br>
-Tablet 的位置信息，因此，大多数客户程序甚至完全不需要和 Master 服务器通信。在实际应用中，Master服务器的负载是很轻的。<br>
-一个 BigTable 集群存储了很多表，每个表包含了一个 Tablet 的集合，而每个 Tablet 包含了某个范围内的行的所有相关数据。初始状态下，一个表只有一个 Tablet。随着表中数据的增长，它被自动分割成多个Tablet，缺省情况下，每个 Tablet 的尺寸大约是 100MB 到 200MB。</p>
-</blockquote>
-<h3 id="tablet的位置">Tablet的位置</h3>
-<p>我们使用一个三层的、类似Ｂ+树[10]的结构存储 Tablet 的位置信息。</p>
-<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2019/10/07/3CMUyWopYFdP8D1.png" alt="" loading="lazy"></figure>
-<center/>图2 Tablet location hierarchy
-<ol>
-<li>第一层是一个存储在 Chubby 中的文件，包含 Root Tablet 的位置信息。</li>
-<li>Root Tablet 包含一个特殊的 METADATA 表里所有的 Tablet 的位置信息。</li>
-<li>METADATA 表的每个 Tablet 包含了一个用户 Tablet 的集合。</li>
-<li>Root Tablet 是 METADATA 表的第一个 Tablet，对它的处理比较特殊 ，Root Tablet 永远不会被分割 ，这就保证了 Tablet 的位置信息存储结构不会超过三层。</li>
-<li>METADATA 表中每个 Tablet 的位置信息都存放在一个行关键字下面，而这个行关键字是由 Tablet所在的表的标识符和 Tablet 的最后一行编码而成的。</li>
-<li>METADATA 的每一行都存储了大约 1KB 的内存数据。</li>
-<li>在一个大小适中的、容量限制为 128MB 的 METADATA Tablet 中，采用这种三层结构的存储模式，可以标识<br>
-2^34 个 Tablet 的地址（如果每个 Tablet 存储 128MB 数据，那么一共可以存储 2^61 字节数据）。</li>
-</ol>
-<blockquote>
-<p>客户程序使用的库会缓存 Tablet 的位置信息。如果客户程序没有缓存某个 Tablet 的地址信息，或者发现它缓存的地址信息不正确，客户程序就在树状的存储结构中递归的查询 Tablet 位置信息；如果客户端缓存是的，那么寻址算法需要通过三次网络来回通信寻址，这其中包括了一次 Chubby 读操作；如果客户端缓存的地址信息过期了，那么寻址算法可能需要最多６次网络来回通信才能更新数据，因为只有在缓存中没有查到数据的时候才能发现数据过期。</p>
-<p>尽管 Tablet 的地址信息是存放在内存里的，对它的操作不必访问 GFS 文件系统，但是，通常我们会通过预取 Tablet 地址来进一步的减少访问的开销：每次需要从 METADATA 表中读取一个 Tablet 的元数据的时候，它都会多读取几个 Tablet 的元数据。</p>
-<p>在 METADATA 表中还存储了次级信息，包括每个 Tablet 的事件日志（例如，什么时候一个服务器开始为该 Tablet 提供服务）。这些信息有助于排查错误和性能分析。</p>
-</blockquote>
-<h3 id="tablet分配">Tablet分配</h3>
-<ul>
-<li><strong>在任何一个时刻，一个Tablet只能分配给一个Tablet服务器。</strong></li>
-</ul>
-<p>Master服务器记录了：</p>
-<ol>
-<li>当前有哪些活跃的Tablet服务器</li>
-<li>哪些 Tablet 分配给了哪些 Tablet 服务器</li>
-<li>哪些 Tablet 还没有被分配</li>
-</ol>
-<p>当一个 Tablet 还没有被分配、并且刚好有一个 Tablet 服务器有足够的空闲空间装载该 Tablet 时，Master 服务器会给这个 Tablet 服务器发送一个装载请求，把 Tablet 分配给这个服务器。</p>
-<ul>
-<li><strong>BigTable 使用 Chubby 跟踪记录 Tablet 服务器的状态。</strong></li>
-</ul>
-<ol>
-<li>当一个 Tablet 服务器启动，它在 Chubby 的一个指定目录下建立一个有唯一性名字的文件，获取该文件的独占锁</li>
-<li>Master 服务器实时监控着这个目录（服务器目录），因此 Master 服务器能够知道有新的 Tablet 服务器加入了</li>
-<li>如果 Tablet 服务器丢失了 Chubby 上的独占锁，比如由于网络断开导致 Tablet 服务器和 Chubby 的会话丢失，它就停止对 Tablet 提供服务</li>
-<li>只要文件还存在，Tablet 服务器就会试图重新获得对该文件的独占锁；如果文件不存在了，那么Tablet 服务器就不能再提供服务了，它会自行退出</li>
-<li>当 Tablet 服务器终止时（比如，集群的管理系统将运行该 Tablet 服务器的主机从集群中移除），它会尝试释放它持有的文件锁，这样一来，Master 服务器就能尽快把Tablet 分配到其它的 Tablet 服务器</li>
-</ol>
-<ul>
-<li><strong>Master 服务器负责检查一个 Tablet 服务器是否已经不再为它的 Tablet 提供服务了，并且要尽快重新分配<br>
-它加载的 Tablet。</strong></li>
-</ul>
-<ol>
-<li>Master 服务器通过轮询 Tablet 服务器文件锁的状态来检测何时 Tablet 服务器不再为 Tablet提供服务。</li>
-<li>如果一个 Tablet 服务器报告它丢失了文件锁，或者 Master 服务器最近几次尝试和它通信都没有得到响应，Master 服务器就会尝试获取该 Tablet 服务器文件的独占锁；如果 Master 服务器成功获取了独占锁，那么就说明 Chubby 是正常运行的，而 Tablet 服务器要么是宕机了、要么是不能和 Chubby 通信了，因此，Master<br>
-服务器就删除该 Tablet 服务器在 Chubby 上的服务器文件以确保它不再给 Tablet 提供服务。一旦 Tablet 服务器在 Chubby 上的服务器文件被删除了，Master 服务器就把之前分配给它的所有的 Tablet 放入未分配的 Tablet集合中。</li>
-<li>为了确保 Bigtable 集群在 Master 服务器和 Chubby 之间网络出现故障的时候仍然可以使用，Master服务器在它的 Chubby 会话过期后主动退出。但是不管怎样，如同我们前面所描述的，Master 服务器的故障不会改变现有 Tablet 在 Tablet 服务器上的分配状态。</li>
-</ol>
-<p>当集群管理系统启动了一个 Master 服务器之后，Master 服务器首先要了解当前 Tablet 的分配状态，之后才能够修改分配状态。Master 服务器在启动的时候执行以下步骤：</p>
-<ol>
-<li>Master 服务器从 Chubby 获取一个唯一的 Master 锁，用来阻止创建其它的 Master 服务器实例；</li>
-<li>Master 服务器扫描 Chubby 的服务器文件锁存储目录，获取当前正在运行的服务器列表；</li>
-<li>Master 服务器和所有的正在运行的 Tablet 表服务器通信，获取每个 Tablet 服务器上 Tablet 的分配信息；</li>
-<li>Master 服务器扫描 METADATA 表获取所有的 Tablet 的集合。</li>
-</ol>
-<p>在扫描的过程中，当 Master 服务器发现了一个还没有分配的 Tablet，Master 服务器就将这个 Tablet 加入未分配的 Tablet 集合等待合适的时机分配。</p>
-<h3 id="tablet服务">Tablet服务</h3>
-<figure data-type="image" tabindex="3"><img src="https://i.loli.net/2019/10/07/QKMJ6qhC42G8E7x.png" alt="" loading="lazy"></figure>
-<center/>图5 Tablet Representation
-<ul>
-<li>Tablet 的持久化状态信息保存在 GFS 上</li>
-<li>更新操作提交到 REDO 日志中</li>
-</ul>
-<h4 id="memtable-和-sstable">MEMTABLE 和 SSTABLE</h4>
-<p>Tablet 的持久化状态信息保存在 GFS 上。更新操作提交到 REDO 日志中。</p>
-<p>在这些更新操作中，最近提交的那些存放在一个排序的缓存中，我们称这个缓存为 memtable；较早的更新存放在一系列SSTable 中。</p>
-<p>为了恢复一个 Tablet，Tablet 服务器首先从 METADATA 表中读取它的元数据。</p>
-<p>Tablet 的元数据包含了组成这个 Tablet 的SSTable 的列表，以及一系列的 Redo Point，这些 Redo Point 指向可能含有该 Tablet数据的已提交的日志记录。Tablet 服务器把 SSTable 的索引读进内存，之后通过重复 Redo Point 之后提交的更新来重建 memtable。</p>
-<p>当对 Tablet 服务器进行写操作时，Tablet 服务器首先要检查这个操作格式是否正确、操作发起者是否有执行这个操作的权限。一个有效的读操作在一个由一系列 SSTable 和 memtable 合并的视图里执行。由于 SSTable 和 memtable 是按字典排序的数据结构，因此可以高效生成合并视图。</p>
-<p>另外，当进行 Tablet 的合并和分割时，正在进行的读写操作能够继续进行。</p>
-<h3 id="空间收缩">空间收缩</h3>
-<ul>
-<li>随着写操作的执行，memtable 的大小不断增加。当 memtable 的尺寸到达一个门限值的时候，这个 memtable就会被冻结，然后创建一个新的 memtable</li>
-<li>被冻结住 memtable 会被转换成 SSTable，然后写入 GFS</li>
-</ul>
-<h4 id="目的">目的</h4>
-<p>shrink Tablet 服务器使用的内存，以及在服务器灾难恢复过程中，减少必须从提交日志里读取的数据量。</p>
-<h4 id="流程">流程</h4>
-<ol>
-<li>每一次 Minor Compaction 都会创建一个新的 SSTable。</li>
-<li>如果 Minor Compaction 过程不停滞的持续进行下去，读操作可能需要合并来自多个 SSTable 的更新；否则，我们通过定期在后台执行 Merging Compaction 过程合并文件，限制这类文件的数量。</li>
-<li>Merging Compaction 过程读取一些 SSTable 和 memtable 的内容，合并成一个新的 SSTable。只要Merging Compaction 过程完成了，输入的这些 SSTable 和 memtable 就可以删除了。</li>
-<li>合并所有的 SSTable 并生成一个新的 SSTable 的 Merging Compaction 过程叫作 Major Compaction。由非<br>
-Major Compaction 产生的 SSTable 可能含有特殊的删除条目，这些删除条目能够隐藏在旧的、但是依然有效的SSTable中已经删除的数据。</li>
-<li>Major Compaction过程生成的SSTable不包含已经删除的信息或数据。</li>
-<li>Bigtable循环扫描它所有的 Tablet，并且定期对它们执行 Major Compaction。Major Compaction 机制允许 Bigtable 回收已经删除的数据占有的资源，并且确保 BigTable 能及时清除已经删除的数据。</li>
-</ol>
-<h2 id="优化">优化</h2>
-<h3 id="局部性群组">局部性群组</h3>
-<h4 id="特性">特性</h4>
-<ul>
-<li>
-<p>多个列族组合成一个局部性群组</p>
-</li>
-<li>
-<p>Tablet中每个局部性群组都会生成一个单独的SSTable</p>
-</li>
-<li>
-<p>通常将不会一起访问的列族分割成不同的局部性群组可以提高读取效率</p>
-<blockquote>
-<p>例如，在 Webtable表中，网页的元数据（比如语言和 Checksum）可以在一个局部性群组中，网页的内容可以在另外一个群组：当一个应用程序要读取网页的元数据的时候，它没有必要去读取所有的页面内容。</p>
-</blockquote>
-</li>
-<li>
-<p>可以以局部性群组为单位设定一些有用的调试参数</p>
-<blockquote>
-<p>比如，可以把一个局部性群组设定为全部存储在内存中。Tablet 服务器依照惰性加载的策略将设定为放入内存的局部性群组的 SSTable 装载进内存。加载完成之后，访问属于该局部性群组的列族的时候就不必读取硬盘了。这个特性对于需要频繁访问的小块数据特别有用：在 Bigtable 内部，我们利用这个特性提高 METADATA 表中具有位置相关性的列族的访问速度。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="压缩">压缩</h3>
-<h4 id="两遍压缩">两遍压缩</h4>
-<p>第一遍采用 Bentley and McIlroy’s 方式，这种方式在一个很大的扫描窗口里对常见的长字符串进行压缩。</p>
-<p>第二遍是采用快速压缩算法，即在一个 16KB 的小扫描窗口中寻找重复数据。</p>
-<h3 id="通过缓存提高读操作性能">通过缓存提高读操作性能</h3>
-<p><strong>二级缓存</strong></p>
-<ul>
-<li>目的：为例提高读操作的性能</li>
-<li>流程：
-<ol>
-<li>扫描缓存是第一级缓存，主要缓存 Tablet服务器通过 SSTable 接口获取的 Key-Value 对（对于经常要重复读取相同数据的应用程序来说，扫描缓存非常有效）</li>
-<li>Block 缓存是二级缓存，缓存的是从 GFS 读取的 SSTable 的 Block（对于经常要读取刚刚读过的数据附近的数据的应用程序来说，Block 缓存更有用）</li>
-</ol>
-</li>
-</ul>
-<h4 id="bloom过滤器">Bloom过滤器</h4>
-<p>一个读操作必须读取构成 Tablet 状态的所有 SSTable 的数据。如果这些 SSTable 不在内存中，那么就需要多次访问硬盘。我们通过允许客户程序对特定局部性群组的 SSTable 指定 Bloom 过滤器来__减少硬盘访问的次数__。</p>
-<h4 id="commit日志的实现">Commit日志的实现</h4>
-<p>如果我们把对每个 Tablet 的操作的 Commit 日志都存在一个单独的文件的话，那么就会产生大量的文件，并且这些文件会并行的写入 GFS。根据 GFS 服务器底层文件系统实现的方案，要把这些文件写入不同的磁盘日志文件时，会有大量的磁盘 Seek 操作。另外，由于批量提交25中操作的数目一般比较少，因此，对每个Tablet 设置单独的日志文件也会给批量提交本应具有的优化效果带来很大的负面影响。</p>
-<p>为了避免这些问题，我们__设置每个 Tablet 服务器一个 Commit 日志文件，把修改操作的日志以追加方式写入同一个日志文件__，因此__一个实际的日志文件中混合了对多个 Tablet 修改的日志记录__。</p>
-<p>使用单个日志显著提高了普通操作的性能，但是将恢复的工作复杂化了。</p>
-<p>为了避免多次读取日志文件：</p>
-<ol>
-<li>把日志按照关键字（table，row name，log sequence number）排序；</li>
-<li>排序之后，对同一个 Tablet 的修改操作的日志记录就连续存放在了一起。</li>
-</ol>
-<p>因此，我们只要一次磁盘 Seek 操作， 之后顺序读取就可以。</p>
-<h3 id="tablet恢复提速">Tablet恢复提速</h3>
-<ol>
-<li>Master 服务器将一个 Tablet 从一个 Tablet 服务器移到另外一个 Tablet 服务器时，源 Tablet 服务器会对这个 Tablet 做一次 Minor Compaction；</li>
-<li>这个 Compaction 操作减少了 Tablet 服务器的日志文件中没有归并的记录，从而减少了恢复的时间。</li>
-<li>Compaction 完成之后，该服务器就停止为该 Tablet 提供服务；</li>
-<li>在卸载 Tablet 之前，源 Tablet 服务器还会再做一次（通常会很快）Minor Compaction，以消除前面在一次压缩过程中又产生的未归并的记录；</li>
-<li>第二次 Minor Compaction 完成以后，Tablet 就可以被装载到新的 Tablet 服务器上了，并且不需要从日志中进行恢复。</li>
-</ol>
-<h3 id="利用不变性">利用不变性</h3>
-<ul>
-<li>在使用 Bigtable 时，除了 SSTable 缓存之外的其它部分产生的 SSTable 都是不变的，我们可以利用这一点对系统进行简化：例如，当从 SSTable 读取数据的时候，我们不必对文件系统访问操作进行同步，这样一来，就可以非常高效的实现对行的并行操作；</li>
-<li>memtable 是唯一一个能被读和写操作同时访问的可变数据结构；</li>
-<li>对内存表采用 COW(Copy-on-write)机制，这样就允许读写操作并行执行；</li>
-<li>可以把永久删除被标记为“删除”的数据的问题，转换成对废弃的SSTable 进行垃圾收集的问题；</li>
-<li>每个 Tablet 的 SSTable 都在 METADATA 表中注册了Master 服务器采用“标记-删除”的垃圾回收方式删除 SSTable 集合中废弃的 SSTable；</li>
-<li>METADATA 表保存了 Root SSTable的集合；</li>
-<li>SSTable 的不变性使得分割 Tablet 的操作非常快捷。我们不必为每个分割出来的 Tablet 建立新的SSTable 集合，而是共享原来的 Tablet 的 SSTable 集合。</li>
-</ul>
-<h2 id="译者">译者</h2>
-<p>作者/编著者：</p>
-<p>阎伟</p>
-<p>邮件: andy.yanwei@163.com</p>
-<p>博客: http://andyblog.sinaapp.com</p>
-<p>微博：http://weibo.com/2152410864</p>
 ]]></content>
     </entry>
 </feed>

@@ -3,7 +3,7 @@
     <meta charset="utf-8"/>
 <meta name="description" content=""/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>leetcode002-两数相加 | Big Carrot</title>
+<title>leetcode053-最大子序和 | Big Carrot</title>
 <link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1580906946622">
 <link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.css" rel="stylesheet">
 <link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
@@ -103,11 +103,11 @@
         <div class="post-detail gt-bg-theme-color-second">
             <article class="gt-post-content">
                 <h2 class="post-title">
-                    leetcode002-两数相加
+                    leetcode053-最大子序和
                 </h2>
                 <div class="post-info">
                     <time class="post-time gt-c-content-color-first">
-                        · 2020-02-01 ·
+                        · 2020-02-05 ·
                     </time>
                     
                         <a href="https://lizonglin313.github.io/tag/nsruyUaRm" class="post-tags">
@@ -125,141 +125,101 @@
                 </div>
                 <div class="post-content">
                     <blockquote>
+<p>最大子序和是算法中经典的题目，同时也有很多种做法.</p>
 <p>来源：力扣（LeetCode）<br>
-链接：https://leetcode-cn.com/problems/add-two-numbers<br>
+链接：https://leetcode-cn.com/problems/maximum-subarray<br>
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-<p>题解：陈乐乐(c++) dp0qb(go)</p>
+<p>题解：pinku-2</p>
 </blockquote>
-<h4 id="题目重述">题目重述</h4>
-<p>给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。</p>
-<p>如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。</p>
-<p>您可以假设除了数字 0 之外，这两个数都不会以 0 开头。</p>
-<h4 id="示例">示例</h4>
-<pre><code>输入：(2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)
-输出：7 -&gt; 0 -&gt; 8
-原因：342 + 465 = 807
+<h3 id="题目重述">题目重述</h3>
+<p>给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p>
+<h3 id="示例">示例</h3>
+<pre><code>输入: [-2,1,-3,4,-1,2,1,-5,4],
+输出: 6
+解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
 </code></pre>
-<h4 id="题解">题解</h4>
-<h5 id="c版本思路及代码">C++版本思路及代码</h5>
-<p>将长度较短的链表在末尾补<code>0</code>使得两个链表长度相等，然后再一个一个元素对其相加，需要注意的是要考虑进位。</p>
+<h3 id="题解">题解</h3>
+<h5 id="动态规划">动态规划</h5>
 <ul>
-<li>获取两个链表的长度</li>
-<li>较短的链表末尾补零</li>
-<li>对齐相加，注意考虑进位</li>
+<li>动态规划的关键点我认为有两个部分：
+<ul>
+<li>确定dp数组：<code>dp[i]</code>表示以<code>i</code>结尾的字段的和的最大值</li>
+<li>建立状态转移方程：<code>dp[i]</code>的值等于<code>max(dp[i-1],0)+nums[i]</code>，这是因为：如果<code>dp[i]</code>最大并且<code>dp[i-1]</code>大于<code>0</code>，那么<code>dp[i-1]</code>也最大；如果<code>dp[i-1]</code>小于<code>0</code>，那么前面的数就不用加上去了，所以干脆直接取<code>nums[i]</code>。</li>
 </ul>
-<pre><code class="language-c++">struct ListNode {
-    int val;
-    ListNode *next;
-    ListNode(int x) : val(x), next(NULL) {}    // 定义链表的构造方法
-};
-class Solution {
+</li>
+<li>故有递推公式：$ dp[i] = max(dp[i-1], 0) + nums[i] $</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2020/02/05/nYuqp5Z1sa6DBoO.png" alt="e6ca21377d5533204c3149e0b5cdcc146ada4efe1ed2294b3e0615cdb4754853-file_1576478143560.png" loading="lazy"></figure>
+<pre><code class="language-c++">class Solution1 {
 public:
-    ListNode *addTwoNumbers(ListNode *l1, ListNode *l2) {
-        int len1 = 1;   // 记录L1的长度
-        int len2 = 1;   // 记录L2的长度
-        ListNode *p = l1;
-        ListNode *q = l2;
-        while (p-&gt;next != NULL) {
-            // 获取 L1 的长度
-            len1++;
-            p = p-&gt;next;
+    int maxSubArray(vector&lt;int&gt; &amp;nums) {
+        int result = INT_MIN;
+        int numsSize = int(nums.size());
+        vector&lt;int&gt; dp(numsSize);   // dp[i]表示nums中以nums[i]结尾的最大子序和
+        dp[0] = nums[0];
+        result = dp[0];
+        for (int i = 1; i &lt; numsSize; ++i) {
+            dp[i] = max(dp[i - 1] + nums[i], nums[i]);
+            result = max(result, dp[i]);
         }
-        while (q-&gt;next != NULL) {
-            // 获取 L2 的长度
-            len2++;
-            q = q-&gt;next;
-        }
-        if (len1 &gt; len2) {
-            // 如果 L1 比 L2 长，在 L2 末尾补零
-            for (int i = 0; i &lt;= len1 - len2; ++i) {
-                q-&gt;next = new ListNode(0);
-                q = q-&gt;next;
-            }
-        } else {
-            // L2 长 就在 L1 后面补 0
-            for (int i = 0; i &lt;= len2 - len1; ++i) {
-                p-&gt;next = new ListNode(0);
-                p = p-&gt;next;
-            }
-        }
-        p = l1;
-        q = l2;
-        bool count = false;     // 记录进位
-        ListNode *l3 = new ListNode(-1);    // 结果链表
-        ListNode *w = l3;       // L3 的移动指针
-        int i = 0;                // 记录相加结果
-        while (p != NULL &amp;&amp; q != NULL) {
-            i = count + p-&gt;val + q-&gt;val;
-            w-&gt;next = new ListNode(i % 10);
-            count = i &gt;= 10 ? true : false;
-            w = w-&gt;next;
-            p = p-&gt;next;
-            q = q-&gt;next;
-        }
-        if (count) {
-            // 如果最后还有进位
-            w-&gt;next = new ListNode(1);
-            w = w-&gt;next;
-        }
-        return l3-&gt;next;    // L3 头为 -1
+        return result;
     }
 };
 </code></pre>
-<h5 id="go版本思路及代码">Go版本思路及代码</h5>
+<h5 id="分治法">分治法</h5>
+<p>最大子序和是使用分治法解决问题的典型的例子，并且可以用与合并排序相似的算法求解。下面是用分治法解决问题的模板：</p>
 <ul>
-<li>依次正常遍历链表，按照对应位两数相加，如果超过<code>10</code>，则取结果的个位数，下一位加<code>1</code></li>
-<li>如果一个链表比另一个链表短，那么长的链表就直接加<code>0</code></li>
-<li>如果最后一位相加之和大于<code>10</code>，那么最后不要忘记加上一个<code>1</code>结点</li>
+<li>定义基本情况。</li>
+<li>将问题分解为子问题并递归地解决它们。</li>
+<li>合并子问题的解以获得原始问题的解。</li>
 </ul>
-<pre><code class="language-go">/**  Definition for singly-linked list.  **/
-type ListNode struct {
-	Val  int
-	Next *ListNode
-}
-func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
-	var i, s int             // 分别表示 相加是否大于10 ，以及 两数之和
-	res := &amp;ListNode{Val: 0} // 头结点
-	now := res               // 当前节点
-	for true {
-		if i &gt; 0 {
-			// 前面两数之和大于10，当前的和加 1
-			s = l1.Val + l2.Val + 1
-		} else {
-			s = l1.Val + l2.Val
-		}
-		if s &gt;= 10 {
-			// 两数之和大于10 该位 s-10 否则就是 本身，并设置 i标记
-			now.Next = &amp;ListNode{Val: s - 10}
-			i = 1
-		} else {
-			now.Next = &amp;ListNode{Val: s}
-			i = 0
-		}
-		now = now.Next
-		// 当 l1 和 l2 移到最后
-		if l1.Next == nil &amp;&amp; l2.Next == nil {
-			// 如果 l1 l2 最后的和大于10 即i==1 那么后面还需要加一个 1
-			if i == 1 {
-				now.Next = &amp;ListNode{Val: 1}
-			}
-			break;
-		}
-		// l1 到最后 如果是 l2 没结束，把 l1 当前结点设置为0 继续和 l2 相加，否则后移指针
-		if l1.Next == nil {
-			l1.Val = 0
-		} else {
-			l1 = l1.Next
-		}
-		// 同理 对 l2 有
-		if l2.Next == nil {
-			l2.Val = 0
-		} else {
-			l2 = l2.Next
-		}
-	}
-	// 返回头结点的下一个结点指针
-	return res.Next
-}
+<p>当最大子数组有 <code>n</code> 个数字时：</p>
+<ul>
+<li>若 <code>n==1</code>，返回此元素。</li>
+<li><code>left_sum</code> 为最大子数组前 <code>n/2</code> 个元素，在索引为 <code>(left + right) / 2</code> 的元素属于左子数组。</li>
+<li><code>right_sum</code> 为最大子数组的右子数组，为最后 <code>n/2</code> 的元素。</li>
+<li><code>mid_sum</code> 是包含左右子数组且含索引 <code>(left + right) / 2</code> 的最大值。</li>
+</ul>
+<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2020/02/05/1LZbIoUg9JYdVqH.png" alt="11.png" loading="lazy"></figure>
+<pre><code class="language-c++">class Solution2 {
+public:
+    int maxSubArray(vector&lt;int&gt; &amp;nums) {
+        int result = INT_MIN;
+        int numsSize = int(nums.size());
+        result = maxSubArrayHelper(nums, 0, numsSize - 1);
+        return result;
+    }
+
+    int maxSubArrayHelper(vector&lt;int&gt; &amp;nums, int left, int right) {
+        if (left == right) {
+            return nums[left];
+        }
+        int mid = (left + right) / 2;
+        int leftSum = maxSubArrayHelper(nums, left, mid);
+        int rightSum = maxSubArrayHelper(nums, mid + 1, right);
+        int midSum = findMaxCrossingSubarray(nums, left, mid, right);
+        int result = max(leftSum, rightSum);
+        result = max(result, midSum);
+        return result;
+    }
+
+    int findMaxCrossingSubarray(vector&lt;int&gt; &amp;nums, int left, int mid, int right) {
+        int leftSum = INT_MIN;
+        int sum = 0;
+        for (int i = mid; i &gt;= left; i--) {
+            sum += nums[i];
+            leftSum = max(leftSum, sum);
+        }
+
+        int rightSum = INT_MIN;
+        sum = 0;
+        for (int i = mid + 1; i &lt;= right; i++) {
+            sum += nums[i];
+            rightSum = max(rightSum, sum);
+        }
+        return (leftSum + rightSum);
+    }
+};
 </code></pre>
 
                 </div>
@@ -269,8 +229,8 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
         
             <div class="next-post">
                 <div class="next gt-c-content-color-first">下一篇</div>
-                <a href="https://lizonglin313.github.io/post/leetcode-liang-shu-zhi-he" class="post-title gt-a-link">
-                    leetcode001-两数之和
+                <a href="https://lizonglin313.github.io/post/c-vector-rong-qi-de-jian-dan-shuo-ming" class="post-title gt-a-link">
+                    C++ Vector的简单说明
                 </a>
             </div>
         
