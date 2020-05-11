@@ -1,185 +1,297 @@
-<html>
+<html lang="en">
+
 <head>
-    <meta charset="utf-8"/>
-<meta name="description" content=""/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>浅谈“区块链+版权保护” | Big Carrot</title>
-<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1589207629003">
-<link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.css" rel="stylesheet">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>浅谈“区块链+版权保护” - Big Carrot</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://lizonglin313.github.io//media/css/tailwind.css">
 <link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="alternate" type="application/atom+xml" title="浅谈“区块链+版权保护” - Big Carrot - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
 
-<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/go.min.js"></script>
-<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
+    
 
-<!-- DEMO JS -->
-<script src="media/scripts/index.js"></script>
+  <meta name="description" content="​	2008年底，一位化名“中本聪”（Satoshi nakamoto）的学者发表了区块链技术的奠基性论文《Bitcoin: A Peer-to-Peer Electronic Cash System》。狭义来讲，区块链是一种按照时间顺序将..." />
+  <meta property="og:title" content="浅谈“区块链+版权保护” - Big Carrot">
+  <meta property="og:description" content="​	2008年底，一位化名“中本聪”（Satoshi nakamoto）的学者发表了区块链技术的奠基性论文《Bitcoin: A Peer-to-Peer Electronic Cash System》。狭义来讲，区块链是一种按照时间顺序将..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://lizonglin313.github.io/post/浅谈“区块链-版权保护”(非技术文)" />
+  <meta property="og:image" content="https://lizonglin313.github.io//images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="浅谈“区块链+版权保护” - Big Carrot">
+  <meta name="twitter:description" content="​	2008年底，一位化名“中本聪”（Satoshi nakamoto）的学者发表了区块链技术的奠基性论文《Bitcoin: A Peer-to-Peer Electronic Cash System》。狭义来讲，区块链是一种按照时间顺序将...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://lizonglin313.github.io/post/浅谈“区块链-版权保护”(非技术文)">
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://lizonglin313.github.io//media/css/prism-atom-dark.css">
+  
 
-
+  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
 </head>
+
 <body>
-<div class="main gt-bg-theme-color-first">
-    <nav class="navbar navbar-expand-lg">
-    <div class="navbar-brand">
-        <img class="user-avatar" src="/images/avatar.png" alt="头像">
-        <div class="site-name gt-c-content-color-first">
-            Big Carrot
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://lizonglin313.github.io/" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      Big Carrot
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          浅谈“区块链+版权保护”
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2019-04-01 · 6 min read</div>
+          
+            <a href="https://lizonglin313.github.io/tag/Awe0vw690" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              杂谈
+            </a>
+          
+            <a href="https://lizonglin313.github.io/tag/SdJaZfdphq" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              区块链
+            </a>
+          
         </div>
-    </div>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <div class="navbar-nav mr-auto" style="text-align: center">
-            
-                <div class="nav-item">
-                    
-                        <a href="/" class="menu gt-a-link">
-                            首页
-                        </a>
-                    
-                </div>
-            
-                <div class="nav-item">
-                    
-                        <a href="/archives" class="menu gt-a-link">
-                            归档
-                        </a>
-                    
-                </div>
-            
-                <div class="nav-item">
-                    
-                        <a href="/tags" class="menu gt-a-link">
-                            标签
-                        </a>
-                    
-                </div>
-            
-                <div class="nav-item">
-                    
-                        <a href="/post/about" class="menu gt-a-link">
-                            关于
-                        </a>
-                    
-                </div>
-            
-                <div class="nav-item">
-                    
-                        <a href="/post/friends" class="menu gt-a-link">
-                            朋友
-                        </a>
-                    
-                </div>
-            
-                <div class="nav-item">
-                    
-                        <a href="/post/indexlink" class="menu gt-a-link">
-                            常用站点
-                        </a>
-                    
-                </div>
-            
-        </div>
-    </div>
-</nav>
-    <div class="post-container">
-        <div class="post-detail gt-bg-theme-color-second">
-            <article class="gt-post-content">
-                <h2 class="post-title">
-                    浅谈“区块链+版权保护”
-                </h2>
-                <div class="post-info">
-                    <time class="post-time gt-c-content-color-first">
-                        · 2019-04-01 ·
-                    </time>
-                    
-                        <a href="https://lizonglin313.github.io/tag/Awe0vw690" class="post-tags">
-                            # 杂谈
-                        </a>
-                    
-                        <a href="https://lizonglin313.github.io/tag/SdJaZfdphq" class="post-tags">
-                            # 区块链
-                        </a>
-                    
-                </div>
-                <div class="post-content">
-                    <p>​	2008年底，一位化名“中本聪”（Satoshi nakamoto）的学者发表了区块链技术的奠基性论文《Bitcoin: A Peer-to-Peer Electronic Cash System》。狭义来讲，区块链是一种按照时间顺序将数据区块以链条的方式组合成特定数据结构，并以密码学方式保证的不可篡改和不可伪造的去中心化共享总账，能够安全存储简单的，有先后关系的、能在系统内验证的数据。广义的区块链技术是利用加密式区块链结构来验证与存储数据、利用分布式节点共识算法来生成和更新数据、利用自动化脚本代码（智能合约）来编程和操作数据的一种全新的去中心化基础架构与分布式计算范式。而区块链版权保护就是基于区块链底层的密码学技术，用去中心化的网络结构建立信任关系，实现数字版权的有效保护。伴随着“比特币”热度的下降以及人们的不断探索和尝试。</p>
+        <div class="markdown mb-8" v-pre>
+          <p>​	2008年底，一位化名“中本聪”（Satoshi nakamoto）的学者发表了区块链技术的奠基性论文《Bitcoin: A Peer-to-Peer Electronic Cash System》。狭义来讲，区块链是一种按照时间顺序将数据区块以链条的方式组合成特定数据结构，并以密码学方式保证的不可篡改和不可伪造的去中心化共享总账，能够安全存储简单的，有先后关系的、能在系统内验证的数据。广义的区块链技术是利用加密式区块链结构来验证与存储数据、利用分布式节点共识算法来生成和更新数据、利用自动化脚本代码（智能合约）来编程和操作数据的一种全新的去中心化基础架构与分布式计算范式。而区块链版权保护就是基于区块链底层的密码学技术，用去中心化的网络结构建立信任关系，实现数字版权的有效保护。伴随着“比特币”热度的下降以及人们的不断探索和尝试。</p>
 <p>​	区块链底层技术的其他应用方向逐渐被人们发现，其中一项就是“区块链+版权保护”，实现数字版权信息上链。十年间，在“区块链+版权保护”领域，已经有许多成功案例，也有越来越多的国内外相关创业团队开始探索这一技术领域。其中国外的企业团队的产品有：Monegraph，Colu，Binded，SingularDTV，Mine Labs等。这些大部分是用于音乐影视作品，绘画摄影作品，文学作品的数字版权保护。Monegraph是由纽约大学教授Kevin McCoy 和技术专家Anil Dash合作开发的利用区块链技术保护艺术家数字资产的项目；用户通过推特账号登录到Monegraph 选择数字资产的网址链接，进入该作品的网站，支付一笔小额网费，即可将信息记录到区块链上。Binded 在2017年将业务重点从技术转移到具有法律效力的记录创建，获得了首笔55万美元的融资以后，Binded又得到了来自日本报社Asahi Shimbun、游戏公司GungHo创始人Taizo Son的子公司Mistletoe、M&amp;Y Growth Partners、Tokyo Founders基金会、Vectr Ventures风投以及Social Starts的总共95万美元的融资，Binded通过在区块链上记录永久有效的版权来方便内容创建者保护自己的知识产权。Mine Labs是美国纽约的一家创业公司，开发了一个基于区块链的元数据协议，这个名为 Mediachain 的系统利用 IPFS（ Interplanetary File System）文件系统，实现数字作品版权保护，目前主要是面向数字图片的版权保护应用；目前，Mediachain已经为超过 200 万张原创图片创建元数据记录，纽约现代艺术博物馆、美国数字公共图书馆和欧洲数字图书馆都是Mediachain 的用户。</p>
 <p>​	国内也有很多团队进行相关技术的开发和研究，并且上线了相关的项目，得到社会和政府的认可和支持。比如亿书，纸贵版权，原本等企业。亿书链文化科技有限公司，是一家专注于使用区块链解决版权存证、版权交易、内容分发、知识创富的技术驱动型文化科技公司。西安纸贵互联网科技有限公司成立于2016年，致力于通过区块链重塑版权价值，打造可信任的版权数据库以及数字化版权资产交易平台，并提供侵权监测、法律维权、IP孵化等相关服务，2018年3月，纸贵科技获得了数千万元的A轮融资。而原本早在2015年就开始了将区块链应用于版权领域的尝试，并和国内外前沿的区块链研究者和社区保持密切的联系，16年成为上海区块链产业发展联盟的首批成员是国内首个“区块链+版权保护”平台。</p>
 <p>​	2016年区块链首次被列入国务院印发《“十三五”国家信息化规划》。2018年5月，工信部发布的《2018年中国区块链产业白皮书》中写道：我国《“十三五”国家信息化规划》中把区块链作为一项重点前沿技术，明确提出需加强区块链等新技术的创新、试验和应用，以实现抢占新一代信息技术主导权。目前，我国区块链技术持续创新，区块链产业初步形成，开始在供应链金融、征信、产品溯源、版权交易、数字身份、电子证据等领域快速应用，有望推动我国经济体系实现技术变革，组织变革和效率变革，为构建现代化经济体系作出重要贡献。2018年 6 月，工信部印发《工业互联网发展行动计划（2018-2020 年）》，鼓励推进区块链等新兴前沿技术在各领域的应用研究。并且在工信部2018年数字安全十大热点评选活动中，区块链安全产业入选数字安全技术产业方面的十大热点。就在今年3月28日的中国版权服务年会DCI体系论坛上，版权中心联合国内多家头部互联网平台和核心机构发布了DCI标准联盟链体系。在区块链技术的帮助下，DCI体系得到进一步升级。版权信息登记进一步权威化，而版权作品的后续消费，也变得有据可查。</p>
 <p>​	“区块链+版权保护”已经成为区块链应用的一个重要分支。但是目前还有不少问题和挑战。由于区块链系统具有分布式高冗余复杂度、时序数据且不可篡改和伪造、去中心化信用、自动执行的智能合约、安全和隐私保护等特点，也就有效的解决了传统版权存证、确权、交易、维权等工作时出现的一系列问题。从“区块链”这一名词出现的十年间，越来越多的人开始进入这一领域，这个研究方向也吸引了大量的社会和官方组织的人才资金注入。证明了其存在的价值性以及未来广阔的应用发展空间。尽管“区块链+产权保护”这一技术领域相当年轻，但是显然，这已经成为未来数字版权保护一个重要的发展方向。</p>
 
-                </div>
-            </article>
         </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
 
+      
+
+      
+        <div id="vlaine-comment"></div>
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  <a>--©2017-2020</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv"><a>--本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次--</a></span><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a>
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
         
-            <div class="next-post">
-                <div class="next gt-c-content-color-first">下一篇</div>
-                <a href="https://lizonglin313.github.io/post/爬取猫眼Top100" class="post-title gt-a-link">
-                    爬取猫眼Top100
-                </a>
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
             </div>
-        
-
-        
-
-        <div class="site-footer gt-c-content-color-first">
-    <div class="slogan gt-c-content-color-first">人们依然相信 什么未来会更精彩</div>
-    <div class="social-container">
-        
-            
-                <a href="https://github.com/lizonglin313" target="_blank">
-                    <i class="fab fa-github gt-c-content-color-first"></i>
-                </a>
-            
-        
-            
-                <a href="https://twitter.com/tncarrot" target="_blank">
-                    <i class="fab fa-twitter gt-c-content-color-first"></i>
-                </a>
-            
-        
-            
-                <a href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot" target="_blank">
-                    <i class="fab fa-weibo gt-c-content-color-first"></i>
-                </a>
-            
-        
-            
-        
-            
-        
-            
-        
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
     </div>
-    <a>--©2017-2020</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<span id="busuanzi_container_site_pv"><a>--本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次--</a></span><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a> | <a href="https://lizonglin313.github.io//atom.xml" target="_blank">RSS</a>
+  </div>
 </div>
 
-<script>
-    hljs.initHighlightingOnLoad()
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://lizonglin313.github.io//media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://lizonglin313.github.io//media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+    <script type="application/javascript" src="https://unpkg.com/valine"></script>
+<script type="application/javascript">
+  new Valine({
+    el: '#vlaine-comment',
+    appId: 'PNQkzFdme9zm8HUORyFC1BVr-gzGzoHsz',
+    appKey: 'Nl6KuH8dKjYaGVW44txaDGjY',
+    pageSize: 10,
+    notify: true,
+    avatar: 'mp',
+    verify: true,
+    placeholder: '歪？外！有声没~',
+    visitor: true,
+    highlight: true,
+    recordIP: true,
+  })
 </script>
-
-
-    </div>
-</div>
+  
+  
 </body>
+
 </html>

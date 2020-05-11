@@ -1,453 +1,352 @@
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8"/>
-<meta name="description" content=""/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>Big Carrot</title>
-<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1589207629003">
-<link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.css" rel="stylesheet">
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://lizonglin313.github.io//media/css/tailwind.css">
 <link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="alternate" type="application/atom+xml" title="Big Carrot - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
 
-<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/go.min.js"></script>
-<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
+    
 
-<!-- DEMO JS -->
-<script src="media/scripts/index.js"></script>
-
-
-
+  <meta name="description" content="人们依然相信 什么未来会更精彩" />
 </head>
 <body>
-<div class="main gt-bg-theme-color-first">
-    <div class="main-content">
-        <nav class="navbar navbar-expand-lg">
-    <div class="navbar-brand">
-        <img class="user-avatar" src="/images/avatar.png" alt="头像">
-        <div class="site-name gt-c-content-color-first">
-            Big Carrot
-        </div>
-    </div>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <div class="navbar-nav mr-auto" style="text-align: center">
-            
-                <div class="nav-item">
-                    
-                        <a href="/" class="menu gt-a-link">
-                            首页
-                        </a>
-                    
-                </div>
-            
-                <div class="nav-item">
-                    
-                        <a href="/archives" class="menu gt-a-link">
-                            归档
-                        </a>
-                    
-                </div>
-            
-                <div class="nav-item">
-                    
-                        <a href="/tags" class="menu gt-a-link">
-                            标签
-                        </a>
-                    
-                </div>
-            
-                <div class="nav-item">
-                    
-                        <a href="/post/about" class="menu gt-a-link">
-                            关于
-                        </a>
-                    
-                </div>
-            
-                <div class="nav-item">
-                    
-                        <a href="/post/friends" class="menu gt-a-link">
-                            朋友
-                        </a>
-                    
-                </div>
-            
-                <div class="nav-item">
-                    
-                        <a href="/post/indexlink" class="menu gt-a-link">
-                            常用站点
-                        </a>
-                    
-                </div>
-            
-        </div>
-    </div>
-</nav>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
 
-        <div class="post-list-container">
-    <div class="post-inner">
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://lizonglin313.github.io/post/爬取猫眼Top100">
-                            <span class="post-title gt-c-content-color-first">爬取猫眼Top100</span>
-                        </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2019-03-20 ·
-                        </time>
-                        
-                            <a href="https://lizonglin313.github.io/tag/Ep2MIuv-4" class="post-tag">
-                                # 爬虫入门
-                            </a>
-                        
-                            <a href="https://lizonglin313.github.io/tag/ywt-yiKCrM" class="post-tag">
-                                # Python
-                            </a>
-                        
-                    </div>
-                </div>
-                
-            </div>
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://lizonglin313.github.io/post/Python伪造数据生成器：Faker">
-                            <span class="post-title gt-c-content-color-first">Python伪造数据生成器：Faker</span>
-                        </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2019-03-14 ·
-                        </time>
-                        
-                            <a href="https://lizonglin313.github.io/tag/ywt-yiKCrM" class="post-tag">
-                                # Python
-                            </a>
-                        
-                            <a href="https://lizonglin313.github.io/tag/BTYsGEfIl3" class="post-tag">
-                                # 数据分析
-                            </a>
-                        
-                    </div>
-                </div>
-                
-            </div>
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://lizonglin313.github.io/post/处理机调度图形界面1-0">
-                            <span class="post-title gt-c-content-color-first">处理机调度图形界面1.0</span>
-                        </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2019-03-12 ·
-                        </time>
-                        
-                            <a href="https://lizonglin313.github.io/tag/N8OvYKkqKk" class="post-tag">
-                                # 模拟实验
-                            </a>
-                        
-                            <a href="https://lizonglin313.github.io/tag/JEQiAp6BGJ" class="post-tag">
-                                # 操作系统
-                            </a>
-                        
-                            <a href="https://lizonglin313.github.io/tag/2Walg7Z6JO" class="post-tag">
-                                # GUI
-                            </a>
-                        
-                    </div>
-                </div>
-                
-            </div>
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://lizonglin313.github.io/post/用20行代码爬取单个图片或者视频">
-                            <span class="post-title gt-c-content-color-first">用20行代码爬取单个图片或者视频</span>
-                        </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2019-03-04 ·
-                        </time>
-                        
-                            <a href="https://lizonglin313.github.io/tag/Ep2MIuv-4" class="post-tag">
-                                # 爬虫入门
-                            </a>
-                        
-                    </div>
-                </div>
-                
-            </div>
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://lizonglin313.github.io/post/Python模拟操作系统处理机调度">
-                            <span class="post-title gt-c-content-color-first">Python模拟操作系统处理机调度</span>
-                        </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2019-02-19 ·
-                        </time>
-                        
-                            <a href="https://lizonglin313.github.io/tag/N8OvYKkqKk" class="post-tag">
-                                # 模拟实验
-                            </a>
-                        
-                            <a href="https://lizonglin313.github.io/tag/JEQiAp6BGJ" class="post-tag">
-                                # 操作系统
-                            </a>
-                        
-                    </div>
-                </div>
-                
-            </div>
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://lizonglin313.github.io/post/解决使用pip安装第三方包出现‘拒绝访问’的错误">
-                            <span class="post-title gt-c-content-color-first">解决使用pip安装第三方包出现‘拒绝访问’的错误</span>
-                        </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2019-02-11 ·
-                        </time>
-                        
-                            <a href="https://lizonglin313.github.io/tag/er-p6UONLN" class="post-tag">
-                                # 杂项
-                            </a>
-                        
-                            <a href="https://lizonglin313.github.io/tag/uEb-WGxIN" class="post-tag">
-                                # pip
-                            </a>
-                        
-                    </div>
-                </div>
-                
-            </div>
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://lizonglin313.github.io/post/matplotlib中pyplot颜色映射参数整理">
-                            <span class="post-title gt-c-content-color-first">matplotlib中pyplot颜色映射参数整理</span>
-                        </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2019-02-09 ·
-                        </time>
-                        
-                            <a href="https://lizonglin313.github.io/tag/ywt-yiKCrM" class="post-tag">
-                                # Python
-                            </a>
-                        
-                            <a href="https://lizonglin313.github.io/tag/BTYsGEfIl3" class="post-tag">
-                                # 数据分析
-                            </a>
-                        
-                            <a href="https://lizonglin313.github.io/tag/QvekrRMYbv" class="post-tag">
-                                # 数据可视化
-                            </a>
-                        
-                    </div>
-                </div>
-                
-            </div>
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://lizonglin313.github.io/post/处理机调度与死锁（二）">
-                            <span class="post-title gt-c-content-color-first">处理机调度与死锁（二）</span>
-                        </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2019-01-26 ·
-                        </time>
-                        
-                            <a href="https://lizonglin313.github.io/tag/N8OvYKkqKk" class="post-tag">
-                                # 模拟实验
-                            </a>
-                        
-                            <a href="https://lizonglin313.github.io/tag/JEQiAp6BGJ" class="post-tag">
-                                # 操作系统
-                            </a>
-                        
-                    </div>
-                </div>
-                
-            </div>
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://lizonglin313.github.io/post/Hexo配置使用数学公式">
-                            <span class="post-title gt-c-content-color-first">MarkDown数学公式</span>
-                        </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2019-01-22 ·
-                        </time>
-                        
-                            <a href="https://lizonglin313.github.io/tag/Ysmkn4u7xv" class="post-tag">
-                                # 建站
-                            </a>
-                        
-                            <a href="https://lizonglin313.github.io/tag/er-p6UONLN" class="post-tag">
-                                # 杂项
-                            </a>
-                        
-                    </div>
-                </div>
-                
-            </div>
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://lizonglin313.github.io/post/处理机调度与死锁-一">
-                            <span class="post-title gt-c-content-color-first">处理机调度与死锁(一)</span>
-                        </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2019-01-22 ·
-                        </time>
-                        
-                            <a href="https://lizonglin313.github.io/tag/N8OvYKkqKk" class="post-tag">
-                                # 模拟实验
-                            </a>
-                        
-                            <a href="https://lizonglin313.github.io/tag/JEQiAp6BGJ" class="post-tag">
-                                # 操作系统
-                            </a>
-                        
-                    </div>
-                </div>
-                
-            </div>
-        
+    <div class="nav py-3 md:py-8 fixed w-full z-10 bg-gray-50 dark:bg-gray-700 transition-all duration-300" :class="{ 'scroll': scrolled }">
+  <div class="flex justify-end px-4">
+    <div class="w-8 h-8 flex justify-center items-center rounded-full md:hidden" @click="showMenu = !showMenu">
+      <i class="ri-close-line" v-show="showMenu"></i>
+      <i class="ri-menu-3-line" v-show="!showMenu"></i>
     </div>
+  </div>
+  <nav class="max-w-4xl w-full mx-auto text-center flex flex-col md:flex-row justify-center md:block" :class="`${ showMenu ? 'block' : 'hidden' }`">
+    
+      <a href="/" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        首页
+      </a>
+    
+      <a href="/archives" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        归档
+      </a>
+    
+      <a href="/tags" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        标签
+      </a>
+    
+      <a href="/post/about" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        关于
+      </a>
+    
+      <a href="/post/friends" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        朋友
+      </a>
+    
+      <a href="/post/indexlink" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        常用站点
+      </a>
+    
+    <a href="https://lizonglin313.github.io//atom.xml" target="_blank" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+      RSS
+    </a>
+  </nav>
 </div>
 
-        <div class="pagination-container">
-    
-        <a href="https://lizonglin313.github.io/page/3/" class="prev-page gt-a-link">上一页</a>
-    
-    
-        <a href="https://lizonglin313.github.io/page/5/" class="prev-page gt-a-link">下一页</a>
-    
-</div>
+    <div class="max-w-4xl w-full mx-auto pt-32">
+      
 
+      <div class="shadow-box bg-white dark:bg-gray-600 border-gray-300 rounded-none md:rounded-lg -mx-1 md:mx-0 md:px-0">
+        
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://lizonglin313.github.io/post/爬取猫眼Top100" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          爬取猫眼Top100
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2019-03-20</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+这是教材上的一个实例，今天学的总结一下。
+首先感谢一下同老师送滴书哼
+顺便推一下这本书：《Python3网路爬虫开发实战》（崔庆才）
 
-        <div class="site-footer gt-c-content-color-first">
-    <div class="slogan gt-c-content-color-first">人们依然相信 什么未来会更精彩</div>
-    <div class="social-container">
-        
-            
-                <a href="https://github.com/lizonglin313" target="_blank">
-                    <i class="fab fa-github gt-c-content-color-first"></i>
-                </a>
-            
-        
-            
-                <a href="https://twitter.com/tncarrot" target="_blank">
-                    <i class="fab fa-twitter gt-c-content-color-first"></i>
-                </a>
-            
-        
-            
-                <a href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot" target="_blank">
-                    <i class="fab fa-weibo gt-c-content-color-first"></i>
-                </a>
-            
-        
-            
-        
-            
-        
-            
-        
+先给代码
+
+Pycharm + py3.7 调过
+不很长50行左右，爬一下猫眼top100的一些信息
+...
+      </div>
+      <a href="https://lizonglin313.github.io/post/爬取猫眼Top100" class="btn">
+        Read more
+      </a>
     </div>
-    <a>--©2017-2020</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<span id="busuanzi_container_site_pv"><a>--本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次--</a></span><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a> | <a href="https://lizonglin313.github.io//atom.xml" target="_blank">RSS</a>
-</div>
+    
+  </div>
 
-<script>
-    hljs.initHighlightingOnLoad()
-</script>
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://lizonglin313.github.io/post/Python伪造数据生成器：Faker" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          Python伪造数据生成器：Faker
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2019-03-14</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+本文转自前辈的文章
+原文链接：Hjqjk's Blog
+
+我们在开发中常常需要利用一些假数据来做测试,这种时候就可以使用 Faker 来伪造数据从而用来测试。
+Faker 是一个可以让你生成伪造数据的Python包。当你需要初始化数据库，...
+      </div>
+      <a href="https://lizonglin313.github.io/post/Python伪造数据生成器：Faker" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://lizonglin313.github.io/post/处理机调度图形界面1-0" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          处理机调度图形界面1.0
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2019-03-12</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        处理机调度图形界面1.0版本
+
+我一直觉得我效率很低...但还是画出来了，用的PyQt5这个库做的简陋界面，很多功能缺失...算法残疾...
+这篇博文以一个算法实例来说一下大体思路
+
+代码
+思路
+演示
+不足
+改进
+对了我给搞上评论系统辽，虽...
+      </div>
+      <a href="https://lizonglin313.github.io/post/处理机调度图形界面1-0" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://lizonglin313.github.io/post/用20行代码爬取单个图片或者视频" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          用20行代码爬取单个图片或者视频
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2019-03-04</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+最近有跟进学习爬虫的知识，教材是《Python网络数据采集》（Ryan Mitchell）,之后配合《利用Python进行数据分析》（Wes McKinney）进一步学习，我想学习路线也不会很长或者说很陡峭。昨天在B站找了北理工的爬虫慕课...
+      </div>
+      <a href="https://lizonglin313.github.io/post/用20行代码爬取单个图片或者视频" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://lizonglin313.github.io/post/Python模拟操作系统处理机调度" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          Python模拟操作系统处理机调度
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2019-02-19</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+拖拖拉拉，昨天终于写完核心算法，UI界面几乎没写，估计开学会被导师mao一顿。说一下python GUI大家最好不要去动TK，前些日子找官方文档查方法体验非常差，而且网上的教程写的乱七八糟。有兴趣的话大家可以学习PyQt，这是一个跨平台的...
+      </div>
+      <a href="https://lizonglin313.github.io/post/Python模拟操作系统处理机调度" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://lizonglin313.github.io/post/解决使用pip安装第三方包出现‘拒绝访问’的错误" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          解决使用pip安装第三方包出现‘拒绝访问’的错误
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2019-02-11</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+今天准备学习使用PyQt5，但是在安装的时候出现了问题，已解决。
+
+报错
+使用pip安装PyQt5时，出现如下错误：
+
+操作文件夹拒绝访问，也就是没有修改文件内容的权限。
+解决
+我们先到Anaconda文件夹下，右键installanac...
+      </div>
+      <a href="https://lizonglin313.github.io/post/解决使用pip安装第三方包出现‘拒绝访问’的错误" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://lizonglin313.github.io/post/matplotlib中pyplot颜色映射参数整理" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          matplotlib中pyplot颜色映射参数整理
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2019-02-09</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+今天用到颜色映射，就顺便整理一下使用matplotlib中的pyplot经常用到的颜色映射的一些参数，转自前辈的博文
+
+import numpy as np  
+import matplotlib.pyplot as plt  
+
+# H...
+      </div>
+      <a href="https://lizonglin313.github.io/post/matplotlib中pyplot颜色映射参数整理" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://lizonglin313.github.io/post/处理机调度与死锁（二）" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          处理机调度与死锁（二）
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2019-01-26</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+接处理机调度与死锁（一），本篇主要讲述死锁部分内容。
+
+四.死锁概述
+
+本节排版有些问题，可以先看本章第三部分对死锁概念的解释及定义，之后再来看第二部分计算机系统中的死锁可能会更好理解。
+
+1.资源问题
+
+引起死锁的资源类型：临界资源（需...
+      </div>
+      <a href="https://lizonglin313.github.io/post/处理机调度与死锁（二）" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://lizonglin313.github.io/post/Hexo配置使用数学公式" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          MarkDown数学公式
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2019-01-22</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+我们在使用markdown编辑时，是会有数学公式语法的。
+
+基本语法对照表
+
+
+嵌入行内的公式用$包裹，如：行内公式展示a=b+ca = b + ca=b+c，效果为：
+
+行内公式展示a=b+ca=b+c
+
+
+
+换行居中独立模块展示可以用...
+      </div>
+      <a href="https://lizonglin313.github.io/post/Hexo配置使用数学公式" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://lizonglin313.github.io/post/处理机调度与死锁-一" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          处理机调度与死锁(一)
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2019-01-22</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+今天考完科目三之后接到导师的任务，关于处理机和死锁的算法问题，要求图形界面及动画演示(基于Python)。真的哭辽，完全没有头绪···在这里记录学习和解决的过程。
+目录：
+
+处理机调度的层次和调度算法的目标
+作业与作业调度
+进程调度
+实时...
+      </div>
+      <a href="https://lizonglin313.github.io/post/处理机调度与死锁-一" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+  
+      </div>
+
+      
+  <div class="my-4 flex justify-between px-4 md:px-0">
+    
+      <a href="https://lizonglin313.github.io/page/3/" class="btn btn-white">
+        <i class="ri-arrow-left-line mr-4"></i>
+        上一页
+      </a>
+    
+    
+      <a href="https://lizonglin313.github.io/page/5/" class="btn btn-white">
+        下一页
+        <i class="ri-arrow-right-line ml-4"></i>
+      </a>
+    
+  </div>
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  <a>--©2017-2020</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv"><a>--本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次--</a></span><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a>
+</footer>
 
     </div>
-</div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://lizonglin313.github.io//media/scripts/main.js"></script>
 </body>
+
 </html>
