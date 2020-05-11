@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lizonglin313.github.io/</id>
     <title>Big Carrot</title>
-    <updated>2020-03-06T14:36:36.743Z</updated>
+    <updated>2020-05-11T14:33:53.429Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lizonglin313.github.io/"/>
     <link rel="self" href="https://lizonglin313.github.io/atom.xml"/>
@@ -10,6 +10,700 @@
     <logo>https://lizonglin313.github.io/images/avatar.png</logo>
     <icon>https://lizonglin313.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Big Carrot</rights>
+    <entry>
+        <title type="html"><![CDATA[leetcode数组初等整理]]></title>
+        <id>https://lizonglin313.github.io/post/leetcode-shu-zu-chu-deng-zheng-li</id>
+        <link href="https://lizonglin313.github.io/post/leetcode-shu-zu-chu-deng-zheng-li">
+        </link>
+        <updated>2020-05-11T11:48:37.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>好久没有更新了，最近开始做了些leetcode上的算法，刚把数组基础部分做完，整理一下，全部用的C</p>
+</blockquote>
+<h2 id="删除排序数组中的重复项">删除排序数组中的重复项</h2>
+<p>给定一个排序数组，你需要在 <strong>原地</strong> 删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。</p>
+<p>不要使用额外的数组空间，你必须在 <strong>原地 修改输入数组</strong> 并在使用 O(1) 额外空间的条件下完成。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>给定数组 nums = [1,1,2], 
+
+函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。 
+
+你不需要考虑数组中超出新长度后面的元素。
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>给定 nums = [0,0,1,1,1,2,2,3,3,4],
+
+函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。
+
+你不需要考虑数组中超出新长度后面的元素。
+</code></pre>
+<p><strong>说明:</strong></p>
+<p>为什么返回数值是整数，但输出的答案是数组呢?</p>
+<p>请注意，输入数组是以**「引用」**方式传递的，这意味着在函数里修改输入数组对于调用者是可见的。</p>
+<p>你可以想象内部操作如下:</p>
+<pre><code>// nums 是以“引用”方式传递的。也就是说，不对实参做任何拷贝
+int len = removeDuplicates(nums);
+
+// 在函数里修改输入数组对于调用者是可见的。
+// 根据你的函数返回的长度, 它会打印出数组中该长度范围内的所有元素。
+for (int i = 0; i &lt; len; i++) {
+    print(nums[i]);
+}
+</code></pre>
+<p><strong>代码</strong>:</p>
+<p>快慢双指针的思想，快指针从下标<code>1</code>处开始遍历数组，而慢指针始终指向<code>没有重复元素的前last+1项序列</code>的最后一个元素。</p>
+<pre><code class="language-c">int removeDuplicates(int* nums, int numsSize){
+	int fast, last;	// 双指针
+
+    if(numsSize==0){
+        return 0;
+    }
+    
+	for (last=0,fast = 1; fast &lt; numsSize; fast++){
+
+		if (nums[last] != nums[fast]) {
+            /* 如果指的元素不同，就将fast所指的元素给last所指的后一个元素，当然，需要last事先增一 */
+			nums[++last] = nums[fast];
+		}
+
+	}
+
+	return last + 1;
+}
+
+</code></pre>
+<h2 id="买卖股票的最佳时机-ii">买卖股票的最佳时机 II</h2>
+<p>给定一个数组，它的第 <em>i</em> 个元素是一支给定股票第 <em>i</em> 天的价格。</p>
+<p>设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。</p>
+<p>**注意：**你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: [7,1,5,3,6,4]
+输出: 7
+解释: 在第 2 天（股票价格 = 1）的时候买入，在第 3 天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+     随后，在第 4 天（股票价格 = 3）的时候买入，在第 5 天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 = 6-3 = 3 。
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: [1,2,3,4,5]
+输出: 4
+解释: 在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+     注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。
+     因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。
+</code></pre>
+<p><strong>示例 3:</strong></p>
+<pre><code>输入: [7,6,4,3,1]
+输出: 0
+解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
+</code></pre>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= prices.length &lt;= 3 * 10 ^ 4</code></li>
+<li><code>0 &lt;= prices[i] &lt;= 10 ^ 4</code></li>
+</ul>
+<p><strong>代码</strong>:</p>
+<p>在做这道题目时，我进入了一个误区，就是老想着找这样一个子序列：<code>子序列最后一个元素 - 子序列第一个元素的值最大</code>。例如：<code>[6 3 4 1 2 3 4 5 6]</code>中<code>sub[1 2 3 4 5 6]</code>这个序列，我们只要确定<code>1</code>和<code>6</code>的位置就能得到结果。显然我想复杂了，这个结果<code>6-1=5</code>实际上与<code>2-1 + 3-2 + 4-3 + 5-4 + 6-5 = 5</code>是一样的。</p>
+<p>所以，我们只需每次找相邻的两个数，这两个数符合前一个数比后一个数小即可，符合就计算<code>last-front</code>的值，加到利润里，继续考察下一组数就可以。</p>
+<pre><code class="language-c">int maxProfit(int* prices, int pricesSize) {
+
+    /* 不要忘记特殊情况 */
+	if (pricesSize &lt; 2) {
+		return 0;
+	}
+
+	int td_price = prices[0];	// td_price为当天价格，从第 prices[0]开始
+	int pro = 0;				// 初始利润设置为 pro=0
+
+	for (int i = 1; i &lt; pricesSize; i++)
+	{
+        /* 从第二天开始，如果明天的价格高于今天，就买，利润增加 */
+		if (prices[i] &gt; td_price) {
+			pro += (prices[i] - td_price);
+		}
+        /* 过一天，明天变今天 */
+		td_price = prices[i];
+
+	}
+	return pro;
+}
+</code></pre>
+<h2 id="旋转数组">旋转数组</h2>
+<p>给定一个数组，将数组中的元素向右移动 <em>k</em> 个位置，其中 <em>k</em> 是非负数。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: [1,2,3,4,5,6,7] 和 k = 3
+输出: [5,6,7,1,2,3,4]
+解释:
+向右旋转 1 步: [7,1,2,3,4,5,6]
+向右旋转 2 步: [6,7,1,2,3,4,5]
+向右旋转 3 步: [5,6,7,1,2,3,4]
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: [-1,-100,3,99] 和 k = 2
+输出: [3,99,-1,-100]
+解释: 
+向右旋转 1 步: [99,-1,-100,3]
+向右旋转 2 步: [3,99,-1,-100]
+</code></pre>
+<p><strong>说明:</strong></p>
+<ul>
+<li>尽可能想出更多的解决方案，至少有三种不同的方法可以解决这个问题。</li>
+<li>要求使用空间复杂度为 O(1) 的 <strong>原地</strong> 算法。</li>
+</ul>
+<p><strong>代码</strong>:</p>
+<p>我认为这道题目的一个解法是非常巧妙的，利用三次逆序，我是没有想到....</p>
+<p>例如示例1中输入 <code>[1,2,3,4,5,6,7]</code> 和<code>k = 3</code>输出<code>[5,6,7,1,2,3,4]</code>。只需要先对前<code>7-3=4</code>个数进行逆序得到<code>[4,3,2,1,5,6,7]</code>再对后<code>k=3</code>个数进行逆序得到<code>[4,3,2,1,7,6,5]</code>，最后再对整个数组进行逆序<code>[5,6,7,1,2,3,4]</code>就得到结果了。</p>
+<pre><code class="language-c">/* 逆序函数，注意下标的操作 */
+void reverse(int *arr, int left, int right) {
+
+	for (int i = 0; i &lt; (right - left + 1) / 2; i++)
+	{
+		int temp = arr[right - i];
+		arr[right - i] = arr[left + i];
+		arr[left + i] = temp;
+	}
+
+}
+/* 进行旋转 */
+void rotate(int* nums, int numsSize, int k) {
+
+    // 注意特殊情况的处理
+	if (numsSize == 0 || !nums) {
+		return;
+	}
+
+    // 以防循环次数 &gt; numsSize
+     k = k % numsSize;
+    
+	reverse(nums, 0, numsSize - k - 1);
+	reverse(nums, numsSize - k, numsSize - 1);
+	reverse(nums, 0, numsSize - 1);
+}
+</code></pre>
+<h2 id="存在重复元素">存在重复元素</h2>
+<p>给定一个整数数组，判断是否存在重复元素。</p>
+<p>如果任意一值在数组中出现至少两次，函数返回 <code>true</code> 。如果数组中每个元素都不相同，则返回 <code>false</code> 。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: [1,2,3,1]
+输出: true
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: [1,2,3,4]
+输出: false
+</code></pre>
+<p><strong>示例 3:</strong></p>
+<pre><code>输入: [1,1,1,3,3,4,3,2,4,2]
+输出: true
+</code></pre>
+<p><strong>代码</strong>:</p>
+<p>这道题目一开始构造Map来遍历统计每个值出现的次数，但是(我觉得)没有必要(对于C这种没有Map结构的来说)。就采取了先排序，后验证是否有相邻元素相同的方法来判断。</p>
+<p>一开始我是用了快排，结果一直超时，于是改成了归并。</p>
+<pre><code class="language-c">#define MAX 1000000
+int temp_arr[MAX] = { 0 };
+
+/* merge two arr */
+void merge(int begin, int middle, int end, int arr1[], int arr2[]);
+/* sort arr with merge sort */
+void merge_sort(int arr[], int begin, int end);
+
+bool containsDuplicate(int* nums, int numsSize) {
+
+	if (numsSize &lt;= 1) return false;	// 注意特殊情况
+	
+	merge_sort(nums, 0, numsSize - 1);	// 先进行排序
+
+	for (int i = 0; i &lt; numsSize - 1; i++) {
+		if (nums[i] == nums[i+1]) {
+			return true;
+		}
+	}
+	return false;
+}
+
+/* merge two arr */
+void merge(int begin, int middle, int end, int arr1[], int arr2[]) {
+
+	int i = begin;
+	int j = middle + 1;
+	int k = begin;
+
+	while (i &lt;= middle &amp;&amp; j &lt;= end) {
+		if (arr1[i] &lt;= arr1[j]) {
+
+			arr2[k++] = arr1[i++];
+
+		}
+		else
+		{
+			arr2[k++] = arr1[j++];
+		}
+	}
+
+	while (i &lt;= middle)	arr2[k++] = arr1[i++];
+	while (j &lt;= end)	arr2[k++] = arr1[j++];
+
+}
+
+/* sort arr with merge sort */
+void merge_sort(int arr[], int begin, int end) {
+
+	int m;
+
+	if (begin == end) {
+
+		return;	// if begin==end -&gt; arr has one number,over
+
+	}
+	else {
+
+		m = (begin + end) / 2;
+		merge_sort(arr, begin, m);		// sorted front part of arr
+		merge_sort(arr, m + 1, end);	// sorted latter part of arr 
+		merge(begin, m, end, arr, temp_arr);	//merge arr
+		for (int i = begin; i &lt;= end; i++) {
+			arr[i] = temp_arr[i];
+		}
+	}
+}
+
+
+</code></pre>
+<h2 id="只出现一次的数字">只出现一次的数字</h2>
+<p>给定一个<strong>非空</strong>整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。</p>
+<p><strong>说明：</strong></p>
+<p>你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: [2,2,1]
+输出: 1
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: [4,1,2,1,2]
+输出: 4
+</code></pre>
+<p><strong>代码</strong>:</p>
+<p>同样的，我也采用了先排序，后判断一个数的<code>前后元素</code>是否等于这个数的方法。由于归并排序上一题中已经给出，便不再叙述详细实现过程。</p>
+<pre><code class="language-c">int singleNumber(int* nums, int numsSize) {
+
+    // 特殊情况的处理
+	if (numsSize == 1)
+	{
+		return nums[0];
+	}
+
+	// 先排序
+	merge_sort(nums, 0, numsSize - 1);
+
+    // 首末元素不好判断，就先进行判断
+	if (nums[0] != nums[1] &amp;&amp; nums[1]==nums[2]) {
+		return nums[0];
+	}
+	else if (nums[numsSize-1] != nums[numsSize-2]) {
+		return nums[numsSize - 1];
+	}
+
+	// 在这之前先判断第一个数和最后一个数
+	for (int i = 1; i &lt; numsSize - 1; i++)
+	{
+        // 判断前后元素是否等于这个数
+		if (nums[i] != nums[i - 1] &amp;&amp; nums[i] != nums[i + 1]) {
+			return nums[i];
+		}
+
+	}
+    
+    // 如果此处没有返回，会报错，便随便加上一句，理论上不会走到这里
+    return -1;
+	
+}
+</code></pre>
+<h2 id="两个数组的交集">两个数组的交集</h2>
+<p>给定两个数组，编写一个函数来计算它们的交集。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: nums1 = [1,2,2,1], nums2 = [2,2]
+输出: [2,2]
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+输出: [4,9]
+</code></pre>
+<p><strong>说明：</strong></p>
+<ul>
+<li>输出结果中每个元素出现的次数，应与元素在两个数组中出现的次数一致。</li>
+<li>我们可以不考虑输出结果的顺序。</li>
+</ul>
+<p><strong>进阶:</strong></p>
+<ul>
+<li>如果给定的数组已经排好序呢？你将如何优化你的算法？</li>
+<li>如果 <em>nums1</em> 的大小比 <em>nums2</em> 小很多，哪种方法更优？</li>
+<li>如果 <em>nums2</em> 的元素存储在磁盘上，磁盘内存是有限的，并且你不能一次加载所有的元素到内存中，你该怎么办？</li>
+</ul>
+<p><strong>代码</strong>:</p>
+<p>进阶部分尚未考虑。</p>
+<p>在这里，我用到了双重循环，所以在效率上不是很理想。</p>
+<ul>
+<li>首先以<code>nums1</code>的长度为基准，构造新的结果数组<code>numret</code>；</li>
+<li>遍历<code>nums1</code>数组，<code>i</code>为遍历指针；
+<ul>
+<li>判断<code>nums1</code>、<code>nums2</code>、<code>numret</code>中元素<code>nums1[i]的</code>个数，分别存入<code>n1</code>、<code>n2</code>、<code>n3</code>；</li>
+<li>如果<code>n3=0</code>代表结果数组中还没有这个元素，于是判断<code>n1</code>、<code>n2</code>，以小的那一个作为存入的次数，存入<code>numret</code>中即可；</li>
+<li>当然，如果<code>n3!=0</code>就说明我们在前面已经找过这个元素了，也就是我们只在首次遇到这个元素时就把它后面也出现的情况处理了</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-c">/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+
+/* 判断元素在数组中出现几次 */
+int If_In_Array(int number, int numsSize, int *nums) ；
+
+int* intersect(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize) {
+
+	/* 以nums1的长度构建数组 */
+	int *numret = (int*)malloc(sizeof(int)*nums1Size);
+
+	int i3 = 0;	// i3作为结果数组的下标，刚好可以统计结果数组中元素的个数
+
+	for (int i1 = 0; i1 &lt; nums1Size; i1++)
+	{
+		int n1 = 0, n2 = 0, n3 = 0;
+		n1 = If_In_Array(nums1[i1], nums1Size, nums1);
+		n2 = If_In_Array(nums1[i1], nums2Size, nums2);
+		n3 = If_In_Array(nums1[i1], i3, numret);
+
+		if (n3 == 0) {
+			if (n1 == n2) for (int p = 0; p &lt; n1; p++) numret[i3++] = nums1[i1];
+			else if (n1 &gt; n2) for (int p = 0; p &lt; n2; p++) numret[i3++] = nums1[i1];
+			else if (n1 &lt; n2)for (int p = 0; p &lt; n1; p++) numret[i3++] = nums1[i1];
+		}
+	}
+
+	*returnSize = i3;
+
+	return numret;
+
+}
+/* 判断元素在数组中出现几次 */
+int If_In_Array(int number, int numsSize, int *nums) {
+
+	int count = 0;
+
+	for (int i = 0; i &lt; numsSize; i++)
+	{
+		if (nums[i] == number) count++;
+	}
+
+	return count;
+
+}
+</code></pre>
+<h2 id="加一">加一</h2>
+<p>给定一个由<strong>整数</strong>组成的<strong>非空</strong>数组所表示的非负整数，在该数的基础上加一。</p>
+<p>最高位数字存放在数组的首位， 数组中每个元素只存储<strong>单个</strong>数字。</p>
+<p>你可以假设除了整数 0 之外，这个整数不会以零开头。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: [1,2,3]
+输出: [1,2,4]
+解释: 输入数组表示数字 123。
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: [4,3,2,1]
+输出: [4,3,2,2]
+解释: 输入数组表示数字 4321。
+</code></pre>
+<p><strong>代码</strong>:</p>
+<p>我犯了一个大错误：一开始我想将数组内容先转换成整数类型，然后整数加一，再进行拆分重新存入数组。结果发生了溢出，于是我改成<code>long</code>甚至<code>long long</code>，无一例外，它还是溢出了，谁能保证这个数组长度没有10k位呢，计算机怎么存一个10k位的数值类型？</p>
+<p>还是直接操作数组吧：</p>
+<ul>
+<li>注意判断数组元素是否全是<code>9</code>，例如<code>[9,9,9,9]</code>在申请结果数组时需要多申请一个位置，而<code>[8,9,9,9]</code>就不需要(这一步可不用一开始就进行)；</li>
+<li>首先，对于首位进位有两种情况，需要先处理一下，一是全是<code>9</code>，二是除了首元素之外全是<code>9</code>；</li>
+<li>如果全是<code>9</code>申请长一个单位的数组，首位置<code>1</code>，剩余填<code>0</code>，完成；</li>
+<li>如果除首位全是<code>9</code>，申请通长度数组，首位加<code>1</code>，其余位填<code>0</code>，完成；</li>
+<li>剩下的情况就是一般情况了，从数组末位开始向前遍历，只要遇到一位不是<code>9</code>就加<code>1</code>退出循环，完成，否则遇到<code>9</code>就置零，进行下一次循环。</li>
+</ul>
+<pre><code class="language-c">int* plusOne(int* digits, int digitsSize, int* returnSize) {
+
+	//  基本思路 逢 9 进一 不为9 +1 然后结束
+
+	// 1 先判断是否全为9 分两种情况 1）全为9 2） 第一位不是9
+	int is9 = 1;
+	for (int i = 1; i &lt; digitsSize; i++) 
+		if (digits[i] != 9) {
+			is9 = 0;
+			break;
+		}
+	if (is9 == 1) {
+		if (digits[0] == 9) {
+			// 如果第一位也是9
+			// 此时全为9
+			int *redigits = (int*)malloc(sizeof(int)*(digitsSize + 1));
+			redigits[0] = 1;
+			for (int i = 1; i &lt; digitsSize + 1; i++)
+			{
+				redigits[i] = 0;
+			}
+			*returnSize = digitsSize + 1;
+			return redigits;
+		}
+		else{
+			// 此时第一位不是9
+			int *redigits = (int*)malloc(sizeof(int)*(digitsSize));
+			redigits[0] = digits[0] + 1;
+			for (int i = 1; i &lt; digitsSize; i++)
+			{
+				redigits[i] = 0;
+			}
+			*returnSize = digitsSize;
+			return redigits;
+		}
+		
+	}
+
+	// 如果有一位不是9
+	int *redigits = (int*)malloc(sizeof(int)*(digitsSize));
+	redigits = digits;
+	/*for (int n = 0; n &lt; digitsSize; n++) {
+		redigits[n] = digits[n];
+
+	}*/
+	for (int p = digitsSize - 1; p &gt; -1; p--) {
+		if (redigits[p] == 9) {
+			redigits[p] = 0;
+            continue;
+		}
+		if (redigits[p] != 9) {
+			redigits[p] = redigits[p] + 1;
+            break;
+		}
+	}
+	*returnSize = digitsSize;
+	return redigits;
+}
+</code></pre>
+<h2 id="移动零">移动零</h2>
+<p>给定一个数组 <code>nums</code>，编写一个函数将所有 <code>0</code> 移动到数组的末尾，同时保持非零元素的相对顺序。</p>
+<p><strong>示例:</strong></p>
+<pre><code>输入: [0,1,0,3,12]
+输出: [1,3,12,0,0]
+</code></pre>
+<p><strong>说明</strong>:</p>
+<ol>
+<li>必须在原数组上操作，不能拷贝额外的数组。</li>
+<li>尽量减少操作次数。</li>
+</ol>
+<p><strong>代码</strong>:</p>
+<p>使用的是数组题目中常用的快慢指针，慢指针始终指向数组中第一个<code>0</code>，快指针作为遍历指针，如果快指针指的元素不为<code>0</code>那么交换两个指针所指的元素，慢指针增一。</p>
+<pre><code class="language-c">void moveZeroes(int* nums, int numsSize) {
+	int k = 0;
+	for (int i = 0; i &lt; numsSize; i++)
+	{
+		if (nums[i] != 0) {
+            int t = nums[k];
+			nums[k++] = nums[i];
+			nums[i] = t;
+		}
+	}
+}
+</code></pre>
+<h2 id="两数之和">两数之和</h2>
+<p>给定一个整数数组 <code>nums</code> 和一个目标值 <code>target</code>，请你在该数组中找出和为目标值的那 <strong>两个</strong> 整数，并返回他们的数组下标。</p>
+<p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。</p>
+<p><strong>示例:</strong></p>
+<pre><code>给定 nums = [2, 7, 11, 15], target = 9
+
+因为 nums[0] + nums[1] = 2 + 7 = 9
+所以返回 [0, 1]
+</code></pre>
+<p><strong>代码</strong>:</p>
+<p>emmmm这个做的时候没多想暴力做的，二重循环...</p>
+<pre><code class="language-c">/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
+	/* 先处理一下特殊情况 */
+    if (numsSize == 0) {
+		*returnSize = 0;
+		return NULL;
+	}
+	else if (numsSize == 1) {
+		int *ret1 = (int*)malloc(sizeof(int) * 1);
+		ret1[0] = 0;
+		*returnSize = 1;
+		return ret1;
+	}
+    
+	int *ret = (int*)malloc(sizeof(int) * 2);
+    
+	for (int i = 0; i &lt; numsSize; i++)
+	{
+		for (int j = 0; j &lt; numsSize; j++) {
+	
+			if (i == j) continue;
+			else{
+				if (nums[i] + nums[j] == target) {
+					ret[0] = i;
+					ret[1] = j;
+				}
+			}
+		}
+	}
+	*returnSize = 2;
+	return ret;
+}
+</code></pre>
+<p>这个题有好多佬用hash table做的，时间上很快。</p>
+<h2 id="有效的数独">有效的数独</h2>
+<blockquote>
+<p>到这里多少做的不是很顺了，总是少考虑东西</p>
+</blockquote>
+<p>判断一个 9x9 的数独是否有效。只需要<strong>根据以下规则</strong>，验证已经填入的数字是否有效即可。</p>
+<ol>
+<li>数字 <code>1-9</code> 在每一行只能出现一次。</li>
+<li>数字 <code>1-9</code> 在每一列只能出现一次。</li>
+<li>数字 <code>1-9</code> 在每一个以粗实线分隔的 <code>3x3</code> 宫内只能出现一次。</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Sudoku-by-L2G-20050714.svg/250px-Sudoku-by-L2G-20050714.svg.png" alt="img" loading="lazy"></figure>
+<p>上图是一个部分填充的有效的数独。</p>
+<p>数独部分空格内已填入了数字，空白格用 <code>'.'</code> 表示。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入:
+[
+  [&quot;5&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;],
+  [&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;,&quot;9&quot;,&quot;5&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;],
+  [&quot;.&quot;,&quot;9&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;],
+  [&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;3&quot;],
+  [&quot;4&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;],
+  [&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;],
+  [&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;8&quot;,&quot;.&quot;],
+  [&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;4&quot;,&quot;1&quot;,&quot;9&quot;,&quot;.&quot;,&quot;.&quot;,&quot;5&quot;],
+  [&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;9&quot;]
+]
+输出: true
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入:
+[
+  [&quot;8&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;],
+  [&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;,&quot;9&quot;,&quot;5&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;],
+  [&quot;.&quot;,&quot;9&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;],
+  [&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;3&quot;],
+  [&quot;4&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;],
+  [&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;],
+  [&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;8&quot;,&quot;.&quot;],
+  [&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;4&quot;,&quot;1&quot;,&quot;9&quot;,&quot;.&quot;,&quot;.&quot;,&quot;5&quot;],
+  [&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;9&quot;]
+]
+输出: false
+解释: 除了第一行的第一个数字从 5 改为 8 以外，空格内其他数字均与 示例1 相同。
+     但由于位于左上角的 3x3 宫内有两个 8 存在, 因此这个数独是无效的。
+</code></pre>
+<p><strong>说明:</strong></p>
+<ul>
+<li>一个有效的数独（部分已被填充）不一定是可解的。</li>
+<li>只需要根据以上规则，验证已经填入的数字是否有效即可。</li>
+<li>给定数独序列只包含数字 <code>1-9</code> 和字符 <code>'.'</code> 。</li>
+<li>给定数独永远是 <code>9x9</code> 形式的。</li>
+</ul>
+<p><strong>代码</strong>:</p>
+<ul>
+<li>对于判断一行/列中是否存在相同元素，构造辅助二维数组，只不过二维数组每一行每一个元素代表原数组中这一行中的元素出现的次数，举个例子吧，原数组第一行<code>[1，2，.，.，4，.，4，.，.]</code>这样，那么辅助数组这样<code>[0，1，1，0，2，...]</code>没错，下标为<code>4</code>的位置为<code>2</code>，也就是<code>4</code>出现了两次，对于列，同理；</li>
+<li>如何判断<code>3x3</code>的子块中有重复元素呢？也用一个二维数组，公式<code>(i / 3) * 3 + (j / 3)</code>巧妙的把位于同一个子块的元素的二维值转化为统一的一维值，也就是说，例如左上角<code>(0,0)(0,1)(0,2)(1,0)(1,1)(1,2)(2,0)(2,1)(2,2)</code>都转化成<code>0</code>了，就作为辅助数组的行下标，列下标同样的用原数组的元素值代表。</li>
+</ul>
+<pre><code class="language-c">bool isValidSudoku(char** board, int boardSize, int* boardColSize) {
+
+	int row[9][10] = { 0 };
+	int arr[9][10] = { 0 };
+	int box[9][10] = { 0 };
+
+	for (int i = 0; i &lt; 9; i++) {
+		for (int j = 0; j &lt; 9; j++) {
+			if (board[i][j] != '.') {
+				int num = board[i][j] - '0';		// 得到此数字对应的整数值
+				row[i][num]++;						// 代表 在第i行 数字 num 出现次数 +1
+				arr[j][num]++;						// 代表 在第j列 数字 num 出现次数 +1
+				box[(i / 3) * 3 + (j / 3)][num]++;	// 代表 在第(i / 3) * 3 + (j / 3)个小九宫格中 数字 num 出现次数 +1
+				if ((row[i][num] &gt; 1) || (arr[j][num] &gt; 1) || (box[(i / 3) * 3 + (j / 3)][num] &gt; 1)) {	
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
+</code></pre>
+<h2 id="旋转图像">旋转图像</h2>
+<p>给定一个 <em>n</em> × <em>n</em> 的二维矩阵表示一个图像。</p>
+<p>将图像顺时针旋转 90 度。</p>
+<p><strong>说明：</strong></p>
+<p>你必须在<strong>原地</strong>旋转图像，这意味着你需要直接修改输入的二维矩阵。<strong>请不要</strong>使用另一个矩阵来旋转图像。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>给定 matrix = 
+[
+  [1,2,3],
+  [4,5,6],
+  [7,8,9]
+],
+
+原地旋转输入矩阵，使其变为:
+[
+  [7,4,1],
+  [8,5,2],
+  [9,6,3]
+]
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>给定 matrix =
+[
+  [ 5, 1, 9,11],
+  [ 2, 4, 8,10],
+  [13, 3, 6, 7],
+  [15,14,12,16]
+], 
+
+原地旋转输入矩阵，使其变为:
+[
+  [15,13, 2, 5],
+  [14, 3, 4, 1],
+  [12, 6, 8, 9],
+  [16, 7,10,11]
+]
+</code></pre>
+<p><strong>代码</strong>:</p>
+<p>这里对操作二重指针和二维数组出现了迷糊，C的指针稍稍操作复杂一些还是好难懂...</p>
+<p>我认为很巧妙的方法，对矩阵进行行变换，然后再进行转置(先进行转置，再对矩阵进行列变换也可以得到一样的结果)，没有仔细的观察、并且对矩阵不敏感的情况下很难发现这个规律。</p>
+<p>进行矩阵转置是要注意下标的处理，在进行行变换时巧妙的运用一级指针(如果进行列变换就没有这么容易了，所以说先进行行变换再进行转置是相对比较方便的)。</p>
+<pre><code class="language-c">void rotate(int** matrix, int matrixSize, int* matrixColSize) {
+
+	// 先变换行，因为每一行可以作为一整块，在存储操作上比较方便
+	for (int i = 0, j = matrixSize - 1; i &lt; j; ++i, --j)   /* 将矩阵的第i行和第j行互换 */
+		swap_row(matrix, matrixSize, i, j);
+
+	// 再对矩阵进行转置
+	transposed_matrix(matrix, matrixSize);
+	
+}
+
+/* 求转置矩阵 */
+void transposed_matrix(int **matrix, int matrixSize) {
+
+	for (int i = 0; i &lt; matrixSize; i++) {
+		for (int j = i; j &lt; matrixSize; j++) {
+			int temp = matrix[i][j];
+			matrix[i][j] = matrix[j][i];
+			matrix[j][i] = temp;
+		}
+	}
+}
+
+/* 将矩阵第i行和第size-i行互换 */
+void swap_row(int **matrix, int matrixSize, int i, int j) {
+
+	// 申请存储单元，方便按行存储，只需交换指针，即可每次操作改变一行
+	int *t = (int*)malloc(sizeof(int)*matrixSize);
+	t = matrix[i];
+	matrix[i] = matrix[j];
+	matrix[j] = t;
+
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[高数第一章 函数、极限、连续]]></title>
         <id>https://lizonglin313.github.io/post/高数第一章函数极限连续</id>
@@ -2208,399 +2902,6 @@ int main() {
 　　这还算不到“大侮蔑”——因为大侮蔑也须有胆力。<br>
 　　																		                                                   ----    鲁迅《热风》</p>
 </blockquote>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Google Bigtable论文要点整理]]></title>
-        <id>https://lizonglin313.github.io/post/Google-Bigtable论文要点整理</id>
-        <link href="https://lizonglin313.github.io/post/Google-Bigtable论文要点整理">
-        </link>
-        <updated>2019-10-07T06:53:05.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="google-bigtable">Google Bigtable</h1>
-<blockquote>
-<p>Google Bigtable论文要点整理</p>
-</blockquote>
-<h2 id="摘要">摘要</h2>
-<h3 id="本质及用途">本质及用途</h3>
-<ul>
-<li>分布式的结构化数据存储系统</li>
-<li>被设计用来处理海量数据（通常是分布在数千台普通服务器上的 PB 级的数据）</li>
-</ul>
-<h3 id="应用">应用</h3>
-<ul>
-<li>Web索引</li>
-<li>Google Earth</li>
-<li>Google Finanace</li>
-</ul>
-<h3 id="本文所做的">本文所做的</h3>
-<p>本论文描述了 Bigtable 提供的简单的数据模型。利用这个模型，用户可以动态的控制数据的分布和格式。<br>
-我们还将描述 Bigtable 的设计和实现。</p>
-<h2 id="介绍">介绍</h2>
-<h3 id="bigtable的目标">Bigtable的目标</h3>
-<ul>
-<li>适用性广泛</li>
-<li>可扩展</li>
-<li>高性能</li>
-<li>高可用性</li>
-</ul>
-<h3 id="与传统数据库的异同">与传统数据库的异同</h3>
-<p>相同点：</p>
-<ul>
-<li>使用很多数据库的实现策略</li>
-</ul>
-<p>不同点：</p>
-<ul>
-<li>Bigtable 不支持完整的关系数据模型</li>
-<li>Bigtable 为客户提供了简单的数据模型，利用这个模型，客户可以动态控制数据的分布和格式，用户也可以自己推测底层存储数据的位置相关性</li>
-</ul>
-<h3 id="数据">数据</h3>
-<ul>
-<li>数据的下标是行和列的名字</li>
-<li>名字可以是任意字符串</li>
-<li>存储的数据均视为字符串</li>
-<li>Bigtable本身不会去解析</li>
-<li>客户存入结构化或半结构化数据，通过选择数据模式，用户可以控制数据位置的相关性</li>
-<li>通过参数调节存放位置：内存 | 硬盘</li>
-</ul>
-<h2 id="数据模型">数据模型</h2>
-<p>Bigtable 是一个稀疏的、分布式的、持久化存储的多维度排序 Map。Map 的索引是行关键字、列关键字<br>
-以及时间戳；Map 中的每个 value 都是一个未经解析的 byte 数组。</p>
-<pre><code class="language-cpp"> (row:string, column:string,time:int64)-&gt;string
-</code></pre>
-<p>Webtable</p>
-<ul>
-<li>行关键字：URL</li>
-<li>列名：网页的某些属性</li>
-<li>contents列：存储网页的某些属性</li>
-<li>标识：网页的时间戳</li>
-</ul>
-<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2019/10/07/R1ZUGxPod82NriE.png" alt="" loading="lazy"></figure>
-<center/>图1 一个存储Web网页的例子的表的片段
-<ul>
-<li>行名：反向URL</li>
-<li>contents列族：网页的内容</li>
-<li>anchor列族：引用该网页的锚链接文本</li>
-</ul>
-<h3 id="行">行</h3>
-<p>行关键字：</p>
-<ul>
-<li>任意字符串（最大支持64KB）</li>
-<li>同一行关键字读写操作都为原子操作</li>
-</ul>
-<p>Tablet</p>
-<ul>
-<li>Bigtable通过行关键字字典顺序组织数据</li>
-<li>表中每行可以动态分区，每个分区叫Tablet，是数据分布和负载均衡调整的最小单位</li>
-</ul>
-<h3 id="列族">列族</h3>
-<ul>
-<li>列关键字组成的集合叫做“列族“，是访问控制的基本单位</li>
-<li>同一列族下的所有数据通常都属于同一个类型</li>
-<li>列族在使用之前必须先创建，然后才能在列族中任何的列关键字下存放数据</li>
-<li>创建后，其中的任何一个列关键字下都可以存放数据</li>
-<li>一张表中列族不能太多（最多几百个）</li>
-<li>但是一张表中可以有无限多个列</li>
-</ul>
-<h4 id="列关键字命名">列关键字命名</h4>
-<p>语法：</p>
-<pre><code>列族：限定词
-</code></pre>
-<p>列组名字：可打印字符串</p>
-<p>限定词：任意的字符串</p>
-<blockquote>
-<p>比如，Webtable 有个列族 language，language 列族用来存放撰写网页的语言。我们在 language列族中只使用一个列关键字，用来存放每个网页的语言标识 ID。Webtable 中另一个有用的列族是 anchor；这个列族的每一个列关键字代表一个锚链接，如图一所示。Anchor 列族的限定词是引用该网页的站点名；Anchor列族每列的数据项存放的是链接文本。</p>
-</blockquote>
-<h4 id="控制权限">控制权限</h4>
-<ul>
-<li>访问控制、磁盘和内存的使用统计都是在列族层面进行</li>
-</ul>
-<p>在我们的 Webtable 的例子中，上述的控制权限能帮助我们管理不同类型的应用：</p>
-<ul>
-<li>允许一些应用可以添加新的基本数据</li>
-<li>一些应用可以读取基本数据并创建继承的列族</li>
-<li>一些应用则只允许浏览数据（甚至可能因为隐私的原因不能浏览所有数据）</li>
-</ul>
-<h3 id="时间戳">时间戳</h3>
-<p>在 Bigtable 中，表的每一个数据项都可以包含同一份数据的不同版本；不同版本的数据通过<strong>时间戳</strong>来索引。</p>
-<p>时间戳：</p>
-<ul>
-<li>64位整型</li>
-<li>Bigtable可以给时间戳赋值，精确到ms</li>
-<li>用户可以给时间戳赋值</li>
-<li>不同版本数据按照时间戳倒序排序，最新的数据在最前面</li>
-</ul>
-<p>垃圾回收：</p>
-<p>为了减轻多个版本数据的管理负担，我们对每一个列族配有两个设置参数，Bigtable 通过这两个参数可以对废弃版本的数据自动进行垃圾收集。用户可以指定只保存最后 n 个版本的数据，或者只保存“足够新”的版本的数据（比如，只保存最近 7 天的内容写入的数据）。 、</p>
-<h2 id="api">API</h2>
-<h3 id="bigtable提供的api">Bigtable提供的API</h3>
-<ul>
-<li>建立和删除表以及列族的API函数</li>
-<li>修改集群、表和列族的元数据的API</li>
-</ul>
-<p>例如修改访问权限：</p>
-<pre><code class="language-c++"> // Open the table 
-Table *T = OpenOrDie(“/bigtable/web/webtable”); 
-// Write a new anchor and delete an old anchor 
-RowMutation r1(T, “com.cnn.www”); 
-r1.Set(“anchor:www.c-span.org”, “CNN”); 
-r1.Delete(“anchor:www.abc.com”); 
-Operation op; 
-Apply(&amp;op, &amp;r1);
-
-/*
- *客户程序可以对 Bigtable 进行如下的操作：写入或者删除 Bigtable 中的值、从每个行中查找值、或者遍历表中 
- *的一个数据子集。图 2 中的Ｃ++代码使用 RowMutation 抽象对象进行了一系列的更新操作。（为了保持示例代码的 
- *简洁，我们忽略了一些细节相关代码）。调用 Apply 函数对Ｗebtable 进行了一个原子修改操作：它为
- *www.cnn.com 增加了一个锚点，同时删除了另外一个锚点。
- */
-</code></pre>
-<pre><code class="language-cpp">Scanner scanner(T); 
-ScanStream *stream; 
-stream = scanner.FetchColumnFamily(“anchor”); 
-stream-&gt;SetReturnAllVersions(); 
-scanner.Lookup(“com.cnn.www”); 
-for (; !stream-&gt;Done(); stream-&gt;Next()) { 
-    printf(“%s %s %lld %s\n”, 
-    scanner.RowName(), 
-    stream-&gt;ColumnName(), 
-    stream-&gt;MicroTimestamp(), 
-    stream-&gt;Value()); 
-} 
-
-/*
- *C++代码使用 Scanner 抽象对象遍历一个行内的所有锚点。客户程序可以遍历多个列族，有几种方法可以对扫描输出 
- *的行、列和时间戳进行限制。例如，我们可以限制上面的扫描，让它只输出那些匹配正则表达式*.cnn.com 的锚点，
- *或者那些时间戳在当前时间前 10 天的锚点
-*/
-</code></pre>
-<h3 id="支持的其他特性">支持的其他特性</h3>
-<ol>
-<li>Bigtable 支持单行上的事务处理：利用这个功能，用户可以对存储在一个行关键字下的数据进行原子性的读-更新-写操作</li>
-<li>Bigtable 允许把数据项用做整数计数器</li>
-<li>Bigtable 允许用户在服务器的地址空间内执行脚本程序</li>
-</ol>
-<p>Bigtable 可以和 MapReduce 一起使用，MapReduce 是 Google 开发的大规模并行计算框架。我们已经开发了一些 Wrapper 类，通过使用这些 Wrapper 类，Bigtable 可以作为 MapReduce 框架的输入和输出。</p>
-<h2 id="bigtable构建">BigTable构建</h2>
-<h3 id="gfs">GFS</h3>
-<ul>
-<li>BigTable 使用 Google 的分布式文件系统(GFS)存储日志文件和数据文件</li>
-</ul>
-<h3 id="集群">集群</h3>
-<ul>
-<li>BigTable 集群通常运行在一个共享的机器池中，池中的机器还会运行其它的各种各样的分布式应用程序，BigTable 的进程经常要和其它应用的进程共享机器</li>
-<li>BigTable 依赖集群管理系统来调度任务、管理共享的机器上的资源、处理机器的故障、以及监视机器的状态</li>
-</ul>
-<h3 id="google-sstable">Google SSTable</h3>
-<ul>
-<li>BigTable 内部存储数据的文件是 Google SSTable 格式的</li>
-</ul>
-<blockquote>
-<p>SSTable 是一个持久化的、排序的、不可更改的Map 结构，而 Map 是一个 key-value 映射的数据结构，key 和 value 的值都是任意的 Byte 串。可以对 SSTable进行如下的操作：查询与一个 key 值相关的 value，或者遍历某个 key 值范围内的所有的 key-value 对。从内部看，SSTable 是一系列的数据块（通常每个块的大小是 64KB，这个大小是可以配置的）。SSTable 使用块索引（通常存储在 SSTable 的最后）来定位数据块；在打开 SSTable 的时候，索引被加载到内存。每次查找都可以通过一次磁盘搜索完成：首先使用二分查找法在内存中的索引里找到数据块的位置，然后再从硬盘读取相应的数据块。也可以选择把整个 SSTable 都放在内存中，这样就不必访问硬盘了。</p>
-</blockquote>
-<h3 id="chubby">Chubby</h3>
-<ul>
-<li>BigTable 还依赖一个高可用的、序列化的分布式锁服务组件，叫做 Chubby</li>
-</ul>
-<blockquote>
-<p>一个 Chubby 服务包括了 5 个活动的副本，其中的一个副本被选为 Master，并且处理请求。只有在大多数副本都是正常运行的，并且彼此之间能够互相通信的情况下，Chubby 服务才是可用的。当有副本失效的时候，Chubby 使用 Paxos 算法来保证副本的一致性。Chubby 提供了一个名字空间，里面包括了目录和小文件。每个目录或者文件可以当成一个锁，读写文件的操作都是原子的。Chubby 客户程序库提供对 Chubby 文件的一致性缓存。每个<br>
-Chubby 客户程序都维护一个与 Chubby 服务的会话。如果客户程序不能在租约到期的时间内重新签订会话的租约，这个会话就过期失效了9。当一个会话失效时，它拥有的锁和打开的文件句柄都失效了。Chubby 客户程序可以在文件和目录上注册回调函数，当文件或目录改变、或者会话过期时，回调函数会通知客户程序。</p>
-</blockquote>
-<p>Bigtable 使用 Chubby 完成以下的几个任务：</p>
-<ol>
-<li>确保在任何给定的时间内最多只有一个活动的 Master 副本；</li>
-<li>存储 BigTable 数据的自引导指令的位置（参考 5.1 节）；</li>
-<li>查找 Tablet 服务器，以及在 Tablet 服务器失效时进行善后（5.2 节）；</li>
-<li>存储 BigTable 的模式信息（每张表的列族信息）；</li>
-<li>以及存储访问控制列表。</li>
-</ol>
-<p>如果Chubby长时间无法访问，BigTable就会失效。</p>
-<h2 id="介绍-2">介绍</h2>
-<p>Bigtable包括了主要的三个组件：</p>
-<ol>
-<li>链接到客户程序中的库</li>
-<li>一个Master服务器</li>
-<li>多个Tablet服务器</li>
-</ol>
-<p>根据系统工作负载的变化，BigTable动态的向集群中添加（或删除）Tablet服务器。</p>
-<h4 id="master服务器">Master服务器</h4>
-<p>Master服务器主要负责以下工作：</p>
-<ol>
-<li>为 Tablet 服务器分配 Tablets</li>
-<li>检测新加入的或者过期失效的 Table 服务器</li>
-<li>对 Tablet 服务器进行负载均衡</li>
-<li>对保存在 GFS 上的文件进行垃圾收集</li>
-<li>处理对模式的相关修改操作，例如建立表和列族</li>
-</ol>
-<h4 id="tablet服务器">Tablet服务器</h4>
-<p>每个 Tablet 服务器都管理一个 <strong>Tablet 的集合</strong>（通常每个服务器有大约数十个至上千个 Tablet）。每个 Tablet服务器负责处理它所加载的 Tablet 的读写操作，以及在 Tablets 过大时，对其进行分割。</p>
-<blockquote>
-<p>和很多 Single-Master 类型的分布式存储系统【17.21】类似，客户端读取的数据都不经过 Master 服务器：客户程序直接和 Tablet 服务器通信进行读写操作。由于 BigTable 的客户程序不必通过 Master 服务器来获取<br>
-Tablet 的位置信息，因此，大多数客户程序甚至完全不需要和 Master 服务器通信。在实际应用中，Master服务器的负载是很轻的。<br>
-一个 BigTable 集群存储了很多表，每个表包含了一个 Tablet 的集合，而每个 Tablet 包含了某个范围内的行的所有相关数据。初始状态下，一个表只有一个 Tablet。随着表中数据的增长，它被自动分割成多个Tablet，缺省情况下，每个 Tablet 的尺寸大约是 100MB 到 200MB。</p>
-</blockquote>
-<h3 id="tablet的位置">Tablet的位置</h3>
-<p>我们使用一个三层的、类似Ｂ+树[10]的结构存储 Tablet 的位置信息。</p>
-<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2019/10/07/3CMUyWopYFdP8D1.png" alt="" loading="lazy"></figure>
-<center/>图2 Tablet location hierarchy
-<ol>
-<li>第一层是一个存储在 Chubby 中的文件，包含 Root Tablet 的位置信息。</li>
-<li>Root Tablet 包含一个特殊的 METADATA 表里所有的 Tablet 的位置信息。</li>
-<li>METADATA 表的每个 Tablet 包含了一个用户 Tablet 的集合。</li>
-<li>Root Tablet 是 METADATA 表的第一个 Tablet，对它的处理比较特殊 ，Root Tablet 永远不会被分割 ，这就保证了 Tablet 的位置信息存储结构不会超过三层。</li>
-<li>METADATA 表中每个 Tablet 的位置信息都存放在一个行关键字下面，而这个行关键字是由 Tablet所在的表的标识符和 Tablet 的最后一行编码而成的。</li>
-<li>METADATA 的每一行都存储了大约 1KB 的内存数据。</li>
-<li>在一个大小适中的、容量限制为 128MB 的 METADATA Tablet 中，采用这种三层结构的存储模式，可以标识<br>
-2^34 个 Tablet 的地址（如果每个 Tablet 存储 128MB 数据，那么一共可以存储 2^61 字节数据）。</li>
-</ol>
-<blockquote>
-<p>客户程序使用的库会缓存 Tablet 的位置信息。如果客户程序没有缓存某个 Tablet 的地址信息，或者发现它缓存的地址信息不正确，客户程序就在树状的存储结构中递归的查询 Tablet 位置信息；如果客户端缓存是的，那么寻址算法需要通过三次网络来回通信寻址，这其中包括了一次 Chubby 读操作；如果客户端缓存的地址信息过期了，那么寻址算法可能需要最多６次网络来回通信才能更新数据，因为只有在缓存中没有查到数据的时候才能发现数据过期。</p>
-<p>尽管 Tablet 的地址信息是存放在内存里的，对它的操作不必访问 GFS 文件系统，但是，通常我们会通过预取 Tablet 地址来进一步的减少访问的开销：每次需要从 METADATA 表中读取一个 Tablet 的元数据的时候，它都会多读取几个 Tablet 的元数据。</p>
-<p>在 METADATA 表中还存储了次级信息，包括每个 Tablet 的事件日志（例如，什么时候一个服务器开始为该 Tablet 提供服务）。这些信息有助于排查错误和性能分析。</p>
-</blockquote>
-<h3 id="tablet分配">Tablet分配</h3>
-<ul>
-<li><strong>在任何一个时刻，一个Tablet只能分配给一个Tablet服务器。</strong></li>
-</ul>
-<p>Master服务器记录了：</p>
-<ol>
-<li>当前有哪些活跃的Tablet服务器</li>
-<li>哪些 Tablet 分配给了哪些 Tablet 服务器</li>
-<li>哪些 Tablet 还没有被分配</li>
-</ol>
-<p>当一个 Tablet 还没有被分配、并且刚好有一个 Tablet 服务器有足够的空闲空间装载该 Tablet 时，Master 服务器会给这个 Tablet 服务器发送一个装载请求，把 Tablet 分配给这个服务器。</p>
-<ul>
-<li><strong>BigTable 使用 Chubby 跟踪记录 Tablet 服务器的状态。</strong></li>
-</ul>
-<ol>
-<li>当一个 Tablet 服务器启动，它在 Chubby 的一个指定目录下建立一个有唯一性名字的文件，获取该文件的独占锁</li>
-<li>Master 服务器实时监控着这个目录（服务器目录），因此 Master 服务器能够知道有新的 Tablet 服务器加入了</li>
-<li>如果 Tablet 服务器丢失了 Chubby 上的独占锁，比如由于网络断开导致 Tablet 服务器和 Chubby 的会话丢失，它就停止对 Tablet 提供服务</li>
-<li>只要文件还存在，Tablet 服务器就会试图重新获得对该文件的独占锁；如果文件不存在了，那么Tablet 服务器就不能再提供服务了，它会自行退出</li>
-<li>当 Tablet 服务器终止时（比如，集群的管理系统将运行该 Tablet 服务器的主机从集群中移除），它会尝试释放它持有的文件锁，这样一来，Master 服务器就能尽快把Tablet 分配到其它的 Tablet 服务器</li>
-</ol>
-<ul>
-<li><strong>Master 服务器负责检查一个 Tablet 服务器是否已经不再为它的 Tablet 提供服务了，并且要尽快重新分配<br>
-它加载的 Tablet。</strong></li>
-</ul>
-<ol>
-<li>Master 服务器通过轮询 Tablet 服务器文件锁的状态来检测何时 Tablet 服务器不再为 Tablet提供服务。</li>
-<li>如果一个 Tablet 服务器报告它丢失了文件锁，或者 Master 服务器最近几次尝试和它通信都没有得到响应，Master 服务器就会尝试获取该 Tablet 服务器文件的独占锁；如果 Master 服务器成功获取了独占锁，那么就说明 Chubby 是正常运行的，而 Tablet 服务器要么是宕机了、要么是不能和 Chubby 通信了，因此，Master<br>
-服务器就删除该 Tablet 服务器在 Chubby 上的服务器文件以确保它不再给 Tablet 提供服务。一旦 Tablet 服务器在 Chubby 上的服务器文件被删除了，Master 服务器就把之前分配给它的所有的 Tablet 放入未分配的 Tablet集合中。</li>
-<li>为了确保 Bigtable 集群在 Master 服务器和 Chubby 之间网络出现故障的时候仍然可以使用，Master服务器在它的 Chubby 会话过期后主动退出。但是不管怎样，如同我们前面所描述的，Master 服务器的故障不会改变现有 Tablet 在 Tablet 服务器上的分配状态。</li>
-</ol>
-<p>当集群管理系统启动了一个 Master 服务器之后，Master 服务器首先要了解当前 Tablet 的分配状态，之后才能够修改分配状态。Master 服务器在启动的时候执行以下步骤：</p>
-<ol>
-<li>Master 服务器从 Chubby 获取一个唯一的 Master 锁，用来阻止创建其它的 Master 服务器实例；</li>
-<li>Master 服务器扫描 Chubby 的服务器文件锁存储目录，获取当前正在运行的服务器列表；</li>
-<li>Master 服务器和所有的正在运行的 Tablet 表服务器通信，获取每个 Tablet 服务器上 Tablet 的分配信息；</li>
-<li>Master 服务器扫描 METADATA 表获取所有的 Tablet 的集合。</li>
-</ol>
-<p>在扫描的过程中，当 Master 服务器发现了一个还没有分配的 Tablet，Master 服务器就将这个 Tablet 加入未分配的 Tablet 集合等待合适的时机分配。</p>
-<h3 id="tablet服务">Tablet服务</h3>
-<figure data-type="image" tabindex="3"><img src="https://i.loli.net/2019/10/07/QKMJ6qhC42G8E7x.png" alt="" loading="lazy"></figure>
-<center/>图5 Tablet Representation
-<ul>
-<li>Tablet 的持久化状态信息保存在 GFS 上</li>
-<li>更新操作提交到 REDO 日志中</li>
-</ul>
-<h4 id="memtable-和-sstable">MEMTABLE 和 SSTABLE</h4>
-<p>Tablet 的持久化状态信息保存在 GFS 上。更新操作提交到 REDO 日志中。</p>
-<p>在这些更新操作中，最近提交的那些存放在一个排序的缓存中，我们称这个缓存为 memtable；较早的更新存放在一系列SSTable 中。</p>
-<p>为了恢复一个 Tablet，Tablet 服务器首先从 METADATA 表中读取它的元数据。</p>
-<p>Tablet 的元数据包含了组成这个 Tablet 的SSTable 的列表，以及一系列的 Redo Point，这些 Redo Point 指向可能含有该 Tablet数据的已提交的日志记录。Tablet 服务器把 SSTable 的索引读进内存，之后通过重复 Redo Point 之后提交的更新来重建 memtable。</p>
-<p>当对 Tablet 服务器进行写操作时，Tablet 服务器首先要检查这个操作格式是否正确、操作发起者是否有执行这个操作的权限。一个有效的读操作在一个由一系列 SSTable 和 memtable 合并的视图里执行。由于 SSTable 和 memtable 是按字典排序的数据结构，因此可以高效生成合并视图。</p>
-<p>另外，当进行 Tablet 的合并和分割时，正在进行的读写操作能够继续进行。</p>
-<h3 id="空间收缩">空间收缩</h3>
-<ul>
-<li>随着写操作的执行，memtable 的大小不断增加。当 memtable 的尺寸到达一个门限值的时候，这个 memtable就会被冻结，然后创建一个新的 memtable</li>
-<li>被冻结住 memtable 会被转换成 SSTable，然后写入 GFS</li>
-</ul>
-<h4 id="目的">目的</h4>
-<p>shrink Tablet 服务器使用的内存，以及在服务器灾难恢复过程中，减少必须从提交日志里读取的数据量。</p>
-<h4 id="流程">流程</h4>
-<ol>
-<li>每一次 Minor Compaction 都会创建一个新的 SSTable。</li>
-<li>如果 Minor Compaction 过程不停滞的持续进行下去，读操作可能需要合并来自多个 SSTable 的更新；否则，我们通过定期在后台执行 Merging Compaction 过程合并文件，限制这类文件的数量。</li>
-<li>Merging Compaction 过程读取一些 SSTable 和 memtable 的内容，合并成一个新的 SSTable。只要Merging Compaction 过程完成了，输入的这些 SSTable 和 memtable 就可以删除了。</li>
-<li>合并所有的 SSTable 并生成一个新的 SSTable 的 Merging Compaction 过程叫作 Major Compaction。由非<br>
-Major Compaction 产生的 SSTable 可能含有特殊的删除条目，这些删除条目能够隐藏在旧的、但是依然有效的SSTable中已经删除的数据。</li>
-<li>Major Compaction过程生成的SSTable不包含已经删除的信息或数据。</li>
-<li>Bigtable循环扫描它所有的 Tablet，并且定期对它们执行 Major Compaction。Major Compaction 机制允许 Bigtable 回收已经删除的数据占有的资源，并且确保 BigTable 能及时清除已经删除的数据。</li>
-</ol>
-<h2 id="优化">优化</h2>
-<h3 id="局部性群组">局部性群组</h3>
-<h4 id="特性">特性</h4>
-<ul>
-<li>
-<p>多个列族组合成一个局部性群组</p>
-</li>
-<li>
-<p>Tablet中每个局部性群组都会生成一个单独的SSTable</p>
-</li>
-<li>
-<p>通常将不会一起访问的列族分割成不同的局部性群组可以提高读取效率</p>
-<blockquote>
-<p>例如，在 Webtable表中，网页的元数据（比如语言和 Checksum）可以在一个局部性群组中，网页的内容可以在另外一个群组：当一个应用程序要读取网页的元数据的时候，它没有必要去读取所有的页面内容。</p>
-</blockquote>
-</li>
-<li>
-<p>可以以局部性群组为单位设定一些有用的调试参数</p>
-<blockquote>
-<p>比如，可以把一个局部性群组设定为全部存储在内存中。Tablet 服务器依照惰性加载的策略将设定为放入内存的局部性群组的 SSTable 装载进内存。加载完成之后，访问属于该局部性群组的列族的时候就不必读取硬盘了。这个特性对于需要频繁访问的小块数据特别有用：在 Bigtable 内部，我们利用这个特性提高 METADATA 表中具有位置相关性的列族的访问速度。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="压缩">压缩</h3>
-<h4 id="两遍压缩">两遍压缩</h4>
-<p>第一遍采用 Bentley and McIlroy’s 方式，这种方式在一个很大的扫描窗口里对常见的长字符串进行压缩。</p>
-<p>第二遍是采用快速压缩算法，即在一个 16KB 的小扫描窗口中寻找重复数据。</p>
-<h3 id="通过缓存提高读操作性能">通过缓存提高读操作性能</h3>
-<p><strong>二级缓存</strong></p>
-<ul>
-<li>目的：为例提高读操作的性能</li>
-<li>流程：
-<ol>
-<li>扫描缓存是第一级缓存，主要缓存 Tablet服务器通过 SSTable 接口获取的 Key-Value 对（对于经常要重复读取相同数据的应用程序来说，扫描缓存非常有效）</li>
-<li>Block 缓存是二级缓存，缓存的是从 GFS 读取的 SSTable 的 Block（对于经常要读取刚刚读过的数据附近的数据的应用程序来说，Block 缓存更有用）</li>
-</ol>
-</li>
-</ul>
-<h4 id="bloom过滤器">Bloom过滤器</h4>
-<p>一个读操作必须读取构成 Tablet 状态的所有 SSTable 的数据。如果这些 SSTable 不在内存中，那么就需要多次访问硬盘。我们通过允许客户程序对特定局部性群组的 SSTable 指定 Bloom 过滤器来__减少硬盘访问的次数__。</p>
-<h4 id="commit日志的实现">Commit日志的实现</h4>
-<p>如果我们把对每个 Tablet 的操作的 Commit 日志都存在一个单独的文件的话，那么就会产生大量的文件，并且这些文件会并行的写入 GFS。根据 GFS 服务器底层文件系统实现的方案，要把这些文件写入不同的磁盘日志文件时，会有大量的磁盘 Seek 操作。另外，由于批量提交25中操作的数目一般比较少，因此，对每个Tablet 设置单独的日志文件也会给批量提交本应具有的优化效果带来很大的负面影响。</p>
-<p>为了避免这些问题，我们__设置每个 Tablet 服务器一个 Commit 日志文件，把修改操作的日志以追加方式写入同一个日志文件__，因此__一个实际的日志文件中混合了对多个 Tablet 修改的日志记录__。</p>
-<p>使用单个日志显著提高了普通操作的性能，但是将恢复的工作复杂化了。</p>
-<p>为了避免多次读取日志文件：</p>
-<ol>
-<li>把日志按照关键字（table，row name，log sequence number）排序；</li>
-<li>排序之后，对同一个 Tablet 的修改操作的日志记录就连续存放在了一起。</li>
-</ol>
-<p>因此，我们只要一次磁盘 Seek 操作， 之后顺序读取就可以。</p>
-<h3 id="tablet恢复提速">Tablet恢复提速</h3>
-<ol>
-<li>Master 服务器将一个 Tablet 从一个 Tablet 服务器移到另外一个 Tablet 服务器时，源 Tablet 服务器会对这个 Tablet 做一次 Minor Compaction；</li>
-<li>这个 Compaction 操作减少了 Tablet 服务器的日志文件中没有归并的记录，从而减少了恢复的时间。</li>
-<li>Compaction 完成之后，该服务器就停止为该 Tablet 提供服务；</li>
-<li>在卸载 Tablet 之前，源 Tablet 服务器还会再做一次（通常会很快）Minor Compaction，以消除前面在一次压缩过程中又产生的未归并的记录；</li>
-<li>第二次 Minor Compaction 完成以后，Tablet 就可以被装载到新的 Tablet 服务器上了，并且不需要从日志中进行恢复。</li>
-</ol>
-<h3 id="利用不变性">利用不变性</h3>
-<ul>
-<li>在使用 Bigtable 时，除了 SSTable 缓存之外的其它部分产生的 SSTable 都是不变的，我们可以利用这一点对系统进行简化：例如，当从 SSTable 读取数据的时候，我们不必对文件系统访问操作进行同步，这样一来，就可以非常高效的实现对行的并行操作；</li>
-<li>memtable 是唯一一个能被读和写操作同时访问的可变数据结构；</li>
-<li>对内存表采用 COW(Copy-on-write)机制，这样就允许读写操作并行执行；</li>
-<li>可以把永久删除被标记为“删除”的数据的问题，转换成对废弃的SSTable 进行垃圾收集的问题；</li>
-<li>每个 Tablet 的 SSTable 都在 METADATA 表中注册了Master 服务器采用“标记-删除”的垃圾回收方式删除 SSTable 集合中废弃的 SSTable；</li>
-<li>METADATA 表保存了 Root SSTable的集合；</li>
-<li>SSTable 的不变性使得分割 Tablet 的操作非常快捷。我们不必为每个分割出来的 Tablet 建立新的SSTable 集合，而是共享原来的 Tablet 的 SSTable 集合。</li>
-</ul>
-<h2 id="译者">译者</h2>
-<p>作者/编著者：</p>
-<p>阎伟</p>
-<p>邮件: andy.yanwei@163.com</p>
-<p>博客: http://andyblog.sinaapp.com</p>
-<p>微博：http://weibo.com/2152410864</p>
 ]]></content>
     </entry>
 </feed>

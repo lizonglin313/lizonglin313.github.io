@@ -1,0 +1,870 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>leetcode数组初等整理 | Big Carrot</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico?v=1589207629003">
+<link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.css" rel="stylesheet">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/go.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+<!-- DEMO JS -->
+<script src="media/scripts/index.js"></script>
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Big Carrot
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/friends" class="menu gt-a-link">
+                            朋友
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/indexlink" class="menu gt-a-link">
+                            常用站点
+                        </a>
+                    
+                </div>
+            
+        </div>
+    </div>
+</nav>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    leetcode数组初等整理
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2020-05-11 ·
+                    </time>
+                    
+                        <a href="https://lizonglin313.github.io/tag/nsruyUaRm" class="post-tags">
+                            # leetcode
+                        </a>
+                    
+                        <a href="https://lizonglin313.github.io/tag/AHTdTb5Fm" class="post-tags">
+                            # 笔记
+                        </a>
+                    
+                        <a href="https://lizonglin313.github.io/tag/WykunZOOE" class="post-tags">
+                            # 算法
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <blockquote>
+<p>好久没有更新了，最近开始做了些leetcode上的算法，刚把数组基础部分做完，整理一下，全部用的C</p>
+</blockquote>
+<h2 id="删除排序数组中的重复项">删除排序数组中的重复项</h2>
+<p>给定一个排序数组，你需要在 <strong>原地</strong> 删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。</p>
+<p>不要使用额外的数组空间，你必须在 <strong>原地 修改输入数组</strong> 并在使用 O(1) 额外空间的条件下完成。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>给定数组 nums = [1,1,2], 
+
+函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。 
+
+你不需要考虑数组中超出新长度后面的元素。
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>给定 nums = [0,0,1,1,1,2,2,3,3,4],
+
+函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。
+
+你不需要考虑数组中超出新长度后面的元素。
+</code></pre>
+<p><strong>说明:</strong></p>
+<p>为什么返回数值是整数，但输出的答案是数组呢?</p>
+<p>请注意，输入数组是以**「引用」**方式传递的，这意味着在函数里修改输入数组对于调用者是可见的。</p>
+<p>你可以想象内部操作如下:</p>
+<pre><code>// nums 是以“引用”方式传递的。也就是说，不对实参做任何拷贝
+int len = removeDuplicates(nums);
+
+// 在函数里修改输入数组对于调用者是可见的。
+// 根据你的函数返回的长度, 它会打印出数组中该长度范围内的所有元素。
+for (int i = 0; i &lt; len; i++) {
+    print(nums[i]);
+}
+</code></pre>
+<p><strong>代码</strong>:</p>
+<p>快慢双指针的思想，快指针从下标<code>1</code>处开始遍历数组，而慢指针始终指向<code>没有重复元素的前last+1项序列</code>的最后一个元素。</p>
+<pre><code class="language-c">int removeDuplicates(int* nums, int numsSize){
+	int fast, last;	// 双指针
+
+    if(numsSize==0){
+        return 0;
+    }
+    
+	for (last=0,fast = 1; fast &lt; numsSize; fast++){
+
+		if (nums[last] != nums[fast]) {
+            /* 如果指的元素不同，就将fast所指的元素给last所指的后一个元素，当然，需要last事先增一 */
+			nums[++last] = nums[fast];
+		}
+
+	}
+
+	return last + 1;
+}
+
+</code></pre>
+<h2 id="买卖股票的最佳时机-ii">买卖股票的最佳时机 II</h2>
+<p>给定一个数组，它的第 <em>i</em> 个元素是一支给定股票第 <em>i</em> 天的价格。</p>
+<p>设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。</p>
+<p>**注意：**你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: [7,1,5,3,6,4]
+输出: 7
+解释: 在第 2 天（股票价格 = 1）的时候买入，在第 3 天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+     随后，在第 4 天（股票价格 = 3）的时候买入，在第 5 天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 = 6-3 = 3 。
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: [1,2,3,4,5]
+输出: 4
+解释: 在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+     注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。
+     因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。
+</code></pre>
+<p><strong>示例 3:</strong></p>
+<pre><code>输入: [7,6,4,3,1]
+输出: 0
+解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
+</code></pre>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= prices.length &lt;= 3 * 10 ^ 4</code></li>
+<li><code>0 &lt;= prices[i] &lt;= 10 ^ 4</code></li>
+</ul>
+<p><strong>代码</strong>:</p>
+<p>在做这道题目时，我进入了一个误区，就是老想着找这样一个子序列：<code>子序列最后一个元素 - 子序列第一个元素的值最大</code>。例如：<code>[6 3 4 1 2 3 4 5 6]</code>中<code>sub[1 2 3 4 5 6]</code>这个序列，我们只要确定<code>1</code>和<code>6</code>的位置就能得到结果。显然我想复杂了，这个结果<code>6-1=5</code>实际上与<code>2-1 + 3-2 + 4-3 + 5-4 + 6-5 = 5</code>是一样的。</p>
+<p>所以，我们只需每次找相邻的两个数，这两个数符合前一个数比后一个数小即可，符合就计算<code>last-front</code>的值，加到利润里，继续考察下一组数就可以。</p>
+<pre><code class="language-c">int maxProfit(int* prices, int pricesSize) {
+
+    /* 不要忘记特殊情况 */
+	if (pricesSize &lt; 2) {
+		return 0;
+	}
+
+	int td_price = prices[0];	// td_price为当天价格，从第 prices[0]开始
+	int pro = 0;				// 初始利润设置为 pro=0
+
+	for (int i = 1; i &lt; pricesSize; i++)
+	{
+        /* 从第二天开始，如果明天的价格高于今天，就买，利润增加 */
+		if (prices[i] &gt; td_price) {
+			pro += (prices[i] - td_price);
+		}
+        /* 过一天，明天变今天 */
+		td_price = prices[i];
+
+	}
+	return pro;
+}
+</code></pre>
+<h2 id="旋转数组">旋转数组</h2>
+<p>给定一个数组，将数组中的元素向右移动 <em>k</em> 个位置，其中 <em>k</em> 是非负数。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: [1,2,3,4,5,6,7] 和 k = 3
+输出: [5,6,7,1,2,3,4]
+解释:
+向右旋转 1 步: [7,1,2,3,4,5,6]
+向右旋转 2 步: [6,7,1,2,3,4,5]
+向右旋转 3 步: [5,6,7,1,2,3,4]
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: [-1,-100,3,99] 和 k = 2
+输出: [3,99,-1,-100]
+解释: 
+向右旋转 1 步: [99,-1,-100,3]
+向右旋转 2 步: [3,99,-1,-100]
+</code></pre>
+<p><strong>说明:</strong></p>
+<ul>
+<li>尽可能想出更多的解决方案，至少有三种不同的方法可以解决这个问题。</li>
+<li>要求使用空间复杂度为 O(1) 的 <strong>原地</strong> 算法。</li>
+</ul>
+<p><strong>代码</strong>:</p>
+<p>我认为这道题目的一个解法是非常巧妙的，利用三次逆序，我是没有想到....</p>
+<p>例如示例1中输入 <code>[1,2,3,4,5,6,7]</code> 和<code>k = 3</code>输出<code>[5,6,7,1,2,3,4]</code>。只需要先对前<code>7-3=4</code>个数进行逆序得到<code>[4,3,2,1,5,6,7]</code>再对后<code>k=3</code>个数进行逆序得到<code>[4,3,2,1,7,6,5]</code>，最后再对整个数组进行逆序<code>[5,6,7,1,2,3,4]</code>就得到结果了。</p>
+<pre><code class="language-c">/* 逆序函数，注意下标的操作 */
+void reverse(int *arr, int left, int right) {
+
+	for (int i = 0; i &lt; (right - left + 1) / 2; i++)
+	{
+		int temp = arr[right - i];
+		arr[right - i] = arr[left + i];
+		arr[left + i] = temp;
+	}
+
+}
+/* 进行旋转 */
+void rotate(int* nums, int numsSize, int k) {
+
+    // 注意特殊情况的处理
+	if (numsSize == 0 || !nums) {
+		return;
+	}
+
+    // 以防循环次数 &gt; numsSize
+     k = k % numsSize;
+    
+	reverse(nums, 0, numsSize - k - 1);
+	reverse(nums, numsSize - k, numsSize - 1);
+	reverse(nums, 0, numsSize - 1);
+}
+</code></pre>
+<h2 id="存在重复元素">存在重复元素</h2>
+<p>给定一个整数数组，判断是否存在重复元素。</p>
+<p>如果任意一值在数组中出现至少两次，函数返回 <code>true</code> 。如果数组中每个元素都不相同，则返回 <code>false</code> 。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: [1,2,3,1]
+输出: true
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: [1,2,3,4]
+输出: false
+</code></pre>
+<p><strong>示例 3:</strong></p>
+<pre><code>输入: [1,1,1,3,3,4,3,2,4,2]
+输出: true
+</code></pre>
+<p><strong>代码</strong>:</p>
+<p>这道题目一开始构造Map来遍历统计每个值出现的次数，但是(我觉得)没有必要(对于C这种没有Map结构的来说)。就采取了先排序，后验证是否有相邻元素相同的方法来判断。</p>
+<p>一开始我是用了快排，结果一直超时，于是改成了归并。</p>
+<pre><code class="language-c">#define MAX 1000000
+int temp_arr[MAX] = { 0 };
+
+/* merge two arr */
+void merge(int begin, int middle, int end, int arr1[], int arr2[]);
+/* sort arr with merge sort */
+void merge_sort(int arr[], int begin, int end);
+
+bool containsDuplicate(int* nums, int numsSize) {
+
+	if (numsSize &lt;= 1) return false;	// 注意特殊情况
+	
+	merge_sort(nums, 0, numsSize - 1);	// 先进行排序
+
+	for (int i = 0; i &lt; numsSize - 1; i++) {
+		if (nums[i] == nums[i+1]) {
+			return true;
+		}
+	}
+	return false;
+}
+
+/* merge two arr */
+void merge(int begin, int middle, int end, int arr1[], int arr2[]) {
+
+	int i = begin;
+	int j = middle + 1;
+	int k = begin;
+
+	while (i &lt;= middle &amp;&amp; j &lt;= end) {
+		if (arr1[i] &lt;= arr1[j]) {
+
+			arr2[k++] = arr1[i++];
+
+		}
+		else
+		{
+			arr2[k++] = arr1[j++];
+		}
+	}
+
+	while (i &lt;= middle)	arr2[k++] = arr1[i++];
+	while (j &lt;= end)	arr2[k++] = arr1[j++];
+
+}
+
+/* sort arr with merge sort */
+void merge_sort(int arr[], int begin, int end) {
+
+	int m;
+
+	if (begin == end) {
+
+		return;	// if begin==end -&gt; arr has one number,over
+
+	}
+	else {
+
+		m = (begin + end) / 2;
+		merge_sort(arr, begin, m);		// sorted front part of arr
+		merge_sort(arr, m + 1, end);	// sorted latter part of arr 
+		merge(begin, m, end, arr, temp_arr);	//merge arr
+		for (int i = begin; i &lt;= end; i++) {
+			arr[i] = temp_arr[i];
+		}
+	}
+}
+
+
+</code></pre>
+<h2 id="只出现一次的数字">只出现一次的数字</h2>
+<p>给定一个<strong>非空</strong>整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。</p>
+<p><strong>说明：</strong></p>
+<p>你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: [2,2,1]
+输出: 1
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: [4,1,2,1,2]
+输出: 4
+</code></pre>
+<p><strong>代码</strong>:</p>
+<p>同样的，我也采用了先排序，后判断一个数的<code>前后元素</code>是否等于这个数的方法。由于归并排序上一题中已经给出，便不再叙述详细实现过程。</p>
+<pre><code class="language-c">int singleNumber(int* nums, int numsSize) {
+
+    // 特殊情况的处理
+	if (numsSize == 1)
+	{
+		return nums[0];
+	}
+
+	// 先排序
+	merge_sort(nums, 0, numsSize - 1);
+
+    // 首末元素不好判断，就先进行判断
+	if (nums[0] != nums[1] &amp;&amp; nums[1]==nums[2]) {
+		return nums[0];
+	}
+	else if (nums[numsSize-1] != nums[numsSize-2]) {
+		return nums[numsSize - 1];
+	}
+
+	// 在这之前先判断第一个数和最后一个数
+	for (int i = 1; i &lt; numsSize - 1; i++)
+	{
+        // 判断前后元素是否等于这个数
+		if (nums[i] != nums[i - 1] &amp;&amp; nums[i] != nums[i + 1]) {
+			return nums[i];
+		}
+
+	}
+    
+    // 如果此处没有返回，会报错，便随便加上一句，理论上不会走到这里
+    return -1;
+	
+}
+</code></pre>
+<h2 id="两个数组的交集">两个数组的交集</h2>
+<p>给定两个数组，编写一个函数来计算它们的交集。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: nums1 = [1,2,2,1], nums2 = [2,2]
+输出: [2,2]
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+输出: [4,9]
+</code></pre>
+<p><strong>说明：</strong></p>
+<ul>
+<li>输出结果中每个元素出现的次数，应与元素在两个数组中出现的次数一致。</li>
+<li>我们可以不考虑输出结果的顺序。</li>
+</ul>
+<p><strong>进阶:</strong></p>
+<ul>
+<li>如果给定的数组已经排好序呢？你将如何优化你的算法？</li>
+<li>如果 <em>nums1</em> 的大小比 <em>nums2</em> 小很多，哪种方法更优？</li>
+<li>如果 <em>nums2</em> 的元素存储在磁盘上，磁盘内存是有限的，并且你不能一次加载所有的元素到内存中，你该怎么办？</li>
+</ul>
+<p><strong>代码</strong>:</p>
+<p>进阶部分尚未考虑。</p>
+<p>在这里，我用到了双重循环，所以在效率上不是很理想。</p>
+<ul>
+<li>首先以<code>nums1</code>的长度为基准，构造新的结果数组<code>numret</code>；</li>
+<li>遍历<code>nums1</code>数组，<code>i</code>为遍历指针；
+<ul>
+<li>判断<code>nums1</code>、<code>nums2</code>、<code>numret</code>中元素<code>nums1[i]的</code>个数，分别存入<code>n1</code>、<code>n2</code>、<code>n3</code>；</li>
+<li>如果<code>n3=0</code>代表结果数组中还没有这个元素，于是判断<code>n1</code>、<code>n2</code>，以小的那一个作为存入的次数，存入<code>numret</code>中即可；</li>
+<li>当然，如果<code>n3!=0</code>就说明我们在前面已经找过这个元素了，也就是我们只在首次遇到这个元素时就把它后面也出现的情况处理了</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-c">/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+
+/* 判断元素在数组中出现几次 */
+int If_In_Array(int number, int numsSize, int *nums) ；
+
+int* intersect(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize) {
+
+	/* 以nums1的长度构建数组 */
+	int *numret = (int*)malloc(sizeof(int)*nums1Size);
+
+	int i3 = 0;	// i3作为结果数组的下标，刚好可以统计结果数组中元素的个数
+
+	for (int i1 = 0; i1 &lt; nums1Size; i1++)
+	{
+		int n1 = 0, n2 = 0, n3 = 0;
+		n1 = If_In_Array(nums1[i1], nums1Size, nums1);
+		n2 = If_In_Array(nums1[i1], nums2Size, nums2);
+		n3 = If_In_Array(nums1[i1], i3, numret);
+
+		if (n3 == 0) {
+			if (n1 == n2) for (int p = 0; p &lt; n1; p++) numret[i3++] = nums1[i1];
+			else if (n1 &gt; n2) for (int p = 0; p &lt; n2; p++) numret[i3++] = nums1[i1];
+			else if (n1 &lt; n2)for (int p = 0; p &lt; n1; p++) numret[i3++] = nums1[i1];
+		}
+	}
+
+	*returnSize = i3;
+
+	return numret;
+
+}
+/* 判断元素在数组中出现几次 */
+int If_In_Array(int number, int numsSize, int *nums) {
+
+	int count = 0;
+
+	for (int i = 0; i &lt; numsSize; i++)
+	{
+		if (nums[i] == number) count++;
+	}
+
+	return count;
+
+}
+</code></pre>
+<h2 id="加一">加一</h2>
+<p>给定一个由<strong>整数</strong>组成的<strong>非空</strong>数组所表示的非负整数，在该数的基础上加一。</p>
+<p>最高位数字存放在数组的首位， 数组中每个元素只存储<strong>单个</strong>数字。</p>
+<p>你可以假设除了整数 0 之外，这个整数不会以零开头。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: [1,2,3]
+输出: [1,2,4]
+解释: 输入数组表示数字 123。
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: [4,3,2,1]
+输出: [4,3,2,2]
+解释: 输入数组表示数字 4321。
+</code></pre>
+<p><strong>代码</strong>:</p>
+<p>我犯了一个大错误：一开始我想将数组内容先转换成整数类型，然后整数加一，再进行拆分重新存入数组。结果发生了溢出，于是我改成<code>long</code>甚至<code>long long</code>，无一例外，它还是溢出了，谁能保证这个数组长度没有10k位呢，计算机怎么存一个10k位的数值类型？</p>
+<p>还是直接操作数组吧：</p>
+<ul>
+<li>注意判断数组元素是否全是<code>9</code>，例如<code>[9,9,9,9]</code>在申请结果数组时需要多申请一个位置，而<code>[8,9,9,9]</code>就不需要(这一步可不用一开始就进行)；</li>
+<li>首先，对于首位进位有两种情况，需要先处理一下，一是全是<code>9</code>，二是除了首元素之外全是<code>9</code>；</li>
+<li>如果全是<code>9</code>申请长一个单位的数组，首位置<code>1</code>，剩余填<code>0</code>，完成；</li>
+<li>如果除首位全是<code>9</code>，申请通长度数组，首位加<code>1</code>，其余位填<code>0</code>，完成；</li>
+<li>剩下的情况就是一般情况了，从数组末位开始向前遍历，只要遇到一位不是<code>9</code>就加<code>1</code>退出循环，完成，否则遇到<code>9</code>就置零，进行下一次循环。</li>
+</ul>
+<pre><code class="language-c">int* plusOne(int* digits, int digitsSize, int* returnSize) {
+
+	//  基本思路 逢 9 进一 不为9 +1 然后结束
+
+	// 1 先判断是否全为9 分两种情况 1）全为9 2） 第一位不是9
+	int is9 = 1;
+	for (int i = 1; i &lt; digitsSize; i++) 
+		if (digits[i] != 9) {
+			is9 = 0;
+			break;
+		}
+	if (is9 == 1) {
+		if (digits[0] == 9) {
+			// 如果第一位也是9
+			// 此时全为9
+			int *redigits = (int*)malloc(sizeof(int)*(digitsSize + 1));
+			redigits[0] = 1;
+			for (int i = 1; i &lt; digitsSize + 1; i++)
+			{
+				redigits[i] = 0;
+			}
+			*returnSize = digitsSize + 1;
+			return redigits;
+		}
+		else{
+			// 此时第一位不是9
+			int *redigits = (int*)malloc(sizeof(int)*(digitsSize));
+			redigits[0] = digits[0] + 1;
+			for (int i = 1; i &lt; digitsSize; i++)
+			{
+				redigits[i] = 0;
+			}
+			*returnSize = digitsSize;
+			return redigits;
+		}
+		
+	}
+
+	// 如果有一位不是9
+	int *redigits = (int*)malloc(sizeof(int)*(digitsSize));
+	redigits = digits;
+	/*for (int n = 0; n &lt; digitsSize; n++) {
+		redigits[n] = digits[n];
+
+	}*/
+	for (int p = digitsSize - 1; p &gt; -1; p--) {
+		if (redigits[p] == 9) {
+			redigits[p] = 0;
+            continue;
+		}
+		if (redigits[p] != 9) {
+			redigits[p] = redigits[p] + 1;
+            break;
+		}
+	}
+	*returnSize = digitsSize;
+	return redigits;
+}
+</code></pre>
+<h2 id="移动零">移动零</h2>
+<p>给定一个数组 <code>nums</code>，编写一个函数将所有 <code>0</code> 移动到数组的末尾，同时保持非零元素的相对顺序。</p>
+<p><strong>示例:</strong></p>
+<pre><code>输入: [0,1,0,3,12]
+输出: [1,3,12,0,0]
+</code></pre>
+<p><strong>说明</strong>:</p>
+<ol>
+<li>必须在原数组上操作，不能拷贝额外的数组。</li>
+<li>尽量减少操作次数。</li>
+</ol>
+<p><strong>代码</strong>:</p>
+<p>使用的是数组题目中常用的快慢指针，慢指针始终指向数组中第一个<code>0</code>，快指针作为遍历指针，如果快指针指的元素不为<code>0</code>那么交换两个指针所指的元素，慢指针增一。</p>
+<pre><code class="language-c">void moveZeroes(int* nums, int numsSize) {
+	int k = 0;
+	for (int i = 0; i &lt; numsSize; i++)
+	{
+		if (nums[i] != 0) {
+            int t = nums[k];
+			nums[k++] = nums[i];
+			nums[i] = t;
+		}
+	}
+}
+</code></pre>
+<h2 id="两数之和">两数之和</h2>
+<p>给定一个整数数组 <code>nums</code> 和一个目标值 <code>target</code>，请你在该数组中找出和为目标值的那 <strong>两个</strong> 整数，并返回他们的数组下标。</p>
+<p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。</p>
+<p><strong>示例:</strong></p>
+<pre><code>给定 nums = [2, 7, 11, 15], target = 9
+
+因为 nums[0] + nums[1] = 2 + 7 = 9
+所以返回 [0, 1]
+</code></pre>
+<p><strong>代码</strong>:</p>
+<p>emmmm这个做的时候没多想暴力做的，二重循环...</p>
+<pre><code class="language-c">/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
+	/* 先处理一下特殊情况 */
+    if (numsSize == 0) {
+		*returnSize = 0;
+		return NULL;
+	}
+	else if (numsSize == 1) {
+		int *ret1 = (int*)malloc(sizeof(int) * 1);
+		ret1[0] = 0;
+		*returnSize = 1;
+		return ret1;
+	}
+    
+	int *ret = (int*)malloc(sizeof(int) * 2);
+    
+	for (int i = 0; i &lt; numsSize; i++)
+	{
+		for (int j = 0; j &lt; numsSize; j++) {
+	
+			if (i == j) continue;
+			else{
+				if (nums[i] + nums[j] == target) {
+					ret[0] = i;
+					ret[1] = j;
+				}
+			}
+		}
+	}
+	*returnSize = 2;
+	return ret;
+}
+</code></pre>
+<p>这个题有好多佬用hash table做的，时间上很快。</p>
+<h2 id="有效的数独">有效的数独</h2>
+<blockquote>
+<p>到这里多少做的不是很顺了，总是少考虑东西</p>
+</blockquote>
+<p>判断一个 9x9 的数独是否有效。只需要<strong>根据以下规则</strong>，验证已经填入的数字是否有效即可。</p>
+<ol>
+<li>数字 <code>1-9</code> 在每一行只能出现一次。</li>
+<li>数字 <code>1-9</code> 在每一列只能出现一次。</li>
+<li>数字 <code>1-9</code> 在每一个以粗实线分隔的 <code>3x3</code> 宫内只能出现一次。</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Sudoku-by-L2G-20050714.svg/250px-Sudoku-by-L2G-20050714.svg.png" alt="img" loading="lazy"></figure>
+<p>上图是一个部分填充的有效的数独。</p>
+<p>数独部分空格内已填入了数字，空白格用 <code>'.'</code> 表示。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入:
+[
+  [&quot;5&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;],
+  [&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;,&quot;9&quot;,&quot;5&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;],
+  [&quot;.&quot;,&quot;9&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;],
+  [&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;3&quot;],
+  [&quot;4&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;],
+  [&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;],
+  [&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;8&quot;,&quot;.&quot;],
+  [&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;4&quot;,&quot;1&quot;,&quot;9&quot;,&quot;.&quot;,&quot;.&quot;,&quot;5&quot;],
+  [&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;9&quot;]
+]
+输出: true
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入:
+[
+  [&quot;8&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;],
+  [&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;,&quot;9&quot;,&quot;5&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;],
+  [&quot;.&quot;,&quot;9&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;],
+  [&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;3&quot;],
+  [&quot;4&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;],
+  [&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;],
+  [&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;8&quot;,&quot;.&quot;],
+  [&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;4&quot;,&quot;1&quot;,&quot;9&quot;,&quot;.&quot;,&quot;.&quot;,&quot;5&quot;],
+  [&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;9&quot;]
+]
+输出: false
+解释: 除了第一行的第一个数字从 5 改为 8 以外，空格内其他数字均与 示例1 相同。
+     但由于位于左上角的 3x3 宫内有两个 8 存在, 因此这个数独是无效的。
+</code></pre>
+<p><strong>说明:</strong></p>
+<ul>
+<li>一个有效的数独（部分已被填充）不一定是可解的。</li>
+<li>只需要根据以上规则，验证已经填入的数字是否有效即可。</li>
+<li>给定数独序列只包含数字 <code>1-9</code> 和字符 <code>'.'</code> 。</li>
+<li>给定数独永远是 <code>9x9</code> 形式的。</li>
+</ul>
+<p><strong>代码</strong>:</p>
+<ul>
+<li>对于判断一行/列中是否存在相同元素，构造辅助二维数组，只不过二维数组每一行每一个元素代表原数组中这一行中的元素出现的次数，举个例子吧，原数组第一行<code>[1，2，.，.，4，.，4，.，.]</code>这样，那么辅助数组这样<code>[0，1，1，0，2，...]</code>没错，下标为<code>4</code>的位置为<code>2</code>，也就是<code>4</code>出现了两次，对于列，同理；</li>
+<li>如何判断<code>3x3</code>的子块中有重复元素呢？也用一个二维数组，公式<code>(i / 3) * 3 + (j / 3)</code>巧妙的把位于同一个子块的元素的二维值转化为统一的一维值，也就是说，例如左上角<code>(0,0)(0,1)(0,2)(1,0)(1,1)(1,2)(2,0)(2,1)(2,2)</code>都转化成<code>0</code>了，就作为辅助数组的行下标，列下标同样的用原数组的元素值代表。</li>
+</ul>
+<pre><code class="language-c">bool isValidSudoku(char** board, int boardSize, int* boardColSize) {
+
+	int row[9][10] = { 0 };
+	int arr[9][10] = { 0 };
+	int box[9][10] = { 0 };
+
+	for (int i = 0; i &lt; 9; i++) {
+		for (int j = 0; j &lt; 9; j++) {
+			if (board[i][j] != '.') {
+				int num = board[i][j] - '0';		// 得到此数字对应的整数值
+				row[i][num]++;						// 代表 在第i行 数字 num 出现次数 +1
+				arr[j][num]++;						// 代表 在第j列 数字 num 出现次数 +1
+				box[(i / 3) * 3 + (j / 3)][num]++;	// 代表 在第(i / 3) * 3 + (j / 3)个小九宫格中 数字 num 出现次数 +1
+				if ((row[i][num] &gt; 1) || (arr[j][num] &gt; 1) || (box[(i / 3) * 3 + (j / 3)][num] &gt; 1)) {	
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
+</code></pre>
+<h2 id="旋转图像">旋转图像</h2>
+<p>给定一个 <em>n</em> × <em>n</em> 的二维矩阵表示一个图像。</p>
+<p>将图像顺时针旋转 90 度。</p>
+<p><strong>说明：</strong></p>
+<p>你必须在<strong>原地</strong>旋转图像，这意味着你需要直接修改输入的二维矩阵。<strong>请不要</strong>使用另一个矩阵来旋转图像。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>给定 matrix = 
+[
+  [1,2,3],
+  [4,5,6],
+  [7,8,9]
+],
+
+原地旋转输入矩阵，使其变为:
+[
+  [7,4,1],
+  [8,5,2],
+  [9,6,3]
+]
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>给定 matrix =
+[
+  [ 5, 1, 9,11],
+  [ 2, 4, 8,10],
+  [13, 3, 6, 7],
+  [15,14,12,16]
+], 
+
+原地旋转输入矩阵，使其变为:
+[
+  [15,13, 2, 5],
+  [14, 3, 4, 1],
+  [12, 6, 8, 9],
+  [16, 7,10,11]
+]
+</code></pre>
+<p><strong>代码</strong>:</p>
+<p>这里对操作二重指针和二维数组出现了迷糊，C的指针稍稍操作复杂一些还是好难懂...</p>
+<p>我认为很巧妙的方法，对矩阵进行行变换，然后再进行转置(先进行转置，再对矩阵进行列变换也可以得到一样的结果)，没有仔细的观察、并且对矩阵不敏感的情况下很难发现这个规律。</p>
+<p>进行矩阵转置是要注意下标的处理，在进行行变换时巧妙的运用一级指针(如果进行列变换就没有这么容易了，所以说先进行行变换再进行转置是相对比较方便的)。</p>
+<pre><code class="language-c">void rotate(int** matrix, int matrixSize, int* matrixColSize) {
+
+	// 先变换行，因为每一行可以作为一整块，在存储操作上比较方便
+	for (int i = 0, j = matrixSize - 1; i &lt; j; ++i, --j)   /* 将矩阵的第i行和第j行互换 */
+		swap_row(matrix, matrixSize, i, j);
+
+	// 再对矩阵进行转置
+	transposed_matrix(matrix, matrixSize);
+	
+}
+
+/* 求转置矩阵 */
+void transposed_matrix(int **matrix, int matrixSize) {
+
+	for (int i = 0; i &lt; matrixSize; i++) {
+		for (int j = i; j &lt; matrixSize; j++) {
+			int temp = matrix[i][j];
+			matrix[i][j] = matrix[j][i];
+			matrix[j][i] = temp;
+		}
+	}
+}
+
+/* 将矩阵第i行和第size-i行互换 */
+void swap_row(int **matrix, int matrixSize, int i, int j) {
+
+	// 申请存储单元，方便按行存储，只需交换指针，即可每次操作改变一行
+	int *t = (int*)malloc(sizeof(int)*matrixSize);
+	t = matrix[i];
+	matrix[i] = matrix[j];
+	matrix[j] = t;
+
+}
+</code></pre>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://lizonglin313.github.io/post/高数第一章函数极限连续" class="post-title gt-a-link">
+                    高数第一章 函数、极限、连续
+                </a>
+            </div>
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">人们依然相信 什么未来会更精彩</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/lizonglin313" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+                <a href="https://twitter.com/tncarrot" target="_blank">
+                    <i class="fab fa-twitter gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+                <a href="https://weibo.com/u/3645767403?nick=lizonglin_TNcarrot" target="_blank">
+                    <i class="fab fa-weibo gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <a>--©2017-2020</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv"><a>--本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次--</a></span><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea--</a> | <a href="https://lizonglin313.github.io//atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+    hljs.initHighlightingOnLoad()
+</script>
+
+
+    </div>
+</div>
+</body>
+</html>
