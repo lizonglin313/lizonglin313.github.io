@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lizonglin313.github.io/</id>
     <title>Big Carrot</title>
-    <updated>2020-05-12T15:13:59.725Z</updated>
+    <updated>2020-05-20T14:39:18.486Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lizonglin313.github.io/"/>
     <link rel="self" href="https://lizonglin313.github.io/atom.xml"/>
@@ -10,6 +10,515 @@
     <logo>https://lizonglin313.github.io/images/avatar.png</logo>
     <icon>https://lizonglin313.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Big Carrot</rights>
+    <entry>
+        <title type="html"><![CDATA[leetcode字符串初等整理]]></title>
+        <id>https://lizonglin313.github.io/post/leetcode-zi-fu-chuan-chu-deng-zheng-li</id>
+        <link href="https://lizonglin313.github.io/post/leetcode-zi-fu-chuan-chu-deng-zheng-li">
+        </link>
+        <updated>2020-05-20T13:35:30.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="反转字符串">反转字符串</h2>
+<p>编写一个函数，其作用是将输入的字符串反转过来。输入字符串以字符数组 <code>char[]</code> 的形式给出。</p>
+<p>不要给另外的数组分配额外的空间，你必须<strong>原地修改输入数组</strong>、使用 O(1) 的额外空间解决这一问题。</p>
+<p>你可以假设数组中的所有字符都是 <a href="https://baike.baidu.com/item/ASCII">ASCII</a> 码表中的可打印字符。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：[&quot;h&quot;,&quot;e&quot;,&quot;l&quot;,&quot;l&quot;,&quot;o&quot;]
+输出：[&quot;o&quot;,&quot;l&quot;,&quot;l&quot;,&quot;e&quot;,&quot;h&quot;]
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：[&quot;H&quot;,&quot;a&quot;,&quot;n&quot;,&quot;n&quot;,&quot;a&quot;,&quot;h&quot;]
+输出：[&quot;h&quot;,&quot;a&quot;,&quot;n&quot;,&quot;n&quot;,&quot;a&quot;,&quot;H&quot;]
+</code></pre>
+<p><strong>代码</strong>:</p>
+<p>思路和翻转整数数组的思路一致，两个指针分别从前后开始扫描，进行交换。</p>
+<pre><code class="language-c">void reverseString(char* s, int sSize) {
+	// 用反转数组相同的方式
+	int i;
+	for (i = 0; i &lt; sSize / 2; i++) {
+		char temp = s[sSize - 1 - i];
+		s[sSize - 1 - i] = s[i];
+		s[i] = temp;
+	}
+
+}
+</code></pre>
+<h2 id="整数反转">整数反转</h2>
+<p>给出一个 32 位的有符号整数，你需要将这个整数中每位上的数字进行反转。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: 123
+输出: 321
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: -123
+输出: -321
+</code></pre>
+<p><strong>示例 3:</strong></p>
+<pre><code>输入: 120
+输出: 21
+</code></pre>
+<p><strong>注意:</strong></p>
+<p>假设我们的环境只能存储得下 32 位的有符号整数，则其数值范围为 [−231,  231 − 1]。请根据这个假设，如果反转后整数溢出那么就返回 0。</p>
+<p><strong>代码</strong>:</p>
+<pre><code class="language-c">int reverse(int x){
+    long count=0;
+    while(x!=0){
+        // 翻转整数
+        count=count*10+x%10;
+        x=x/10;
+    }
+    return count&gt;2147483647||count&lt;-2147483648?0:count;	// 直接给出范围判断是否溢出
+}
+</code></pre>
+<h2 id="字符串中的第一个唯一字符">字符串中的第一个唯一字符</h2>
+<p>给定一个字符串，找到它的第一个不重复的字符，并返回它的索引。如果不存在，则返回 -1。</p>
+<p><strong>案例:</strong></p>
+<pre><code>s = &quot;leetcode&quot;
+返回 0.
+
+s = &quot;loveleetcode&quot;,
+返回 2.
+</code></pre>
+<p>**注意事项：**您可以假定该字符串只包含小写字母。</p>
+<p><strong>代码</strong>：</p>
+<p>本题我用暴力法做的，在时间上不是很理想。</p>
+<p>二重循环，外层遍历的元素与内层遍历的除本身外的元素进行比较，<code>find</code>表示是否找到相同的数，<code>find=0</code>就说明第<code>i</code>个元素只有一个，同时置<code>have=1</code>表示存在这样的元素。返回其索引。</p>
+<pre><code class="language-c">int firstUniqChar(char * s) {
+	// 得到长度
+	int len = strlen(s);
+	int have = 0;
+	int i, j;
+	for (i = 0; i &lt; len; i++) {
+		int find = 0;
+		for (j = 0; j &lt; len; j++) {
+			if (i == j) continue;
+			if (s[i] == s[j]) {
+				find = 1;
+				break;
+			}
+		}
+		if (find == 0) {
+			have = 1;
+			break;
+		}
+	}
+	return have ? i : -1;
+}
+</code></pre>
+<p>另外，其他人用了更好的方法，也就是使用辅助数组，记录每个元素出现的次数，在上一篇数组内容中也出现了这个方法。我想到这个方法时，没有考虑周全，误以为在遍历辅助数组时，只能从<code>i=0 to n</code>遍历，导致不能确定第一个为<code>1</code>就是第一个元素。但是，完全可以按照原数组的元素排列进行遍历，也就是将<code>s[i]-'a'</code>作为遍历指针。</p>
+<pre><code class="language-c">int firstUniqChar(char * s){
+    int i, len = strlen(s);
+    // 构造辅助数组
+    int p[26];
+    memset(p, 0, sizeof(int) * 26);
+   // 首先根据原数组的元素出现情况进行填充
+    for(i = 0; i &lt; len; i++){
+        p[s[i] - 'a']++;
+    }
+    // 再由 s[i]-'a' 作为遍历指针遍历辅助数组，寻找第一个只出现一次的元素
+    for(i = 0; i &lt; len; i++){
+        if(p[s[i] - 'a'] == 1)
+            return i;
+    }
+    return -1;
+}
+</code></pre>
+<h2 id="有效的字母异位词">有效的字母异位词</h2>
+<p>给定两个字符串 <em>s</em> 和 <em>t</em> ，编写一个函数来判断 <em>t</em> 是否是 <em>s</em> 的字母异位词。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: s = &quot;anagram&quot;, t = &quot;nagaram&quot;
+输出: true
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: s = &quot;rat&quot;, t = &quot;car&quot;
+输出: false
+</code></pre>
+<p><strong>说明:</strong><br>
+你可以假设字符串只包含小写字母。</p>
+<p><strong>进阶:</strong><br>
+如果输入字符串包含 unicode 字符怎么办？你能否调整你的解法来应对这种情况？</p>
+<p><strong>代码</strong>:</p>
+<p>这道题目让我想到了高中化学学的同分异构体，也就是所有对应的字母个数相同，但是排列方式不同。所以本道题采用辅助数组的形式，分别统计字符串<code>s</code>和<code>t</code>中每个字母出现的次数，接着再比较两个辅助数组是否相同即可。</p>
+<pre><code class="language-c">bool isAnagram(char * s, char * t) {
+	int lens = strlen(s);
+	int lent = strlen(t);
+	if (lens != lent)return  false;		// 如果长度不相等，之间返回错误
+
+	// 下面用两个辅助数组，分别记录两个字符串中，每个字母出现的次数
+	int temps[26], tempt[26];
+	memset(temps, 0, sizeof(int) * 26);
+	memset(tempt, 0, sizeof(int) * 26);
+
+	// 开始统计数量
+	int i;
+	for (i = 0; i &lt; lens; i++) {
+		temps[s[i] - 'a']++;
+		tempt[t[i] - 'a']++;
+	}
+	// 比较辅助数组
+	bool is = true;
+	for (i = 0; i &lt; 26; i++) {	// 注意这个数组是26个元素
+		if (temps[i] != tempt[i]) {
+			is = false;
+			break;
+		}
+	}
+
+	return is;
+}
+</code></pre>
+<h2 id="验证回文字符串">验证回文字符串</h2>
+<p>给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。</p>
+<p>**说明：**本题中，我们将空字符串定义为有效的回文串。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: &quot;A man, a plan, a canal: Panama&quot;
+输出: true
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: &quot;race a car&quot;
+输出: false
+</code></pre>
+<p><strong>代码</strong>:</p>
+<ul>
+<li>构造函数<code>islod()</code>来判断现读取到的字符是否为字母或者数字；</li>
+<li>现对字符串的字母进行大小写统一转换，便于比较，这里全部转为小写字母；</li>
+<li>使用双指针分别从头和尾进行遍历，对于既不是数字也不是字母的字符忽略，然后比较两个指针所指元素是否相同。</li>
+</ul>
+<pre><code class="language-c">bool islod(char c) {
+	return	
+        ((c &gt;= 'a'&amp;&amp;c &lt;= 'z') || (c &gt;= 'A'&amp;&amp;c &lt;= 'Z') || (c &gt;= '0'&amp;&amp;c &lt;= '9')) ? true : false;
+}
+
+bool isPalindrome(char * s) {
+    
+	int lens = strlen(s);
+	bool re = true;
+
+	// 首先进行大小写转化方便判断
+	int p;
+	for (p = 0; p &lt; lens; p++) 
+		if (s[p] &gt;= 'A'&amp;&amp;s[p] &lt;= 'Z') s[p] += 32;
+
+	int f, l;
+	for (f = 0, l = lens - 1; f &lt; l; f++, l--) {
+		// 首先需要判断是否是有效字符
+		while (!islod(s[f]) &amp;&amp; f &lt; l ) f++;	// 循环直到 f 为合法字符
+		while (!islod(s[l]) &amp;&amp; f &lt; l ) l--;	// 循环直到 l 为合法字符
+        
+        // 然后判断一下f l避免越界
+		if ( !(f &lt; l) ) break;
+        
+		// 再进行判断
+		if (s[f] != s[l]) {
+			re = false;
+			break;
+		}
+	}
+	return re;
+}
+
+</code></pre>
+<h2 id="字符串转换整数atoi">字符串转换整数(atoi)</h2>
+<p>请你来实现一个 <code>atoi</code> 函数，使其能将字符串转换成整数。</p>
+<p>首先，该函数会根据需要丢弃无用的开头空格字符，直到寻找到第一个非空格的字符为止。接下来的转化规则如下：</p>
+<ul>
+<li>如果第一个非空字符为正或者负号时，则将该符号与之后面尽可能多的连续数字字符组合起来，形成一个有符号整数。</li>
+<li>假如第一个非空字符是数字，则直接将其与之后连续的数字字符组合起来，形成一个整数。</li>
+<li>该字符串在有效的整数部分之后也可能会存在多余的字符，那么这些字符可以被忽略，它们对函数不应该造成影响。</li>
+</ul>
+<p>注意：假如该字符串中的第一个非空格字符不是一个有效整数字符、字符串为空或字符串仅包含空白字符时，则你的函数不需要进行转换，即无法进行有效转换。</p>
+<p>在任何情况下，若函数不能进行有效的转换时，请返回 0 。</p>
+<p><strong>提示：</strong></p>
+<ul>
+<li>本题中的空白字符只包括空格字符 <code>' '</code> 。</li>
+<li>假设我们的环境只能存储 32 位大小的有符号整数，那么其数值范围为 [−231,  231 − 1]。如果数值超过这个范围，请返回  INT_MAX (231 − 1) 或 INT_MIN (−231) 。</li>
+</ul>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: &quot;42&quot;
+输出: 42
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: &quot;   -42&quot;
+输出: -42
+解释: 第一个非空白字符为 '-', 它是一个负号。
+     我们尽可能将负号与后面所有连续出现的数字组合起来，最后得到 -42 。
+</code></pre>
+<p><strong>示例 3:</strong></p>
+<pre><code>输入: &quot;4193 with words&quot;
+输出: 4193
+解释: 转换截止于数字 '3' ，因为它的下一个字符不为数字。
+</code></pre>
+<p><strong>示例 4:</strong></p>
+<pre><code>输入: &quot;words and 987&quot;
+输出: 0
+解释: 第一个非空字符是 'w', 但它不是数字或正、负号。
+     因此无法执行有效的转换。
+</code></pre>
+<p><strong>示例 5:</strong></p>
+<pre><code>输入: &quot;-91283472332&quot;
+输出: -2147483648
+解释: 数字 &quot;-91283472332&quot; 超过 32 位有符号整数范围。 
+     因此返回 INT_MIN (−231) 。
+</code></pre>
+<p><strong>代码</strong>:</p>
+<p>这个题目写了很久，最后...还是学习学习别人写的吧...这个判断溢出的方法真的很巧妙，在以前都是直接暴力判断溢出的，因为很多题目假设只有32位，所以直接用数判断未免属于不合法的手段。</p>
+<pre><code class="language-c">int myAtoi(char * str) {
+	// 移除开头的空格
+	while (*str == ' ') ++str;  // 此时 str 指向第一个不为空格的字符 
+
+	// 如果带有正负号，记录正负性
+	int flag = 1;
+	if (*str == '-') {
+		flag = -1;
+		++str;
+	} else if (*str == '+')
+		++str;
+
+	int ret = 0;
+	// 因为只能使用 32 位 int，因此将 ret 乘 10 后再与 INT_MAX 比较可能会溢出
+	// 因此使用 ret 与 INT_MAX/10 比较
+	int div = INT_MAX / 10;
+	while (*str &lt;= '9' &amp;&amp; *str &gt;= '0') {
+		int dig = *str - '0';
+		// 若 ret 比 div 小，则 ret * 10 + dig 也一定小于 INT_MAX，不会溢出
+		// 若 ret 与 div 相等，只有 dig 比 8 小时不会溢出
+		// 此处本来需要正负分开讨论，INT_MAX 个位是 7，INT_MIN 个位是 8
+		// -INT_MIN 在 int 中会溢出，当 dig == 8 时直接当作溢出处理
+		if (ret &lt; div || (ret == div &amp;&amp; dig &lt; 8)) {
+			ret = ret * 10 + dig;
+			++str;
+		}
+		// 溢出，根据正负性返回值
+		else
+			return (flag == 1 ? INT_MAX : INT_MIN);
+	}
+	return flag * ret;
+}
+</code></pre>
+<h2 id="实现strstr">实现strStr()</h2>
+<p>实现 <a href="https://baike.baidu.com/item/strstr/811469">strStr()</a> 函数。</p>
+<p>给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  <strong>-1</strong>。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: haystack = &quot;hello&quot;, needle = &quot;ll&quot;
+输出: 2
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: haystack = &quot;aaaaa&quot;, needle = &quot;bba&quot;
+输出: -1
+</code></pre>
+<p><strong>说明:</strong></p>
+<p>当 <code>needle</code> 是空字符串时，我们应当返回什么值呢？这是一个在面试中很好的问题。</p>
+<p>对于本题而言，当 <code>needle</code> 是空字符串时我们应当返回 0 。这与C语言的 <a href="https://baike.baidu.com/item/strstr/811469">strstr()</a> 以及 Java的 <a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html#indexOf(java.lang.String)">indexOf()</a> 定义相符。</p>
+<p><strong>代码</strong>:</p>
+<p>KMP，双100%，永远滴神！我觉得书上讲的都比较含糊，可以找视频来看一下这个算法，主要是求<code>next</code>数组。</p>
+<pre><code class="language-c">/* 前缀表  */
+void prefix_table(char pattern[], int prefix[], int n) {
+
+	prefix[0] = 0;
+	int len = 0;
+	int i = 1;
+
+	while (i &lt; n) {
+		if (pattern[i] == pattern[len]) {
+			len++;
+			prefix[i] = len;
+			i++;
+		}
+		else {
+			if (len &gt; 0) {
+				len = prefix[len - 1];
+			}
+			else {
+				prefix[i] = len;
+				i++;
+			}
+		}
+	}
+}
+/* 左移前缀表 */
+void move_prefix_table(int prefix[], int n) {
+	int i;
+	for (i = n - 1; i &gt; 0; i--) {
+		prefix[i] = prefix[i - 1];
+	} 
+	prefix[0] = -1;
+}
+
+/* kmp search */
+int kmp_search(char text[], char pattern[]) {
+	int n = strlen(pattern);
+	int m = strlen(text);
+	int *prefix = malloc(sizeof(int)*n);
+
+	prefix_table(pattern, prefix, n);
+	move_prefix_table(prefix, n);
+
+	/*
+	text[i]		len(text) = m
+	pattern[j]	len[pattern] = n
+	*/
+	int i = 0, j = 0;
+
+	while (i &lt; m) {
+		if (j == n - 1 &amp;&amp; text[i] == pattern[j]) {
+			/*printf(&quot;%d&quot;, i - j);
+			j = prefix[j];*/
+			return i - j;
+		}
+		if (text[i] == pattern[j]) {
+			i++;
+			j++;
+		}
+		else {
+			j = prefix[j];
+			if (j == -1) {
+				i++;
+				j++;
+			}
+		}
+	}
+
+	return -1;
+}
+
+int strStr(char * haystack, char * needle) {
+
+    int lenn = strlen(needle);
+	if (lenn == 0) {
+		return 0;
+	}
+    
+	return kmp_search(haystack, needle);
+
+}
+</code></pre>
+<h2 id="外观数列">外观数列</h2>
+<p>「外观数列」是一个整数序列，从数字 1 开始，序列中的每一项都是对前一项的描述。前五项如下：</p>
+<pre><code>1.     1
+2.     11
+3.     21
+4.     1211
+5.     111221
+</code></pre>
+<p><code>1</code> 被读作  <code>&quot;one 1&quot;</code>  (<code>&quot;一个一&quot;</code>) , 即 <code>11</code>。<br>
+<code>11</code> 被读作 <code>&quot;two 1s&quot;</code> (<code>&quot;两个一&quot;</code>）, 即 <code>21</code>。<br>
+<code>21</code> 被读作 <code>&quot;one 2&quot;</code>,  &quot;<code>one 1&quot;</code> （<code>&quot;一个二&quot;</code> ,  <code>&quot;一个一&quot;</code>) , 即 <code>1211</code>。</p>
+<p>给定一个正整数 <em>n</em>（1 ≤ <em>n</em> ≤ 30），输出外观数列的第 <em>n</em> 项。</p>
+<p>注意：整数序列中的每一项将表示为一个字符串。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: 1
+输出: &quot;1&quot;
+解释：这是一个基本样例。
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: 4
+输出: &quot;1211&quot;
+解释：当 n = 3 时，序列是 &quot;21&quot;，其中我们有 &quot;2&quot; 和 &quot;1&quot; 两组，&quot;2&quot; 可以读作 &quot;12&quot;，也就是出现频次 = 1 而 值 = 2；类似 &quot;1&quot; 可以读作 &quot;11&quot;。所以答案是 &quot;12&quot; 和 &quot;11&quot; 组合在一起，也就是 &quot;1211&quot;。
+</code></pre>
+<p><strong>代码</strong>:</p>
+<p>这个题目比较有意思。</p>
+<p>使用了两个数组，数组<code>res</code>作为结果项和初始项，数组<code>tmp</code>作为对<code>res</code>处理后的进行保存的中间项，然后每一轮结束时，将数组<code>tmp</code>的内容复制到<code>res</code>中，再下一轮以<code>res</code>作为初始串进行处理。</p>
+<pre><code class="language-c">char * countAndSay(int n) {
+	char *res = (char*)malloc(sizeof(char) * 5000);
+	char *tmp = (char*)malloc(sizeof(char) * 5000);
+	res[0] = '1'; res[1] = '\0';     // res 初始化为 &quot;1&quot;
+	int len = 1;                     // len 为 res 的有效长度
+	while (--n) {
+		int i = 0, j = 0;
+		while (i &lt; len) {             // 对 res 的每位字符 c 进行报数
+			int count = 1;
+			char c = res[i++];
+			while (i &lt; len &amp;&amp; res[i] == c)    // 计算本轮报数结果，即本轮有几个 c
+				i++, count++;
+			tmp[j++] = count + '0';           // 将报数结果存入 tmp
+			tmp[j++] = c;
+		}
+		tmp[j] = '\0';
+		strcpy(res, tmp);                     // 将 tmp 复制到 res，并更新 res 长度
+		len = j;
+	}
+	return res;
+}
+</code></pre>
+<h2 id="最长公共前缀">最长公共前缀</h2>
+<p>编写一个函数来查找字符串数组中的最长公共前缀。</p>
+<p>如果不存在公共前缀，返回空字符串 <code>&quot;&quot;</code>。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: [&quot;flower&quot;,&quot;flow&quot;,&quot;flight&quot;]
+输出: &quot;fl&quot;
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: [&quot;dog&quot;,&quot;racecar&quot;,&quot;car&quot;]
+输出: &quot;&quot;
+解释: 输入不存在公共前缀。
+</code></pre>
+<p><strong>说明:</strong></p>
+<p>所有输入只包含小写字母 <code>a-z</code> 。</p>
+<p><strong>代码</strong>:</p>
+<p>本题使用暴力法，但是由于公共前缀的问题，使用暴力法的时间表现还可以。求最短的元素，以其长度为基准进行搜索。然后双重循环求公共前缀。</p>
+<pre><code class="language-c">char * longestCommonPrefix(char ** strs, int strsSize) {
+
+    if(strsSize==0) {
+        char *p = &quot;&quot;;
+        return p;
+    }
+    if(strsSize==1) return strs[0];
+    
+	// 先找出最短的元素
+	int minlen = strlen(strs[0]);
+	int i;
+	for (i = 1; i &lt; strsSize; i++) {
+		if (minlen &gt; strlen(strs[i])) {
+			minlen = strlen(strs[i]);
+		}
+	}
+
+	// 循环求解找最长公共前缀
+	int front, j;
+	bool valid = true;
+	for (front = 0; front &lt; minlen; front++) {
+		for (j = 0; j &lt; strsSize - 1; j++) {
+			if (strs[j][front] != strs[j + 1][front]) {
+				valid = false;
+				break;
+			}
+		}
+		if (!valid) break;
+	}
+
+	// 此时，front为 最长公共前缀的长度,假设最大1000
+	char res[1000];
+	char *restr = res;
+	memset(res, 0, sizeof(res));
+
+	printf(&quot;%d&quot;, strlen(res));
+	int k;
+	for (k = 0; k &lt; front; k++) {
+		res[k] = strs[0][k];
+	}
+
+	return restr;
+}
+</code></pre>
+<p>我这样做麻烦了...列垂直扫描不用那么麻烦。唉 <strong>):</strong></p>
+<pre><code class="language-c">char * longestCommonPrefix(char ** strs, int strsSize){
+    if(strsSize==0) return &quot;&quot;;  //如果字符串数组为空，直接返回&quot;&quot;
+    for(int i=0;i&lt;strlen(strs[0]);i++){   //i表示列，strlen(strs[0])表示第一个字符串长度
+        for(int j=1;j&lt;strsSize;j++){    //j表示行
+            if(strs[0][i]!=strs[j][i]){ //如果比较字符串的第i列不同，该列结束，直接跳出
+                strs[0][i]='\0';
+                break;
+            }
+        }
+    }
+    return strs[0];
+}
+
+作者：cmtsa
+链接：https://leetcode-cn.com/problems/longest-common-prefix/solution/cchui-zhi-sao-miao-chao-duan-dai-ma-by-cmtsa/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[2001-2005英语一阅读整理]]></title>
         <id>https://lizonglin313.github.io/post/2001-2005-ying-yu-yi-yue-du-zheng-li</id>
@@ -2398,914 +2907,6 @@ void SiftHeap(int r[],int k,int n){
         }
     }
 }
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[用不同算法解决0/1背包问题]]></title>
-        <id>https://lizonglin313.github.io/post/用不同算法解决01背包问题</id>
-        <link href="https://lizonglin313.github.io/post/用不同算法解决01背包问题">
-        </link>
-        <updated>2019-11-21T06:34:04.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p>0/1背包问题是算法中很经典的问题，具体内容题目内容不再赘述，需要请自行搜索..</p>
-</blockquote>
-<h2 id="蛮力法">蛮力法</h2>
-<ul>
-<li>
-<p>思想</p>
-<p>蛮力法的基本思想就是<strong>遍历</strong></p>
-</li>
-<li>
-<p>时间复杂度</p>
-<p>Ω(2^n)</p>
-</li>
-<li>
-<p>代码</p>
-<pre><code class="language-c++">// 伪代码如下
-输入：重量{w1,w2,w3,...,wn} 价值{v1,v2,v3,...,vn} 容量C
-输出：装入背包物品的编号和最大价值
-
-1. maxValue=0；结果子集S={}
-
-2. 对集合{1,2,3,...,n}每一个子集T，都有：
-
-	2.1 初始化背包价值value=0，背包重量weight=0
-    
-    2.2 对每个子集里的每个元素j
-    	2.2.1 if weight+wj &lt;= C then weight+=wj value+=vj
-    	2.2.2 else 子集元素还没选完就超重，转2进行下一个子集
-    
-    2.3 进行到此处某个子集中的元素全部放入背包
-    	2.3.1 if value &gt; maxValue then maxValue&lt;-value S&lt;-T
-
-3. 输出S中的元素和maxValue，结束
-</code></pre>
-</li>
-</ul>
-<h2 id="回溯法">回溯法</h2>
-<ul>
-<li>
-<p>思想</p>
-<p><strong>解空间树</strong> + 使用<strong>限定条件</strong>进行<strong>剪枝</strong></p>
-<p>在状态空间树的任意一个部分解结点处应该有以下两个判定函数：</p>
-<p>1）当前部分解的总重量小于背包容量</p>
-<p>2）当前问题状态下继续向前搜索搜索可以找到比目前已知解的总价值更大的解</p>
-</li>
-<li>
-<p>时间复杂度</p>
-<p>本质是蛮力法，时间通常也为<strong>指数阶</strong></p>
-</li>
-<li>
-<p>代码</p>
-<pre><code class="language-c++">// 伪代码如下
-输入：重量W={w0,w1,w2,...,wn} 价值V={v0,v1,v2,...,vn} 容量C
-输出：装入背包物品的编号和最大价值
-
-1. maxValue=0；结果子集S={}
-
-2. 将背包的物品按照单位价值降序排序，相应的改变集合W和V
-
-3. 解空间树的层数layer=0，当前重量cw=0，当前价值cv=0，当前所选物品集合cs={}，进行如下的递归
-    3.1 if layer==n 到达叶子结点
-    	3.1.1 if cv &gt; maxValue then maxValue=cv S=cs
-    3.2 没有到达叶子结点，for j=1 to 0
-    	3.2.1 判断在此节点处是否满足这两个条件：
-    		1）装入第layer个物品后不超重 
-    		2）此节点处期望最大值大于maxValue
-    		如果两个不同时满足，剪枝	
-    		如果同时满足：根据j=1或j=0更新cv,cw,cs
-    	3.2.2 进行下一层 layer+1，cv，cw，cs递归
-    	3.2.3 回滚cv,cw,cs到递归前的值
-
-4. 输出S中的元素和maxValue，结束
-
-
-// 核心代码
-
-// 计算剩余物品都装下时的最大价值
-int Bound_sv(int layer, int cv) {
-
-    int i = layer;
-    int sv = cv;
-
-    for (i; i &lt; set_number; i++) {
-        sv += goods[i].value;		// 剩余物品都装下时的最大价值
-    }
-
-    return sv;
-
-}
-
-// 计算期望最大价值
-double Bound(int layer,int cv,int cw){
-    int i = layer;
-
-    double sv = double(cv);
-    int cr = capacity - cw;
-
-    while (i&lt;set_number &amp;&amp; goods[i].weight &lt;= cr)
-    {
-        cr -= goods[i].weight;
-        sv = sv + goods[i].value;
-        i++;
-    }
-
-    if (i &lt; set_number)
-        sv = sv + goods[i].ave_value * cr;
-
-    return sv;
-}
-
-
-// Using back track method to get max value
-void BackTrack(int layer, int current_value, int current_weight) {
-    // layer代表回溯层数，其余参数分别代表当前价值以及当前重量
-    //double expect_sumValue = 0;		// 记录期望价值总和
-
-    if (layer == set_number) {		// if layer bigger than number, over
-        // 注意这个地方，不用大于 ！！！
-
-        if (current_value &gt; maxValue) {
-
-            maxValue = current_value;
-
-            for (int i = 0; i &lt; set_number; i++) {
-                max_set[i] = current_set[i];
-
-            }
-        }
-    }
-    else
-    {
-        for (int j = 0; j &lt;= 1; j++) {
-
-            current_set[layer] = j;
-
-            /************************剪枝**************************/
-
-
-            if (
-                current_weight + current_set[layer] * goods[layer].weight &lt;= capacity
-                &amp;&amp; Bound_sv(layer,current_value) &gt;= maxValue &amp;&amp; Bound(layer,current_value,current_weight) &gt; maxValue
-            )
-            {
-                // 更新当前背包物品的总重量，目前背包物品的总价值
-                current_weight += (goods[layer].weight * current_set[layer]);
-                current_value += (goods[layer].value * current_set[layer]);
-
-                // 继续进行子树的递归
-                BackTrack(layer + 1, current_value, current_weight);
-
-                // 递归出来后回滚数据
-                current_weight -= (goods[layer].weight * current_set[layer]);
-                current_value -= (goods[layer].value * current_set[layer]);
-
-            }
-        }
-    }
-
-}
-
-
-</code></pre>
-</li>
-</ul>
-<h2 id="分支限界法">分支限界法</h2>
-<ul>
-<li>
-<p>思想</p>
-<p><strong>广度优先策略</strong>搜索解空间树，对待处理的根节点根据<strong>限界函数</strong>估算目标函数的可能取值，选择目标函数<strong>极大或者极小</strong>的结点<strong>优先进行广度搜索</strong>，不断<strong>调整搜索方向</strong>，尽可能早的找到最优解。</p>
-</li>
-<li>
-<p>时间复杂度</p>
-<p>本质还是<strong>蛮力法</strong>，最坏情况下时间复杂度还是指数阶</p>
-</li>
-<li>
-<p>代码</p>
-</li>
-</ul>
-<pre><code class="language-c++">// 伪代码如下
-输入：n个物品的重量w[n]，价值v[n]，背包容量W
-输出：背包获得的最大价值和装入背包的物品
-1. 根据界限函数计算目标函数的上界up，使用贪心法计算目标函数的下界down
-2. 计算根节点的目标函数值并且加入PT表
-3. 循环直到某个叶子节点的目标函数值在表PT中去取极大值
-	3.1 i=PT表中具有最大值的结点
-	3.2 对结点i的每个孩子结点x执行下述操作：
-		3.2.1 如果孩子x结点不满足约束条件，则丢弃该节点
-		3.2.2 否则，估算结点x的目标函数的取值lb，将其加入表PT中
-4. 将叶子节点对应的最优解输出，回溯得到最优解的各个分量
-
-int tree_node_id = 1;		// 解空间树结点id 1开始
-
-int lower_bound = 0;		// 目标函数的下界
-
-// 贪心法求背包容量的下界
-int greed() {
-
-    int temp[MAX] = { 0 };		// 定义临时数组，用来表示货物向量，并初始化为0
-    int cap = capacity;			// 暂存背包容量
-    int w = 0;					// 当前背包容量
-    int updown = 0;				// 下界
-
-    // 对背包物品按照单位价值进行排序
-    sort_set();
-
-    // 求解
-    for (int i = 0; i &lt; set_number; i++) {
-
-        // 如果超重，跳出
-        if ((w+goods[i].weight) &gt; cap) {
-            continue;
-        }
-
-        temp[i] = 1;
-        w += goods[i].weight;
-        updown += (temp[i] * goods[i].value);
-    }
-
-    cout &lt;&lt; &quot;解的下界是：&quot; &lt;&lt; updown &lt;&lt; endl;
-
-    return updown;
-
-}
-
-
-// 限界函数求上界
-void limit(ND &amp;n)				        //计算分枝结点的上界
-{
-    // 下一个要选的物品就是第layer层物品
-    int w = n.current_weight;
-    double v = n.current_value;
-    int i = n.layer;
-
-    while (i &lt; set_number &amp;&amp; w + goods[i].weight &lt;= capacity) {
-        w += goods[i].weight;
-        v += goods[i].value;
-        i++;
-    }
-
-    if (i &lt; set_number) {  // 装部分物品
-        n.ub = v + (capacity - w)*goods[i].ave_value;
-    }
-    else
-    {
-        n.ub = v;
-    }
-}
-
-// 优先队列进队操作
-void EnQueue(ND n, priority_queue&lt;ND&gt; &amp;q) {
-    if (n.layer == set_number) {		// 已经到达叶子结点
-
-        if (n.current_value &gt; maxValue) {		// 更新maxValue
-            maxValue = n.current_value;
-            for (int i = 0; i &lt; set_number; i++) {
-                max_set[i] = n.cset[i];
-            }
-        }
-    }
-    else {
-        q.push(n);			// 非叶子结点进队
-    }
-}
-
-// 分支限界法
-void branchAndbound() {
-
-    // 首先使用贪心法求解此goods集合的目标值下界
-    lower_bound = greed();
-
-    priority_queue&lt;ND&gt; q;		// 优先队列
-    ND n0, n1, n2;				// 先定义根结点，左孩子结点，右孩子结点
-
-    /*初始化根节点*/
-    n0.id = tree_node_id++;		
-    n0.layer = 0;
-    n0.current_value = 0;
-    n0.current_weight = 0;
-    for (int i = 0; i &lt; set_number; i++) {
-        n0.cset[i] = 0;
-    }
-    limit(n0);					// 求根结点上界
-    q.push(n0);					// 根结点进队
-
-    while (!q.empty())			// 队不空循环
-    {
-        n0 = q.top();				// 取队头
-        q.pop();				// 出队
-        if (n0.current_weight + goods[n0.layer].weight &lt;= capacity &amp;&amp; n0.ub &gt;= lower_bound) {	// 超重剪枝 小于最小期望重量剪枝
-
-            // 设置左孩子结点
-            n1.id = tree_node_id++;
-            n1.layer = n0.layer + 1;
-            n1.current_weight = n0.current_weight + goods[n0.layer].weight;
-            n1.current_value = n0.current_value + goods[n0.layer].value;
-            /*复制解向量*/
-            for (int i = 0; i &lt; set_number; i++) {
-                n1.cset[i] = n0.cset[i];
-            }
-            n1.cset[n1.layer-1] = 1;			// 更新解向量
-            limit(n1);						// 求限界函数上界
-            EnQueue(n1, q);					// 左孩子进队
-        }
-
-        // 设置右孩子结点
-        n2.id = tree_node_id++;
-        n2.layer = n0.layer + 1;
-        n2.current_value = n0.current_value;
-        n2.current_weight = n0.current_weight;
-
-        // 复制解向量
-        for (int i = 0; i &lt; set_number; i++) {
-            n2.cset[i] = n0.cset[i];
-        }
-
-
-        n2.cset[n2.layer-1] = 0;		 // 更新解向量
-        limit(n2);					// 求界限函数上界
-
-        if (n2.ub &gt; maxValue &amp;&amp; n2.ub &gt;= lower_bound) {		// 剪枝，期望最大值小于已有最大值就剪枝  小于最小期望重量剪枝
-            EnQueue(n2, q);
-        }
-
-    }
-}
-
-</code></pre>
-<h2 id="动态规划">动态规划</h2>
-<ul>
-<li>
-<p>思想</p>
-<p>处理<strong>多阶段决策最优化问题</strong>，多阶段决策过程满足<strong>最优性原理</strong></p>
-<p>1）划分子问题</p>
-<p>2）确定动态规划函数</p>
-<p>3）填表</p>
-</li>
-</ul>
-<h2 id="贪心法">贪心法</h2>
-<p><strong>对于0/1背包来说，贪心法在一些时候是无法求得最优解的，所以不要万不得已还是不要选择贪心法了</strong></p>
-<pre><code class="language-c++">/*
-分别用、蛮力法、回溯法和分支限界法 实现0/1背包问题的求解
-*/
-// 蛮力法求解0/1背包
-
-#include &lt;iostream&gt;
-#include &lt;time.h&gt;
-#include &lt;algorithm&gt;
-#include &lt;queue&gt;
-#include &lt;sys/timeb.h&gt;
-#include &lt;math.h&gt;
-using namespace std;
-
-#define MAX 100000
-
-// Good is the struct of good which has three elememt
-typedef struct Good
-{
-	int value = 0;
-	int weight = 0;
-	double ave_value = 0;
-}GD;
-
-
-// 定义按照单位重量降序排序的规则
-struct sort_rule {
-	bool operator()(const GD &amp;good1, const GD &amp;good2) {
-		return good1.ave_value &gt; good2.ave_value;
-	}
-};
-
-// 定义用于分支限界法的树结点结构体
-/*
-typedef struct Node {
-
-	int current_weight = 0;				// 到达此结点时背包所有物品的总重量
-	int current_value = 0;				// 到达此结点时背包所有物品的总价值
-	
-	double result_of_Obj_func = 0;		// 此结点的目标函数的值
-
-	// bool biggest = true;				// 是否是此时的最大结点
-
-}ND;
-*/
-typedef struct Node { // 分支限界法树结点
-	int id;								// 结点编号
-	int layer;							// 当前结点所在树的层数
-	int current_weight = 0;				// 当前结点的总重量
-	int current_value = 0;				// 当前结点的总价值
-	double ub = 0;						// 当前结点的限界函数值
-
-	int cset[MAX] = { 0 };				// 当前背包的解向量
-
-	bool operator&lt;(const Node&amp; nd) const {		// 定义优先队列出队规则，限界函数值越大越先出队
-		return ub &lt; nd.ub;
-	}
-}ND;
-
-// 公用 -&gt; 获取时间函数
-long long getSystemTime() {
-	timeb t;
-	ftime(&amp;t);
-	return t.time * 1000 + t.millitm;
-}
-
-
-class Bag {		// 基类，用作蛮力法
-
-	protected:
-		int set_number;					// 集合元素个数
-		int capacity;					// 背包容量
-		int maxValue = -1;					// 最大重量
-
-		// 定义时间变量
-		long long t1;
-		long long t2;
-		long long sum_time = 0;
-
-		GD goods[MAX];
-		int max_set[MAX] = { 0 };		// max_set为标志数组
-		int current_set[MAX] = { 0 };	// define current_set to save current set
-
-
-		// 初始化重量集合
-		void set_weights(int N) {
-			
-			int sum_w = 0;
-			for (int i = 0; i &lt; N; i++) {
-				goods[i].weight = (rand() % 10) + 1;
-				sum_w += goods[i].weight;
-			}
-			capacity = sum_w / 2;
-		
-		}
-
-		// 初始化价值集合
-		void set_values(int N) {
-			
-			for (int i = 0; i &lt; N; i++) {
-				//values[i] = (rand() % 5 + 1) * 10 + ((rand() % 10) + 1);		// 产生10-60之间的数值
-				goods[i].value = (rand() % 5 + 1) * 10 + ((rand() % 11));
-			}
-			
-		}
-
-		// 初始化集合
-		void initialize_set(int N) {
-			set_weights(N);
-			set_values(N);
-		}
-
-		// 打印重量和价值
-		void print_wv(int N) {
-			cout &lt;&lt; &quot;物品重量集合为：{ &quot;;
-			for (int i = 0; i &lt; N; i++) {
-				//cout &lt;&lt; weights[i] &lt;&lt; &quot; &quot;;
-				cout &lt;&lt; goods[i].weight &lt;&lt; &quot; &quot;;
-			}
-			cout &lt;&lt; &quot;}&quot; &lt;&lt; endl &lt;&lt; &quot;物品价值集合为：{ &quot;;
-			for (int i = 0; i &lt; N; i++) {
-				//cout &lt;&lt; values[i] &lt;&lt; &quot; &quot;;
-				cout &lt;&lt; goods[i].value &lt;&lt; &quot; &quot;;
-			}
-			cout &lt;&lt; &quot;}&quot; &lt;&lt; endl;
-			cout &lt;&lt; &quot;背包容量为：&quot; &lt;&lt; capacity &lt;&lt; endl;
-		}
-
-
-		void print_set() {		// 打印集合
-	// 输出最大重量以及对应的元素序号
-	// 如果输出 0 / 1 表示的子集情况例如 {0 1 0 1 1 0 0} 就修改本函数
-			cout &lt;&lt; &quot;背包能装的最大价值为：&quot; &lt;&lt; maxValue &lt;&lt; endl;
-			cout &lt;&lt; &quot;包含的物品有：{ &quot;;
-			for (int i = 0; i &lt; set_number; i++) {
-				// 输出序号 or 向量
-				if (max_set[i])
-				{
-					cout &lt;&lt; i + 1 &lt;&lt; &quot; &quot;;
-				}
-			}
-			cout &lt;&lt; &quot;}&quot; &lt;&lt; endl;
-		}
-
-		void brute_force(int layer, int current_value, int current_weight) {
-			// layer代表回溯层数，其余参数分别代表当前价值以及当前重量
-
-			if (layer == set_number) {		// if layer bigger than number, over
-				// 注意这个地方，不用大于 ！！！
-
-				if (current_value &gt; maxValue &amp;&amp; current_weight &lt;= capacity) {
-
-					maxValue = current_value;
-
-					for (int i = 0; i &lt; set_number; i++) {
-						max_set[i] = current_set[i];
-
-					}
-				}
-			}
-			else
-			{
-				for (int j = 1; j &gt;= 0; j--) {
-
-					current_set[layer] = j;
-
-					current_weight += (goods[layer].weight * current_set[layer]);
-					current_value += (goods[layer].value * current_set[layer]);
-
-					// 继续进行子树的递归
-					brute_force(layer + 1, current_value, current_weight);
-
-					// 递归出来后回滚数据
-					current_weight -= (goods[layer].weight * current_set[layer]);
-					current_value -= (goods[layer].value * current_set[layer]);
-
-				}
-			}
-
-		}
-
-
-
-	public:
-
-		Bag(int N) {
-			maxValue = 0;			// 最大价值初始化为0
-			set_number = N;			// 初始化元素个数
-			initialize_set(N);		// 初始化集合
-			print_wv(N);			// 打印信息
-		}
-
-		
-
-		// 求解最大价值
-		void get_maxValue(int layer, int cv, int cw) {
-
-			// 蛮力法求解
-			t1 = getSystemTime();		// 开始计时
-			brute_force(layer, cv, cw);
-			t2 = getSystemTime();		// 结束计时
-
-			//打印时间
-			sum_time = t2 - t1;
-			cout &lt;&lt; &quot;蛮力法求解规模为 &quot; &lt;&lt; set_number &lt;&lt; &quot; 的0/1背包所需要的时间为：&quot; &lt;&lt; sum_time &lt;&lt; &quot;ms.&quot; &lt;&lt; endl;
-
-			// 打印结果
-			print_set();
-
-		}
-
-		// 根据货物单位价值进行排序
-		void sort_set() {		// 计算权值
-
-			for (int i = 0; i &lt; set_number; i++) {
-				goods[i].ave_value = double(goods[i].value) / double(goods[i].weight);
-			}
-
-			// 根据权值排序
-			sort(goods, goods + sizeof(goods) / sizeof(GD), sort_rule());
-
-			// 打印根据权值排序后的内容
-			cout &lt;&lt; &quot;根据单位价值排序后的物品重量以及对应的价值为：&quot; &lt;&lt; endl &lt;&lt; &quot;weight -&gt; { &quot;;
-
-			for (int i = 0; i &lt; set_number; i++) {
-				cout &lt;&lt; goods[i].weight &lt;&lt; &quot; &quot;;
-			}
-
-			cout &lt;&lt; &quot;}&quot; &lt;&lt; endl &lt;&lt; &quot;value -&gt; { &quot;;
-
-			for (int i = 0; i &lt; set_number; i++)
-			{
-				cout &lt;&lt; goods[i].value &lt;&lt; &quot; &quot;;
-			}
-
-			cout &lt;&lt; &quot;}&quot; &lt;&lt; endl;
-		}
-};				// 蛮力法，作为基类
-
-class Bag_with_backtrack : public Bag {		// 继承 Bag 的保护以及公用成员
-	
-	protected:
-		int current_set[MAX] = { 0 };		// define current_set to save current set
-
-
-		int Bound_sv(int layer, int cv) {
-
-			int i = layer;
-			int sv = cv;
-
-			for (i; i &lt; set_number; i++) {
-				sv += goods[i].value;		// 剩余物品都装下时的最大价值
-			}
-
-			return sv;
-
-		}
-		
-		double Bound(int layer,int cv,int cw){
-			int i = layer;
-			
-			double sv = double(cv);
-			int cr = capacity - cw;
-
-			while (i&lt;set_number &amp;&amp; goods[i].weight &lt;= cr)
-			{
-				cr -= goods[i].weight;
-				sv = sv + goods[i].value;
-				i++;
-			}
-
-			if (i &lt; set_number)
-				sv = sv + goods[i].ave_value * cr;
-
-			return sv;
-		}
-		
-
-		// Using back track method to get max value
-		void BackTrack(int layer, int current_value, int current_weight) {
-			// layer代表回溯层数，其余参数分别代表当前价值以及当前重量
-			//double expect_sumValue = 0;		// 记录期望价值总和
-
-			if (layer == set_number) {		// if layer bigger than number, over
-				// 注意这个地方，不用大于 ！！！
-
-				if (current_value &gt; maxValue) {
-
-					maxValue = current_value;
-
-					for (int i = 0; i &lt; set_number; i++) {
-						max_set[i] = current_set[i];
-
-					}
-				}
-			}
-			else
-			{
-				for (int j = 0; j &lt;= 1; j++) {
-
-					current_set[layer] = j;
-
-					/************************剪枝**************************/
-					
-
-					if (
-						current_weight + current_set[layer] * goods[layer].weight &lt;= capacity
-						&amp;&amp; Bound_sv(layer,current_value) &gt;= maxValue &amp;&amp; Bound(layer,current_value,current_weight) &gt; maxValue
-						)
-					{
-						// 更新当前背包物品的总重量，目前背包物品的总价值
-						current_weight += (goods[layer].weight * current_set[layer]);
-						current_value += (goods[layer].value * current_set[layer]);
-
-						// 继续进行子树的递归
-						BackTrack(layer + 1, current_value, current_weight);
-
-						// 递归出来后回滚数据
-						current_weight -= (goods[layer].weight * current_set[layer]);
-						current_value -= (goods[layer].value * current_set[layer]);
-
-					}
-				}
-			}
-
-		}
-
-
-	public:
-
-		Bag_with_backtrack(int N) :Bag(N) {
-			cout &lt;&lt; &quot;回溯法对象实例化...&quot; &lt;&lt; endl;
-		}
-
-
-		void get_maxValue_by_backTrack(int layer, int current_value, int current_weight) {
-
-			// 按照单位价值进行排序
-			t1 = getSystemTime(); // 开始计时
-			sort_set();
-
-			// 使用回溯法进行求解
-			BackTrack(layer, current_value, current_weight);
-			t2 = getSystemTime();	// 结束计时
-			
-			// 打印时间
-			sum_time = t2 - t1;
-			cout &lt;&lt; &quot;回溯法求解规模为 &quot; &lt;&lt; set_number &lt;&lt; &quot; 的0/1背包问题所需要的时间为：&quot; &lt;&lt; sum_time &lt;&lt; &quot;ms.&quot; &lt;&lt; endl;
-
-			// 打印集合
-			print_set();
-		}
-
-		
-};		// 回溯法，继承基类Bag
-
-
-class Bag_with_branchAndbound :public Bag {		// 从 Bag 类中派生
-
-	protected:
-		
-		int tree_node_id = 1;		// 解空间树结点id 1开始
-		
-		int lower_bound = 0;		// 目标函数的下界
-
-		// 贪心法求背包容量的下界
-		int greed() {
-
-			int temp[MAX] = { 0 };		// 定义临时数组，用来表示货物向量，并初始化为0
-			int cap = capacity;			// 暂存背包容量
-			int w = 0;					// 当前背包容量
-			int updown = 0;				// 下界
-			
-			// 对背包物品按照单位价值进行排序
-			sort_set();
-
-			// 求解
-			for (int i = 0; i &lt; set_number; i++) {
-
-				// 如果超重，跳出
-				if ((w+goods[i].weight) &gt; cap) {
-					continue;
-				}
-
-				temp[i] = 1;
-				w += goods[i].weight;
-				updown += (temp[i] * goods[i].value);
-			}
-
-			cout &lt;&lt; &quot;解的下界是：&quot; &lt;&lt; updown &lt;&lt; endl;
-
-			return updown;
-
-		}
-
-
-		// 限界函数求上界
-		void limit(ND &amp;n)				        //计算分枝结点的上界
-		{
-			// 下一个要选的物品就是第layer层物品
-			int w = n.current_weight;
-			double v = n.current_value;
-			int i = n.layer;
-
-			while (i &lt; set_number &amp;&amp; w + goods[i].weight &lt;= capacity) {
-				w += goods[i].weight;
-				v += goods[i].value;
-				i++;
-			}
-
-			if (i &lt; set_number) {  // 装部分物品
-				n.ub = v + (capacity - w)*goods[i].ave_value;
-			}
-			else
-			{
-				n.ub = v;
-			}
-		}
-
-		// 优先队列进队操作
-		void EnQueue(ND n, priority_queue&lt;ND&gt; &amp;q) {
-			if (n.layer == set_number) {		// 已经到达叶子结点
-
-				if (n.current_value &gt; maxValue) {		// 更新maxValue
-					maxValue = n.current_value;
-					for (int i = 0; i &lt; set_number; i++) {
-						max_set[i] = n.cset[i];
-					}
-				}
-			}
-			else {
-				q.push(n);			// 非叶子结点进队
-			}
-		}
-
-		// 分支限界法
-		void branchAndbound() {
-
-			// 首先使用贪心法求解此goods集合的目标值下界
-			lower_bound = greed();
-
-			priority_queue&lt;ND&gt; q;		// 优先队列
-			ND n0, n1, n2;				// 先定义根结点，左孩子结点，右孩子结点
-
-			/*初始化根节点*/
-			n0.id = tree_node_id++;		
-			n0.layer = 0;
-			n0.current_value = 0;
-			n0.current_weight = 0;
-			for (int i = 0; i &lt; set_number; i++) {
-				n0.cset[i] = 0;
-			}
-			limit(n0);					// 求根结点上界
-			q.push(n0);					// 根结点进队
-
-			while (!q.empty())			// 队不空循环
-			{
-				n0 = q.top();				// 取队头
-				q.pop();				// 出队
-				if (n0.current_weight + goods[n0.layer].weight &lt;= capacity &amp;&amp; n0.ub &gt;= lower_bound) {	// 超重剪枝 小于最小期望重量剪枝
-
-					// 设置左孩子结点
-					n1.id = tree_node_id++;
-					n1.layer = n0.layer + 1;
-					n1.current_weight = n0.current_weight + goods[n0.layer].weight;
-					n1.current_value = n0.current_value + goods[n0.layer].value;
-					/*复制解向量*/
-					for (int i = 0; i &lt; set_number; i++) {
-						n1.cset[i] = n0.cset[i];
-					}
-					n1.cset[n1.layer-1] = 1;			// 更新解向量
-					limit(n1);						// 求限界函数上界
-					EnQueue(n1, q);					// 左孩子进队
-				}
-
-				// 设置右孩子结点
-				n2.id = tree_node_id++;
-				n2.layer = n0.layer + 1;
-				n2.current_value = n0.current_value;
-				n2.current_weight = n0.current_weight;
-
-				// 复制解向量
-				for (int i = 0; i &lt; set_number; i++) {
-					n2.cset[i] = n0.cset[i];
-				}
-
-				
-				n2.cset[n2.layer-1] = 0;		 // 更新解向量
-				limit(n2);					// 求界限函数上界
-				
-				if (n2.ub &gt; maxValue &amp;&amp; n2.ub &gt;= lower_bound) {		// 剪枝，期望最大值小于已有最大值就剪枝  小于最小期望重量剪枝
-					EnQueue(n2, q);
-				}
-
-			}
-		}
-
-
-	public:
-
-		Bag_with_branchAndbound(int N) :Bag(N) {
-
-			cout &lt;&lt; &quot;分支限界法对象实例化...&quot; &lt;&lt; endl;
-		
-		}
-
-		void get_maxValue_by_branchAndbound() {
-			
-			// 分支限界法
-			t1 = getSystemTime();		// 开始计时
-			branchAndbound();
-			t2 = getSystemTime();		// 结束计时
-
-			// 计算并打印时间
-			sum_time = t2 - t1;
-			cout &lt;&lt; &quot;使用分支限界法求解问题规模为&quot; &lt;&lt; set_number &lt;&lt; &quot; 的0/1背包问题所需要的时间为：&quot; &lt;&lt; sum_time &lt;&lt; &quot;ms.&quot; &lt;&lt; endl;
-			
-			// 打印集合
-			print_set();
-		}
-		
-
-};		// 
-
-
-int main() {
-
-	srand((unsigned)time(NULL));
-	
-	/*************蛮力法************/
-	//for (int i = 0; i &lt; 40; i++) {
-	//	Bag bag = Bag(i);
-	//	bag.get_maxValue(0, 0, 0);
-	//}
-	
-	
-	/************回溯法*************/
-	//int n = 1;
-	//for (int i = 512; i &lt; 2000; i+=100) {
-	//	n *= 2;
-	//Bag_with_backtrack bag = Bag_with_backtrack(4);
-	//bag.get_maxValue_by_backTrack(0, 0, 0);
-	//}
-	
-	
-
-	/************分支限界法*************/
-	//Bag_with_branchAndbound bag = Bag_with_branchAndbound(5);
-	//bag.get_maxValue_by_branchAndbound();
-
-	//for (int n = 1; n &lt;= 5000; n*=2) {
-		Bag_with_branchAndbound bag = Bag_with_branchAndbound(4);
-		bag.get_maxValue_by_branchAndbound();
-	//}
-	
-
-	return 0;
-}
-
-
-
 </code></pre>
 ]]></content>
     </entry>
