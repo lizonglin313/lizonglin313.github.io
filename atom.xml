@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lizonglin313.github.io/</id>
     <title>Big Carrot</title>
-    <updated>2020-05-29T12:27:02.476Z</updated>
+    <updated>2020-05-29T12:29:06.223Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lizonglin313.github.io/"/>
     <link rel="self" href="https://lizonglin313.github.io/atom.xml"/>
@@ -17,7 +17,7 @@
         </link>
         <updated>2020-05-29T08:27:12.000Z</updated>
         <content type="html"><![CDATA[<blockquote>
-<p>先序遍历，中序遍历，后序遍历已经层次遍历。</p>
+<p>先序遍历，中序遍历，后序遍历以及层次遍历。</p>
 <p>使用递归、队列。</p>
 <p>整理自Leetcode。</p>
 </blockquote>
