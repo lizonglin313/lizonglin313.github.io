@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lizonglin313.github.io/</id>
     <title>Big Carrot</title>
-    <updated>2020-05-29T12:29:06.223Z</updated>
+    <updated>2020-06-08T11:37:30.884Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lizonglin313.github.io/"/>
     <link rel="self" href="https://lizonglin313.github.io/atom.xml"/>
@@ -10,6 +10,129 @@
     <logo>https://lizonglin313.github.io/images/avatar.png</logo>
     <icon>https://lizonglin313.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Big Carrot</rights>
+    <entry>
+        <title type="html"><![CDATA[在二叉树中使用递归解决问题]]></title>
+        <id>https://lizonglin313.github.io/post/zai-er-cha-shu-zhong-shi-yong-di-gui-jie-jue-wen-ti</id>
+        <link href="https://lizonglin313.github.io/post/zai-er-cha-shu-zhong-shi-yong-di-gui-jie-jue-wen-ti">
+        </link>
+        <updated>2020-06-08T10:05:43.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>整理自leetcode</p>
+<p>树结点定义如下：</p>
+<pre><code class="language-c">Definition for a binary tree node.
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+};
+</code></pre>
+</blockquote>
+<h2 id="二叉树的最大深度">二叉树的最大深度</h2>
+<p>给定一个二叉树，找出其最大深度。</p>
+<p>二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。</p>
+<p><strong>说明:</strong> 叶子节点是指没有子节点的节点。</p>
+<p><strong>示例：</strong><br>
+给定二叉树 <code>[3,9,20,null,null,15,7]</code>，</p>
+<pre><code>    3
+   / \
+  9  20
+    /  \
+   15   7
+</code></pre>
+<p>返回它的最大深度 3 。</p>
+<p><strong>代码</strong>:</p>
+<pre><code class="language-c">int maxDepth(struct TreeNode *root) {
+	
+	int ld = 0;
+	int rd = 0;
+	if (NULL == root) return 0;
+	if (root-&gt;left) ld = maxDepth(root-&gt;left);	// 左子树存在进行左递归
+	if (root-&gt;right) rd = maxDepth(root-&gt;right);	// 右子树存在进行右递归
+	return 1 + ((ld &gt; rd) ? ld : rd);		// 本层递归结束比较左右子树的深度取大者相加
+}
+</code></pre>
+<h2 id="对称二叉树">对称二叉树</h2>
+<p>给定一个二叉树，检查它是否是镜像对称的。</p>
+<p>例如，二叉树 <code>[1,2,2,3,4,4,3]</code> 是对称的。</p>
+<pre><code>    1
+   / \
+  2   2
+ / \ / \
+3  4 4  3
+</code></pre>
+<p>但是下面这个 <code>[1,2,2,null,3,null,3]</code> 则不是镜像对称的:</p>
+<pre><code>    1
+   / \
+  2   2
+   \   \
+   3    3
+</code></pre>
+<p><strong>代码</strong>:</p>
+<pre><code class="language-c">bool recursion(struct TreeNode* left, struct TreeNode* right) {
+	
+	// 如果左子树和右子树均为空 返回真
+	if (NULL == left &amp;&amp; NULL == right) return true;
+	else if (left == NULL || right == NULL) {
+		// 其中一个不为空 返回假
+		return false;
+	}
+
+	// 左结点的值是否等于右结点的值
+	bool c1 = (left-&gt;val == right-&gt;val);
+	// 左结点的左子树是否等于右结点的右子树
+	bool c2 = recursion(left-&gt;left, right-&gt;right);
+	// 左结点的右子树是否等于右结点的左子树
+	bool c3 = recursion(left-&gt;right, right-&gt;left);
+	// 如果同时成立
+	if (c1&amp;&amp;c2&amp;&amp;c3) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool isSymmetric(struct TreeNode* root) {
+	// 根 为空 返回正确
+	if (root == NULL) {
+		return true;
+	}
+	return recursion(root-&gt;left, root-&gt;right);
+}
+</code></pre>
+<h2 id="路径总和">路径总和</h2>
+<p>给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和。</p>
+<p><strong>说明:</strong> 叶子节点是指没有子节点的节点。</p>
+<p><strong>示例:</strong><br>
+给定如下二叉树，以及目标和 <code>sum = 22</code>，</p>
+<pre><code>              5
+             / \
+            4   8
+           /   / \
+          11  13  4
+         /  \      \
+        7    2      1
+</code></pre>
+<p>返回 <code>true</code>, 因为存在目标和为 22 的根节点到叶子节点的路径 <code>5-&gt;4-&gt;11-&gt;2</code>。</p>
+<p><strong>代码</strong>:</p>
+<pre><code class="language-c">bool hasPathSum(struct TreeNode* root, int sum) {
+
+	if (NULL == root) return false;
+
+	// 保证该结点为叶子结点的前提下 ，判断此时的sum是否和结点的值相等
+	if (root-&gt;val == sum &amp;&amp; NULL == root-&gt;left &amp;&amp; NULL == root-&gt;right)
+		return true;
+
+	// 递归向下层遍历，出错直接执行 false
+	if (hasPathSum(root-&gt;left, sum - root-&gt;val) || hasPathSum(root-&gt;right, sum - root-&gt;val))
+		return true;
+
+	return false;
+
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[链式存储二叉树的遍历]]></title>
         <id>https://lizonglin313.github.io/post/lian-shi-cun-chu-er-cha-shu-de-bian-li</id>
@@ -3112,208 +3235,6 @@ public:
 <li>in spite of 尽管，不顾，虽然</li>
 <li>via prep.经由，通过</li>
 </ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[C++ Vector的简单说明]]></title>
-        <id>https://lizonglin313.github.io/post/c-vector-rong-qi-de-jian-dan-shuo-ming</id>
-        <link href="https://lizonglin313.github.io/post/c-vector-rong-qi-de-jian-dan-shuo-ming">
-        </link>
-        <updated>2020-02-03T16:10:31.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p>整理自wiki、菜鸟教程、W3Cschool</p>
-</blockquote>
-<h3 id="什么是vector">什么是Vector</h3>
-<p><strong>Vector</strong> 是<a href="https://zh.wikipedia.org/wiki/C%2B%2B%E6%A8%99%E6%BA%96%E7%A8%8B%E5%BC%8F%E5%BA%AB">C++标准程序库</a>中的一个<a href="https://zh.wikipedia.org/wiki/%E7%B1%BB_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)">类</a>，可视为会自动扩展容量的数组，以循序(Sequential)的方式维护变量集合。vector的特色有支持随机存取，在集合尾端增删元素很快，但是在集合中间增删元素比较费时。vector是<a href="https://zh.wikipedia.org/wiki/C%2B%2B%E6%A8%99%E6%BA%96%E7%A8%8B%E5%BC%8F%E5%BA%AB">C++标准程序库</a>中的众多<a href="https://zh.wikipedia.org/wiki/%E5%AE%B9%E5%99%A8_(%E8%B3%87%E6%96%99%E9%A1%9E%E5%9E%8B)">容器</a>（<em>container</em>）之一。 vector以<a href="https://zh.wikipedia.org/wiki/%E6%A8%A1%E6%9D%BF_(C%2B%2B)">模板</a>(泛型)方式实现，可以保存任意类型的变量，包括用户自定义的数据类型，例如：它可以是放置整数（int）类型的 vector、也可以是放置字符串（string）类型的 vector、或者放置用户自定类别（user-defined class）的 vector。(from:wiki)</p>
-<p>向量（Vector）是一个封装了动态大小数组的顺序容器（Sequence Container）。跟任意其它类型容器一样，它能够存放各种类型的对象。可以简单的认为，向量是一个能够存放任意类型的动态数组。(from:runoob)</p>
-<p>在c++中，vector是一个十分有用的容器。它能够像容器一样存放各种类型的对象，简单地说，vector是一个能够存放任意类型的动态数组，能够增加和压缩数据。(from:w3cschool)</p>
-<h3 id="特性">特性</h3>
-<ul>
-<li>顺序序列：顺序容器中的元素按照严格的线性顺序排序。可以通过元素在序列中的位置访问对应的元素。</li>
-<li>动态数组：支持对序列中的任意元素进行快速直接访问，甚至可以通过指针算述进行该操作。操供了在序列末尾相对快速地添加/删除元素的操作。</li>
-<li>内存分配器感知：容器使用一个内存分配器对象来动态地处理它的存储需求。</li>
-</ul>
-<blockquote>
-<p>注意⚠</p>
-<ol>
-<li>
-<p>如果你要表示的向量长度较长（需要为向量内部保存很多数），容易导致内存泄漏，而且效率会很低；</p>
-</li>
-<li>
-<p>Vector作为函数的参数或者返回值时，需要注意它的写法：</p>
-<p><code>double Distance(vector&lt;int&gt;&amp;a, vector&lt;int&gt;&amp;b)</code></p>
-</li>
-</ol>
-</blockquote>
-<h3 id="使用方法">使用方法</h3>
-<h4 id="基本方法">基本方法</h4>
-<ul>
-<li>引入头文件</li>
-</ul>
-<pre><code class="language-c++">#include &lt;vector&gt;
-</code></pre>
-<ul>
-<li>创建vector对象</li>
-</ul>
-<pre><code class="language-c++">vector&lt;int&gt; vec;
-</code></pre>
-<ul>
-<li>在尾部插入一个元素</li>
-</ul>
-<pre><code class="language-c++">vec.push_back(a);
-</code></pre>
-<ul>
-<li>在尾部删除一个元素</li>
-</ul>
-<pre><code class="language-c++">vec.pop_back();
-</code></pre>
-<ul>
-<li>使用下标访问</li>
-</ul>
-<pre><code class="language-c++">cout &lt;&lt; vec[0] &lt;&lt; endl;
-</code></pre>
-<ul>
-<li>使用迭代器访问</li>
-</ul>
-<pre><code class="language-c++">vector&lt;int&gt;::iterator it;
-for (it = vec.begin(); it != vec.end(); it++)
-    cout &lt;&lt; *it &lt;&lt; endl;
-</code></pre>
-<ul>
-<li>在第<code>i+1</code>个元素前插入<code>a</code></li>
-</ul>
-<pre><code class="language-c++">vec.insert(vec.begin()+i,a);
-</code></pre>
-<ul>
-<li>删除第三个元素</li>
-</ul>
-<pre><code class="language-c++">vec.erase(vec.begin()+2);
-</code></pre>
-<ul>
-<li>删除区间<code>[i,j-1]</code>，区间从<code>0</code>开始</li>
-</ul>
-<pre><code class="language-c++">vec.erase(vec.begin()+i,vec.end()+j);
-</code></pre>
-<ul>
-<li>获取长度</li>
-</ul>
-<pre><code class="language-c++">vec.size();
-</code></pre>
-<ul>
-<li>清空</li>
-</ul>
-<pre><code class="language-c++">vec.clear();
-</code></pre>
-<ul>
-<li>逆序，需要引入头文件<code>#include&lt;algorithm&gt;</code></li>
-</ul>
-<pre><code class="language-c++">reverse(vec.begin(),vec.end());
-</code></pre>
-<ul>
-<li>使用<code>sort</code>排序，需要引入头文件<code>#include&lt;algorithm&gt;</code></li>
-</ul>
-<pre><code class="language-c++">sort(vec.begin(),vec.end());	// 默认升序
-
-/* 通过重写排序算法降序排列 */
-bool Comp(const int &amp;a,const int &amp;b)
-{
-    return a&gt;b;
-}
-sort(vec.begin(),vec.end(),Comp);	// 调用
-</code></pre>
-<h4 id="二维数组定义">二维数组定义</h4>
-<p>方法1：</p>
-<pre><code class="language-c++">#include &lt;string.h&gt;
-#include &lt;vector&gt;
-#include &lt;iostream&gt;
-#include &lt;algorithm&gt;
-using namespace std;
-
-int main()
-{
-    int N = 5, M = 6; 
-    vector&lt;vector&lt;int&gt;&gt; obj(N); 	//定义二维动态数组大小5行 
-    for(int i = 0; i &lt; obj.size(); i++)	//动态二维数组为5行6列，值全为0 
-    { 
-        obj[i].resize(M);	
-        // resize()改变当前使用数据的大小，如果它比当前使用的大，者填充默认值 
-    } 
- 
-    for(int i = 0; i&lt; obj.size(); i++)//输出二维动态数组 
-    {
-        for(int j = 0; j &lt; obj[i].size(); j++)
-        {
-            cout &lt;&lt; obj[i][j] &lt;&lt; &quot; &quot;;
-        }
-        cout &lt;&lt; &quot;\n&quot;;
-    }
-    return 0;
-}
-</code></pre>
-<p>方法2：</p>
-<pre><code class="language-c++">#include &lt;string.h&gt;
-#include &lt;vector&gt;
-#include &lt;iostream&gt;
-#include &lt;algorithm&gt;
-using namespace std;
- 
-int main()
-{
-    int N = 5, M = 6; 
-    vector&lt;vector&lt;int&gt;&gt; obj(N, vector&lt;int&gt;(M)); //定义二维动态数组5行6列 
- 
-    for(int i = 0; i &lt; obj.size(); i++)	//输出二维动态数组 
-    {
-        for(int j = 0; j &lt; obj[i].size(); j++)
-        {
-            cout &lt;&lt; obj[i][j] &lt;&lt; &quot; &quot;;
-        }
-        cout &lt;&lt; &quot;\n&quot;;
-    }
-    return 0;
-}
-</code></pre>
-<h4 id="结构体类型元素">结构体类型元素</h4>
-<blockquote>
-<p>注意⚠：结构体要定义为全局！</p>
-</blockquote>
-<pre><code class="language-c++">#include&lt;stdio.h&gt;  
-#include&lt;algorithm&gt;  
-#include&lt;vector&gt;  
-#include&lt;iostream&gt;  
-using namespace std;  
-typedef struct rect  
-{  
-    int id;  
-    int length;  
-    int width;  
-　　//对于向量元素是结构体的，可在结构体内部定义比较函数，下面按照id,length,width升序排序。  
-　　bool operator&lt; (const rect &amp;a)  const  
-    {  
-        if(id!=a.id)  
-            return id&lt;a.id;  
-        else  
-        {  
-            if(length!=a.length)  
-                return length&lt;a.length;  
-            else  
-                return width&lt;a.width;  
-        }  
-    }  
-}Rect;  
-int main()  
-{  
-    vector&lt;Rect&gt; vec;  
-    Rect rect;  
-    rect.id=1;  
-    rect.length=2;  
-    rect.width=3;  
-    vec.push_back(rect);  
-    vector&lt;Rect&gt;::iterator it=vec.begin();  
-    cout&lt;&lt;(*it).id&lt;&lt;' '&lt;&lt;(*it).length&lt;&lt;' '&lt;&lt;(*it).width&lt;&lt;endl;      
-return 0;  
-}  
-</code></pre>
 ]]></content>
     </entry>
 </feed>
