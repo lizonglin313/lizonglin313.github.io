@@ -66,92 +66,6 @@
     
     <div class="flex-1 order-2 md:order-1">
       <h2 class="text-2xl font-semibold mb-4">
-        <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part5：地址" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
-          使用Golang构建区块链Part5：地址
-        </a>
-      </h2>
-      <div class="mb-4 text-xs text-gray-500">2019-09-10</div>
-      <div class="mb-4 text-gray-500 dark:text-gray-300">
-        
-这一篇断断续续做了几天才得以实现，由于文章篇幅限制，作者只将新版本代码中最重要的最有代表性的改变在博客中进行分析。但是仍然有较多的代码需要大家根据compare进行自己细读。我们今天来进行“地址”的实现。
-
-引言
-在前面的文章中，我们实现...
-      </div>
-      <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part5：地址" class="btn">
-        Read more
-      </a>
-    </div>
-    
-  </div>
-
-  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
-    
-    <div class="flex-1 order-2 md:order-1">
-      <h2 class="text-2xl font-semibold mb-4">
-        <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part4：交易-1" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
-          使用Golang构建区块链Part4：交易-1
-        </a>
-      </h2>
-      <div class="mb-4 text-xs text-gray-500">2019-09-07</div>
-      <div class="mb-4 text-gray-500 dark:text-gray-300">
-        
-在对照实现本部分内容时，我进行的稍微困难，因为本篇中的实现代码与前面的代码相差的太多。所以，当遇到困难时，就直接去查源码。在后面会有对应代码改动的链接。
-
-介绍
-交易是比特币的核心，将交易安全可靠的存储是区块链唯一目的，所以没有人可以在交...
-      </div>
-      <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part4：交易-1" class="btn">
-        Read more
-      </a>
-    </div>
-    
-  </div>
-
-  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
-    
-    <div class="flex-1 order-2 md:order-1">
-      <h2 class="text-2xl font-semibold mb-4">
-        <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part3：持久化和命令行接口" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
-          使用Golang构建区块链Part3：持久化和命令行接口
-        </a>
-      </h2>
-      <div class="mb-4 text-xs text-gray-500">2019-09-06</div>
-      <div class="mb-4 text-gray-500 dark:text-gray-300">
-        介绍
-到现在，我们已经构建了一个有工作量证明系统和可以挖矿的区块链。我们的实现离一个具有完整功能的区块链又进了一步，但是它仍然少一些重要的性质。今天，我们要将区块链存储到数据库中，在这之后，我们将做一个简单的命令行接口来支持区块链的操作。在...
-      </div>
-      <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part3：持久化和命令行接口" class="btn">
-        Read more
-      </a>
-    </div>
-    
-  </div>
-
-  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
-    
-    <div class="flex-1 order-2 md:order-1">
-      <h2 class="text-2xl font-semibold mb-4">
-        <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part2：工作量证明" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
-          使用Golang构建区块链Part2：工作量证明
-        </a>
-      </h2>
-      <div class="mb-4 text-xs text-gray-500">2019-09-04</div>
-      <div class="mb-4 text-gray-500 dark:text-gray-300">
-        介绍
-在前面的文章中我们构建了一个非常简单的数据结构，也是区块链数据库的精华所在。然后我们让区块链以“链式”的形式添加区块成为可能：每一个区块连接到它前面的一个区块。可是，我们的区块链实现有一个重大的瑕疵：往链上添加区块太过简单，花费的代价...
-      </div>
-      <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part2：工作量证明" class="btn">
-        Read more
-      </a>
-    </div>
-    
-  </div>
-
-  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
-    
-    <div class="flex-1 order-2 md:order-1">
-      <h2 class="text-2xl font-semibold mb-4">
         <a href="https://lizonglin313.github.io/post/使用Golang构建区块链Part1：基本原型" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
           使用Golang构建区块链Part1：基本原型
         </a>
@@ -277,6 +191,122 @@ Python-0-100天正则表达式部分
 在编写处理字符串的程序或网页时，...
       </div>
       <a href="https://lizonglin313.github.io/post/Python中的正则表达式" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://lizonglin313.github.io/post/解决Pycharm出现Runtime-Error-R6034的报错" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          解决Pycharm出现Runtime Error R6034的报错
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2019-06-21</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+时隔半年之后（这半年很少用Pycharm...），我终于在 stackoverflow 上找到了解决方案。
+
+原文：
+原文链接
+回答者：Michael Cooper
+···
+I found the solution to the prob...
+      </div>
+      <a href="https://lizonglin313.github.io/post/解决Pycharm出现Runtime-Error-R6034的报错" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://lizonglin313.github.io/post/Java期末复习提纲" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          Java期末复习提纲
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2019-06-05</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        第一章 Java开发入门
+
+
+Java三个技术平台：JavaSE JavaEE JavaME
+
+
+Java语言的特点：
+
+简单易用
+安全可靠
+跨平台
+面向对象
+支持多线程
+
+
+
+什么是JDK？
+
+Java开发环境叫JDK，包括Java编译器...
+      </div>
+      <a href="https://lizonglin313.github.io/post/Java期末复习提纲" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://lizonglin313.github.io/post/软件工程期末复习整理" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          软件工程期末复习整理
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2019-06-01</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        第一章	软件工程概论
+1. 软件危机
+
+软件危机是指：在计算机软件的开发和维护过程中所遇到的一系列严重问题。
+软件危机包含下述两方面问题：
+
+（1）如何开发软件，以满足对软件日益增长的需求；
+（2）如何维护数量不断膨胀的已有软件。
+
+2. ...
+      </div>
+      <a href="https://lizonglin313.github.io/post/软件工程期末复习整理" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://lizonglin313.github.io/post/Golang实现最简单的链" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          Golang实现最简单的链
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2019-05-31</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+最近一直忙于伏羲也没怎么学别的东西···今天更一点东西，一起来看看一条最简单的区块链是如何实现的。
+本文转载自：Wuman's Blog
+
+区块结构体
+我们把一个区块看成一个结构体，用结构体来存储区块所需要的信息。
+// 创建区块链结构体...
+      </div>
+      <a href="https://lizonglin313.github.io/post/Golang实现最简单的链" class="btn">
         Read more
       </a>
     </div>
