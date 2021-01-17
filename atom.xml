@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lizonglin313.github.io/</id>
     <title>Big Carrot</title>
-    <updated>2021-01-15T15:22:42.672Z</updated>
+    <updated>2021-01-17T11:37:35.325Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lizonglin313.github.io/"/>
     <link rel="self" href="https://lizonglin313.github.io/atom.xml"/>
@@ -10,6 +10,25 @@
     <logo>https://lizonglin313.github.io/images/avatar.png</logo>
     <icon>https://lizonglin313.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Big Carrot</rights>
+    <entry>
+        <title type="html"><![CDATA[Vmware使用宿主机的小飞机]]></title>
+        <id>https://lizonglin313.github.io/post/vmware-shi-yong-su-zhu-ji-de-xiao-fei-ji</id>
+        <link href="https://lizonglin313.github.io/post/vmware-shi-yong-su-zhu-ji-de-xiao-fei-ji">
+        </link>
+        <updated>2021-01-17T11:13:49.000Z</updated>
+        <content type="html"><![CDATA[<p>首先，在小飞机客户端设置允许本代理允许来自局域网的连接</p>
+<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2021/01/17/lyS2NionqGdw6Hc.png" alt="image.png" loading="lazy"></figure>
+<p>然后，设置VMware的网络适配器的网络连接为桥接模式，复制连接物理网络状态，设置Ubuntu的网络，所有代理和主机都设置为宿主机的IP（如果宿主机为无线连接到网络就是WLAN的IPv4），注意端口号</p>
+<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2021/01/17/fvbXAFNuGBZSx3i.png" alt="image.png" loading="lazy"></figure>
+<p>最后，设置Ubuntu的IP地址、网关、DNS信息，与宿主机在同一局域网</p>
+<figure data-type="image" tabindex="3"><img src="https://i.loli.net/2021/01/17/y51ZmLcb3i7hsS2.png" alt="image.png" loading="lazy"></figure>
+<p>Apply</p>
+<figure data-type="image" tabindex="4"><img src="https://i.loli.net/2021/01/17/6t4dfXCBHNG29RK.png" alt="image.png" loading="lazy"></figure>
+<blockquote>
+<p>转载自：<a href="https://bbs.huaweicloud.com/blogs/107105">VMware下ubuntu通过主机Shadowsocks上外网VMware下ubuntu通过主机Shadowsocks上外网-云社区-华为云 (huaweicloud.com)</a></p>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Git使用]]></title>
         <id>https://lizonglin313.github.io/post/git-shi-yong</id>
@@ -2714,15 +2733,6 @@ int main()
 return 0;  
 }  
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[2020能不能重新开始]]></title>
-        <id>https://lizonglin313.github.io/post/geng-zi-nian-jian-nan-de-kai-ju</id>
-        <link href="https://lizonglin313.github.io/post/geng-zi-nian-jian-nan-de-kai-ju">
-        </link>
-        <updated>2020-01-24T15:06:31.000Z</updated>
-        <content type="html"><![CDATA[<p>⏮</p>
 ]]></content>
     </entry>
 </feed>
