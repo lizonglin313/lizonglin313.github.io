@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lizonglin313.github.io/</id>
     <title>Big Carrot</title>
-    <updated>2021-01-17T11:38:20.986Z</updated>
+    <updated>2021-01-21T14:33:51.028Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lizonglin313.github.io/"/>
     <link rel="self" href="https://lizonglin313.github.io/atom.xml"/>
@@ -10,6 +10,697 @@
     <logo>https://lizonglin313.github.io/images/avatar.png</logo>
     <icon>https://lizonglin313.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Big Carrot</rights>
+    <entry>
+        <title type="html"><![CDATA[Fabric2.X_fabric-samples_test-network解读]]></title>
+        <id>https://lizonglin313.github.io/post/fabric2x_fabric-samples_test-network-jie-du</id>
+        <link href="https://lizonglin313.github.io/post/fabric2x_fabric-samples_test-network-jie-du">
+        </link>
+        <updated>2021-01-21T12:41:47.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>Fabric2.X中，<code>fabric-samples</code>将作为Fabric1.X中的<code>first-network</code>的替代。也就是说，在2.X版本及以后，使用<code>fabric-samples</code>作为fabric的测试网络了。</p>
+</blockquote>
+<p>在配置好基本环境之后，来看一下它为我们提供了哪些内容。</p>
+<h2 id="目录结构">目录结构</h2>
+<pre><code class="language-shell">root@lizonglin-virtual-machine:/home/lizonglin/GoWork/src/github.com/fabric/scripts/fabric-samples# ll
+total 100
+drwxr-xr-x 15 lizonglin lizonglin  4096 1月  21 10:55 ./
+drwxr-xr-x  3 lizonglin lizonglin  4096 1月  21 10:17 ../
+drwxr-xr-x  2 lizonglin lizonglin  4096 10月  1 03:52 bin/
+drwxr-xr-x  8 lizonglin lizonglin  4096 1月  21 10:55 chaincode/
+drwxr-xr-x  3 lizonglin lizonglin  4096 1月  21 10:55 chaincode-docker-devmode/
+drwxr-xr-x  4 lizonglin lizonglin  4096 1月  21 10:55 ci/
+-rw-r--r--  1 lizonglin lizonglin   597 1月  17 18:50 CODE_OF_CONDUCT.md
+-rw-r--r--  1 lizonglin lizonglin   109 1月  17 18:50 CODEOWNERS
+drwxr-xr-x  3 lizonglin lizonglin  4096 1月  21 10:55 commercial-paper/
+drwxr-xr-x  2 lizonglin lizonglin  4096 10月  1 02:41 config/
+-rw-r--r--  1 lizonglin lizonglin   935 1月  17 18:50 CONTRIBUTING.md
+drwxr-xr-x  5 lizonglin lizonglin  4096 1月  21 10:55 fabcar/
+drwxr-xr-x  6 lizonglin lizonglin  4096 1月  21 11:24 first-network/
+drwxr-xr-x  8 lizonglin lizonglin  4096 1月  21 10:55 .git/
+-rw-r--r--  1 lizonglin lizonglin   189 1月  21 10:55 .gitignore
+drwxr-xr-x  4 lizonglin lizonglin  4096 1月  21 10:55 high-throughput/
+drwxr-xr-x  4 lizonglin lizonglin  4096 1月  21 10:55 interest_rate_swaps/
+-rw-r--r--  1 lizonglin lizonglin 11358 1月  17 18:50 LICENSE
+-rw-r--r--  1 lizonglin lizonglin  1644 1月  21 10:55 MAINTAINERS.md
+drwxr-xr-x  2 lizonglin lizonglin  4096 1月  21 10:55 off_chain_data/
+-rw-r--r--  1 lizonglin lizonglin  1694 1月  21 10:55 README.md
+-rw-r--r--  1 lizonglin lizonglin  1035 1月  17 18:50 SECURITY.md
+drwxr-xr-x  8 lizonglin lizonglin  4096 1月  21 18:52 test-network/
+</code></pre>
+<p>fabric-samples的目录结构如下，可以看到还是暂时为我们保留了first-network，但是新版的启动网络脚本则是在test-network中。</p>
+<pre><code class="language-shell">root@lizonglin-virtual-machine:/home/lizonglin/GoWork/src/github.com/fabric/scripts/fabric-samples/test-network# ll
+total 68
+drwxr-xr-x  8 lizonglin lizonglin  4096 1月  21 18:52 ./
+drwxr-xr-x 15 lizonglin lizonglin  4096 1月  21 10:55 ../
+drwxr-xr-x  4 lizonglin lizonglin  4096 1月  21 10:55 addOrg3/
+drwxr-xr-x  2 lizonglin lizonglin  4096 1月  21 10:55 configtx/
+drwxr-xr-x  2 lizonglin lizonglin  4096 1月  21 10:55 docker/
+-rw-r--r--  1 lizonglin lizonglin    69 1月  17 18:50 .env
+-rw-r--r--  1 lizonglin lizonglin   349 1月  21 10:55 .gitignore
+-rwxr-xr-x  1 lizonglin lizonglin 20570 1月  21 10:55 network.sh*
+drwxr-xr-x  4 lizonglin lizonglin  4096 1月  21 20:05 organizations/
+-rw-r--r--  1 lizonglin lizonglin   788 1月  21 10:55 README.md
+drwxr-xr-x  3 lizonglin lizonglin  4096 1月  21 10:55 scripts/
+drwxr-xr-x  2 lizonglin lizonglin  4096 1月  21 20:05 system-genesis-block/
+</code></pre>
+<h2 id="networksh">network.sh</h2>
+<p>其中，network.sh*即启动脚本，在新的脚本中，为我们进行了大量的配置工作，使得新版本的脚本很长，省略一些不必要的内容：</p>
+<pre><code class="language-shell">#!/bin/bash
+# 首先是一些说明：
+# 两个组织，每个组织一个peer节点
+# 一个使用Raft单节点的排序服务
+# This script brings up a Hyperledger Fabric network for testing smart contracts
+# and applications. The test network consists of two organizations with one
+# peer each, and a single node Raft ordering service. Users can also use this
+# script to create a channel deploy a chaincode on the channel
+#
+# prepending $PWD/../bin to PATH to ensure we are picking up the correct binaries
+# this may be commented out to resolve installed version of tools if desired
+export PATH=${PWD}/../bin:${PWD}:$PATH
+export FABRIC_CFG_PATH=${PWD}/configtx
+export VERBOSE=false
+
+# Print the usage message
+function printHelp() {
+  echo &quot;Usage: &quot;
+  echo &quot;  network.sh &lt;Mode&gt; [Flags]&quot;
+  echo &quot;    &lt;Mode&gt;&quot;
+  echo &quot;      - 'up' - bring up fabric orderer and peer nodes. No channel is created&quot;
+  echo &quot;      - 'up createChannel' - bring up fabric network with one channel&quot;
+  echo &quot;      - 'createChannel' - create and join a channel after the network is created&quot;
+  echo &quot;      - 'deployCC' - deploy the fabcar chaincode on the channel&quot;
+  echo &quot;      - 'down' - clear the network with docker-compose down&quot;
+  echo &quot;      - 'restart' - restart the network&quot;
+  echo
+  echo &quot;    Flags:&quot;
+  echo &quot;    -ca &lt;use CAs&gt; -  create Certificate Authorities to generate the crypto material&quot;
+  echo &quot;    -c &lt;channel name&gt; - channel name to use (defaults to \&quot;mychannel\&quot;)&quot;
+  echo &quot;    -s &lt;dbtype&gt; - the database backend to use: goleveldb (default) or couchdb&quot;
+  echo &quot;    -r &lt;max retry&gt; - CLI times out after certain number of attempts (defaults to 5)&quot;
+  echo &quot;    -d &lt;delay&gt; - delay duration in seconds (defaults to 3)&quot;
+  echo &quot;    -l &lt;language&gt; - the programming language of the chaincode to deploy: go (default), java, javascript, typescript&quot;
+  echo &quot;    -v &lt;version&gt;  - chaincode version. Must be a round number, 1, 2, 3, etc&quot;
+  echo &quot;    -i &lt;imagetag&gt; - the tag to be used to launch the network (defaults to \&quot;latest\&quot;)&quot;
+  echo &quot;    -verbose - verbose mode&quot;
+  echo &quot;  network.sh -h (print this message)&quot;
+  echo
+  echo &quot; Possible Mode and flags&quot;
+  echo &quot;  network.sh up -ca -c -r -d -s -i -verbose&quot;
+  echo &quot;  network.sh up createChannel -ca -c -r -d -s -i -verbose&quot;
+  echo &quot;  network.sh createChannel -c -r -d -verbose&quot;
+  echo &quot;  network.sh deployCC -l -v -r -d -verbose&quot;
+  echo
+  echo &quot; Taking all defaults:&quot;
+  echo &quot;	network.sh up&quot;
+  echo
+  echo &quot; Examples:&quot;
+  echo &quot;  network.sh up createChannel -ca -c mychannel -s couchdb -i 2.0.0&quot;
+  echo &quot;  network.sh createChannel -c channelName&quot;
+  echo &quot;  network.sh deployCC -l javascript&quot;
+}
+# 清理docker容器
+# Obtain CONTAINER_IDS and remove them
+# TODO Might want to make this optional - could clear other containers
+# This function is called when you bring a network down
+function clearContainers() {
+  CONTAINER_IDS=$(docker ps -a | awk '($2 ~ /dev-peer.*/) {print $1}')
+  if [ -z &quot;$CONTAINER_IDS&quot; -o &quot;$CONTAINER_IDS&quot; == &quot; &quot; ]; then
+    echo &quot;---- No containers available for deletion ----&quot;
+  else
+    docker rm -f $CONTAINER_IDS
+  fi
+}
+# 删除docker镜像
+# Delete any images that were generated as a part of this setup
+# specifically the following images are often left behind:
+# This function is called when you bring the network down
+function removeUnwantedImages() {
+  DOCKER_IMAGE_IDS=$(docker images | awk '($1 ~ /dev-peer.*/) {print $3}')
+  if [ -z &quot;$DOCKER_IMAGE_IDS&quot; -o &quot;$DOCKER_IMAGE_IDS&quot; == &quot; &quot; ]; then
+    echo &quot;---- No images available for deletion ----&quot;
+  else
+    docker rmi -f $DOCKER_IMAGE_IDS
+  fi
+}
+
+# Versions of fabric known not to work with the test network
+BLACKLISTED_VERSIONS=&quot;^1\.0\. ^1\.1\. ^1\.2\. ^1\.3\. ^1\.4\.&quot;
+
+# 这里检查一下现有的二进制文件以及镜像是否可用，免得后续出现问题
+# Do some basic sanity checking to make sure that the appropriate versions of fabric
+# binaries/images are available. In the future, additional checking for the presence
+# of go or other items could be added.
+function checkPrereqs() {
+  ## Check if your have cloned the peer binaries and configuration files.
+  peer version &gt; /dev/null 2&gt;&amp;1
+
+  if [[ $? -ne 0 || ! -d &quot;../config&quot; ]]; then
+    echo &quot;ERROR! Peer binary and configuration files not found..&quot;
+    echo
+    echo &quot;Follow the instructions in the Fabric docs to install the Fabric Binaries:&quot;
+    echo &quot;https://hyperledger-fabric.readthedocs.io/en/latest/install.html&quot;
+    exit 1
+  fi
+  # 检查docker镜像以及二进制文件是否匹配
+  # use the fabric tools container to see if the samples and binaries match your
+  # docker images
+  LOCAL_VERSION=$(peer version | sed -ne 's/ Version: //p')
+  DOCKER_IMAGE_VERSION=$(docker run --rm hyperledger/fabric-tools:$IMAGETAG peer version | sed -ne 's/ Version: //p' | head -1)
+
+  echo &quot;LOCAL_VERSION=$LOCAL_VERSION&quot;
+  echo &quot;DOCKER_IMAGE_VERSION=$DOCKER_IMAGE_VERSION&quot;
+
+  if [ &quot;$LOCAL_VERSION&quot; != &quot;$DOCKER_IMAGE_VERSION&quot; ]; then
+    echo &quot;=================== WARNING ===================&quot;
+    echo &quot;  Local fabric binaries and docker images are  &quot;
+    echo &quot;  out of  sync. This may cause problems.       &quot;
+    echo &quot;===============================================&quot;
+  fi
+
+  for UNSUPPORTED_VERSION in $BLACKLISTED_VERSIONS; do
+    echo &quot;$LOCAL_VERSION&quot; | grep -q $UNSUPPORTED_VERSION
+    if [ $? -eq 0 ]; then
+      echo &quot;ERROR! Local Fabric binary version of $LOCAL_VERSION does not match the versions supported by the test network.&quot;
+      exit 1
+    fi
+
+    echo &quot;$DOCKER_IMAGE_VERSION&quot; | grep -q $UNSUPPORTED_VERSION
+    if [ $? -eq 0 ]; then
+      echo &quot;ERROR! Fabric Docker image version of $DOCKER_IMAGE_VERSION does not match the versions supported by the test network.&quot;
+      exit 1
+    fi
+  done
+}
+
+# 下面简单介绍了cryptogen这个工具以及CA
+# Before you can bring up a network, each organization needs to generate the crypto
+# material that will define that organization on the network. Because Hyperledger
+# Fabric is a permissioned blockchain, each node and user on the network needs to
+# use certificates and keys to sign and verify its actions. In addition, each user
+# needs to belong to an organization that is recognized as a member of the network.
+# You can use the Cryptogen tool or Fabric CAs to generate the organization crypto
+# material.
+
+# By default, the sample network uses cryptogen. Cryptogen is a tool that is
+# meant for development and testing that can quicky create the certificates and keys
+# that can be consumed by a Fabric network. The cryptogen tool consumes a series
+# of configuration files for each organization in the &quot;organizations/cryptogen&quot;
+# directory. Cryptogen uses the files to generate the crypto  material for each
+# org in the &quot;organizations&quot; directory.
+
+# You can also Fabric CAs to generate the crypto material. CAs sign the certificates
+# and keys that they generate to create a valid root of trust for each organization.
+# The script uses Docker Compose to bring up three CAs, one for each peer organization
+# and the ordering organization. The configuration file for creating the Fabric CA
+# servers are in the &quot;organizations/fabric-ca&quot; directory. Within the same diectory,
+# the &quot;registerEnroll.sh&quot; script uses the Fabric CA client to create the identites,
+# certificates, and MSP folders that are needed to create the test network in the
+# &quot;organizations/ordererOrganizations&quot; directory.
+
+# Create Organziation crypto material using cryptogen or CAs
+function createOrgs() {
+
+  if [ -d &quot;organizations/peerOrganizations&quot; ]; then
+    rm -Rf organizations/peerOrganizations &amp;&amp; rm -Rf organizations/ordererOrganizations
+  fi
+
+  # Create crypto material using cryptogen
+  if [ &quot;$CRYPTO&quot; == &quot;cryptogen&quot; ]; then
+    which cryptogen
+    if [ &quot;$?&quot; -ne 0 ]; then
+      echo &quot;cryptogen tool not found. exiting&quot;
+      exit 1
+    fi
+    echo
+    echo &quot;##########################################################&quot;
+    echo &quot;##### Generate certificates using cryptogen tool #########&quot;
+    echo &quot;##########################################################&quot;
+    echo
+
+    echo &quot;##########################################################&quot;
+    echo &quot;############ Create Org1 Identities ######################&quot;
+    echo &quot;##########################################################&quot;
+
+    set -x
+    cryptogen generate --config=./organizations/cryptogen/crypto-config-org1.yaml --output=&quot;organizations&quot;
+    res=$?
+    set +x
+    if [ $res -ne 0 ]; then
+      echo &quot;Failed to generate certificates...&quot;
+      exit 1
+    fi
+
+    echo &quot;##########################################################&quot;
+    echo &quot;############ Create Org2 Identities ######################&quot;
+    echo &quot;##########################################################&quot;
+
+    set -x
+    cryptogen generate --config=./organizations/cryptogen/crypto-config-org2.yaml --output=&quot;organizations&quot;
+    res=$?
+    set +x
+    if [ $res -ne 0 ]; then
+      echo &quot;Failed to generate certificates...&quot;
+      exit 1
+    fi
+
+    echo &quot;##########################################################&quot;
+    echo &quot;############ Create Orderer Org Identities ###############&quot;
+    echo &quot;##########################################################&quot;
+
+    set -x
+    cryptogen generate --config=./organizations/cryptogen/crypto-config-orderer.yaml --output=&quot;organizations&quot;
+    res=$?
+    set +x
+    if [ $res -ne 0 ]; then
+      echo &quot;Failed to generate certificates...&quot;
+      exit 1
+    fi
+
+  fi
+
+  # Create crypto material using Fabric CAs
+  if [ &quot;$CRYPTO&quot; == &quot;Certificate Authorities&quot; ]; then
+
+    fabric-ca-client version &gt; /dev/null 2&gt;&amp;1
+    if [ $? -ne 0 ]; then
+      echo &quot;Fabric CA client not found locally, downloading...&quot;
+      cd ..
+      curl -s -L &quot;https://github.com/hyperledger/fabric-ca/releases/download/v1.4.4/hyperledger-fabric-ca-${OS_ARCH}-1.4.4.tar.gz&quot; | tar xz || rc=$?
+    if [ -n &quot;$rc&quot; ]; then
+        echo &quot;==&gt; There was an error downloading the binary file.&quot;
+        echo &quot;fabric-ca-client binary is not available to download&quot;
+    else
+        echo &quot;==&gt; Done.&quot;
+      cd test-network
+    fi
+    fi
+
+    echo
+    echo &quot;##########################################################&quot;
+    echo &quot;##### Generate certificates using Fabric CA's ############&quot;
+    echo &quot;##########################################################&quot;
+
+    IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE_CA up -d 2&gt;&amp;1
+
+    . organizations/fabric-ca/registerEnroll.sh
+
+    sleep 10
+
+    echo &quot;##########################################################&quot;
+    echo &quot;############ Create Org1 Identities ######################&quot;
+    echo &quot;##########################################################&quot;
+
+    createOrg1
+
+    echo &quot;##########################################################&quot;
+    echo &quot;############ Create Org2 Identities ######################&quot;
+    echo &quot;##########################################################&quot;
+
+    createOrg2
+
+    echo &quot;##########################################################&quot;
+    echo &quot;############ Create Orderer Org Identities ###############&quot;
+    echo &quot;##########################################################&quot;
+
+    createOrderer
+
+  fi
+
+  echo
+  echo &quot;Generate CCP files for Org1 and Org2&quot;
+  ./organizations/ccp-generate.sh
+}
+
+# 使用cryptogen（cryptogen用于配置网络中的证书、组织等）配置完网络组织后
+# 这里使用configtxgen配置创世区块、channel以及锚节点
+# 有一个&quot;configtx.yaml&quot;文件帮助配置网络中的组织创世区块，组织成员等内容
+# 创建每个channel的MSP
+# Once you create the organization crypto material, you need to create the
+# genesis block of the orderer system channel. This block is required to bring
+# up any orderer nodes and create any application channels.
+
+# The configtxgen tool is used to create the genesis block. Configtxgen consumes a
+# &quot;configtx.yaml&quot; file that contains the definitions for the sample network. The
+# genesis block is defiend using the &quot;TwoOrgsOrdererGenesis&quot; profile at the bottom
+# of the file. This profile defines a sample consortium, &quot;SampleConsortium&quot;,
+# consisting of our two Peer Orgs. This consortium defines which organizations are
+# recognized as members of the network. The peer and ordering organizations are defined
+# in the &quot;Profiles&quot; section at the top of the file. As part of each organization
+# profile, the file points to a the location of the MSP directory for each member.
+# This MSP is used to create the channel MSP that defines the root of trust for
+# each organization. In essense, the channel MSP allows the nodes and users to be
+# recognized as network members. The file also specifies the anchor peers for each
+# peer org. In future steps, this same file is used to create the channel creation
+# transaction and the anchor peer updates.
+#
+#
+# If you receive the following warning, it can be safely ignored:
+#
+# [bccsp] GetDefault -&gt; WARN 001 Before using BCCSP, please call InitFactories(). Falling back to bootBCCSP.
+#
+# You can ignore the logs regarding intermediate certs, we are not using them in
+# this crypto implementation.
+
+# Generate orderer system channel genesis block.
+function createConsortium() {
+
+  which configtxgen
+  if [ &quot;$?&quot; -ne 0 ]; then
+    echo &quot;configtxgen tool not found. exiting&quot;
+    exit 1
+  fi
+
+  echo &quot;#########  Generating Orderer Genesis block ##############&quot;
+
+  # Note: For some unknown reason (at least for now) the block file can't be
+  # named orderer.genesis.block or the orderer will fail to launch!
+  set -x
+  configtxgen -profile TwoOrgsOrdererGenesis -channelID system-channel -outputBlock ./system-genesis-block/genesis.block
+  res=$?
+  set +x
+  if [ $res -ne 0 ]; then
+    echo &quot;Failed to generate orderer genesis block...&quot;
+    exit 1
+  fi
+}
+
+# 之后，启动peer节点和排序服务，创建相应的docker实体
+# After we create the org crypto material and the system channel genesis block,
+# we can now bring up the peers and orderering service. By default, the base
+# file for creating the network is &quot;docker-compose-test-net.yaml&quot; in the ``docker``
+# folder. This file defines the environment variables and file mounts that
+# point the crypto material and genesis block that were created in earlier.
+
+# Bring up the peer and orderer nodes using docker compose.
+function networkUp() {
+
+  checkPrereqs
+  # generate artifacts if they don't exist
+  if [ ! -d &quot;organizations/peerOrganizations&quot; ]; then
+    createOrgs
+    createConsortium
+  fi
+
+  COMPOSE_FILES=&quot;-f ${COMPOSE_FILE_BASE}&quot;
+
+  if [ &quot;${DATABASE}&quot; == &quot;couchdb&quot; ]; then
+    COMPOSE_FILES=&quot;${COMPOSE_FILES} -f ${COMPOSE_FILE_COUCH}&quot;
+  fi
+
+  IMAGE_TAG=$IMAGETAG docker-compose ${COMPOSE_FILES} up -d 2&gt;&amp;1
+
+  docker ps -a
+  if [ $? -ne 0 ]; then
+    echo &quot;ERROR !!!! Unable to start network&quot;
+    exit 1
+  fi
+}
+
+# 将peer加入通道
+## call the script to join create the channel and join the peers of org1 and org2
+function createChannel() {
+
+## Bring up the network if it is not arleady up.
+
+  if [ ! -d &quot;organizations/peerOrganizations&quot; ]; then
+    echo &quot;Bringing up network&quot;
+    networkUp
+  fi
+
+  # now run the script that creates a channel. This script uses configtxgen once
+  # more to create the channel creation transaction and the anchor peer updates.
+  # configtx.yaml is mounted in the cli container, which allows us to use it to
+  # create the channel artifacts
+ scripts/createChannel.sh $CHANNEL_NAME $CLI_DELAY $MAX_RETRY $VERBOSE
+  if [ $? -ne 0 ]; then
+    echo &quot;Error !!! Create channel failed&quot;
+    exit 1
+  fi
+
+}
+# 实例化链码
+## Call the script to isntall and instantiate a chaincode on the channel
+function deployCC() {
+
+  scripts/deployCC.sh $CHANNEL_NAME $CC_SRC_LANGUAGE $VERSION $CLI_DELAY $MAX_RETRY $VERBOSE
+
+  if [ $? -ne 0 ]; then
+    echo &quot;ERROR !!! Deploying chaincode failed&quot;
+    exit 1
+  fi
+
+  exit 0
+}
+
+# 关闭网络
+# Tear down running network
+function networkDown() {
+  # stop org3 containers also in addition to org1 and org2, in case we were running sample to add org3
+  docker-compose -f $COMPOSE_FILE_BASE -f $COMPOSE_FILE_COUCH -f $COMPOSE_FILE_CA down --volumes --remove-orphans
+  docker-compose -f $COMPOSE_FILE_COUCH_ORG3 -f $COMPOSE_FILE_ORG3 down --volumes --remove-orphans
+  # Don't remove the generated artifacts -- note, the ledgers are always removed
+  if [ &quot;$MODE&quot; != &quot;restart&quot; ]; then
+    # Bring down the network, deleting the volumes
+    #Cleanup the chaincode containers
+    clearContainers
+    #Cleanup images
+    removeUnwantedImages
+    # remove orderer block and other channel configuration transactions and certs
+    rm -rf system-genesis-block/*.block organizations/peerOrganizations organizations/ordererOrganizations
+    ## remove fabric ca artifacts
+    rm -rf organizations/fabric-ca/org1/msp organizations/fabric-ca/org1/tls-cert.pem organizations/fabric-ca/org1/ca-cert.pem organizations/fabric-ca/org1/IssuerPublicKey organizations/fabric-ca/org1/IssuerRevocationPublicKey organizations/fabric-ca/org1/fabric-ca-server.db
+    rm -rf organizations/fabric-ca/org2/msp organizations/fabric-ca/org2/tls-cert.pem organizations/fabric-ca/org2/ca-cert.pem organizations/fabric-ca/org2/IssuerPublicKey organizations/fabric-ca/org2/IssuerRevocationPublicKey organizations/fabric-ca/org2/fabric-ca-server.db
+    rm -rf organizations/fabric-ca/ordererOrg/msp organizations/fabric-ca/ordererOrg/tls-cert.pem organizations/fabric-ca/ordererOrg/ca-cert.pem organizations/fabric-ca/ordererOrg/IssuerPublicKey organizations/fabric-ca/ordererOrg/IssuerRevocationPublicKey organizations/fabric-ca/ordererOrg/fabric-ca-server.db
+    rm -rf addOrg3/fabric-ca/org3/msp addOrg3/fabric-ca/org3/tls-cert.pem addOrg3/fabric-ca/org3/ca-cert.pem addOrg3/fabric-ca/org3/IssuerPublicKey addOrg3/fabric-ca/org3/IssuerRevocationPublicKey addOrg3/fabric-ca/org3/fabric-ca-server.db
+
+
+    # remove channel and script artifacts
+    rm -rf channel-artifacts log.txt fabcar.tar.gz fabcar
+
+  fi
+}
+
+# Obtain the OS and Architecture string that will be used to select the correct
+# native binaries for your platform, e.g., darwin-amd64 or linux-amd64
+OS_ARCH=$(echo &quot;$(uname -s | tr '[:upper:]' '[:lower:]' | sed 's/mingw64_nt.*/windows/')-$(uname -m | sed 's/x86_64/amd64/g')&quot; | awk '{print tolower($0)}')
+# Using crpto vs CA. default is cryptogen
+CRYPTO=&quot;cryptogen&quot;
+# timeout duration - the duration the CLI should wait for a response from
+# another container before giving up
+MAX_RETRY=5
+# default for delay between commands
+CLI_DELAY=3
+# channel name defaults to &quot;mychannel&quot;
+CHANNEL_NAME=&quot;mychannel&quot;
+# use this as the default docker-compose yaml definition
+COMPOSE_FILE_BASE=docker/docker-compose-test-net.yaml
+# docker-compose.yaml file if you are using couchdb
+COMPOSE_FILE_COUCH=docker/docker-compose-couch.yaml
+# certificate authorities compose file
+COMPOSE_FILE_CA=docker/docker-compose-ca.yaml
+# use this as the docker compose couch file for org3
+COMPOSE_FILE_COUCH_ORG3=addOrg3/docker/docker-compose-couch-org3.yaml
+# use this as the default docker-compose yaml definition for org3
+COMPOSE_FILE_ORG3=addOrg3/docker/docker-compose-org3.yaml
+#
+# use golang as the default language for chaincode
+CC_SRC_LANGUAGE=golang
+# Chaincode version
+VERSION=1
+# default image tag
+IMAGETAG=&quot;latest&quot;
+# default database
+DATABASE=&quot;leveldb&quot;
+
+# Parse commandline args
+
+## Parse mode
+if [[ $# -lt 1 ]] ; then
+  printHelp
+  exit 0
+else
+  MODE=$1
+  shift
+fi
+
+# parse a createChannel subcommand if used
+if [[ $# -ge 1 ]] ; then
+  key=&quot;$1&quot;
+  if [[ &quot;$key&quot; == &quot;createChannel&quot; ]]; then
+      export MODE=&quot;createChannel&quot;
+      shift
+  fi
+fi
+
+# parse flags
+
+while [[ $# -ge 1 ]] ; do
+  key=&quot;$1&quot;
+  case $key in
+  -h )
+    printHelp
+    exit 0
+    ;;
+  -c )
+    CHANNEL_NAME=&quot;$2&quot;
+    shift
+    ;;
+  -ca )
+    CRYPTO=&quot;Certificate Authorities&quot;
+    ;;
+  -r )
+    MAX_RETRY=&quot;$2&quot;
+    shift
+    ;;
+  -d )
+    CLI_DELAY=&quot;$2&quot;
+    shift
+    ;;
+  -s )
+    DATABASE=&quot;$2&quot;
+    shift
+    ;;
+  -l )
+    CC_SRC_LANGUAGE=&quot;$2&quot;
+    shift
+    ;;
+  -v )
+    VERSION=&quot;$2&quot;
+    shift
+    ;;
+  -i )
+    IMAGETAG=&quot;$2&quot;
+    shift
+    ;;
+  -verbose )
+    VERBOSE=true
+    shift
+    ;;
+  * )
+    echo
+    echo &quot;Unknown flag: $key&quot;
+    echo
+    printHelp
+    exit 1
+    ;;
+  esac
+  shift
+done
+
+# Are we generating crypto material with this command?
+if [ ! -d &quot;organizations/peerOrganizations&quot; ]; then
+  CRYPTO_MODE=&quot;with crypto from '${CRYPTO}'&quot;
+else
+  CRYPTO_MODE=&quot;&quot;
+fi
+
+# Determine mode of operation and printing out what we asked for
+if [ &quot;$MODE&quot; == &quot;up&quot; ]; then
+  echo &quot;Starting nodes with CLI timeout of '${MAX_RETRY}' tries and CLI delay of '${CLI_DELAY}' seconds and using database '${DATABASE}' ${CRYPTO_MODE}&quot;
+  echo
+elif [ &quot;$MODE&quot; == &quot;createChannel&quot; ]; then
+  echo &quot;Creating channel '${CHANNEL_NAME}'.&quot;
+  echo
+  echo &quot;If network is not up, starting nodes with CLI timeout of '${MAX_RETRY}' tries and CLI delay of '${CLI_DELAY}' seconds and using database '${DATABASE} ${CRYPTO_MODE}&quot;
+  echo
+elif [ &quot;$MODE&quot; == &quot;down&quot; ]; then
+  echo &quot;Stopping network&quot;
+  echo
+elif [ &quot;$MODE&quot; == &quot;restart&quot; ]; then
+  echo &quot;Restarting network&quot;
+  echo
+elif [ &quot;$MODE&quot; == &quot;deployCC&quot; ]; then
+  echo &quot;deploying chaincode on channel '${CHANNEL_NAME}'&quot;
+  echo
+else
+  printHelp
+  exit 1
+fi
+
+if [ &quot;${MODE}&quot; == &quot;up&quot; ]; then
+  networkUp
+elif [ &quot;${MODE}&quot; == &quot;createChannel&quot; ]; then
+  createChannel
+elif [ &quot;${MODE}&quot; == &quot;deployCC&quot; ]; then
+  deployCC
+elif [ &quot;${MODE}&quot; == &quot;down&quot; ]; then
+  networkDown
+elif [ &quot;${MODE}&quot; == &quot;restart&quot; ]; then
+  networkDown
+  networkUp
+else
+  printHelp
+  exit 1
+fi
+
+</code></pre>
+<h2 id="启动test-network">启动test-network</h2>
+<pre><code class="language-shell">root@lizonglin-virtual-machine:/home/lizonglin/GoWork/src/github.com/fabric/scripts/fabric-samples/test-network# ./network.sh up
+# 可以看到，默认使用leveldb
+Starting nodes with CLI timeout of '5' tries and CLI delay of '3' seconds and using database 'leveldb' with crypto from 'cryptogen'
+
+LOCAL_VERSION=2.2.1
+DOCKER_IMAGE_VERSION=2.2.1
+/home/lizonglin/GoWork/src/github.com/fabric/scripts/fabric-samples/test-network/../bin/cryptogen
+
+# 首先使用cryptogen创建证书
+##########################################################
+##### Generate certificates using cryptogen tool #########
+##########################################################
+
+# 组织1
+##########################################################
+############ Create Org1 Identities ######################
+##########################################################
++ cryptogen generate --config=./organizations/cryptogen/crypto-config-org1.yaml --output=organizations
+org1.example.com
++ res=0
++ set +x
+# 组织2
+##########################################################
+############ Create Org2 Identities ######################
+##########################################################
++ cryptogen generate --config=./organizations/cryptogen/crypto-config-org2.yaml --output=organizations
+org2.example.com
++ res=0
++ set +x
+# 排序服务
+##########################################################
+############ Create Orderer Org Identities ###############
+##########################################################
++ cryptogen generate --config=./organizations/cryptogen/crypto-config-orderer.yaml --output=organizations
++ res=0
++ set +x
+
+Generate CCP files for Org1 and Org2
+/home/lizonglin/GoWork/src/github.com/fabric/scripts/fabric-samples/test-network/../bin/configtxgen
+# 排序节点的创世区块
+#########  Generating Orderer Genesis block ##############
++ configtxgen -profile TwoOrgsOrdererGenesis -channelID system-channel -outputBlock ./system-genesis-block/genesis.block
+2021-01-21 18:53:34.963 CST [common.tools.configtxgen] main -&gt; INFO 001 Loading configuration
+2021-01-21 18:53:35.017 CST [common.tools.configtxgen.localconfig] completeInitialization -&gt; INFO 002 orderer type: etcdraft
+2021-01-21 18:53:35.017 CST [common.tools.configtxgen.localconfig] completeInitialization -&gt; INFO 003 Orderer.EtcdRaft.Options unset, setting to tick_interval:&quot;500ms&quot; election_tick:10 heartbeat_tick:1 max_inflight_blocks:5 snapshot_interval_size:16777216 
+2021-01-21 18:53:35.017 CST [common.tools.configtxgen.localconfig] Load -&gt; INFO 004 Loaded configuration: /home/lizonglin/GoWork/src/github.com/fabric/scripts/fabric-samples/test-network/configtx/configtx.yaml
+2021-01-21 18:53:35.019 CST [common.tools.configtxgen] doOutputBlock -&gt; INFO 005 Generating genesis block
+2021-01-21 18:53:35.020 CST [common.tools.configtxgen] doOutputBlock -&gt; INFO 006 Writing genesis block
++ res=0
++ set +x
+Creating network &quot;net_test&quot; with the default driver
+Creating volume &quot;net_orderer.example.com&quot; with default driver
+Creating volume &quot;net_peer0.org1.example.com&quot; with default driver
+Creating volume &quot;net_peer0.org2.example.com&quot; with default driver
+Creating peer0.org2.example.com ... done
+Creating orderer.example.com    ... done
+Creating peer0.org1.example.com ... done
+# 现在的docker中包含的容器，test-network到这里就是初步启动成功了
+CONTAINER ID   IMAGE                               COMMAND             CREATED          STATUS                  PORTS                              NAMES
+ae8899485a40   hyperledger/fabric-peer:latest      &quot;peer node start&quot;   18 seconds ago   Up Less than a second   0.0.0.0:7051-&gt;7051/tcp             peer0.org1.example.com
+e8e4acee2cdd   hyperledger/fabric-orderer:latest   &quot;orderer&quot;           18 seconds ago   Up Less than a second   0.0.0.0:7050-&gt;7050/tcp             orderer.example.com
+c0c720b03c4a   hyperledger/fabric-peer:latest      &quot;peer node start&quot;   18 seconds ago   Up 1 second             7051/tcp, 0.0.0.0:9051-&gt;9051/tcp   peer0.org2.example.com
+
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[VMware使用宿主机的小飞机]]></title>
         <id>https://lizonglin313.github.io/post/vmware-shi-yong-su-zhu-ji-de-xiao-fei-ji</id>
@@ -2530,208 +3221,6 @@ public:
         return (leftSum + rightSum);
     }
 };
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[C++ Vector的简单说明]]></title>
-        <id>https://lizonglin313.github.io/post/c-vector-rong-qi-de-jian-dan-shuo-ming</id>
-        <link href="https://lizonglin313.github.io/post/c-vector-rong-qi-de-jian-dan-shuo-ming">
-        </link>
-        <updated>2020-02-03T16:10:31.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p>整理自wiki、菜鸟教程、W3Cschool</p>
-</blockquote>
-<h3 id="什么是vector">什么是Vector</h3>
-<p><strong>Vector</strong> 是<a href="https://zh.wikipedia.org/wiki/C%2B%2B%E6%A8%99%E6%BA%96%E7%A8%8B%E5%BC%8F%E5%BA%AB">C++标准程序库</a>中的一个<a href="https://zh.wikipedia.org/wiki/%E7%B1%BB_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)">类</a>，可视为会自动扩展容量的数组，以循序(Sequential)的方式维护变量集合。vector的特色有支持随机存取，在集合尾端增删元素很快，但是在集合中间增删元素比较费时。vector是<a href="https://zh.wikipedia.org/wiki/C%2B%2B%E6%A8%99%E6%BA%96%E7%A8%8B%E5%BC%8F%E5%BA%AB">C++标准程序库</a>中的众多<a href="https://zh.wikipedia.org/wiki/%E5%AE%B9%E5%99%A8_(%E8%B3%87%E6%96%99%E9%A1%9E%E5%9E%8B)">容器</a>（<em>container</em>）之一。 vector以<a href="https://zh.wikipedia.org/wiki/%E6%A8%A1%E6%9D%BF_(C%2B%2B)">模板</a>(泛型)方式实现，可以保存任意类型的变量，包括用户自定义的数据类型，例如：它可以是放置整数（int）类型的 vector、也可以是放置字符串（string）类型的 vector、或者放置用户自定类别（user-defined class）的 vector。(from:wiki)</p>
-<p>向量（Vector）是一个封装了动态大小数组的顺序容器（Sequence Container）。跟任意其它类型容器一样，它能够存放各种类型的对象。可以简单的认为，向量是一个能够存放任意类型的动态数组。(from:runoob)</p>
-<p>在c++中，vector是一个十分有用的容器。它能够像容器一样存放各种类型的对象，简单地说，vector是一个能够存放任意类型的动态数组，能够增加和压缩数据。(from:w3cschool)</p>
-<h3 id="特性">特性</h3>
-<ul>
-<li>顺序序列：顺序容器中的元素按照严格的线性顺序排序。可以通过元素在序列中的位置访问对应的元素。</li>
-<li>动态数组：支持对序列中的任意元素进行快速直接访问，甚至可以通过指针算述进行该操作。操供了在序列末尾相对快速地添加/删除元素的操作。</li>
-<li>内存分配器感知：容器使用一个内存分配器对象来动态地处理它的存储需求。</li>
-</ul>
-<blockquote>
-<p>注意⚠</p>
-<ol>
-<li>
-<p>如果你要表示的向量长度较长（需要为向量内部保存很多数），容易导致内存泄漏，而且效率会很低；</p>
-</li>
-<li>
-<p>Vector作为函数的参数或者返回值时，需要注意它的写法：</p>
-<p><code>double Distance(vector&lt;int&gt;&amp;a, vector&lt;int&gt;&amp;b)</code></p>
-</li>
-</ol>
-</blockquote>
-<h3 id="使用方法">使用方法</h3>
-<h4 id="基本方法">基本方法</h4>
-<ul>
-<li>引入头文件</li>
-</ul>
-<pre><code class="language-c++">#include &lt;vector&gt;
-</code></pre>
-<ul>
-<li>创建vector对象</li>
-</ul>
-<pre><code class="language-c++">vector&lt;int&gt; vec;
-</code></pre>
-<ul>
-<li>在尾部插入一个元素</li>
-</ul>
-<pre><code class="language-c++">vec.push_back(a);
-</code></pre>
-<ul>
-<li>在尾部删除一个元素</li>
-</ul>
-<pre><code class="language-c++">vec.pop_back();
-</code></pre>
-<ul>
-<li>使用下标访问</li>
-</ul>
-<pre><code class="language-c++">cout &lt;&lt; vec[0] &lt;&lt; endl;
-</code></pre>
-<ul>
-<li>使用迭代器访问</li>
-</ul>
-<pre><code class="language-c++">vector&lt;int&gt;::iterator it;
-for (it = vec.begin(); it != vec.end(); it++)
-    cout &lt;&lt; *it &lt;&lt; endl;
-</code></pre>
-<ul>
-<li>在第<code>i+1</code>个元素前插入<code>a</code></li>
-</ul>
-<pre><code class="language-c++">vec.insert(vec.begin()+i,a);
-</code></pre>
-<ul>
-<li>删除第三个元素</li>
-</ul>
-<pre><code class="language-c++">vec.erase(vec.begin()+2);
-</code></pre>
-<ul>
-<li>删除区间<code>[i,j-1]</code>，区间从<code>0</code>开始</li>
-</ul>
-<pre><code class="language-c++">vec.erase(vec.begin()+i,vec.end()+j);
-</code></pre>
-<ul>
-<li>获取长度</li>
-</ul>
-<pre><code class="language-c++">vec.size();
-</code></pre>
-<ul>
-<li>清空</li>
-</ul>
-<pre><code class="language-c++">vec.clear();
-</code></pre>
-<ul>
-<li>逆序，需要引入头文件<code>#include&lt;algorithm&gt;</code></li>
-</ul>
-<pre><code class="language-c++">reverse(vec.begin(),vec.end());
-</code></pre>
-<ul>
-<li>使用<code>sort</code>排序，需要引入头文件<code>#include&lt;algorithm&gt;</code></li>
-</ul>
-<pre><code class="language-c++">sort(vec.begin(),vec.end());	// 默认升序
-
-/* 通过重写排序算法降序排列 */
-bool Comp(const int &amp;a,const int &amp;b)
-{
-    return a&gt;b;
-}
-sort(vec.begin(),vec.end(),Comp);	// 调用
-</code></pre>
-<h4 id="二维数组定义">二维数组定义</h4>
-<p>方法1：</p>
-<pre><code class="language-c++">#include &lt;string.h&gt;
-#include &lt;vector&gt;
-#include &lt;iostream&gt;
-#include &lt;algorithm&gt;
-using namespace std;
-
-int main()
-{
-    int N = 5, M = 6; 
-    vector&lt;vector&lt;int&gt;&gt; obj(N); 	//定义二维动态数组大小5行 
-    for(int i = 0; i &lt; obj.size(); i++)	//动态二维数组为5行6列，值全为0 
-    { 
-        obj[i].resize(M);	
-        // resize()改变当前使用数据的大小，如果它比当前使用的大，者填充默认值 
-    } 
- 
-    for(int i = 0; i&lt; obj.size(); i++)//输出二维动态数组 
-    {
-        for(int j = 0; j &lt; obj[i].size(); j++)
-        {
-            cout &lt;&lt; obj[i][j] &lt;&lt; &quot; &quot;;
-        }
-        cout &lt;&lt; &quot;\n&quot;;
-    }
-    return 0;
-}
-</code></pre>
-<p>方法2：</p>
-<pre><code class="language-c++">#include &lt;string.h&gt;
-#include &lt;vector&gt;
-#include &lt;iostream&gt;
-#include &lt;algorithm&gt;
-using namespace std;
- 
-int main()
-{
-    int N = 5, M = 6; 
-    vector&lt;vector&lt;int&gt;&gt; obj(N, vector&lt;int&gt;(M)); //定义二维动态数组5行6列 
- 
-    for(int i = 0; i &lt; obj.size(); i++)	//输出二维动态数组 
-    {
-        for(int j = 0; j &lt; obj[i].size(); j++)
-        {
-            cout &lt;&lt; obj[i][j] &lt;&lt; &quot; &quot;;
-        }
-        cout &lt;&lt; &quot;\n&quot;;
-    }
-    return 0;
-}
-</code></pre>
-<h4 id="结构体类型元素">结构体类型元素</h4>
-<blockquote>
-<p>注意⚠：结构体要定义为全局！</p>
-</blockquote>
-<pre><code class="language-c++">#include&lt;stdio.h&gt;  
-#include&lt;algorithm&gt;  
-#include&lt;vector&gt;  
-#include&lt;iostream&gt;  
-using namespace std;  
-typedef struct rect  
-{  
-    int id;  
-    int length;  
-    int width;  
-　　//对于向量元素是结构体的，可在结构体内部定义比较函数，下面按照id,length,width升序排序。  
-　　bool operator&lt; (const rect &amp;a)  const  
-    {  
-        if(id!=a.id)  
-            return id&lt;a.id;  
-        else  
-        {  
-            if(length!=a.length)  
-                return length&lt;a.length;  
-            else  
-                return width&lt;a.width;  
-        }  
-    }  
-}Rect;  
-int main()  
-{  
-    vector&lt;Rect&gt; vec;  
-    Rect rect;  
-    rect.id=1;  
-    rect.length=2;  
-    rect.width=3;  
-    vec.push_back(rect);  
-    vector&lt;Rect&gt;::iterator it=vec.begin();  
-    cout&lt;&lt;(*it).id&lt;&lt;' '&lt;&lt;(*it).length&lt;&lt;' '&lt;&lt;(*it).width&lt;&lt;endl;      
-return 0;  
-}  
 </code></pre>
 ]]></content>
     </entry>
