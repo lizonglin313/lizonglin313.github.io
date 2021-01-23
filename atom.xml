@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lizonglin313.github.io/</id>
     <title>Big Carrot</title>
-    <updated>2021-01-21T14:33:51.028Z</updated>
+    <updated>2021-01-23T11:43:04.867Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lizonglin313.github.io/"/>
     <link rel="self" href="https://lizonglin313.github.io/atom.xml"/>
@@ -10,6 +10,80 @@
     <logo>https://lizonglin313.github.io/images/avatar.png</logo>
     <icon>https://lizonglin313.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Big Carrot</rights>
+    <entry>
+        <title type="html"><![CDATA[Golang常用工具]]></title>
+        <id>https://lizonglin313.github.io/post/golang-chang-yong-gong-ju</id>
+        <link href="https://lizonglin313.github.io/post/golang-chang-yong-gong-ju">
+        </link>
+        <updated>2021-01-23T11:35:32.000Z</updated>
+        <content type="html"><![CDATA[<p>一般格式：<code>go command [arguments]</code></p>
+<h3 id="build">build</h3>
+<ul>
+<li>
+<p><code>build</code></p>
+<p>最常用的命令，用来编译go文件</p>
+<p>跨平台编译，如<code>env GOOS=linux GOARCH=amd64 go build</code>在Linux系统、amd64架构编译</p>
+</li>
+</ul>
+<h3 id="install">install</h3>
+<ul>
+<li>
+<p><code>install</code></p>
+<p>同为编译，和<code>build</code>的不同在于编译后会将输出文件打包成库放在pkg下面</p>
+</li>
+</ul>
+<h3 id="get">get</h3>
+<ul>
+<li>
+<p><code>get</code></p>
+<p>用于获取go第三方包，默认从git repo获取最新版本，如<code>go get -u github.com/go-sql-driver/mysql</code></p>
+</li>
+</ul>
+<h3 id="fmt">fmt</h3>
+<ul>
+<li>
+<p><code>fmt</code></p>
+<p>统一代码风格，<code>go fmt</code></p>
+</li>
+</ul>
+<h3 id="test">test</h3>
+<ul>
+<li>
+<p><code>test</code></p>
+<p>运行当前包目录下的test，如<code>go test</code>或<code>go test -v</code>，test文件命名是<code>xxx_test.go</code></p>
+</li>
+</ul>
+<p>关于写test case：</p>
+<ul>
+<li>
+<p>test命名为<code>TestXxxx</code></p>
+</li>
+<li>
+<p>test case 的参数为：<code>t *testing.T</code> 或者 <code>b *testing.B</code> (用于测试性能)</p>
+</li>
+<li>
+<p><code>t.Errorf()</code> 用于打印错误信息，同时跳过整个test case</p>
+</li>
+<li>
+<p><code>t.SkipNow()</code> 为跳过当前test，并且直接处理下一个test case，要写在test case的第一行</p>
+</li>
+<li>
+<p><code>t.Run()</code> 来执行subtests，可以做到控制test输出以及test的顺序</p>
+</li>
+<li>
+<p><code>TestMain(m *testing.M)</code> 初始化test，使用<code>m.Run()</code>来调用其他tests，可以用来完成一些初始化；如果没有调用<code>m.Run()</code>，那么处了TestMain以外其他的tests就不会被执行</p>
+</li>
+</ul>
+<p>关于benchmark：</p>
+<ul>
+<li>benchmark函数一般以Benchmark开头，如<code>BenchmarkXxx</code></li>
+<li>参数为： <code>b *testing.B</code></li>
+<li>每次执行一般会跑<code>b.N</code>次</li>
+<li>在执行过程中根据实际case的执行时间是否稳定来调整<code>b.N</code>的次数直至稳定</li>
+<li>命令行中，命令为：<code>go test -bench=.</code></li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Fabric2.X_fabric-samples_test-network解读]]></title>
         <id>https://lizonglin313.github.io/post/fabric2x_fabric-samples_test-network-jie-du</id>
@@ -2734,493 +2808,6 @@ void swap_row(int **matrix, int matrixSize, int i, int j) {
 	matrix[j] = t;
 
 }
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[leetcode线性问题合辑（数组、链表、栈、队列）]]></title>
-        <id>https://lizonglin313.github.io/post/leetcode-lian-biao-he-ji</id>
-        <link href="https://lizonglin313.github.io/post/leetcode-lian-biao-he-ji">
-        </link>
-        <updated>2020-02-22T13:39:19.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p>来源：力扣（LeetCode）<br>
-链接：https://leetcode-cn.com/<br>
-著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-<h2 id="leetcode001-两数之和">leetcode001-两数之和</h2>
-<h3 id="题目重述">题目重述</h3>
-<p>给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。</p>
-<p>你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。</p>
-<pre><code>给定 nums = [2, 7, 11, 15], target = 9
-因为 nums[0] + nums[1] = 2 + 7 = 9
-所以返回 [0, 1]
-</code></pre>
-<h3 id="题解">题解</h3>
-<blockquote>
-<p>程序员小吴(C++) Karl Xavier(Go)</p>
-</blockquote>
-<h5 id="c版本思路及代码">C++版本思路及代码</h5>
-<p>设置一个<code>map</code>容器和<code>record</code>用来记录元素的值与索引，然后遍历数组<code>nums</code>。</p>
-<ul>
-<li>每次遍历中使用临时变量<code>complement</code>用来保存目标值与当前值的差值</li>
-<li>在此次遍历中查找<code>record</code>，查看是否有与<code>complement</code>一致的值，如果查找成功则返回查找值的索引与当前<code>nums</code>中变量值的索引<code>i</code></li>
-<li>如果未找到，则在<code>record</code>中保存该元素与索引值<code>i</code></li>
-</ul>
-<pre><code class="language-c++">#include &lt;iostream&gt;
-#include &lt;vector&gt;
-#include &lt;unordered_map&gt;
-using namespace std;
-
-class Solution {
-public:
-    vector&lt;int&gt; twoSum(vector&lt;int&gt; &amp;nums, int target) {
-        unordered_map&lt;int, int&gt; record;
-        for (int i = 0; i &lt; nums.size(); ++i) {
-            int complement = target - nums[i];
-            if (record.find(complement) != record.end()) {  // 如果在 map 里没有查找到，就返回 end()
-                int res[] = {i, record[complement]};
-                cout &lt;&lt; res &lt;&lt; endl;
-                cout &lt;&lt; res + 2 &lt;&lt; endl;
-                return vector&lt;int&gt;(res, res + 2);
-            }
-            record[nums[i]] = i;    // 查到了， 将原数组值变为其下标
-        }
-        return vector&lt;int&gt;();
-    }
-};
-
-// [2,7,11,15]
-// 9
-int main() {
-    vector&lt;int&gt; nums = {2, 7, 11, 15};
-    vector&lt;int&gt; res;
-    int target = 9;
-    Solution s = *new Solution();
-    res = s.twoSum(nums, target);
-    for (int i = 0; i &lt; res.size(); ++i) {
-        cout &lt;&lt; res[i] &lt;&lt; endl;
-    }
-}
-
-
-</code></pre>
-<h5 id="go版本思路及代码">Go版本思路及代码</h5>
-<ul>
-<li>创建<code>map</code>映射<code>v</code>，存放目标数组的相关信息</li>
-<li>遍历目标数组，并获取目标值<code>target</code>与数组元素<code>nums[i]</code>的差值<code>dif</code></li>
-<li>将差值<code>dif</code>作为<code>map</code>中的<code>key</code>，目标数组<code>nums</code>的索引作为<code>map</code>中的<code>value</code></li>
-<li>判断<code>map</code>中是否包含差值<code>dif</code>，如果包含则返回对应的<code>value</code></li>
-<li>如果<code>map</code>中没有，则把其放到<code>map</code>中</li>
-</ul>
-<pre><code class="language-go">package main
-import &quot;fmt&quot;
-
-func twoSum(nums []int, target int) []int {
-	v := make(map[int]int)
-	for i := 0; i &lt; len(nums); i++ {
-		dif := target - nums[i]
-		c, ok := v[dif]
-		if ok != false {
-			return []int{c, i}
-		}
-		v[nums[i]] = i
-	}
-	return []int{-1, -1}
-}
-// [2,7,11,15]
-// 9
-func main() {
-	target := 9
-	nums := []int{2, 7, 11, 15}
-	fmt.Print(twoSum(nums, target))
-    
-}
-</code></pre>
-<h2 id="leetcode002-两数相加">leetcode002-两数相加</h2>
-<h3 id="题目重述-2">题目重述</h3>
-<p>给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。</p>
-<p>如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。</p>
-<p>您可以假设除了数字 0 之外，这两个数都不会以 0 开头。</p>
-<pre><code>输入：(2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)
-输出：7 -&gt; 0 -&gt; 8
-原因：342 + 465 = 807
-</code></pre>
-<h3 id="题解-2">题解</h3>
-<blockquote>
-<p>陈乐乐(c++) dp0qb(go)</p>
-</blockquote>
-<h5 id="c版本思路及代码-2">C++版本思路及代码</h5>
-<p>将长度较短的链表在末尾补<code>0</code>使得两个链表长度相等，然后再一个一个元素对其相加，需要注意的是要考虑进位。</p>
-<ul>
-<li>获取两个链表的长度</li>
-<li>较短的链表末尾补零</li>
-<li>对齐相加，注意考虑进位</li>
-</ul>
-<pre><code class="language-c++">struct ListNode {
-    int val;
-    ListNode *next;
-    ListNode(int x) : val(x), next(NULL) {}    // 定义链表的构造方法
-};
-class Solution {
-public:
-    ListNode *addTwoNumbers(ListNode *l1, ListNode *l2) {
-        int len1 = 1;   // 记录L1的长度
-        int len2 = 1;   // 记录L2的长度
-        ListNode *p = l1;
-        ListNode *q = l2;
-        while (p-&gt;next != NULL) {
-            // 获取 L1 的长度
-            len1++;
-            p = p-&gt;next;
-        }
-        while (q-&gt;next != NULL) {
-            // 获取 L2 的长度
-            len2++;
-            q = q-&gt;next;
-        }
-        if (len1 &gt; len2) {
-            // 如果 L1 比 L2 长，在 L2 末尾补零
-            for (int i = 0; i &lt;= len1 - len2; ++i) {
-                q-&gt;next = new ListNode(0);
-                q = q-&gt;next;
-            }
-        } else {
-            // L2 长 就在 L1 后面补 0
-            for (int i = 0; i &lt;= len2 - len1; ++i) {
-                p-&gt;next = new ListNode(0);
-                p = p-&gt;next;
-            }
-        }
-        p = l1;
-        q = l2;
-        bool count = false;     // 记录进位
-        ListNode *l3 = new ListNode(-1);    // 结果链表
-        ListNode *w = l3;       // L3 的移动指针
-        int i = 0;                // 记录相加结果
-        while (p != NULL &amp;&amp; q != NULL) {
-            i = count + p-&gt;val + q-&gt;val;
-            w-&gt;next = new ListNode(i % 10);
-            count = i &gt;= 10 ? true : false;
-            w = w-&gt;next;
-            p = p-&gt;next;
-            q = q-&gt;next;
-        }
-        if (count) {
-            // 如果最后还有进位
-            w-&gt;next = new ListNode(1);
-            w = w-&gt;next;
-        }
-        return l3-&gt;next;    // L3 头为 -1
-    }
-};
-</code></pre>
-<h5 id="go版本思路及代码-2">Go版本思路及代码</h5>
-<ul>
-<li>依次正常遍历链表，按照对应位两数相加，如果超过<code>10</code>，则取结果的个位数，下一位加<code>1</code></li>
-<li>如果一个链表比另一个链表短，那么长的链表就直接加<code>0</code></li>
-<li>如果最后一位相加之和大于<code>10</code>，那么最后不要忘记加上一个<code>1</code>结点</li>
-</ul>
-<pre><code class="language-go">/**  Definition for singly-linked list.  **/
-type ListNode struct {
-	Val  int
-	Next *ListNode
-}
-func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
-	var i, s int             // 分别表示 相加是否大于10 ，以及 两数之和
-	res := &amp;ListNode{Val: 0} // 头结点
-	now := res               // 当前节点
-	for true {
-		if i &gt; 0 {
-			// 前面两数之和大于10，当前的和加 1
-			s = l1.Val + l2.Val + 1
-		} else {
-			s = l1.Val + l2.Val
-		}
-		if s &gt;= 10 {
-			// 两数之和大于10 该位 s-10 否则就是 本身，并设置 i标记
-			now.Next = &amp;ListNode{Val: s - 10}
-			i = 1
-		} else {
-			now.Next = &amp;ListNode{Val: s}
-			i = 0
-		}
-		now = now.Next
-		// 当 l1 和 l2 移到最后
-		if l1.Next == nil &amp;&amp; l2.Next == nil {
-			// 如果 l1 l2 最后的和大于10 即i==1 那么后面还需要加一个 1
-			if i == 1 {
-				now.Next = &amp;ListNode{Val: 1}
-			}
-			break;
-		}
-		// l1 到最后 如果是 l2 没结束，把 l1 当前结点设置为0 继续和 l2 相加，否则后移指针
-		if l1.Next == nil {
-			l1.Val = 0
-		} else {
-			l1 = l1.Next
-		}
-		// 同理 对 l2 有
-		if l2.Next == nil {
-			l2.Val = 0
-		} else {
-			l2 = l2.Next
-		}
-	}
-	// 返回头结点的下一个结点指针
-	return res.Next
-}
-</code></pre>
-<h2 id="leetcode020-有效的括号">leetcode020-有效的括号</h2>
-<h3 id="题目重述-3">题目重述</h3>
-<p>给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。</p>
-<p>有效字符串需满足：</p>
-<p>左括号必须用相同类型的右括号闭合。<br>
-左括号必须以正确的顺序闭合。<br>
-注意空字符串可被认为是有效字符串。</p>
-<pre><code>示例 1:
-输入: &quot;()&quot;
-输出: true
-
-示例 2:
-输入: &quot;()[]{}&quot;
-输出: true
-
-示例 3:
-输入: &quot;(]&quot;
-输出: false
-
-示例 4:
-输入: &quot;([)]&quot;
-输出: false
-
-示例 5:
-输入: &quot;{[]}&quot;
-输出: true
-</code></pre>
-<h3 id="题解-3">题解</h3>
-<blockquote>
-<p>c***6(c++) chris(go)</p>
-</blockquote>
-<h5 id="c版本思路及代码-3">C++版本思路及代码</h5>
-<ul>
-<li>使用<code>vector</code>来模拟栈</li>
-<li>每次取前半括号包括<code>(</code>、<code>[</code>、<code>{</code>都将其入栈</li>
-<li>如果取到的是后半括号<code>)</code>、<code>]</code>、<code>}</code>就与取栈顶元素进行匹配，如果匹配就进行出栈操作，不匹配就返回错误</li>
-</ul>
-<pre><code class="language-c++">class Solution {
-public:
-    bool isValid(string s) {
-        int len = s.length();
-        int tmp;
-        // 用 vector 模拟栈
-        vector&lt;char&gt; hp;
-        for (int i = 0; i &lt; len; i++) {
-            // 入栈
-            if (s[i] == '(' || s[i] == '[' || s[i] == '{')
-                hp.push_back(s[i]);	// 进栈
-            else {
-                // 栈空
-                if (hp.size() == 0)return false;
-                // 取栈顶元素，注意这不是出栈
-                tmp = hp.back();
-                // 出栈
-                if (tmp == '(' &amp;&amp; s[i] == ')' || tmp == '[' &amp;&amp; s[i] == ']' || tmp == '{' &amp;&amp; s[i] == '}')
-                    hp.pop_back();  // 出栈
-                else
-                    return false;
-            }
-        }
-        return hp.size() == 0;
-    }
-};
-</code></pre>
-<h5 id="go版本思路及代码-3">Go版本思路及代码</h5>
-<p>利用数组切片模拟栈进行操作。</p>
-<ul>
-<li>使用<code>map</code>用<code>symbol</code>变量保存匹配规则，只有到右括号的时候才取左括号</li>
-<li>申请<code>c</code>保存左括号</li>
-<li>依次对字符串<code>s</code>进行遍历
-<ul>
-<li>用<code>clen</code>保存<code>c</code>的长度，先判断<code>clen</code>长度是否大于零
-<ul>
-<li>不大于零，将这个字符<code>value</code>加入</li>
-<li>大于零，同时如果<code>symbol</code>中存在这个字符的<code>key</code>，就和<code>clen</code>最新加入的值进行匹配，匹配成功对<code>c</code>进行切片，把最新加入的值切掉</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>最后判断<code>c</code>是否为空，空了说明都匹配了</li>
-</ul>
-<pre><code class="language-go">func isValid(s string) bool {
-	var c []byte
-	symbol := map[byte]byte{
-		')': '(',
-		']': '[',
-		'}': '{',
-	}
-	for _, value := range s {
-		clen := len(c)
-		if clen &gt; 0 {
-			if _, ok := symbol[byte(value)]; ok {
-				if c[clen-1] == symbol[byte(value)] {
-					c = c[:clen-1]
-					continue
-				}
-			}
-		}
-		c = append(c, byte(value))
-	}
-	return len(c) == 0
-</code></pre>
-<h2 id="leetcode026-删除排序数组中的重复项">leetcode026-删除排序数组中的重复项</h2>
-<h3 id="题目重述-4">题目重述</h3>
-<p>给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。</p>
-<p>不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成。</p>
-<pre><code>示例 1:
-给定数组 nums = [1,1,2], 
-函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。 
-你不需要考虑数组中超出新长度后面的元素。
-
-示例 2:
-给定 nums = [0,0,1,1,1,2,2,3,3,4],
-函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。
-你不需要考虑数组中超出新长度后面的元素。
-</code></pre>
-<h3 id="题解-4">题解</h3>
-<blockquote>
-<p>题解：陈乐乐(C++)  BeYanJin(Go)</p>
-<p>这个题目两种代码版本的思路基本相同，以Golang代码为例。</p>
-</blockquote>
-<p>使用快慢指针的思想来操作数组元素。</p>
-<ul>
-<li>定义慢指针<code>low</code>让它始终指向数组的有序无重复序列的最后一项，即其所指位置的后一项就是有重复元素的项</li>
-<li>定义快指针<code>fast</code>让它始终指向数组中没有加入有序无重复序列的第一项</li>
-<li>如果<code>nums[fast] != nums[low]</code>，就有<code>nums[low+1] = nums[fast]</code>，然后<code>low++</code>；否则<code>fast++</code>，寻找没有加入无重复序列的那项</li>
-</ul>
-<h5 id="c版本思路及代码-4">C++版本思路及代码</h5>
-<pre><code class="language-c++">class Solution {
-public:
-    int removeDuplicates(vector&lt;int&gt; &amp;nums) {
-        if (nums.size() == 0) return 0;
-        int i = 0;
-        for (int j = 1; j &lt; nums.size(); ++j) {
-            if (nums[j] != nums[i]) {
-                i++;
-                nums[i] = nums[j];
-            }
-        }
-        return i + 1;
-    }
-};
-</code></pre>
-<h5 id="go版本思路及代码-4">Go版本思路及代码</h5>
-<pre><code class="language-go">func removeDuplicates(nums []int) int {
-	if len(nums) == 0 {
-		return 0
-	}
-	low := 0
-	for fast := 0; fast &lt; len(nums); fast++ {
-		if nums[low] != nums[fast] {
-			nums[low+1] = nums[fast]
-			low++
-		}
-	}
-	return low + 1
-}
-</code></pre>
-<h2 id="leetcode053-最大子序和">leetcode053-最大子序和</h2>
-<h3 id="题目重述-5">题目重述</h3>
-<p>给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p>
-<pre><code>输入: [-2,1,-3,4,-1,2,1,-5,4],
-输出: 6
-解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
-</code></pre>
-<h3 id="题解-5">题解</h3>
-<blockquote>
-<p>题解：pinku-2</p>
-</blockquote>
-<h5 id="动态规划">动态规划</h5>
-<ul>
-<li>动态规划的关键点我认为有两个部分：
-<ul>
-<li>确定dp数组：<code>dp[i]</code>表示以<code>i</code>结尾的字段的和的最大值</li>
-<li>建立状态转移方程：<code>dp[i]</code>的值等于<code>max(dp[i-1],0)+nums[i]</code>，这是因为：如果<code>dp[i]</code>最大并且<code>dp[i-1]</code>大于<code>0</code>，那么<code>dp[i-1]</code>也最大；如果<code>dp[i-1]</code>小于<code>0</code>，那么前面的数就不用加上去了，所以干脆直接取<code>nums[i]</code>。</li>
-</ul>
-</li>
-<li>故有递推公式：$ dp[i] = max(dp[i-1], 0) + nums[i] $</li>
-</ul>
-<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2020/02/05/nYuqp5Z1sa6DBoO.png" alt="e6ca21377d5533204c3149e0b5cdcc146ada4efe1ed2294b3e0615cdb4754853-file_1576478143560.png" loading="lazy"></figure>
-<pre><code class="language-c++">class Solution1 {
-public:
-    int maxSubArray(vector&lt;int&gt; &amp;nums) {
-        int result = INT_MIN;
-        int numsSize = int(nums.size());
-        vector&lt;int&gt; dp(numsSize);   // dp[i]表示nums中以nums[i]结尾的最大子序和
-        dp[0] = nums[0];
-        result = dp[0];
-        for (int i = 1; i &lt; numsSize; ++i) {
-            dp[i] = max(dp[i - 1] + nums[i], nums[i]);
-            result = max(result, dp[i]);
-        }
-        return result;
-    }
-};
-</code></pre>
-<h5 id="分治法">分治法</h5>
-<p>最大子序和是使用分治法解决问题的典型的例子，并且可以用与合并排序相似的算法求解。下面是用分治法解决问题的模板：</p>
-<ul>
-<li>定义基本情况。</li>
-<li>将问题分解为子问题并递归地解决它们。</li>
-<li>合并子问题的解以获得原始问题的解。</li>
-</ul>
-<p>当最大子数组有 <code>n</code> 个数字时：</p>
-<ul>
-<li>若 <code>n==1</code>，返回此元素。</li>
-<li><code>left_sum</code> 为最大子数组前 <code>n/2</code> 个元素，在索引为 <code>(left + right) / 2</code> 的元素属于左子数组。</li>
-<li><code>right_sum</code> 为最大子数组的右子数组，为最后 <code>n/2</code> 的元素。</li>
-<li><code>mid_sum</code> 是包含左右子数组且含索引 <code>(left + right) / 2</code> 的最大值。</li>
-</ul>
-<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2020/02/05/1LZbIoUg9JYdVqH.png" alt="11.png" loading="lazy"></figure>
-<pre><code class="language-c++">class Solution2 {
-public:
-    int maxSubArray(vector&lt;int&gt; &amp;nums) {
-        int result = INT_MIN;
-        int numsSize = int(nums.size());
-        result = maxSubArrayHelper(nums, 0, numsSize - 1);
-        return result;
-    }
-
-    int maxSubArrayHelper(vector&lt;int&gt; &amp;nums, int left, int right) {
-        if (left == right) {
-            return nums[left];
-        }
-        int mid = (left + right) / 2;
-        int leftSum = maxSubArrayHelper(nums, left, mid);
-        int rightSum = maxSubArrayHelper(nums, mid + 1, right);
-        int midSum = findMaxCrossingSubarray(nums, left, mid, right);
-        int result = max(leftSum, rightSum);
-        result = max(result, midSum);
-        return result;
-    }
-
-    int findMaxCrossingSubarray(vector&lt;int&gt; &amp;nums, int left, int mid, int right) {
-        int leftSum = INT_MIN;
-        int sum = 0;
-        for (int i = mid; i &gt;= left; i--) {
-            sum += nums[i];
-            leftSum = max(leftSum, sum);
-        }
-
-        int rightSum = INT_MIN;
-        sum = 0;
-        for (int i = mid + 1; i &lt;= right; i++) {
-            sum += nums[i];
-            rightSum = max(rightSum, sum);
-        }
-        return (leftSum + rightSum);
-    }
-};
 </code></pre>
 ]]></content>
     </entry>
