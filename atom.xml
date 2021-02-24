@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lizonglin313.github.io/</id>
     <title>Big Carrot</title>
-    <updated>2021-02-07T15:34:24.296Z</updated>
+    <updated>2021-02-24T09:24:15.711Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lizonglin313.github.io/"/>
     <link rel="self" href="https://lizonglin313.github.io/atom.xml"/>
@@ -10,6 +10,580 @@
     <logo>https://lizonglin313.github.io/images/avatar.png</logo>
     <icon>https://lizonglin313.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Big Carrot</rights>
+    <entry>
+        <title type="html"><![CDATA[Golang接口]]></title>
+        <id>https://lizonglin313.github.io/post/golang-jie-kou</id>
+        <link href="https://lizonglin313.github.io/post/golang-jie-kou">
+        </link>
+        <updated>2021-02-21T09:37:03.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="golang的接口特性">Golang的接口特性</h2>
+<ul>
+<li>
+<p>接口组装</p>
+</li>
+<li>
+<p>兼有python、c++的灵活性</p>
+</li>
+<li>
+<p>拥有java的类型检查</p>
+</li>
+<li>
+<p>接口由<strong>使用者</strong>定义</p>
+</li>
+<li>
+<p>接口的实现是<strong>隐式</strong>的，只要实现接口里的方法就行</p>
+</li>
+</ul>
+<h2 id="定义和使用接口">定义和使用接口</h2>
+<p>首先我们定义一个接口：</p>
+<pre><code class="language-go">type Retriever interface {
+    Get(url string) string	// 这个接口要实现Get方法
+}
+
+// 有这样一个函数，会使用Get方法
+func download(r Retriever) string {
+    return r.Get(&quot;nothing&quot;)
+}
+</code></pre>
+<p>然后，我们去实现它：</p>
+<pre><code class="language-go">type retriever struct {
+    Contents string
+}
+// 需要实现Get方法
+func (r retriever) Get(url string) string {
+    return r.Contents
+}
+</code></pre>
+<p>现在，我们有一个接口<code>Retriever</code>，它需要有一个<code>Get</code>方法。我们又定义了一个</p>
+<p><code>retriever</code>对象，这个对象实现了<code>Get</code>方法，我们就可以说，<code>retriever</code>实现了<code>Retriever</code>这个接口，我们就可以用了。</p>
+<pre><code class="language-go">func main() {
+    var r Retriever
+    r = retriever{&quot;my retriever&quot;}
+    fmt.Println(download(r))
+}
+// my retriever
+// Process finished with exit code 0
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Fabric2.X的配置文件（以test-network为例）]]></title>
+        <id>https://lizonglin313.github.io/post/fabric2x-de-pei-zhi-wen-jian-yi-test-network-wei-li</id>
+        <link href="https://lizonglin313.github.io/post/fabric2x-de-pei-zhi-wen-jian-yi-test-network-wei-li">
+        </link>
+        <updated>2021-02-10T14:38:18.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>Hyperledger Fabric项目可以认为是一个<code>BaaS - Blockchain as a Service</code>，其主要的服务是为提供企业级的联盟链基础设施，多用于商业环境。和公有链不同的是，联盟链削弱中心化这一特性，通过灵活的身份准入、私有数据隔离、智能合约和链码等特性，使得使用者可以根据实际业务需求去设计自己的网络。而一个Fabric网络的结构，则依赖于许多网络配置文件。这些配置文件定义了参与网络的组织有哪些，每个组织的有哪些节点，以及这些节点的信息；除此之外，背书策略、排序策略、身份管理等内容也是通过这些配置文件来定义。</p>
+</blockquote>
+<h2 id="网络启动流程">网络启动流程</h2>
+<h3 id="第一步-使用cryptogen工具生成参与网络组织实体的证书">第一步 使用<code>cryptogen</code>工具生成参与网络组织实体的证书</h3>
+<p><code>cryptogen</code>工具用于生成证书文件，<code>PKI</code>、<code>CA</code>、<code>X.509</code>、<code>公钥体系</code>等密码学基础为整个Fabric提供了底层的安全支持，实现可信成员对网络资源的合法访问。启动一个网络的第一步，就是<strong>生成证书</strong>，</p>
+<p>在Fabric2.2中，同先前所有生成证书的配置都在一个文件中不同的是，每一个组织在都有单独的配置文件来管理。<code>test-network</code>使用三个文件生成对应三个组织的证书，在脚本中，它们是这样的：</p>
+<pre><code class="language-shell"> cryptogen generate --config=./organizations/cryptogen/crypto-config-org1.yaml --output=&quot;organizations&quot;
+ ...
+ cryptogen generate --config=./organizations/cryptogen/crypto-config-org2.yaml --output=&quot;organizations&quot;
+ ...
+ cryptogen generate --config=./organizations/cryptogen/crypto-config-orderer.yaml --output=&quot;organizations&quot;
+ ...
+</code></pre>
+<p>这几个文件的组织形式是这样的：</p>
+<pre><code class="language-shell">root@lizonglin-virtual-machine:/home/lizonglin/GoWork/src/github.com/fabric/scripts/fabric-samples/test-network/organizations# tree
+.
+...
+├── cryptogen   
+│   ├── crypto-config-orderer.yaml
+│   ├── crypto-config-org1.yaml
+│   └── crypto-config-org2.yaml
+└── fabric-ca
+    ├── ordererOrg
+    │   └── fabric-ca-server-config.yaml
+    ├── org1
+    │   └── fabric-ca-server-config.yaml
+    ├── org2
+    │   └── fabric-ca-server-config.yaml
+    └── registerEnroll.sh
+
+</code></pre>
+<p><code>orderer</code>组织，两个<code>org</code>分别由三个文件定义。</p>
+<p>使用<code>cryptogen</code>工具生成证书材料，三个文件内容如下：</p>
+<ul>
+<li>crypto-config-orderer.yaml</li>
+</ul>
+<pre><code class="language-shell"># ---------------------------------------------------------------------------
+# &quot;OrdererOrgs&quot; - Definition of organizations managing orderer nodes
+# ---------------------------------------------------------------------------
+OrdererOrgs: # orderer组织来管理orderer节点，定义orderer节点所属组织的信息
+  # ---------------------------------------------------------------------------
+  # Orderer
+  # ---------------------------------------------------------------------------
+  - Name: Orderer	# 组织名称
+    Domain: example.com	# 组织域名
+    EnableNodeOUs: true	# 是否在msp下生成config.yaml文件（许可为节点组织单元的一员）
+    # ---------------------------------------------------------------------------
+    # &quot;Specs&quot; - See PeerOrgs for complete description
+    # ---------------------------------------------------------------------------
+    Specs:	# Hostname + Domain 组成了完整的Orderer组织的域名： orderer.example.name
+      - Hostname: orderer
+        SANS:
+          - localhost
+</code></pre>
+<ul>
+<li>crypto-config-org1.yaml</li>
+</ul>
+<pre><code class="language-shell"># ---------------------------------------------------------------------------
+# &quot;PeerOrgs&quot; - Definition of organizations managing peer nodes
+# ---------------------------------------------------------------------------
+PeerOrgs:	# 这里定义的由peer节点组成的组织1的信息
+  # ---------------------------------------------------------------------------
+  # Org1
+  # ---------------------------------------------------------------------------
+  - Name: Org1	# 组织名称
+    Domain: org1.example.com	# 组织域名
+    EnableNodeOUs: true	# 生成msp文件
+    # ---------------------------------------------------------------------------
+    # &quot;Specs&quot;
+    # ---------------------------------------------------------------------------
+    # Uncomment this section to enable the explicit definition of hosts in your
+    # configuration.  Most users will want to use Template, below
+    #
+    # Specs is an array of Spec entries.  Each Spec entry consists of two fields:
+    #   - Hostname:   (Required) The desired hostname, sans the domain.
+    #   - CommonName: (Optional) Specifies the template or explicit override for
+    #                 the CN.  By default, this is the template:
+    #
+    #                              &quot;{{.Hostname}}.{{.Domain}}&quot;
+    #
+    #                 which obtains its values from the Spec.Hostname and
+    #                 Org.Domain, respectively.
+    # ---------------------------------------------------------------------------
+    #   - Hostname: foo # implicitly &quot;foo.org1.example.com&quot;
+    #     CommonName: foo27.org5.example.com # overrides Hostname-based FQDN set above
+    #   - Hostname: bar
+#   - Hostname: baz
+    # ---------------------------------------------------------------------------
+    # &quot;Template&quot;
+    # ---------------------------------------------------------------------------
+    # Allows for the definition of 1 or more hosts that are created sequentially
+    # from a template. By default, this looks like &quot;peer%d&quot; from 0 to Count-1.
+    # You may override the number of nodes (Count), the starting index (Start)
+    # or the template used to construct the name (Hostname).
+    #
+    # Note: Template and Specs are not mutually exclusive.  You may define both
+    # sections and the aggregate nodes will be created for you.  Take care with
+    # name collisions
+    # ---------------------------------------------------------------------------
+    Template:
+      Count: 1	# 节点个数
+      SANS:
+        - localhost
+      # Start: 5
+      # Hostname: {{.Prefix}}{{.Index}} # default
+    # ---------------------------------------------------------------------------
+    # &quot;Users&quot;
+    # ---------------------------------------------------------------------------
+    # Count: The number of user accounts _in addition_ to Admin
+    # ---------------------------------------------------------------------------
+    Users:
+      Count: 1	# 管理员个数
+</code></pre>
+<ul>
+<li>crypto-config-org2.yaml</li>
+</ul>
+<pre><code class="language-shell"># ---------------------------------------------------------------------------
+# &quot;PeerOrgs&quot; - Definition of organizations managing peer nodes
+# ---------------------------------------------------------------------------
+PeerOrgs:
+  # ---------------------------------------------------------------------------
+  # Org2
+  # ---------------------------------------------------------------------------
+  - Name: Org2
+    Domain: org2.example.com
+    EnableNodeOUs: true
+    # ---------------------------------------------------------------------------
+    Template:
+      Count: 1
+      SANS:
+        - localhost
+    # ---------------------------------------------------------------------------
+    Users:
+      Count: 1
+</code></pre>
+<p>如果我们要配置三个组织：含有三个<code>orderer</code>节点的<code>Orderer</code>组织，两个包含两个<code>peer</code>节点的<code>Org</code>组织，那么配置文件应该这样写：</p>
+<pre><code class="language-shell"># Orderer组织配置如下
+OrdererOrgs:
+	- Name: Orderer
+	  Domain: example.com
+	  EnableNodeOUs: true
+	  Specs:
+	  	- Hostname: orderer0
+	  	- Hostname: orderer1
+	  	- Hostname: orderer2
+# Org1组织配置如下
+PeerOrgs:
+	- Name: Org1
+	  Domain: org1.example.com
+	  EnableNodeOUs: true
+	  Template:
+	  	Count: 2
+	  Users:
+	  	Count: 1
+# Org2配置如下
+PeerOrgs:
+	- Name: Org2
+	  Domain: org2.example.com
+	  EnableNodeOUs: true
+	  Template:
+	  	Count: 2
+	  Users:
+	  	Count: 1
+</code></pre>
+<blockquote>
+<p>关于使用<code>cryptogen</code>还是<code>CAs</code>去生成加密证书材料，Fabric是这样说的：</p>
+<p>启动网络之前，每个组织需要生成加密材料，来定义网络中的组织。由于Fabric是许可链，网络中的每一个节点和用户需要使用证书以及密钥进行签名、验证等行为。此外，每个用户需要从属于某个组织，这个组织被视为网络的成员。你可以使用<code>Cryptogen tool</code>和<code>Fabric CAs</code>去生成组织的加密材料。</p>
+<p>默认情况，测试网络使用<code>cryptogen</code>工具。这个工具在开发和测试环境中可以快速的生成证书材料和密钥，这些几乎在网络中处处都会用到。</p>
+<p>同样的，也可以使用<code>Fabric CAs</code>生成证书、密钥等加密材料。<code>CAs</code>对证书进行签名并发放密钥，为每个组织生成一个合法的根信任。通过配置文件，使用<code>registerEnroll.sh</code>脚本生成实体、证书、<code>MSP</code>相关的文件。</p>
+</blockquote>
+<h3 id="第二步-使用configtxgen生成创世区块">第二步 使用<code>configtxgen</code>生成创世区块</h3>
+<p><code>configtxgen</code>工具使用<code>configtx.yaml</code>文件生成创世区块，这个文件也用来定义网络。通过这个文件，我们可以定义联盟，也就是把组织是为联盟的成员。其中，需要用到每个成员的MSP证书（上一步已经生成），来创建通道MSP，作为每个组织的根信任。通道MSP使得组织可以被视为网络成员。<code>configtx.yaml</code>文件同样定义了每个<code>peer</code>组织的锚节点，之后还用于创建通道及更新锚节点。</p>
+<pre><code class="language-shell">root@lizonglin-virtual-machine:/home/lizonglin/GoWork/src/github.com/fabric/scripts/fabric-samples/test-network/configtx# cat configtx.yaml 
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+---
+################################################################################
+#
+#   Section: Organizations
+#
+#   - This section defines the different organizational identities which will
+#   be referenced later in the configuration.
+#
+################################################################################ 
+Organizations: # 这个组织包含如下内容
+
+    # SampleOrg defines an MSP using the sampleconfig.  It should never be used
+    # in production but may be used as a template for other definitions
+    - &amp;OrdererOrg	# 可以在yaml文件的其他地方引用这个名字
+        # DefaultOrg defines the organization which is used in the sampleconfig
+        # of the fabric.git development environment
+        Name: OrdererOrg	# 名字
+
+        # ID to load the MSP definition as
+        ID: OrdererMSP	# MSPid
+
+        # MSPDir is the filesystem path which contains the MSP configuration
+        MSPDir: ../organizations/ordererOrganizations/example.com/msp	# 寻找msp的路径
+
+        # Policies defines the set of policies at this level of the config tree
+        # For organization policies, their canonical path is usually
+        #   /Channel/&lt;Application|Orderer&gt;/&lt;OrgName&gt;/&lt;PolicyName&gt;
+        Policies:	# 该组织的策略
+            Readers:	# 读策略
+                Type: Signature
+                Rule: &quot;OR('OrdererMSP.member')&quot;	# 由该OrdererMSP的任何一个成员签名就可以读
+            Writers:	# 写策略
+                Type: Signature
+                Rule: &quot;OR('OrdererMSP.member')&quot; # 同样的 OR 指 有一个就行
+            Admins:		# 管理员
+                Type: Signature
+                Rule: &quot;OR('OrdererMSP.admin')&quot;
+
+        OrdererEndpoints:	# 该组织端口号
+            - orderer.example.com:7050
+
+    - &amp;Org1 # 组织1，在yaml文件中 &amp;xxx 的写法使其可以在别处被引用
+        # DefaultOrg defines the organization which is used in the sampleconfig
+        # of the fabric.git development environment
+        Name: Org1MSP
+
+        # ID to load the MSP definition as
+        ID: Org1MSP
+
+        MSPDir: ../organizations/peerOrganizations/org1.example.com/msp
+
+        # Policies defines the set of policies at this level of the config tree
+        # For organization policies, their canonical path is usually
+        #   /Channel/&lt;Application|Orderer&gt;/&lt;OrgName&gt;/&lt;PolicyName&gt;
+        Policies:
+            Readers:
+                Type: Signature
+                # 这里的策略是，有'Org1MSP.admin', 'Org1MSP.peer', 'Org1MSP.client'三者中的一个允许就可以读
+                Rule: &quot;OR('Org1MSP.admin', 'Org1MSP.peer', 'Org1MSP.client')&quot;
+            Writers: # 同理有两个中的一个就可写
+                Type: Signature
+                Rule: &quot;OR('Org1MSP.admin', 'Org1MSP.client')&quot;
+            Admins:	# 只有admin
+                Type: Signature
+                Rule: &quot;OR('Org1MSP.admin')&quot;
+            Endorsement:	# 有一个Org1MSP的peer节点签名就可以背书
+                Type: Signature
+                Rule: &quot;OR('Org1MSP.peer')&quot;
+
+        # leave this flag set to true.
+        AnchorPeers:	# 锚节点用于跨组织通信
+            # AnchorPeers defines the location of peers which can be used
+            # for cross org gossip communication.  Note, this value is only
+            # encoded in the genesis block in the Application section context
+            - Host: peer0.org1.example.com
+              Port: 7051
+
+    - &amp;Org2
+        # DefaultOrg defines the organization which is used in the sampleconfig
+        # of the fabric.git development environment
+        Name: Org2MSP
+
+        # ID to load the MSP definition as
+        ID: Org2MSP
+
+        MSPDir: ../organizations/peerOrganizations/org2.example.com/msp
+
+        # Policies defines the set of policies at this level of the config tree
+        # For organization policies, their canonical path is usually
+        #   /Channel/&lt;Application|Orderer&gt;/&lt;OrgName&gt;/&lt;PolicyName&gt;
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: &quot;OR('Org2MSP.admin', 'Org2MSP.peer', 'Org2MSP.client')&quot;
+            Writers:
+                Type: Signature
+                Rule: &quot;OR('Org2MSP.admin', 'Org2MSP.client')&quot;
+            Admins:
+                Type: Signature
+                Rule: &quot;OR('Org2MSP.admin')&quot;
+            Endorsement:
+                Type: Signature
+                Rule: &quot;OR('Org2MSP.peer')&quot;
+
+        AnchorPeers:
+            # AnchorPeers defines the location of peers which can be used
+            # for cross org gossip communication.  Note, this value is only
+            # encoded in the genesis block in the Application section context
+            - Host: peer0.org2.example.com
+              Port: 9051
+
+################################################################################
+#
+#   SECTION: Capabilities
+#
+#   - This section defines the capabilities of fabric network. This is a new
+#   concept as of v1.1.0 and should not be utilized in mixed networks with
+#   v1.0.x peers and orderers.  Capabilities define features which must be
+#   present in a fabric binary for that binary to safely participate in the
+#   fabric network.  For instance, if a new MSP type is added, newer binaries
+#   might recognize and validate the signatures from this type, while older
+#   binaries without this support would be unable to validate those
+#   transactions.  This could lead to different versions of the fabric binaries
+#   having different world states.  Instead, defining a capability for a channel
+#   informs those binaries without this capability that they must cease
+#   processing transactions until they have been upgraded.  For v1.0.x if any
+#   capabilities are defined (including a map with all capabilities turned off)
+#   then the v1.0.x peer will deliberately crash.
+#
+################################################################################
+Capabilities:
+    # Channel capabilities apply to both the orderers and the peers and must be
+    # supported by both.
+    # Set the value of the capability to true to require it.
+    Channel: &amp;ChannelCapabilities
+        # V2_0 capability ensures that orderers and peers behave according
+        # to v2.0 channel capabilities. Orderers and peers from
+        # prior releases would behave in an incompatible way, and are therefore
+        # not able to participate in channels at v2.0 capability.
+        # Prior to enabling V2.0 channel capabilities, ensure that all
+        # orderers and peers on a channel are at v2.0.0 or later.
+        V2_0: true
+
+    # Orderer capabilities apply only to the orderers, and may be safely
+    # used with prior release peers.
+    # Set the value of the capability to true to require it.
+    Orderer: &amp;OrdererCapabilities
+        # V2_0 orderer capability ensures that orderers behave according
+        # to v2.0 orderer capabilities. Orderers from
+        # prior releases would behave in an incompatible way, and are therefore
+        # not able to participate in channels at v2.0 orderer capability.
+        # Prior to enabling V2.0 orderer capabilities, ensure that all
+        # orderers on channel are at v2.0.0 or later.
+        V2_0: true
+
+    # Application capabilities apply only to the peer network, and may be safely
+    # used with prior release orderers.
+    # Set the value of the capability to true to require it.
+    Application: &amp;ApplicationCapabilities
+        # V2_0 application capability ensures that peers behave according
+        # to v2.0 application capabilities. Peers from
+        # prior releases would behave in an incompatible way, and are therefore
+        # not able to participate in channels at v2.0 application capability.
+        # Prior to enabling V2.0 application capabilities, ensure that all
+        # peers on channel are at v2.0.0 or later.
+        V2_0: true
+
+################################################################################
+#
+#   SECTION: Application
+#
+#   - This section defines the values to encode into a config transaction or
+#   genesis block for application related parameters
+#
+################################################################################
+Application: &amp;ApplicationDefaults
+
+    # Organizations is the list of orgs which are defined as participants on
+    # the application side of the network
+    Organizations:
+
+    # Policies defines the set of policies at this level of the config tree
+    # For Application policies, their canonical path is
+    #   /Channel/Application/&lt;PolicyName&gt;
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: &quot;ANY Readers&quot;
+        Writers:
+            Type: ImplicitMeta
+            Rule: &quot;ANY Writers&quot;
+        Admins:
+            Type: ImplicitMeta
+            Rule: &quot;MAJORITY Admins&quot;
+        LifecycleEndorsement:
+            Type: ImplicitMeta
+            Rule: &quot;MAJORITY Endorsement&quot;
+        Endorsement:
+            Type: ImplicitMeta
+            Rule: &quot;MAJORITY Endorsement&quot;
+
+    Capabilities:
+        &lt;&lt;: *ApplicationCapabilities
+################################################################################
+#
+#   SECTION: Orderer
+#
+#   - This section defines the values to encode into a config transaction or
+#   genesis block for orderer related parameters
+#
+################################################################################
+Orderer: &amp;OrdererDefaults
+
+    # Orderer Type: The orderer implementation to start
+    OrdererType: etcdraft
+
+    EtcdRaft:
+        Consenters:
+        - Host: orderer.example.com
+          Port: 7050
+          ClientTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
+          ServerTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
+
+    # Batch Timeout: The amount of time to wait before creating a batch
+    BatchTimeout: 2s
+
+    # Batch Size: Controls the number of messages batched into a block
+    BatchSize:
+
+        # Max Message Count: The maximum number of messages to permit in a batch
+        MaxMessageCount: 10
+
+        # Absolute Max Bytes: The absolute maximum number of bytes allowed for
+        # the serialized messages in a batch.
+        AbsoluteMaxBytes: 99 MB
+
+        # Preferred Max Bytes: The preferred maximum number of bytes allowed for
+        # the serialized messages in a batch. A message larger than the preferred
+        # max bytes will result in a batch larger than preferred max bytes.
+        PreferredMaxBytes: 512 KB
+
+    # Organizations is the list of orgs which are defined as participants on
+    # the orderer side of the network
+    Organizations:
+
+    # Policies defines the set of policies at this level of the config tree
+    # For Orderer policies, their canonical path is
+    #   /Channel/Orderer/&lt;PolicyName&gt;
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: &quot;ANY Readers&quot;
+        Writers:
+            Type: ImplicitMeta
+            Rule: &quot;ANY Writers&quot;
+        Admins:
+            Type: ImplicitMeta
+            Rule: &quot;MAJORITY Admins&quot;
+        # BlockValidation specifies what signatures must be included in the block
+        # from the orderer for the peer to validate it.
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: &quot;ANY Writers&quot;
+
+################################################################################
+#
+#   CHANNEL
+#
+#   This section defines the values to encode into a config transaction or
+#   genesis block for channel related parameters.
+#
+################################################################################
+Channel: &amp;ChannelDefaults
+    # Policies defines the set of policies at this level of the config tree
+    # For Channel policies, their canonical path is
+    #   /Channel/&lt;PolicyName&gt;
+    Policies:
+        # Who may invoke the 'Deliver' API
+        Readers:
+            Type: ImplicitMeta
+            Rule: &quot;ANY Readers&quot;
+        # Who may invoke the 'Broadcast' API
+        Writers:
+            Type: ImplicitMeta
+            Rule: &quot;ANY Writers&quot;
+        # By default, who may modify elements at this config level
+        Admins:
+            Type: ImplicitMeta
+            Rule: &quot;MAJORITY Admins&quot;
+
+    # Capabilities describes the channel level capabilities, see the
+    # dedicated Capabilities section elsewhere in this file for a full
+    # description
+    Capabilities:
+        &lt;&lt;: *ChannelCapabilities
+
+################################################################################
+#
+#   Profile
+#
+#   - Different configuration profiles may be encoded here to be specified
+#   as parameters to the configtxgen tool
+#
+################################################################################
+Profiles:
+
+    TwoOrgsOrdererGenesis:
+        &lt;&lt;: *ChannelDefaults
+        Orderer:
+            &lt;&lt;: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+            Capabilities:
+                &lt;&lt;: *OrdererCapabilities
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                    - *Org1
+                    - *Org2
+    TwoOrgsChannel:
+        Consortium: SampleConsortium
+        &lt;&lt;: *ChannelDefaults
+        Application:
+            &lt;&lt;: *ApplicationDefaults
+            Organizations:
+                - *Org1
+                - *Org2
+            Capabilities:
+                &lt;&lt;: *ApplicationCapabilities
+
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Golang的指针]]></title>
         <id>https://lizonglin313.github.io/post/golang-de-zhi-zhen</id>
@@ -1174,658 +1748,6 @@ bool isSymmetric(struct TreeNode* root) {
 	if (hasPathSum(root-&gt;left, sum - root-&gt;val) || hasPathSum(root-&gt;right, sum - root-&gt;val))
 		return true;
 
-	return false;
-
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[链式存储二叉树的遍历]]></title>
-        <id>https://lizonglin313.github.io/post/lian-shi-cun-chu-er-cha-shu-de-bian-li</id>
-        <link href="https://lizonglin313.github.io/post/lian-shi-cun-chu-er-cha-shu-de-bian-li">
-        </link>
-        <updated>2020-05-29T08:27:12.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p>先序遍历，中序遍历，后序遍历以及层次遍历。</p>
-<p>使用递归、队列。</p>
-<p>整理自Leetcode。</p>
-</blockquote>
-<h2 id="说明">说明</h2>
-<p>使用到的树结点类型为：</p>
-<pre><code class="language-c">struct TreeNode {
-    int val;
-    struct TreeNode *left;
-    struct TreeNode *right;
-};
-</code></pre>
-<h2 id="先序遍历">先序遍历</h2>
-<p>给定一个二叉树，返回它的 <em>前序</em> 遍历。</p>
-<p><strong>示例:</strong></p>
-<pre><code>输入: [1,null,2,3]  
-   1
-    \
-     2
-    /
-   3 
-
-输出: [1,2,3]
-</code></pre>
-<p><strong>代码</strong>:</p>
-<pre><code class="language-c">/*求二叉树数据个数，用于动态申请空间*/
-int size(struct TreeNode* root)
-{
-	if (!root) return 0;
-	return size(root-&gt;left) + size(root-&gt;right) + 1;	// 递归求二叉树的个数
-}
-/*递归进行先序遍历*/
-void PreOrder(struct TreeNode *root, int *ret, int *retIndex) {
-	if (root == NULL) {
-		return;
-	}
-	ret[(*retIndex)++] = root-&gt;val;			// 根
-	PreOrder(root-&gt;left, ret, retIndex);	// 左
-	PreOrder(root-&gt;right, ret, retIndex);	// 右
-}
-
-int* preorderTraversal(struct TreeNode* root, int* returnSize) {
-
-    int treesize = size(root);		// 树结点数量
-	int retIndex = 0;				// 数组索引
-	int *ret = (int*)malloc(sizeof(int) * treesize);	// 申请空间
-	memset(ret, 0, treesize);		// 置零
-
-	PreOrder(root, ret, &amp;retIndex);		// 先序遍历
-	*returnSize = retIndex;
-
-	return ret;
-
-}
-</code></pre>
-<h2 id="中序遍历">中序遍历</h2>
-<p>给定一个二叉树，返回它的<em>中序</em> 遍历。</p>
-<p><strong>示例:</strong></p>
-<pre><code>输入: [1,null,2,3]
-   1
-    \
-     2
-    /
-   3
-
-输出: [1,3,2]
-</code></pre>
-<p><strong>代码</strong>:</p>
-<pre><code class="language-c">int size(struct TreeNode* root)/*求二叉树数据个数*/
-{
-   if(!root) return 0;
-   return size(root-&gt;left)+size(root-&gt;right)+1;
-}
-
-void inorder(struct TreeNode* root, int *ret, int* retIndex)/*中序遍历二叉树*/
-{
-	if (root == NULL) return;
-
-	inorder(root-&gt;left, ret, retIndex);
-	ret[(*retIndex)++] = root-&gt;val;
-	inorder(root-&gt;right, ret, retIndex);
-}
-
-int* inorderTraversal(struct TreeNode* root, int* returnSize) {
-    
-	int treesize = size(root);
-    int retIndex = 0;
-	int *ret = (int*)malloc(treesize * sizeof(int));
-	memset(ret, 0, treesize);
-	
-	inorder(root, ret, &amp;retIndex);
-    *returnSize = retIndex;
-     
-    return ret;
-}
-
-</code></pre>
-<h2 id="后序遍历">后序遍历</h2>
-<p>给定一个二叉树，返回它的 <em>后序</em> 遍历。</p>
-<p><strong>示例:</strong></p>
-<pre><code>输入: [1,null,2,3]  
-   1
-    \
-     2
-    /
-   3 
-
-输出: [3,2,1]
-</code></pre>
-<p><strong>代码</strong>:</p>
-<pre><code class="language-c">int size(struct TreeNode* root)/*求二叉树数据个数*/
-{
-   if(!root) return 0;
-   return size(root-&gt;left)+size(root-&gt;right)+1;
-}
-
-void postorder(struct TreeNode* root, int *ret, int* retIndex)/*中序遍历二叉树*/
-{
-	if (root == NULL) return;
-
-	postorder(root-&gt;left, ret, retIndex);
-	postorder(root-&gt;right, ret, retIndex);
-    ret[(*retIndex)++] = root-&gt;val;
-
-}
-
-int* postorderTraversal(struct TreeNode* root, int* returnSize){
-    int treesize = size(root);
-    int retIndex = 0;
-	int *ret = (int*)malloc(treesize * sizeof(int));
-	memset(ret, 0, treesize);
-	
-	postorder(root, ret, &amp;retIndex);
-    *returnSize = retIndex;
-    return ret;
-}
-</code></pre>
-<h2 id="先序-中序-后序">先序、中序、后序</h2>
-<p>显然，对于三种遍历方式，在递归实现中，唯一的不同是递归函数中<code>ret[(*retIndex)++] = root-&gt;val</code>语句的位置:</p>
-<pre><code class="language-c">void order(struct TreeNode* root, int *ret, int* retIndex)
-{
-	if (root == NULL) return;
-
-    //ret[(*retIndex)++] = root-&gt;val;
-	postorder(root-&gt;left, ret, retIndex);
-	//ret[(*retIndex)++] = root-&gt;val;
-    postorder(root-&gt;right, ret, retIndex);
-    //ret[(*retIndex)++] = root-&gt;val;
-
-}
-</code></pre>
-<p>所以，对于三种遍历方式，我们可以统一写为：</p>
-<pre><code class="language-c">/*递归求树结点的个数*/
-int size(struct TreeNode *root){
-    if(!root) return 0;
-    return size(root-&gt;left) + size(root-&gt;right) + 1;
-}
-/**/
-void order(struct TreeNode *root, int *ret, int *retIndex, METHOD){
-    if(root==NULL) return 0;
-    if(METHOD is preorder){
-        
-        ret[(*resIndex++)] = root-&gt;val;
-        order(root-&gt;left, ret, retIndex, METHOD);
-        order(root-&gt;right, ret, retIndex, METHOD);
-    
-    }else if(METHOD is inorder){
-    
-        order(root-&gt;left, ret, retIndex, METHOD);
-        ret[(*resIndex++)] = root-&gt;val;
-        order(root-&gt;right, ret, retIndex, METHOD);
-    
-    }else if(METHOD is lastorder){
-    
-        order(root-&gt;left, ret, retIndex, METHOD);
-        order(root-&gt;right, ret, retIndex, METHOD);
-        ret[(*resIndex++)] = root-&gt;val;
-    
-    }
-}
-
-int *orderTraversal(struct TreeNode *root, int *treeSize, METHOD){
-    int treesize = size(root);
-    int retIndex = 0;
-    int *ret = (int*)malloc(sizeof(int)*treesize);
-    memset(ret, 0, treesize);
-    order(root, ret, &amp;retIndex, METHOD);
-    *returnSize = retIndex;
-    return ret;
-}
-</code></pre>
-<h2 id="层次遍历">层次遍历</h2>
-<p>给你一个二叉树，请你返回其按 <strong>层序遍历</strong> 得到的节点值。 （即逐层地，从左到右访问所有节点）。</p>
-<p><strong>示例：</strong><br>
-二叉树：<code>[3,9,20,null,null,15,7]</code>,</p>
-<pre><code>    3
-   / \
-  9  20
-    /  \
-   15   7
-</code></pre>
-<p>返回其层次遍历结果：</p>
-<pre><code>[
-  [3],
-  [9,20],
-  [15,7]
-]
-</code></pre>
-<p><strong>代码</strong>:</p>
-<blockquote>
-<p>作者：r0vHWU5AdJ<br>
-链接：https://leetcode-cn.com/problems/binary-tree-level-order-traversal/solution/chun-cchuang-jian-dui-lie-shi-xian-er-cha-shu-de-c/<br>
-来源：力扣（LeetCode）<br>
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
-</blockquote>
-<pre><code class="language-c">/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
-
-
-/**
- * Return an array of arrays of size *returnSize.
- * The sizes of the arrays are returned as *returnColumnSizes array.
- * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
- */
-
-//创建队列
-//1,构建队列，实现压入和弹出函数 Push_Queue 和 Pop_Queue
-//2,利用队列先进先出的特性实现二叉树的层序遍历
-//3,将二叉树根 root 压入队列，并将 NULL 作为每层的区分节点也压入队列
-//4,从队列中读出节点，保存当前节点的值，并且将左右支分别压入队列
-//5,遇到层的区分节点则处理下一层，直到队列为空
-
-#define     MAX_LEVEL       1000
-
-//声明队列节点结构
-struct QueueNode {
-    struct TreeNode* pTreeNode;     //队列元素：二叉树节点指针
-    struct TreeNodeQueue* pNext;    //队列元素：下一个节点指针
-};
-
-//声明队列结构
-struct TreeNodeQueue {
-    int     iNum;                   //队列元素个数
-    struct QueueNode*   pHead;      //队列头指针
-    struct QueueNode*   pTail;      //队列尾指针
-};
-
-//函数一：向队列中增加元素
-bool Push_Queue(struct TreeNodeQueue* pQueue, struct TreeNode* pTreeNode){
-    struct QueueNode*   pQueueNode = NULL;
-
-    if(NULL == pQueue) return false;
-
-    pQueueNode = (struct QueueNode*)malloc(sizeof(struct QueueNode));
-    pQueueNode-&gt;pTreeNode = pTreeNode;
-    pQueueNode-&gt;pNext = NULL;
-
-    if(0 == pQueue-&gt;iNum)
-    {
-        pQueue-&gt;pHead = pQueueNode;
-        pQueue-&gt;pTail = pQueueNode;
-        pQueue-&gt;iNum += 1;
-    }
-    else
-    {
-        pQueue-&gt;pTail-&gt;pNext = pQueueNode;
-        pQueue-&gt;pTail = pQueueNode;
-        pQueue-&gt;iNum += 1;
-    }
-
-    return true;
-}
-
-//函数二：从队列中取出元素
-struct TreeNode* Pop_Queue(struct TreeNodeQueue* pQueue){
-    struct TreeNode*    pRet    = NULL;
-    struct QueueNode*   pTmp    = NULL;
-
-    if((NULL == pQueue) || (0 == pQueue-&gt;iNum)) return NULL;
-
-    pRet = pQueue-&gt;pHead-&gt;pTreeNode;
-
-    pQueue-&gt;iNum -= 1;
-    if(0 == pQueue-&gt;iNum)
-    {
-        free(pQueue-&gt;pHead);
-        pQueue-&gt;pHead = NULL;
-        pQueue-&gt;pTail = NULL;
-    }
-    else
-    {
-        pTmp = pQueue-&gt;pHead-&gt;pNext;
-        free(pQueue-&gt;pHead);
-        pQueue-&gt;pHead = pTmp;
-    }
-    
-    return pRet;
-}
-
-int** levelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes){
-    int         iNum        = 0;
-    int         iRetSize    = 0;
-    int**       pRet        = NULL;
-    int*        pRetCol     = NULL;
-    
-    struct TreeNodeQueue  	strQueue;
-    struct TreeNode* 		pTmpNode = NULL;
-
-    //1.申请空间,并初始化
-    pRet = (int**)malloc(sizeof(int*) * MAX_LEVEL);
-    memset(pRet, 0x00, sizeof(int*) * MAX_LEVEL);
-    pRetCol = (int*)malloc(sizeof(int) * MAX_LEVEL);
-    memset(pRetCol, 0x00, sizeof(int) * MAX_LEVEL);
-    memset(&amp;strQueue, 0x00, sizeof(struct TreeNodeQueue));
-
-    //2.特殊处理
-    if(NULL == root)
-    {
-        *returnSize = iRetSize;
-        *returnColumnSizes = pRetCol;
-        return pRet;
-    }
-
-    //3.将二叉树根节点加入队列,并且加入空节点作为每层的区分节点
-    Push_Queue(&amp;strQueue, root);
-    pRet[iRetSize] = (int*)malloc(sizeof(int) * strQueue.iNum);
-    Push_Queue(&amp;strQueue, NULL);
-
-    //4.处理队列中的二叉树节点，直到队列为空
-    while(strQueue.iNum != 0)
-    {
-        pTmpNode = Pop_Queue(&amp;strQueue);
-        if(NULL == pTmpNode)
-        {
-            if(0 != strQueue.iNum)
-            {
-                //6.当前层处理完，进入下一层
-                iRetSize += 1;
-                pRet[iRetSize] = (int*)malloc(sizeof(int) * strQueue.iNum);
-
-                Push_Queue(&amp;strQueue, NULL);
-            }
-        }
-        else
-        {
-            //5.处理当前层的节点，分别将左右支压入队列
-            pRet[iRetSize][pRetCol[iRetSize]] = pTmpNode-&gt;val;
-            pRetCol[iRetSize] += 1;
-
-            if(NULL != pTmpNode-&gt;left)
-            {
-                Push_Queue(&amp;strQueue, pTmpNode-&gt;left);
-            }
-            if(NULL != pTmpNode-&gt;right)
-            {
-                Push_Queue(&amp;strQueue, pTmpNode-&gt;right);
-            }
-        }
-    }
-
-    //7.返回
-    *returnSize = iRetSize + 1;
-    *returnColumnSizes = pRetCol;
-    return pRet;
-}
-
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[leetcode链表初等整理]]></title>
-        <id>https://lizonglin313.github.io/post/leetcode-lian-biao-chu-deng-zheng-li</id>
-        <link href="https://lizonglin313.github.io/post/leetcode-lian-biao-chu-deng-zheng-li">
-        </link>
-        <updated>2020-05-25T12:39:37.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p>力扣关于链表这部分基础算法还是较为简单和基础的</p>
-<p>没有特殊说明的情况下，链表节点类型为：</p>
-<pre><code class="language-c">struct ListNode {
-    int val;
-    struct ListNode *next;
-};
-</code></pre>
-<p>同时，需要注意，默认的头指针<code>head-&gt;val</code>域即第一个元素。</p>
-</blockquote>
-<h2 id="删除链表中的节点">删除链表中的节点</h2>
-<p>请编写一个函数，使其可以删除某个链表中给定的（非末尾）节点，你将只被给定要求被删除的节点。</p>
-<p>现有一个链表 -- head = [4,5,1,9]，它可以表示为:</p>
-<figure data-type="image" tabindex="1"><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2019/01/19/237_example.png" alt="img" loading="lazy"></figure>
-<p><strong>示例 1:</strong></p>
-<pre><code>输入: head = [4,5,1,9], node = 5
-输出: [4,1,9]
-解释: 给定你链表中值为 5 的第二个节点，那么在调用了你的函数之后，该链表应变为 4 -&gt; 1 -&gt; 9.
-</code></pre>
-<p><strong>示例 2:</strong></p>
-<pre><code>输入: head = [4,5,1,9], node = 1
-输出: [4,5,9]
-解释: 给定你链表中值为 1 的第三个节点，那么在调用了你的函数之后，该链表应变为 4 -&gt; 5 -&gt; 9.
-</code></pre>
-<p><strong>说明:</strong></p>
-<ul>
-<li>链表至少包含两个节点。</li>
-<li>链表中所有节点的值都是唯一的。</li>
-<li>给定的节点为非末尾节点并且一定是链表中的一个有效节点。</li>
-<li>不要从你的函数中返回任何结果。</li>
-</ul>
-<p><strong>代码</strong>:</p>
-<p>这个题目很容易理解偏差。其实就是让你把给你的节点删掉罢了。</p>
-<pre><code class="language-c">void deleteNode(struct ListNode* node) {
-	node-&gt;val = node-&gt;next-&gt;val;
-	node-&gt;next = node-&gt;next-&gt;next;
-}
-</code></pre>
-<h2 id="删除链表的倒数第n个节点">删除链表的倒数第N个节点</h2>
-<p>给定一个链表，删除链表的倒数第 <em>n</em> 个节点，并且返回链表的头结点。</p>
-<p><strong>示例：</strong></p>
-<pre><code>给定一个链表: 1-&gt;2-&gt;3-&gt;4-&gt;5, 和 n = 2.
-
-当删除了倒数第二个节点后，链表变为 1-&gt;2-&gt;3-&gt;5.
-</code></pre>
-<p><strong>说明：</strong></p>
-<p>给定的 <em>n</em> 保证是有效的。</p>
-<p><strong>进阶：</strong></p>
-<p>你能尝试使用一趟扫描实现吗？</p>
-<p><strong>代码</strong>:</p>
-<p>采用快慢指针的思路。设置指针<code>p</code>和<code>q</code>：</p>
-<ul>
-<li>一开始，<code>p</code>和<code>q</code>都指向头节点；</li>
-<li><code>q</code>指针现后移至<code>p</code>指针后的第<code>n</code>个位置，也就是<code>q</code>指针始终比<code>p</code>指针快<code>n</code>个，需要注意如果<code>q</code>还未移动<code>n</code>就已经是<code>NULL</code>了那么删去头节点就结束了；</li>
-<li><code>p=p-&gt;next</code>同时<code>q=q-&gt;next</code>直到<code>q-&gt;next==NULL</code>，此时<code>p-&gt;next</code>就是要删除的节点。</li>
-</ul>
-<pre><code class="language-c">struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
-
-    struct ListNode *p, *q;
-	p = head; q = head;
-
-	int i;
-	for (i = 0; i &lt; n; i++) {
-		if (q-&gt;next == NULL) {
-			head = head-&gt;next;
-			return head;
-		}
-		q = q-&gt;next;
-	}
-
-	while (q-&gt;next!=NULL) {
-		q = q-&gt;next;
-		p = p-&gt;next;
-	}
-    
-	p-&gt;next = p-&gt;next-&gt;next;
-    
-	return head;
-}
-</code></pre>
-<h2 id="反转链表">反转链表</h2>
-<p>反转一个单链表。</p>
-<p><strong>示例:</strong></p>
-<pre><code>输入: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL
-输出: 5-&gt;4-&gt;3-&gt;2-&gt;1-&gt;NULL
-</code></pre>
-<p><strong>进阶:</strong><br>
-你可以迭代或递归地反转链表。你能否用两种方法解决这道题？</p>
-<p><strong>代码</strong>:</p>
-<p>三指针原地逆转。</p>
-<pre><code class="language-c">struct ListNode* reverseList(struct ListNode* head) {
-	
-	if (head == NULL) return NULL;
-
-	struct ListNode *h,*p,*c;
-
-	h = head;
-	p = h-&gt;next;
-
-	// 如果此时只有一个节点
-	if (p == NULL) return head;
-
-	c = p-&gt;next;
-
-	// 如果只有两个节点
-	if (c == NULL) {
-		p-&gt;next = h;
-		h-&gt;next = NULL;
-		return p;
-	}
-
-	// 三节点及以上情况
-	while (c != NULL) {
-		p-&gt;next = h;
-		h = p;
-		p = c;
-		c = c-&gt;next;
-	}
-	p-&gt;next = h;
-	head-&gt;next = NULL;
-	head = p;
-
-	return head;
-
-}
-</code></pre>
-<h2 id="合并两个有序链表">合并两个有序链表</h2>
-<p>将两个升序链表合并为一个新的升序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。</p>
-<p><strong>示例：</strong></p>
-<pre><code>输入：1-&gt;2-&gt;4, 1-&gt;3-&gt;4
-输出：1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4
-</code></pre>
-<p><strong>代码</strong>:</p>
-<p>判断大小拆指针重连。</p>
-<pre><code class="language-c">struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2){
-
-    if (l1 == NULL &amp;&amp; l2 == NULL) return NULL;
-	if (l1 == NULL &amp;&amp; l2 != NULL) return l2;
-	if (l1 != NULL &amp;&amp; l2 == NULL) return l1;
-    
-   struct ListNode *p1, *p2, *newhead, *q;
-	p1 = l1;
-	p2 = l2;
-	newhead = (l1-&gt;val &lt;= l2-&gt;val) ? l1 : l2;
-	q = newhead;
-
-	if (newhead == p1) p1 = p1-&gt;next;
-	else p2 = p2-&gt;next;
-
-	while (p1&amp;&amp;p2) {
-		if (p1-&gt;val &lt;= p2-&gt;val) {
-			q-&gt;next = p1;
-			p1 = p1-&gt;next;
-			q = q-&gt;next;
-		}
-		else {
-			q-&gt;next = p2;
-			p2 = p2-&gt;next;
-			q = q-&gt;next;
-		}
-	}
-
-	if (p1) q-&gt;next = p1;
-	if (p2) q-&gt;next = p2;
-
-	return newhead;
-
-}
-</code></pre>
-<h2 id="回文链表">回文链表</h2>
-<p>请判断一个链表是否为回文链表。</p>
-<p><strong>示例 1:</strong></p>
-<pre><code>输入: 1-&gt;2
-输出: false
-</code></pre>
-<p><strong>示例 2:</strong></p>
-<pre><code>输入: 1-&gt;2-&gt;2-&gt;1
-输出: true
-</code></pre>
-<p><strong>进阶：</strong><br>
-你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？</p>
-<p><strong>代码</strong>:</p>
-<p>将链表数值写入数组，然后判断数组是否是回文数组。</p>
-<pre><code class="language-c">bool isPalindrome(struct ListNode* head) {
-
-	if (head == NULL || head-&gt;next == NULL) return true;
-
-	// 计算链表长度
-	struct ListNode *p = head;
-	int len = 0;
-	while (p) {
-		p = p-&gt;next;
-		len++;
-	}
-
-	// 将链表复制到数组中
-	int *temparr = (int*)malloc(sizeof(int)*len);
-	int i = 0;
-	for (p = head; i &lt; len; i++) {
-		temparr[i] = p-&gt;val;
-		p = p-&gt;next;
-	}
-
-	// 判断数组
-	int q = 0;
-	bool ispld = true;
-	for (; q &lt; (len - q - 1); q++) {
-		if (temparr[q] != temparr[len - q - 1]) {
-			ispld = false;
-			break;
-		}
-	}
-	return ispld;
-
-}
-</code></pre>
-<h2 id="环形链表">环形链表</h2>
-<p>给定一个链表，判断链表中是否有环。</p>
-<p>为了表示给定链表中的环，我们使用整数 <code>pos</code> 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 <code>pos</code> 是 <code>-1</code>，则在该链表中没有环。</p>
-<p><strong>示例 1：</strong></p>
-<pre><code>输入：head = [3,2,0,-4], pos = 1
-输出：true
-解释：链表中有一个环，其尾部连接到第二个节点。
-</code></pre>
-<figure data-type="image" tabindex="2"><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist.png" alt="img" loading="lazy"></figure>
-<p><strong>示例 2：</strong></p>
-<pre><code>输入：head = [1,2], pos = 0
-输出：true
-解释：链表中有一个环，其尾部连接到第一个节点。
-</code></pre>
-<figure data-type="image" tabindex="3"><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test2.png" alt="img" loading="lazy"></figure>
-<p><strong>示例 3：</strong></p>
-<pre><code>输入：head = [1], pos = -1
-输出：false
-解释：链表中没有环。
-</code></pre>
-<figure data-type="image" tabindex="4"><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test3.png" alt="img" loading="lazy"></figure>
-<p><strong>进阶：</strong></p>
-<p>你能用 <em>O(1)</em>（即，常量）内存解决此问题吗？</p>
-<p><strong>代码</strong>:</p>
-<p>使用快慢指针。始终有<code>p=p-&gt;next</code>同时<code>q=q-&gt;next-&gt;next</code>，这样可以保证如果链表中有环，指针<code>p</code>和<code>q</code>一定能相遇。</p>
-<pre><code class="language-c">bool hasCycle(struct ListNode *head) {
-
-	struct ListNode *p, *q;
-	p = head;
-	q = head;
-	
-	if (p == NULL) return false;
-	
-	while (p!=NULL&amp;&amp;q!=NULL) {
-        if(q-&gt;next==NULL)return false;
-        if(q-&gt;next-&gt;next==NULL)return false;
-		p = p-&gt;next;
-		q = q-&gt;next-&gt;next;
-		if (p == q) {
-			return true;
-		}
-	}
 	return false;
 
 }

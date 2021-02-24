@@ -1,0 +1,822 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Fabric2.X的配置文件（以test-network为例） - Big Carrot</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://lizonglin313.github.io//media/css/tailwind.css">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Fabric2.X的配置文件（以test-network为例） - Big Carrot - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+
+    
+
+  <meta name="description" content="
+Hyperledger Fabric项目可以认为是一个BaaS - Blockchain as a Service，其主要的服务是为提供企业级的联盟链基础设施，多用于商业环境。和公有链不同的是，联盟链削弱中心化这一特性，通过灵活的身份准入..." />
+  <meta property="og:title" content="Fabric2.X的配置文件（以test-network为例） - Big Carrot">
+  <meta property="og:description" content="
+Hyperledger Fabric项目可以认为是一个BaaS - Blockchain as a Service，其主要的服务是为提供企业级的联盟链基础设施，多用于商业环境。和公有链不同的是，联盟链削弱中心化这一特性，通过灵活的身份准入..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://lizonglin313.github.io/post/fabric2x-de-pei-zhi-wen-jian-yi-test-network-wei-li" />
+  <meta property="og:image" content="https://lizonglin313.github.io//images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="Fabric2.X的配置文件（以test-network为例） - Big Carrot">
+  <meta name="twitter:description" content="
+Hyperledger Fabric项目可以认为是一个BaaS - Blockchain as a Service，其主要的服务是为提供企业级的联盟链基础设施，多用于商业环境。和公有链不同的是，联盟链削弱中心化这一特性，通过灵活的身份准入...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://lizonglin313.github.io/post/fabric2x-de-pei-zhi-wen-jian-yi-test-network-wei-li">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://lizonglin313.github.io//media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://lizonglin313.github.io/" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      Big Carrot
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          Fabric2.X的配置文件（以test-network为例）
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2021-02-10 · 16 min read</div>
+          
+            <a href="https://lizonglin313.github.io/tag/-fWSGMCTQ" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              fabric
+            </a>
+          
+            <a href="https://lizonglin313.github.io/tag/KCgH851ypx" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              环境
+            </a>
+          
+            <a href="https://lizonglin313.github.io/tag/SdJaZfdphq" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              区块链
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <blockquote>
+<p>Hyperledger Fabric项目可以认为是一个<code>BaaS - Blockchain as a Service</code>，其主要的服务是为提供企业级的联盟链基础设施，多用于商业环境。和公有链不同的是，联盟链削弱中心化这一特性，通过灵活的身份准入、私有数据隔离、智能合约和链码等特性，使得使用者可以根据实际业务需求去设计自己的网络。而一个Fabric网络的结构，则依赖于许多网络配置文件。这些配置文件定义了参与网络的组织有哪些，每个组织的有哪些节点，以及这些节点的信息；除此之外，背书策略、排序策略、身份管理等内容也是通过这些配置文件来定义。</p>
+</blockquote>
+<h2 id="网络启动流程">网络启动流程</h2>
+<h3 id="第一步-使用cryptogen工具生成参与网络组织实体的证书">第一步 使用<code>cryptogen</code>工具生成参与网络组织实体的证书</h3>
+<p><code>cryptogen</code>工具用于生成证书文件，<code>PKI</code>、<code>CA</code>、<code>X.509</code>、<code>公钥体系</code>等密码学基础为整个Fabric提供了底层的安全支持，实现可信成员对网络资源的合法访问。启动一个网络的第一步，就是<strong>生成证书</strong>，</p>
+<p>在Fabric2.2中，同先前所有生成证书的配置都在一个文件中不同的是，每一个组织在都有单独的配置文件来管理。<code>test-network</code>使用三个文件生成对应三个组织的证书，在脚本中，它们是这样的：</p>
+<pre><code class="language-shell"> cryptogen generate --config=./organizations/cryptogen/crypto-config-org1.yaml --output=&quot;organizations&quot;
+ ...
+ cryptogen generate --config=./organizations/cryptogen/crypto-config-org2.yaml --output=&quot;organizations&quot;
+ ...
+ cryptogen generate --config=./organizations/cryptogen/crypto-config-orderer.yaml --output=&quot;organizations&quot;
+ ...
+</code></pre>
+<p>这几个文件的组织形式是这样的：</p>
+<pre><code class="language-shell">root@lizonglin-virtual-machine:/home/lizonglin/GoWork/src/github.com/fabric/scripts/fabric-samples/test-network/organizations# tree
+.
+...
+├── cryptogen   
+│   ├── crypto-config-orderer.yaml
+│   ├── crypto-config-org1.yaml
+│   └── crypto-config-org2.yaml
+└── fabric-ca
+    ├── ordererOrg
+    │   └── fabric-ca-server-config.yaml
+    ├── org1
+    │   └── fabric-ca-server-config.yaml
+    ├── org2
+    │   └── fabric-ca-server-config.yaml
+    └── registerEnroll.sh
+
+</code></pre>
+<p><code>orderer</code>组织，两个<code>org</code>分别由三个文件定义。</p>
+<p>使用<code>cryptogen</code>工具生成证书材料，三个文件内容如下：</p>
+<ul>
+<li>crypto-config-orderer.yaml</li>
+</ul>
+<pre><code class="language-shell"># ---------------------------------------------------------------------------
+# &quot;OrdererOrgs&quot; - Definition of organizations managing orderer nodes
+# ---------------------------------------------------------------------------
+OrdererOrgs: # orderer组织来管理orderer节点，定义orderer节点所属组织的信息
+  # ---------------------------------------------------------------------------
+  # Orderer
+  # ---------------------------------------------------------------------------
+  - Name: Orderer	# 组织名称
+    Domain: example.com	# 组织域名
+    EnableNodeOUs: true	# 是否在msp下生成config.yaml文件（许可为节点组织单元的一员）
+    # ---------------------------------------------------------------------------
+    # &quot;Specs&quot; - See PeerOrgs for complete description
+    # ---------------------------------------------------------------------------
+    Specs:	# Hostname + Domain 组成了完整的Orderer组织的域名： orderer.example.name
+      - Hostname: orderer
+        SANS:
+          - localhost
+</code></pre>
+<ul>
+<li>crypto-config-org1.yaml</li>
+</ul>
+<pre><code class="language-shell"># ---------------------------------------------------------------------------
+# &quot;PeerOrgs&quot; - Definition of organizations managing peer nodes
+# ---------------------------------------------------------------------------
+PeerOrgs:	# 这里定义的由peer节点组成的组织1的信息
+  # ---------------------------------------------------------------------------
+  # Org1
+  # ---------------------------------------------------------------------------
+  - Name: Org1	# 组织名称
+    Domain: org1.example.com	# 组织域名
+    EnableNodeOUs: true	# 生成msp文件
+    # ---------------------------------------------------------------------------
+    # &quot;Specs&quot;
+    # ---------------------------------------------------------------------------
+    # Uncomment this section to enable the explicit definition of hosts in your
+    # configuration.  Most users will want to use Template, below
+    #
+    # Specs is an array of Spec entries.  Each Spec entry consists of two fields:
+    #   - Hostname:   (Required) The desired hostname, sans the domain.
+    #   - CommonName: (Optional) Specifies the template or explicit override for
+    #                 the CN.  By default, this is the template:
+    #
+    #                              &quot;{{.Hostname}}.{{.Domain}}&quot;
+    #
+    #                 which obtains its values from the Spec.Hostname and
+    #                 Org.Domain, respectively.
+    # ---------------------------------------------------------------------------
+    #   - Hostname: foo # implicitly &quot;foo.org1.example.com&quot;
+    #     CommonName: foo27.org5.example.com # overrides Hostname-based FQDN set above
+    #   - Hostname: bar
+#   - Hostname: baz
+    # ---------------------------------------------------------------------------
+    # &quot;Template&quot;
+    # ---------------------------------------------------------------------------
+    # Allows for the definition of 1 or more hosts that are created sequentially
+    # from a template. By default, this looks like &quot;peer%d&quot; from 0 to Count-1.
+    # You may override the number of nodes (Count), the starting index (Start)
+    # or the template used to construct the name (Hostname).
+    #
+    # Note: Template and Specs are not mutually exclusive.  You may define both
+    # sections and the aggregate nodes will be created for you.  Take care with
+    # name collisions
+    # ---------------------------------------------------------------------------
+    Template:
+      Count: 1	# 节点个数
+      SANS:
+        - localhost
+      # Start: 5
+      # Hostname: {{.Prefix}}{{.Index}} # default
+    # ---------------------------------------------------------------------------
+    # &quot;Users&quot;
+    # ---------------------------------------------------------------------------
+    # Count: The number of user accounts _in addition_ to Admin
+    # ---------------------------------------------------------------------------
+    Users:
+      Count: 1	# 管理员个数
+</code></pre>
+<ul>
+<li>crypto-config-org2.yaml</li>
+</ul>
+<pre><code class="language-shell"># ---------------------------------------------------------------------------
+# &quot;PeerOrgs&quot; - Definition of organizations managing peer nodes
+# ---------------------------------------------------------------------------
+PeerOrgs:
+  # ---------------------------------------------------------------------------
+  # Org2
+  # ---------------------------------------------------------------------------
+  - Name: Org2
+    Domain: org2.example.com
+    EnableNodeOUs: true
+    # ---------------------------------------------------------------------------
+    Template:
+      Count: 1
+      SANS:
+        - localhost
+    # ---------------------------------------------------------------------------
+    Users:
+      Count: 1
+</code></pre>
+<p>如果我们要配置三个组织：含有三个<code>orderer</code>节点的<code>Orderer</code>组织，两个包含两个<code>peer</code>节点的<code>Org</code>组织，那么配置文件应该这样写：</p>
+<pre><code class="language-shell"># Orderer组织配置如下
+OrdererOrgs:
+	- Name: Orderer
+	  Domain: example.com
+	  EnableNodeOUs: true
+	  Specs:
+	  	- Hostname: orderer0
+	  	- Hostname: orderer1
+	  	- Hostname: orderer2
+# Org1组织配置如下
+PeerOrgs:
+	- Name: Org1
+	  Domain: org1.example.com
+	  EnableNodeOUs: true
+	  Template:
+	  	Count: 2
+	  Users:
+	  	Count: 1
+# Org2配置如下
+PeerOrgs:
+	- Name: Org2
+	  Domain: org2.example.com
+	  EnableNodeOUs: true
+	  Template:
+	  	Count: 2
+	  Users:
+	  	Count: 1
+</code></pre>
+<blockquote>
+<p>关于使用<code>cryptogen</code>还是<code>CAs</code>去生成加密证书材料，Fabric是这样说的：</p>
+<p>启动网络之前，每个组织需要生成加密材料，来定义网络中的组织。由于Fabric是许可链，网络中的每一个节点和用户需要使用证书以及密钥进行签名、验证等行为。此外，每个用户需要从属于某个组织，这个组织被视为网络的成员。你可以使用<code>Cryptogen tool</code>和<code>Fabric CAs</code>去生成组织的加密材料。</p>
+<p>默认情况，测试网络使用<code>cryptogen</code>工具。这个工具在开发和测试环境中可以快速的生成证书材料和密钥，这些几乎在网络中处处都会用到。</p>
+<p>同样的，也可以使用<code>Fabric CAs</code>生成证书、密钥等加密材料。<code>CAs</code>对证书进行签名并发放密钥，为每个组织生成一个合法的根信任。通过配置文件，使用<code>registerEnroll.sh</code>脚本生成实体、证书、<code>MSP</code>相关的文件。</p>
+</blockquote>
+<h3 id="第二步-使用configtxgen生成创世区块">第二步 使用<code>configtxgen</code>生成创世区块</h3>
+<p><code>configtxgen</code>工具使用<code>configtx.yaml</code>文件生成创世区块，这个文件也用来定义网络。通过这个文件，我们可以定义联盟，也就是把组织是为联盟的成员。其中，需要用到每个成员的MSP证书（上一步已经生成），来创建通道MSP，作为每个组织的根信任。通道MSP使得组织可以被视为网络成员。<code>configtx.yaml</code>文件同样定义了每个<code>peer</code>组织的锚节点，之后还用于创建通道及更新锚节点。</p>
+<pre><code class="language-shell">root@lizonglin-virtual-machine:/home/lizonglin/GoWork/src/github.com/fabric/scripts/fabric-samples/test-network/configtx# cat configtx.yaml 
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+---
+################################################################################
+#
+#   Section: Organizations
+#
+#   - This section defines the different organizational identities which will
+#   be referenced later in the configuration.
+#
+################################################################################ 
+Organizations: # 这个组织包含如下内容
+
+    # SampleOrg defines an MSP using the sampleconfig.  It should never be used
+    # in production but may be used as a template for other definitions
+    - &amp;OrdererOrg	# 可以在yaml文件的其他地方引用这个名字
+        # DefaultOrg defines the organization which is used in the sampleconfig
+        # of the fabric.git development environment
+        Name: OrdererOrg	# 名字
+
+        # ID to load the MSP definition as
+        ID: OrdererMSP	# MSPid
+
+        # MSPDir is the filesystem path which contains the MSP configuration
+        MSPDir: ../organizations/ordererOrganizations/example.com/msp	# 寻找msp的路径
+
+        # Policies defines the set of policies at this level of the config tree
+        # For organization policies, their canonical path is usually
+        #   /Channel/&lt;Application|Orderer&gt;/&lt;OrgName&gt;/&lt;PolicyName&gt;
+        Policies:	# 该组织的策略
+            Readers:	# 读策略
+                Type: Signature
+                Rule: &quot;OR('OrdererMSP.member')&quot;	# 由该OrdererMSP的任何一个成员签名就可以读
+            Writers:	# 写策略
+                Type: Signature
+                Rule: &quot;OR('OrdererMSP.member')&quot; # 同样的 OR 指 有一个就行
+            Admins:		# 管理员
+                Type: Signature
+                Rule: &quot;OR('OrdererMSP.admin')&quot;
+
+        OrdererEndpoints:	# 该组织端口号
+            - orderer.example.com:7050
+
+    - &amp;Org1 # 组织1，在yaml文件中 &amp;xxx 的写法使其可以在别处被引用
+        # DefaultOrg defines the organization which is used in the sampleconfig
+        # of the fabric.git development environment
+        Name: Org1MSP
+
+        # ID to load the MSP definition as
+        ID: Org1MSP
+
+        MSPDir: ../organizations/peerOrganizations/org1.example.com/msp
+
+        # Policies defines the set of policies at this level of the config tree
+        # For organization policies, their canonical path is usually
+        #   /Channel/&lt;Application|Orderer&gt;/&lt;OrgName&gt;/&lt;PolicyName&gt;
+        Policies:
+            Readers:
+                Type: Signature
+                # 这里的策略是，有'Org1MSP.admin', 'Org1MSP.peer', 'Org1MSP.client'三者中的一个允许就可以读
+                Rule: &quot;OR('Org1MSP.admin', 'Org1MSP.peer', 'Org1MSP.client')&quot;
+            Writers: # 同理有两个中的一个就可写
+                Type: Signature
+                Rule: &quot;OR('Org1MSP.admin', 'Org1MSP.client')&quot;
+            Admins:	# 只有admin
+                Type: Signature
+                Rule: &quot;OR('Org1MSP.admin')&quot;
+            Endorsement:	# 有一个Org1MSP的peer节点签名就可以背书
+                Type: Signature
+                Rule: &quot;OR('Org1MSP.peer')&quot;
+
+        # leave this flag set to true.
+        AnchorPeers:	# 锚节点用于跨组织通信
+            # AnchorPeers defines the location of peers which can be used
+            # for cross org gossip communication.  Note, this value is only
+            # encoded in the genesis block in the Application section context
+            - Host: peer0.org1.example.com
+              Port: 7051
+
+    - &amp;Org2
+        # DefaultOrg defines the organization which is used in the sampleconfig
+        # of the fabric.git development environment
+        Name: Org2MSP
+
+        # ID to load the MSP definition as
+        ID: Org2MSP
+
+        MSPDir: ../organizations/peerOrganizations/org2.example.com/msp
+
+        # Policies defines the set of policies at this level of the config tree
+        # For organization policies, their canonical path is usually
+        #   /Channel/&lt;Application|Orderer&gt;/&lt;OrgName&gt;/&lt;PolicyName&gt;
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: &quot;OR('Org2MSP.admin', 'Org2MSP.peer', 'Org2MSP.client')&quot;
+            Writers:
+                Type: Signature
+                Rule: &quot;OR('Org2MSP.admin', 'Org2MSP.client')&quot;
+            Admins:
+                Type: Signature
+                Rule: &quot;OR('Org2MSP.admin')&quot;
+            Endorsement:
+                Type: Signature
+                Rule: &quot;OR('Org2MSP.peer')&quot;
+
+        AnchorPeers:
+            # AnchorPeers defines the location of peers which can be used
+            # for cross org gossip communication.  Note, this value is only
+            # encoded in the genesis block in the Application section context
+            - Host: peer0.org2.example.com
+              Port: 9051
+
+################################################################################
+#
+#   SECTION: Capabilities
+#
+#   - This section defines the capabilities of fabric network. This is a new
+#   concept as of v1.1.0 and should not be utilized in mixed networks with
+#   v1.0.x peers and orderers.  Capabilities define features which must be
+#   present in a fabric binary for that binary to safely participate in the
+#   fabric network.  For instance, if a new MSP type is added, newer binaries
+#   might recognize and validate the signatures from this type, while older
+#   binaries without this support would be unable to validate those
+#   transactions.  This could lead to different versions of the fabric binaries
+#   having different world states.  Instead, defining a capability for a channel
+#   informs those binaries without this capability that they must cease
+#   processing transactions until they have been upgraded.  For v1.0.x if any
+#   capabilities are defined (including a map with all capabilities turned off)
+#   then the v1.0.x peer will deliberately crash.
+#
+################################################################################
+Capabilities:
+    # Channel capabilities apply to both the orderers and the peers and must be
+    # supported by both.
+    # Set the value of the capability to true to require it.
+    Channel: &amp;ChannelCapabilities
+        # V2_0 capability ensures that orderers and peers behave according
+        # to v2.0 channel capabilities. Orderers and peers from
+        # prior releases would behave in an incompatible way, and are therefore
+        # not able to participate in channels at v2.0 capability.
+        # Prior to enabling V2.0 channel capabilities, ensure that all
+        # orderers and peers on a channel are at v2.0.0 or later.
+        V2_0: true
+
+    # Orderer capabilities apply only to the orderers, and may be safely
+    # used with prior release peers.
+    # Set the value of the capability to true to require it.
+    Orderer: &amp;OrdererCapabilities
+        # V2_0 orderer capability ensures that orderers behave according
+        # to v2.0 orderer capabilities. Orderers from
+        # prior releases would behave in an incompatible way, and are therefore
+        # not able to participate in channels at v2.0 orderer capability.
+        # Prior to enabling V2.0 orderer capabilities, ensure that all
+        # orderers on channel are at v2.0.0 or later.
+        V2_0: true
+
+    # Application capabilities apply only to the peer network, and may be safely
+    # used with prior release orderers.
+    # Set the value of the capability to true to require it.
+    Application: &amp;ApplicationCapabilities
+        # V2_0 application capability ensures that peers behave according
+        # to v2.0 application capabilities. Peers from
+        # prior releases would behave in an incompatible way, and are therefore
+        # not able to participate in channels at v2.0 application capability.
+        # Prior to enabling V2.0 application capabilities, ensure that all
+        # peers on channel are at v2.0.0 or later.
+        V2_0: true
+
+################################################################################
+#
+#   SECTION: Application
+#
+#   - This section defines the values to encode into a config transaction or
+#   genesis block for application related parameters
+#
+################################################################################
+Application: &amp;ApplicationDefaults
+
+    # Organizations is the list of orgs which are defined as participants on
+    # the application side of the network
+    Organizations:
+
+    # Policies defines the set of policies at this level of the config tree
+    # For Application policies, their canonical path is
+    #   /Channel/Application/&lt;PolicyName&gt;
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: &quot;ANY Readers&quot;
+        Writers:
+            Type: ImplicitMeta
+            Rule: &quot;ANY Writers&quot;
+        Admins:
+            Type: ImplicitMeta
+            Rule: &quot;MAJORITY Admins&quot;
+        LifecycleEndorsement:
+            Type: ImplicitMeta
+            Rule: &quot;MAJORITY Endorsement&quot;
+        Endorsement:
+            Type: ImplicitMeta
+            Rule: &quot;MAJORITY Endorsement&quot;
+
+    Capabilities:
+        &lt;&lt;: *ApplicationCapabilities
+################################################################################
+#
+#   SECTION: Orderer
+#
+#   - This section defines the values to encode into a config transaction or
+#   genesis block for orderer related parameters
+#
+################################################################################
+Orderer: &amp;OrdererDefaults
+
+    # Orderer Type: The orderer implementation to start
+    OrdererType: etcdraft
+
+    EtcdRaft:
+        Consenters:
+        - Host: orderer.example.com
+          Port: 7050
+          ClientTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
+          ServerTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
+
+    # Batch Timeout: The amount of time to wait before creating a batch
+    BatchTimeout: 2s
+
+    # Batch Size: Controls the number of messages batched into a block
+    BatchSize:
+
+        # Max Message Count: The maximum number of messages to permit in a batch
+        MaxMessageCount: 10
+
+        # Absolute Max Bytes: The absolute maximum number of bytes allowed for
+        # the serialized messages in a batch.
+        AbsoluteMaxBytes: 99 MB
+
+        # Preferred Max Bytes: The preferred maximum number of bytes allowed for
+        # the serialized messages in a batch. A message larger than the preferred
+        # max bytes will result in a batch larger than preferred max bytes.
+        PreferredMaxBytes: 512 KB
+
+    # Organizations is the list of orgs which are defined as participants on
+    # the orderer side of the network
+    Organizations:
+
+    # Policies defines the set of policies at this level of the config tree
+    # For Orderer policies, their canonical path is
+    #   /Channel/Orderer/&lt;PolicyName&gt;
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: &quot;ANY Readers&quot;
+        Writers:
+            Type: ImplicitMeta
+            Rule: &quot;ANY Writers&quot;
+        Admins:
+            Type: ImplicitMeta
+            Rule: &quot;MAJORITY Admins&quot;
+        # BlockValidation specifies what signatures must be included in the block
+        # from the orderer for the peer to validate it.
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: &quot;ANY Writers&quot;
+
+################################################################################
+#
+#   CHANNEL
+#
+#   This section defines the values to encode into a config transaction or
+#   genesis block for channel related parameters.
+#
+################################################################################
+Channel: &amp;ChannelDefaults
+    # Policies defines the set of policies at this level of the config tree
+    # For Channel policies, their canonical path is
+    #   /Channel/&lt;PolicyName&gt;
+    Policies:
+        # Who may invoke the 'Deliver' API
+        Readers:
+            Type: ImplicitMeta
+            Rule: &quot;ANY Readers&quot;
+        # Who may invoke the 'Broadcast' API
+        Writers:
+            Type: ImplicitMeta
+            Rule: &quot;ANY Writers&quot;
+        # By default, who may modify elements at this config level
+        Admins:
+            Type: ImplicitMeta
+            Rule: &quot;MAJORITY Admins&quot;
+
+    # Capabilities describes the channel level capabilities, see the
+    # dedicated Capabilities section elsewhere in this file for a full
+    # description
+    Capabilities:
+        &lt;&lt;: *ChannelCapabilities
+
+################################################################################
+#
+#   Profile
+#
+#   - Different configuration profiles may be encoded here to be specified
+#   as parameters to the configtxgen tool
+#
+################################################################################
+Profiles:
+
+    TwoOrgsOrdererGenesis:
+        &lt;&lt;: *ChannelDefaults
+        Orderer:
+            &lt;&lt;: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+            Capabilities:
+                &lt;&lt;: *OrdererCapabilities
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                    - *Org1
+                    - *Org2
+    TwoOrgsChannel:
+        Consortium: SampleConsortium
+        &lt;&lt;: *ChannelDefaults
+        Application:
+            &lt;&lt;: *ApplicationDefaults
+            Organizations:
+                - *Org1
+                - *Org2
+            Capabilities:
+                &lt;&lt;: *ApplicationCapabilities
+
+</code></pre>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+        <div id="vlaine-comment"></div>
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  <a>©2017-2021</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv"><a>&nbsp&nbsp本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次&nbsp&nbsp</a></span><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea</a>
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E7%BD%91%E7%BB%9C%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B">网络启动流程</a>
+<ul>
+<li><a href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-%E4%BD%BF%E7%94%A8cryptogen%E5%B7%A5%E5%85%B7%E7%94%9F%E6%88%90%E5%8F%82%E4%B8%8E%E7%BD%91%E7%BB%9C%E7%BB%84%E7%BB%87%E5%AE%9E%E4%BD%93%E7%9A%84%E8%AF%81%E4%B9%A6">第一步 使用<code>cryptogen</code>工具生成参与网络组织实体的证书</a></li>
+<li><a href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5-%E4%BD%BF%E7%94%A8configtxgen%E7%94%9F%E6%88%90%E5%88%9B%E4%B8%96%E5%8C%BA%E5%9D%97">第二步 使用<code>configtxgen</code>生成创世区块</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://lizonglin313.github.io//media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://lizonglin313.github.io//media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+    <script type="application/javascript" src="https://unpkg.com/valine"></script>
+<script type="application/javascript">
+  new Valine({
+    el: '#vlaine-comment',
+    appId: 'rfEA52cJgFG55iG1SlpJuVG5-gzGzoHsz',
+    appKey: 'EGcOlTCsA3TvUTVasnT2YVdp',
+    pageSize: 10,
+    notify: true,
+    avatar: 'mp',
+    verify: true,
+    placeholder: '写点什么~',
+    visitor: true,
+    highlight: true,
+    recordIP: true,
+  })
+</script>
+  
+  
+</body>
+
+</html>
