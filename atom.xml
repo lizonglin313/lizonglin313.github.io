@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lizonglin313.github.io/</id>
     <title>Big Carrot</title>
-    <updated>2021-03-02T00:14:33.369Z</updated>
+    <updated>2021-03-09T03:01:48.278Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lizonglin313.github.io/"/>
     <link rel="self" href="https://lizonglin313.github.io/atom.xml"/>
@@ -10,6 +10,126 @@
     <logo>https://lizonglin313.github.io/images/avatar.png</logo>
     <icon>https://lizonglin313.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Big Carrot</rights>
+    <entry>
+        <title type="html"><![CDATA[PKI技术]]></title>
+        <id>https://lizonglin313.github.io/post/pki-ji-zhu</id>
+        <link href="https://lizonglin313.github.io/post/pki-ji-zhu">
+        </link>
+        <updated>2021-03-09T01:28:11.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="public-key-infrastructure">Public Key Infrastructure</h2>
+<p>PKI技术以非对称密钥技术为基础，以数字证书为媒介，将各参与实体的标识信息与公钥绑定在一起。通过特定接口为用户提供安全服务，包括加密、解密、数字签名、身份认证等；具有透明性、易用性、可扩展性、互操作性、多用性、支持多平台等基础设施共有的特点。</p>
+<h2 id="pki系统内容">PKI系统内容</h2>
+<h4 id="pki系统主要包括以下内容">PKI系统主要包括以下内容：</h4>
+<ol>
+<li>认证中心CA：证书的签发机构；负责签发证书、验证身份、登记、发布证书撤销列表CRL</li>
+<li>证书库：颁发证书和撤销证书集中存放地</li>
+<li>密钥备份及恢复系统</li>
+<li>证书撤销处理系统：Certificate Revocation List</li>
+<li>PKI应用接口系统</li>
+</ol>
+<h4 id="pki应用系统包括">PKI应用系统包括：</h4>
+<ol>
+<li>认证中心CA</li>
+<li>X.500目录服务器：用于发布用户的证书以及证书注销列表</li>
+<li>安全WWW服务器以及安全通信平台：通过SSL、IPsec等安全协议保证传输数据的机密性、完整性、真实性</li>
+<li>安全应用系统</li>
+</ol>
+<h4 id="pki提供的服务">PKI提供的服务</h4>
+<ol>
+<li>安全登录</li>
+<li>对终端用户透明：接口</li>
+<li>全面的安全性：用统一的方式提供安全服务，保证信息的机密性、完整性、认证性、不可否认性</li>
+</ol>
+<h2 id="pki体系结构">PKI体系结构</h2>
+<h3 id="paa">PAA</h3>
+<p>Policy Approval Authority政策批准机构，创建PKI系统方阵、政策、批准PAA下属PCA政策，为PCA签发公钥证书，建立整个PKI体系的安全策略。</p>
+<h3 id="pca">PCA</h3>
+<p>Policy Certification Authority政策认证机构，制定本PCA的具体政策，如密钥的产生、长度、证书有效期、CRL处理；并为下属CA签发公钥证书。</p>
+<h3 id="ca">CA</h3>
+<p>Certificate Authority认证中心，担任具体的用户密钥对生成和签发，CRL的生成以及发布。核心功能是<strong>发放和管理数字证书</strong>。</p>
+<p>在Fabric中，CA为组织内部节点发放证书，包含用户公钥、标识等信息，用户证书被CA签名发放。通过CA，第三方用户可以验证用户持有的证书是否由信任的CA分发，以验证用户的合法身份。</p>
+<blockquote>
+<p>PEM格式：Privacy-Enhanced Mail 隐私增强邮件。</p>
+<p>此外，证书是公开的，因此不包含私钥信息。对于CA自己的证书，一般通过自签名为自己发放。</p>
+</blockquote>
+<p>以<code>ca.example.com-cert.pem</code>为例，这是一个证书文件，为了便于在网络上传送，通常证书会编码为<code>PEM</code>，如果我们直接查看它的内容：</p>
+<pre><code class="language-shell">-----BEGIN CERTIFICATE-----
+MIICPjCCAeOgAwIBAgIQUkJOmiAwvlYsCrOusBHa8jAKBggqhkjOPQQDAjBpMQsw
+CQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy
+YW5jaXNjbzEUMBIGA1UEChMLZXhhbXBsZS5jb20xFzAVBgNVBAMTDmNhLmV4YW1w
+bGUuY29tMB4XDTIxMDIwNDExMjgwMFoXDTMxMDIwMjExMjgwMFowaTELMAkGA1UE
+BhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBGcmFuY2lz
+Y28xFDASBgNVBAoTC2V4YW1wbGUuY29tMRcwFQYDVQQDEw5jYS5leGFtcGxlLmNv
+bTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABLobAhmABZmDnBUN7kYay3p9hX8K
+3jC6gfo4cH+fMe15b1hwKCr5pcbyNrBLpzejsEu8HKLf6qjQgeqU99t8uOCjbTBr
+MA4GA1UdDwEB/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEw
+DwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQgjWGUej/DLisEDcDHYMST4otUkW0k
+qigiB7mobi0r20MwCgYIKoZIzj0EAwIDSQAwRgIhALlqhswN20B9C5z5ZcPjtUsb
+BE90U8L7RoO/VMQSi/NbAiEApyA0DvYXtm4El8G8w+9D8aE/y4aQGq4d+QKHZYIn
+BXY=
+-----END CERTIFICATE-----
+</code></pre>
+<p>由于Fabric中采用X.509证书，我们使用<code>openssl</code>查看<code>ca.example.com-cert.pem</code>的可读格式的内容，下面是一个X.509证书的主要内容：</p>
+<pre><code class="language-shell">C:\Users\HP\Desktop\test-network\organizations\ordererOrganizations\example.com\ca&gt;openssl x509 -in ca.example.com-cert.pem -text -noout
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            52:42:4e:9a:20:30:be:56:2c:0a:b3:ae:b0:11:da:f2	# 序列号
+        Signature Algorithm: ecdsa-with-SHA256	# 签名算法
+        Issuer: C = US, ST = California, L = San Francisco, O = example.com, CN = ca.example.com #发放机构
+        Validity	# 有效期
+            Not Before: Feb  4 11:28:00 2021 GMT
+            Not After : Feb  2 11:28:00 2031 GMT
+        Subject: C = US, ST = California, L = San Francisco, O = example.com, CN = ca.example.com	# 证书持有人
+        Subject Public Key Info:
+            Public Key Algorithm: id-ecPublicKey
+                Public-Key: (256 bit)	# 公钥
+                pub:
+                    04:ba:1b:02:19:80:05:99:83:9c:15:0d:ee:46:1a:
+                    cb:7a:7d:85:7f:0a:de:30:ba:81:fa:38:70:7f:9f:
+                    31:ed:79:6f:58:70:28:2a:f9:a5:c6:f2:36:b0:4b:
+                    a7:37:a3:b0:4b:bc:1c:a2:df:ea:a8:d0:81:ea:94:
+                    f7:db:7c:b8:e0
+                ASN1 OID: prime256v1
+                NIST CURVE: P-256
+        X509v3 extensions:
+            X509v3 Key Usage: critical
+                Digital Signature, Key Encipherment, Certificate Sign, CRL Sign
+            X509v3 Extended Key Usage:
+                TLS Web Client Authentication, TLS Web Server Authentication
+            X509v3 Basic Constraints: critical
+                CA:TRUE
+            X509v3 Subject Key Identifier:
+                8D:61:94:7A:3F:C3:2E:2B:04:0D:C0:C7:60:C4:93:E2:8B:54:91:6D:24:AA:28:22:07:B9:A8:6E:2D:2B:DB:43
+    Signature Algorithm: ecdsa-with-SHA256	# CA对该证书的签名
+         30:46:02:21:00:b9:6a:86:cc:0d:db:40:7d:0b:9c:f9:65:c3:
+         e3:b5:4b:1b:04:4f:74:53:c2:fb:46:83:bf:54:c4:12:8b:f3:
+         5b:02:21:00:a7:20:34:0e:f6:17:b6:6e:04:97:c1:bc:c3:ef:
+         43:f1:a1:3f:cb:86:90:1a:ae:1d:f9:02:87:65:82:27:05:76
+</code></pre>
+<h4 id="ca证书的发放">CA证书的发放</h4>
+<ul>
+<li>离线发放：申请批准后，RA初始化申请者信息，在LDAP（Lightweight Directory Access Protocol）服务器添加信息；信息传给CA，生成参照号Ref.number以及认证码Auth.code；使用电子邮件或者打印，线下传递；申请人收到后在审查机构面对面领取证书，证书可存入光盘，软盘等</li>
+<li>在线发放：申请批准后，RA初始化申请者信息，在LDAP（Lightweight Directory Access Protocol）服务器添加信息；信息传给CA，生成参照号Ref.number以及认证码Auth.code；申请人在本机登录网站通过浏览器安装Root CA证书，输入参照号和授权码获得证书。</li>
+</ul>
+<h4 id="crl">CRL</h4>
+<p>证书废除原因主要有以下几点：</p>
+<ul>
+<li>密钥泄露：私钥泄露或者被破坏</li>
+<li>从属变更：关于密钥的信息变更</li>
+<li>终止使用：该密钥不再用于原来的用途或者证书已经到期</li>
+<li>CA本身原因：CA系统私钥泄露</li>
+<li>CA有理由怀疑证书细节不真实、不可信</li>
+<li>证书持有者没有履行协议</li>
+<li>证书持有者死亡、违反电子交易规则或者被判定为犯罪</li>
+</ul>
+<h3 id="ora">ORA</h3>
+<p>Online Register Authority在线证书审查机构进行申请者身份认证，向CA提交证书申请，验证接受CA签发的证书，发放给申请者。</p>
+<h3 id="ee">EE</h3>
+<p>End Entity最终实体是PKI的最终使用者</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Golang接口]]></title>
         <id>https://lizonglin313.github.io/post/golang-jie-kou</id>
@@ -1629,129 +1749,6 @@ c0c720b03c4a   hyperledger/fabric-peer:latest      &quot;peer node start&quot;  
 <figure data-type="image" tabindex="7"><img src="https://i.loli.net/2021/01/11/rjxJMP2Lqfsi5V3.png" alt="PDF_bitcoin _6_.png" loading="lazy"></figure>
 <figure data-type="image" tabindex="8"><img src="https://i.loli.net/2021/01/11/3za9oj81VDqJpKG.png" alt="PDF_bitcoin _7_.png" loading="lazy"></figure>
 <figure data-type="image" tabindex="9"><img src="https://i.loli.net/2021/01/11/ODUPIMNfsyEkahq.png" alt="PDF_bitcoin _8_.png" loading="lazy"></figure>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[在二叉树中使用递归解决问题]]></title>
-        <id>https://lizonglin313.github.io/post/zai-er-cha-shu-zhong-shi-yong-di-gui-jie-jue-wen-ti</id>
-        <link href="https://lizonglin313.github.io/post/zai-er-cha-shu-zhong-shi-yong-di-gui-jie-jue-wen-ti">
-        </link>
-        <updated>2020-06-08T10:05:43.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p>整理自leetcode</p>
-<p>树结点定义如下：</p>
-<pre><code class="language-c">Definition for a binary tree node.
-struct TreeNode {
-    int val;
-    struct TreeNode *left;
-    struct TreeNode *right;
-};
-</code></pre>
-</blockquote>
-<h2 id="二叉树的最大深度">二叉树的最大深度</h2>
-<p>给定一个二叉树，找出其最大深度。</p>
-<p>二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。</p>
-<p><strong>说明:</strong> 叶子节点是指没有子节点的节点。</p>
-<p><strong>示例：</strong><br>
-给定二叉树 <code>[3,9,20,null,null,15,7]</code>，</p>
-<pre><code>    3
-   / \
-  9  20
-    /  \
-   15   7
-</code></pre>
-<p>返回它的最大深度 3 。</p>
-<p><strong>代码</strong>:</p>
-<pre><code class="language-c">int maxDepth(struct TreeNode *root) {
-	
-	int ld = 0;
-	int rd = 0;
-	if (NULL == root) return 0;
-	if (root-&gt;left) ld = maxDepth(root-&gt;left);	// 左子树存在进行左递归
-	if (root-&gt;right) rd = maxDepth(root-&gt;right);	// 右子树存在进行右递归
-	return 1 + ((ld &gt; rd) ? ld : rd);		// 本层递归结束比较左右子树的深度取大者相加
-}
-</code></pre>
-<h2 id="对称二叉树">对称二叉树</h2>
-<p>给定一个二叉树，检查它是否是镜像对称的。</p>
-<p>例如，二叉树 <code>[1,2,2,3,4,4,3]</code> 是对称的。</p>
-<pre><code>    1
-   / \
-  2   2
- / \ / \
-3  4 4  3
-</code></pre>
-<p>但是下面这个 <code>[1,2,2,null,3,null,3]</code> 则不是镜像对称的:</p>
-<pre><code>    1
-   / \
-  2   2
-   \   \
-   3    3
-</code></pre>
-<p><strong>代码</strong>:</p>
-<pre><code class="language-c">bool recursion(struct TreeNode* left, struct TreeNode* right) {
-	
-	// 如果左子树和右子树均为空 返回真
-	if (NULL == left &amp;&amp; NULL == right) return true;
-	else if (left == NULL || right == NULL) {
-		// 其中一个不为空 返回假
-		return false;
-	}
-
-	// 左结点的值是否等于右结点的值
-	bool c1 = (left-&gt;val == right-&gt;val);
-	// 左结点的左子树是否等于右结点的右子树
-	bool c2 = recursion(left-&gt;left, right-&gt;right);
-	// 左结点的右子树是否等于右结点的左子树
-	bool c3 = recursion(left-&gt;right, right-&gt;left);
-	// 如果同时成立
-	if (c1&amp;&amp;c2&amp;&amp;c3) {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
-bool isSymmetric(struct TreeNode* root) {
-	// 根 为空 返回正确
-	if (root == NULL) {
-		return true;
-	}
-	return recursion(root-&gt;left, root-&gt;right);
-}
-</code></pre>
-<h2 id="路径总和">路径总和</h2>
-<p>给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和。</p>
-<p><strong>说明:</strong> 叶子节点是指没有子节点的节点。</p>
-<p><strong>示例:</strong><br>
-给定如下二叉树，以及目标和 <code>sum = 22</code>，</p>
-<pre><code>              5
-             / \
-            4   8
-           /   / \
-          11  13  4
-         /  \      \
-        7    2      1
-</code></pre>
-<p>返回 <code>true</code>, 因为存在目标和为 22 的根节点到叶子节点的路径 <code>5-&gt;4-&gt;11-&gt;2</code>。</p>
-<p><strong>代码</strong>:</p>
-<pre><code class="language-c">bool hasPathSum(struct TreeNode* root, int sum) {
-
-	if (NULL == root) return false;
-
-	// 保证该结点为叶子结点的前提下 ，判断此时的sum是否和结点的值相等
-	if (root-&gt;val == sum &amp;&amp; NULL == root-&gt;left &amp;&amp; NULL == root-&gt;right)
-		return true;
-
-	// 递归向下层遍历，出错直接执行 false
-	if (hasPathSum(root-&gt;left, sum - root-&gt;val) || hasPathSum(root-&gt;right, sum - root-&gt;val))
-		return true;
-
-	return false;
-
-}
-</code></pre>
 ]]></content>
     </entry>
 </feed>

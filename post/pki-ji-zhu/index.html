@@ -1,0 +1,436 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>PKI技术 - Big Carrot</title>
+<link rel="shortcut icon" href="https://lizonglin313.github.io//favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://lizonglin313.github.io//media/css/tailwind.css">
+<link rel="stylesheet" href="https://lizonglin313.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="PKI技术 - Big Carrot - Atom Feed" href="https://lizonglin313.github.io//atom.xml">
+
+    
+
+  <meta name="description" content="Public Key Infrastructure
+PKI技术以非对称密钥技术为基础，以数字证书为媒介，将各参与实体的标识信息与公钥绑定在一起。通过特定接口为用户提供安全服务，包括加密、解密、数字签名、身份认证等；具有透明性、易用性、可扩展..." />
+  <meta property="og:title" content="PKI技术 - Big Carrot">
+  <meta property="og:description" content="Public Key Infrastructure
+PKI技术以非对称密钥技术为基础，以数字证书为媒介，将各参与实体的标识信息与公钥绑定在一起。通过特定接口为用户提供安全服务，包括加密、解密、数字签名、身份认证等；具有透明性、易用性、可扩展..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://lizonglin313.github.io/post/pki-ji-zhu" />
+  <meta property="og:image" content="https://lizonglin313.github.io//images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="PKI技术 - Big Carrot">
+  <meta name="twitter:description" content="Public Key Infrastructure
+PKI技术以非对称密钥技术为基础，以数字证书为媒介，将各参与实体的标识信息与公钥绑定在一起。通过特定接口为用户提供安全服务，包括加密、解密、数字签名、身份认证等；具有透明性、易用性、可扩展...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://lizonglin313.github.io/post/pki-ji-zhu">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://lizonglin313.github.io//media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://lizonglin313.github.io/" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      Big Carrot
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          PKI技术
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2021-03-09 · 7 min read</div>
+          
+            <a href="https://lizonglin313.github.io/tag/WPaMjDlat" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              网络安全
+            </a>
+          
+            <a href="https://lizonglin313.github.io/tag/-fWSGMCTQ" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              fabric
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <h2 id="public-key-infrastructure">Public Key Infrastructure</h2>
+<p>PKI技术以非对称密钥技术为基础，以数字证书为媒介，将各参与实体的标识信息与公钥绑定在一起。通过特定接口为用户提供安全服务，包括加密、解密、数字签名、身份认证等；具有透明性、易用性、可扩展性、互操作性、多用性、支持多平台等基础设施共有的特点。</p>
+<h2 id="pki系统内容">PKI系统内容</h2>
+<h4 id="pki系统主要包括以下内容">PKI系统主要包括以下内容：</h4>
+<ol>
+<li>认证中心CA：证书的签发机构；负责签发证书、验证身份、登记、发布证书撤销列表CRL</li>
+<li>证书库：颁发证书和撤销证书集中存放地</li>
+<li>密钥备份及恢复系统</li>
+<li>证书撤销处理系统：Certificate Revocation List</li>
+<li>PKI应用接口系统</li>
+</ol>
+<h4 id="pki应用系统包括">PKI应用系统包括：</h4>
+<ol>
+<li>认证中心CA</li>
+<li>X.500目录服务器：用于发布用户的证书以及证书注销列表</li>
+<li>安全WWW服务器以及安全通信平台：通过SSL、IPsec等安全协议保证传输数据的机密性、完整性、真实性</li>
+<li>安全应用系统</li>
+</ol>
+<h4 id="pki提供的服务">PKI提供的服务</h4>
+<ol>
+<li>安全登录</li>
+<li>对终端用户透明：接口</li>
+<li>全面的安全性：用统一的方式提供安全服务，保证信息的机密性、完整性、认证性、不可否认性</li>
+</ol>
+<h2 id="pki体系结构">PKI体系结构</h2>
+<h3 id="paa">PAA</h3>
+<p>Policy Approval Authority政策批准机构，创建PKI系统方阵、政策、批准PAA下属PCA政策，为PCA签发公钥证书，建立整个PKI体系的安全策略。</p>
+<h3 id="pca">PCA</h3>
+<p>Policy Certification Authority政策认证机构，制定本PCA的具体政策，如密钥的产生、长度、证书有效期、CRL处理；并为下属CA签发公钥证书。</p>
+<h3 id="ca">CA</h3>
+<p>Certificate Authority认证中心，担任具体的用户密钥对生成和签发，CRL的生成以及发布。核心功能是<strong>发放和管理数字证书</strong>。</p>
+<p>在Fabric中，CA为组织内部节点发放证书，包含用户公钥、标识等信息，用户证书被CA签名发放。通过CA，第三方用户可以验证用户持有的证书是否由信任的CA分发，以验证用户的合法身份。</p>
+<blockquote>
+<p>PEM格式：Privacy-Enhanced Mail 隐私增强邮件。</p>
+<p>此外，证书是公开的，因此不包含私钥信息。对于CA自己的证书，一般通过自签名为自己发放。</p>
+</blockquote>
+<p>以<code>ca.example.com-cert.pem</code>为例，这是一个证书文件，为了便于在网络上传送，通常证书会编码为<code>PEM</code>，如果我们直接查看它的内容：</p>
+<pre><code class="language-shell">-----BEGIN CERTIFICATE-----
+MIICPjCCAeOgAwIBAgIQUkJOmiAwvlYsCrOusBHa8jAKBggqhkjOPQQDAjBpMQsw
+CQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy
+YW5jaXNjbzEUMBIGA1UEChMLZXhhbXBsZS5jb20xFzAVBgNVBAMTDmNhLmV4YW1w
+bGUuY29tMB4XDTIxMDIwNDExMjgwMFoXDTMxMDIwMjExMjgwMFowaTELMAkGA1UE
+BhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBGcmFuY2lz
+Y28xFDASBgNVBAoTC2V4YW1wbGUuY29tMRcwFQYDVQQDEw5jYS5leGFtcGxlLmNv
+bTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABLobAhmABZmDnBUN7kYay3p9hX8K
+3jC6gfo4cH+fMe15b1hwKCr5pcbyNrBLpzejsEu8HKLf6qjQgeqU99t8uOCjbTBr
+MA4GA1UdDwEB/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEw
+DwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQgjWGUej/DLisEDcDHYMST4otUkW0k
+qigiB7mobi0r20MwCgYIKoZIzj0EAwIDSQAwRgIhALlqhswN20B9C5z5ZcPjtUsb
+BE90U8L7RoO/VMQSi/NbAiEApyA0DvYXtm4El8G8w+9D8aE/y4aQGq4d+QKHZYIn
+BXY=
+-----END CERTIFICATE-----
+</code></pre>
+<p>由于Fabric中采用X.509证书，我们使用<code>openssl</code>查看<code>ca.example.com-cert.pem</code>的可读格式的内容，下面是一个X.509证书的主要内容：</p>
+<pre><code class="language-shell">C:\Users\HP\Desktop\test-network\organizations\ordererOrganizations\example.com\ca&gt;openssl x509 -in ca.example.com-cert.pem -text -noout
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            52:42:4e:9a:20:30:be:56:2c:0a:b3:ae:b0:11:da:f2	# 序列号
+        Signature Algorithm: ecdsa-with-SHA256	# 签名算法
+        Issuer: C = US, ST = California, L = San Francisco, O = example.com, CN = ca.example.com #发放机构
+        Validity	# 有效期
+            Not Before: Feb  4 11:28:00 2021 GMT
+            Not After : Feb  2 11:28:00 2031 GMT
+        Subject: C = US, ST = California, L = San Francisco, O = example.com, CN = ca.example.com	# 证书持有人
+        Subject Public Key Info:
+            Public Key Algorithm: id-ecPublicKey
+                Public-Key: (256 bit)	# 公钥
+                pub:
+                    04:ba:1b:02:19:80:05:99:83:9c:15:0d:ee:46:1a:
+                    cb:7a:7d:85:7f:0a:de:30:ba:81:fa:38:70:7f:9f:
+                    31:ed:79:6f:58:70:28:2a:f9:a5:c6:f2:36:b0:4b:
+                    a7:37:a3:b0:4b:bc:1c:a2:df:ea:a8:d0:81:ea:94:
+                    f7:db:7c:b8:e0
+                ASN1 OID: prime256v1
+                NIST CURVE: P-256
+        X509v3 extensions:
+            X509v3 Key Usage: critical
+                Digital Signature, Key Encipherment, Certificate Sign, CRL Sign
+            X509v3 Extended Key Usage:
+                TLS Web Client Authentication, TLS Web Server Authentication
+            X509v3 Basic Constraints: critical
+                CA:TRUE
+            X509v3 Subject Key Identifier:
+                8D:61:94:7A:3F:C3:2E:2B:04:0D:C0:C7:60:C4:93:E2:8B:54:91:6D:24:AA:28:22:07:B9:A8:6E:2D:2B:DB:43
+    Signature Algorithm: ecdsa-with-SHA256	# CA对该证书的签名
+         30:46:02:21:00:b9:6a:86:cc:0d:db:40:7d:0b:9c:f9:65:c3:
+         e3:b5:4b:1b:04:4f:74:53:c2:fb:46:83:bf:54:c4:12:8b:f3:
+         5b:02:21:00:a7:20:34:0e:f6:17:b6:6e:04:97:c1:bc:c3:ef:
+         43:f1:a1:3f:cb:86:90:1a:ae:1d:f9:02:87:65:82:27:05:76
+</code></pre>
+<h4 id="ca证书的发放">CA证书的发放</h4>
+<ul>
+<li>离线发放：申请批准后，RA初始化申请者信息，在LDAP（Lightweight Directory Access Protocol）服务器添加信息；信息传给CA，生成参照号Ref.number以及认证码Auth.code；使用电子邮件或者打印，线下传递；申请人收到后在审查机构面对面领取证书，证书可存入光盘，软盘等</li>
+<li>在线发放：申请批准后，RA初始化申请者信息，在LDAP（Lightweight Directory Access Protocol）服务器添加信息；信息传给CA，生成参照号Ref.number以及认证码Auth.code；申请人在本机登录网站通过浏览器安装Root CA证书，输入参照号和授权码获得证书。</li>
+</ul>
+<h4 id="crl">CRL</h4>
+<p>证书废除原因主要有以下几点：</p>
+<ul>
+<li>密钥泄露：私钥泄露或者被破坏</li>
+<li>从属变更：关于密钥的信息变更</li>
+<li>终止使用：该密钥不再用于原来的用途或者证书已经到期</li>
+<li>CA本身原因：CA系统私钥泄露</li>
+<li>CA有理由怀疑证书细节不真实、不可信</li>
+<li>证书持有者没有履行协议</li>
+<li>证书持有者死亡、违反电子交易规则或者被判定为犯罪</li>
+</ul>
+<h3 id="ora">ORA</h3>
+<p>Online Register Authority在线证书审查机构进行申请者身份认证，向CA提交证书申请，验证接受CA签发的证书，发放给申请者。</p>
+<h3 id="ee">EE</h3>
+<p>End Entity最终实体是PKI的最终使用者</p>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+        <div id="vlaine-comment"></div>
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  <a>©2017-2021</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv"><a>&nbsp&nbsp本站总访问量</a><a><span id="busuanzi_value_site_pv"></span></a><a>次&nbsp&nbsp</a></span><a>Powered by </a> <a href="https://github.com/getgridea/gridea" target="_blank"> Gridea</a>
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#public-key-infrastructure">Public Key Infrastructure</a></li>
+<li><a href="#pki%E7%B3%BB%E7%BB%9F%E5%86%85%E5%AE%B9">PKI系统内容</a><br>
+*
+<ul>
+<li><a href="#pki%E7%B3%BB%E7%BB%9F%E4%B8%BB%E8%A6%81%E5%8C%85%E6%8B%AC%E4%BB%A5%E4%B8%8B%E5%86%85%E5%AE%B9">PKI系统主要包括以下内容：</a></li>
+<li><a href="#pki%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E5%8C%85%E6%8B%AC">PKI应用系统包括：</a></li>
+<li><a href="#pki%E6%8F%90%E4%BE%9B%E7%9A%84%E6%9C%8D%E5%8A%A1">PKI提供的服务</a></li>
+</ul>
+</li>
+<li><a href="#pki%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84">PKI体系结构</a>
+<ul>
+<li><a href="#paa">PAA</a></li>
+<li><a href="#pca">PCA</a></li>
+<li><a href="#ca">CA</a>
+<ul>
+<li><a href="#ca%E8%AF%81%E4%B9%A6%E7%9A%84%E5%8F%91%E6%94%BE">CA证书的发放</a></li>
+<li><a href="#crl">CRL</a></li>
+</ul>
+</li>
+<li><a href="#ora">ORA</a></li>
+<li><a href="#ee">EE</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://lizonglin313.github.io//media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://lizonglin313.github.io//media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+    <script type="application/javascript" src="https://unpkg.com/valine"></script>
+<script type="application/javascript">
+  new Valine({
+    el: '#vlaine-comment',
+    appId: 'rfEA52cJgFG55iG1SlpJuVG5-gzGzoHsz',
+    appKey: 'EGcOlTCsA3TvUTVasnT2YVdp',
+    pageSize: 10,
+    notify: true,
+    avatar: 'mp',
+    verify: true,
+    placeholder: '写点什么~',
+    visitor: true,
+    highlight: true,
+    recordIP: true,
+  })
+</script>
+  
+  
+</body>
+
+</html>
