@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lizonglin313.github.io/</id>
     <title>Big Carrot</title>
-    <updated>2021-03-09T03:01:48.278Z</updated>
+    <updated>2021-03-10T08:51:19.146Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lizonglin313.github.io/"/>
     <link rel="self" href="https://lizonglin313.github.io/atom.xml"/>
@@ -10,6 +10,107 @@
     <logo>https://lizonglin313.github.io/images/avatar.png</logo>
     <icon>https://lizonglin313.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Big Carrot</rights>
+    <entry>
+        <title type="html"><![CDATA[防火墙]]></title>
+        <id>https://lizonglin313.github.io/post/fang-huo-qiang</id>
+        <link href="https://lizonglin313.github.io/post/fang-huo-qiang">
+        </link>
+        <updated>2021-03-10T05:48:28.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="防火墙概述">防火墙概述</h2>
+<p>防火墙位于一个可信的内部网络与一个不可信的外界网络之间，用于保护内部网络免受非法用户的入侵。在内网和外网之间构筑保护层，通过网络路由和信息过滤实现网络的安全。</p>
+<h4 id="防火墙的特性">防火墙的特性</h4>
+<ol>
+<li>内部网络和外部网络之间所有网络数据必须经过防火墙</li>
+<li>只有符合安全策略的数据流才能通过防火墙</li>
+<li>防火墙自身应具有非常强的抗攻击免疫力</li>
+</ol>
+<h4 id="防火墙的功能">防火墙的功能</h4>
+<ol>
+<li>网络安全的屏障，可以极大程度的提高内部网络的安全性，过滤不安全的服务降低风险</li>
+<li>强化网络安全策略，以防火墙为中心，通过配置安全软件，集中安全管理</li>
+<li>对网络存取和访问进行审计监控，记录日志、统计数据、以便分析</li>
+<li>防范内部信息的外泄</li>
+</ol>
+<h2 id="主要缺陷">主要缺陷</h2>
+<ol>
+<li>传统防火墙不能防范来自内部网络的攻击（新一代“分布式防火墙”则支持防范内部攻击）</li>
+<li>防火墙不能防范不通过防火墙的攻击（必须让防火墙成为唯一的与外部网络连接的网络接口）</li>
+<li>不能防范恶意代码的传输（防火墙不能扫描每一个数据包内的数据）</li>
+<li>不能防范利用协议缺陷进行的攻击</li>
+<li>不能防范利用服务器漏洞进行的攻击</li>
+<li>不能防范未知的网络安全问题（被动式安全防护技术）</li>
+<li>对已有的网络服务有一定的限制</li>
+</ol>
+<h2 id="性能评价指标">性能评价指标</h2>
+<ol>
+<li>传输层性能指标
+<ul>
+<li>TCP并发连接数：穿越防火墙的主机之间或者主机与防火墙之间能同时建立的最大连接数</li>
+<li>最大TCP连接速率：防火墙维持的最大TCP连接建立速度，用以体现防火墙更新链接状态表的最大速率和实施反应能力</li>
+</ul>
+</li>
+<li>网络层性能指标
+<ul>
+<li>吞吐量指标：没有丢帧情况下，防火墙能接受并转发的最大速率</li>
+<li>时延指标：发送端口发出数据包经过防火墙后接收端口收到的时间间隔，有直通转发时延和存储转发时延两种</li>
+<li>丢包率指标：正常稳定网络条件下，应该被转发但是由于缺少资源而没有被转发的数据包占全部数据包的百分比</li>
+<li>背靠背缓冲指标：接受到以最小帧间隔传输的网络流量时，在不丢包的情况下所能处理的最大包数（缓冲能力）</li>
+</ul>
+</li>
+<li>应用层性能指标
+<ul>
+<li>HTTP传输速率：被请求的目标数据通过防火墙的平均传输速率</li>
+<li>最大HTTP事务处理速率：用户访问目标时，所能达到的最大速率</li>
+</ul>
+</li>
+</ol>
+<h2 id="功能评价指标">功能评价指标</h2>
+<ol>
+<li>服务平台支持：常见的系统平台如Linux、Unix等</li>
+<li>LAN口支持：LAN口的类型、带宽、口数</li>
+<li>协议支持：主要指对非TCP/IP协议族的支持，如IPX等</li>
+<li>VPN支持：是否支持虚拟专网VPN功能，提供建立VPN隧道所需的IPSec、PPTP、专用协议以及在VPN中使用TCP/IP</li>
+<li>加密支持：主要指是否支持VPN加密需要的加密算法如DES、3DES、RC4以及特殊的加密算法和硬件加密功能</li>
+<li>认证支持：主要指防火墙提供的认证方式，如RADIUS、Keberos、PKI、口令等方式</li>
+<li>访问控制：主要指防火墙通过包过滤、应用代理或传输层代理方式，实现对网络资源的访问控制</li>
+<li>NAT支持：是否提供NAT功能，隐藏内部网络结构，提高内网安全</li>
+<li>日志支持：完善的日志记录、存储、管理等</li>
+<li>其他：病毒扫描、内容过滤、抵御DOS/DDOS、脚本攻击、实时入侵防御、防范IP欺骗</li>
+</ol>
+<h2 id="防火墙规则制定的两种原则及其各自特点">防火墙规则制定的两种原则及其各自特点</h2>
+<h3 id="防火墙规则的分类">防火墙规则的分类：</h3>
+<ol>
+<li>高级政策</li>
+</ol>
+<p>用来定义受限制的网络许可和明确拒绝的服务内容、使用这些服务的方法以及例外条例</p>
+<ol start="2">
+<li>低级政策</li>
+</ol>
+<p>描述防火墙限制访问的具体实现及如何过滤高级政策定义的服务</p>
+<h3 id="规则的特点">规则的特点：</h3>
+<ul>
+<li>保护内部信息资源的策略的实现和延伸</li>
+<li>必须与网络访问活动密切相关</li>
+<li>可靠稳妥，切合实际</li>
+<li>实施各种不同的服务访问政策</li>
+</ul>
+<h3 id="设计原则">设计原则：</h3>
+<ol>
+<li>拒绝访问一切未予特许的服务（侧重安全性）</li>
+<li>允许访问一切未被特别拒绝的服务（侧重灵活性和方便性）</li>
+</ol>
+<h2 id="包过滤技术和应用网关技术的区别">包过滤技术和应用网关技术的区别</h2>
+<p>包过滤技术也称分组过滤技术，在网络层截获网络数据包，根据防火墙规则表，检测攻击行为，在网络层提供低级别的安全防护和控制。</p>
+<p>应用网关技术又称为代理技术，采用协议代理服务，位于应用层，需要为每一种应用服务器设置专门的代理服务器。</p>
+<h2 id="防火墙常见体系结构">防火墙常见体系结构</h2>
+<ol>
+<li>筛选路由器体系结构</li>
+<li>单宿主堡垒主机体系结构</li>
+<li>双宿主堡垒主机体系结构</li>
+<li>屏蔽子网体系结构</li>
+</ol>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[PKI技术]]></title>
         <id>https://lizonglin313.github.io/post/pki-ji-zhu</id>
@@ -1732,23 +1833,6 @@ c0c720b03c4a   hyperledger/fabric-peer:latest      &quot;peer node start&quot;  
 <figure data-type="image" tabindex="1"><img src="https://i.loli.net/2021/01/15/giAKeOhscXGqUrN.png" alt="LA0@_`KKOXC5IKFKPJ_~PRX.png" loading="lazy"></figure>
 <p>调整后：</p>
 <figure data-type="image" tabindex="2"><img src="https://i.loli.net/2021/01/15/hlJu5ioR4yxzrvg.png" alt="5DU1LP__L__P_K482P_C83O.png" loading="lazy"></figure>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[bitcoin白皮书]]></title>
-        <id>https://lizonglin313.github.io/post/bitcoin-bai-pi-shu</id>
-        <link href="https://lizonglin313.github.io/post/bitcoin-bai-pi-shu">
-        </link>
-        <updated>2021-01-11T14:24:37.000Z</updated>
-        <content type="html"><![CDATA[<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2021/01/11/1rlwnCBMFfhPkWc.png" alt="PDF_bitcoin.png" loading="lazy"></figure>
-<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2021/01/11/bHuZ8NMJ9ky6LUc.png" alt="PDF_bitcoin _1_.png" loading="lazy"></figure>
-<figure data-type="image" tabindex="3"><img src="https://i.loli.net/2021/01/11/HmAtd5nSkf41xLW.png" alt="PDF_bitcoin _2_.png" loading="lazy"></figure>
-<figure data-type="image" tabindex="4"><img src="https://i.loli.net/2021/01/11/ev3NgUGXMCVcFu4.png" alt="PDF_bitcoin _3_.png" loading="lazy"></figure>
-<figure data-type="image" tabindex="5"><img src="https://i.loli.net/2021/01/11/SJKFUqMmpHgZ39V.png" alt="PDF_bitcoin _4_.png" loading="lazy"></figure>
-<figure data-type="image" tabindex="6"><img src="https://i.loli.net/2021/01/11/nmIukExlrbX9A27.png" alt="PDF_bitcoin _5_.png" loading="lazy"></figure>
-<figure data-type="image" tabindex="7"><img src="https://i.loli.net/2021/01/11/rjxJMP2Lqfsi5V3.png" alt="PDF_bitcoin _6_.png" loading="lazy"></figure>
-<figure data-type="image" tabindex="8"><img src="https://i.loli.net/2021/01/11/3za9oj81VDqJpKG.png" alt="PDF_bitcoin _7_.png" loading="lazy"></figure>
-<figure data-type="image" tabindex="9"><img src="https://i.loli.net/2021/01/11/ODUPIMNfsyEkahq.png" alt="PDF_bitcoin _8_.png" loading="lazy"></figure>
 ]]></content>
     </entry>
 </feed>
