@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lizonglin313.github.io/</id>
     <title>Big Carrot</title>
-    <updated>2021-03-10T08:51:19.146Z</updated>
+    <updated>2021-03-10T14:47:40.904Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lizonglin313.github.io/"/>
     <link rel="self" href="https://lizonglin313.github.io/atom.xml"/>
@@ -10,6 +10,75 @@
     <logo>https://lizonglin313.github.io/images/avatar.png</logo>
     <icon>https://lizonglin313.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Big Carrot</rights>
+    <entry>
+        <title type="html"><![CDATA[入侵检测技术]]></title>
+        <id>https://lizonglin313.github.io/post/ru-qin-jian-ce-ji-zhu</id>
+        <link href="https://lizonglin313.github.io/post/ru-qin-jian-ce-ji-zhu">
+        </link>
+        <updated>2021-03-10T12:18:22.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>入侵检测是对网络传输进行即时监控，发现可疑传输时发出警报或者采取主动反应措施的网络安全技术。Intrusion Detection System入侵检测系统通过对“行为、安全日志、审计数据或其他网络上可以获取的信息以及计算机系统中若干关键点的信息”，检查网络或系统是否存在违反安全策略的行为和被攻击的迹象。</p>
+<h2 id="分类">分类</h2>
+<h3 id="按照检测数据的来源分">按照检测数据的来源分</h3>
+<ol>
+<li>Host-based IDS基于主机的入侵检测：通过收集主机的活动记录，能够较为准确检测到发生在主机系统高层的复杂攻击行为，采取关闭端口、结束进程等措施进行响应，会占用一定的计算、存储资源；</li>
+<li>Network-based IDS基于网络的入侵检测：以网络数据作为分析对象，判断主机或者网络是否发生入侵行为，无法发现主机内部攻击，无法直接采取响应措施，可以向其他安全组件报警</li>
+<li>Hybrid Distributed IDS混合分布式入侵检测：从不同的主机系统、网络部件或者通过网络监听收集数据，分析事件发现可疑行为，提供集成的攻击签名、检测、报告和事件关联功能，部署和使用上更加方便</li>
+</ol>
+<h3 id="按使用的入侵检测分析方法分类">按使用的入侵检测分析方法分类</h3>
+<ol>
+<li>Misuse Detection误用检测：也被称为基于特征、基于知识的检测，根据掌握的入侵或攻击知识检测。定义入侵模式-&gt;组建入侵模式库-&gt;捕获流量数据进行比对。误报率低，不能检测到未知入侵。（比对异常行为）</li>
+<li>异常检测：对正常系统状态下的系统行为建立模型，判定与正常行为模型不符的活动为可疑或者入侵行为。误警率较高。（比对正常行为）</li>
+<li>混合检测：以模式发现为主，辅助以异常发现技术。</li>
+</ol>
+<h3 id="按系统体系结构分类">按系统体系结构分类</h3>
+<ol>
+<li>集中式IDS：集中的入侵检测服务器和分布在不同主机上的多个审计程序，审计数据由分散的主机审计程序收集后传到中央检测处理器。设计简单，易于实现；网络负担大，安全性较为脆弱，配置服务器复杂。</li>
+<li>分布式IDS：主要针对复杂网络，各各组件分布在网络中不同的计算机或设备上，分布性主要体现在数据收集和数据分析上。</li>
+</ol>
+<h3 id="其他方式">其他方式</h3>
+<ul>
+<li>在线IDS和离线IDS</li>
+<li>主动响应系统和被动响应系统</li>
+<li>连续IDS和周期性IDS</li>
+</ul>
+<h2 id="公共入侵检测框架">公共入侵检测框架</h2>
+<p>Common Intrusion Detection Framework是为了解决不同入侵检测系统的互操作性和共存的问题而提出的入侵检测框架。由四个部分组成：</p>
+<ol>
+<li>
+<p>CIDF的体系结构</p>
+<p>在IDES入侵检测专家系统和NIDES其后继版本基础上提出了通用模型，将入侵检测系统分为四个基本组件：</p>
+<ul>
+<li>事件产生器：从IDS之外的计算环境中收集事件，转化成CIDF的GIDO（Generalized Intrusion Detection Objects统一入侵检测对象）格式传给其他组件</li>
+<li>事件分析器：从其他组件收到GIDO，将产生的GIDO传给其他组件</li>
+<li>响应单元：处理收到的GIDO，并据此采取响应的措施</li>
+<li>事件数据库：存储GIDO</li>
+</ul>
+</li>
+<li>
+<p>CIDF的通信机制：三层模型有GIDO层（定义事件表示方法），消息层（传送数据），协商传输层（定义组件之间的传输机制）</p>
+</li>
+<li>
+<p>CIDF语言：为描述入侵检测响应IDR组件之间传输的信息，定义了Common Intrusion Specification Language公共入侵规范语言，来表示CIDF中的各种信息</p>
+</li>
+<li>
+<p>CIDF的API接口：负责GIDO编码、解码、传递</p>
+</li>
+</ol>
+<h2 id="入侵检测系统体系结构">入侵检测系统体系结构</h2>
+<ol>
+<li>集中式体系结构：优点是可以全面掌握采集到的数据，对入侵行为的分析更加精确；缺点是可扩展性差、分布式的数据采集会造成较高的网络负担，改变配置和加入新功能困难，存在单点失效的风险。</li>
+<li>分布式体系结构：采用多个代理在网络的各部分分别执行入侵检测，并协作处理可能的入侵行为，其优点是能够较好的完成数据的采集和检测内外部的入侵；缺点在于如今层次化结构的网络难以处理不同层次的代理，每个代理对等地位，无法对时空跨度大的入侵行为进行准确的识别。</li>
+<li>分层式体系结构：各检测单元被组织成为一个层次化的树状结构。
+<ul>
+<li>最底层负责收集信息进行初步处理，速度快数据量大，仅限于简单的入侵行为</li>
+<li>中间层负责连接上下层代理，接受下层代理处理的结果进行较高层次的关联性分析输出，向高层代理进行数据和处理结果通报，中间层代理的加入减轻中央控制台的负载压力，提高系统可伸缩性</li>
+<li>中央控制台处于最高层次，负责整体上对各级代理进行协调和管理</li>
+</ul>
+</li>
+</ol>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[防火墙]]></title>
         <id>https://lizonglin313.github.io/post/fang-huo-qiang</id>
@@ -1811,28 +1880,6 @@ c0c720b03c4a   hyperledger/fabric-peer:latest      &quot;peer node start&quot;  
 <blockquote>
 <p>转载自：<a href="https://bbs.huaweicloud.com/blogs/107105">VMware下ubuntu通过主机Shadowsocks上外网VMware下ubuntu通过主机Shadowsocks上外网-云社区-华为云 (huaweicloud.com)</a></p>
 </blockquote>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Git使用]]></title>
-        <id>https://lizonglin313.github.io/post/git-shi-yong</id>
-        <link href="https://lizonglin313.github.io/post/git-shi-yong">
-        </link>
-        <updated>2021-01-15T15:14:56.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p>有关git使用中的学习记录</p>
-</blockquote>
-<h2 id="clone速度太慢">clone速度太慢</h2>
-<h3 id="方法一">方法一</h3>
-<ul>
-<li>调整http提交缓存(亲测有效，使用https方式clone)</li>
-</ul>
-<pre><code class="language-bash">$ git config --global http.postBuffer 524288000
-</code></pre>
-<p>调整前：</p>
-<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2021/01/15/giAKeOhscXGqUrN.png" alt="LA0@_`KKOXC5IKFKPJ_~PRX.png" loading="lazy"></figure>
-<p>调整后：</p>
-<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2021/01/15/hlJu5ioR4yxzrvg.png" alt="5DU1LP__L__P_K482P_C83O.png" loading="lazy"></figure>
 ]]></content>
     </entry>
 </feed>
